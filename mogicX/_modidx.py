@@ -5,4 +5,6 @@ d = { 'settings': { 'branch': 'main',
                 'doc_host': 'https://suchith720.github.io',
                 'git_url': 'https://github.com/suchith720/mogicX',
                 'lib_path': 'mogicX'},
-  'syms': {'mogicX.00_ngame-for-msmarco-inference': {}, 'mogicX.core': {'mogicX.core.foo': ('core.html#foo', 'mogicX/core.py')}}}
+  'syms': { 'mogicX.00_ngame-for-msmarco-inference': {},
+            'mogicX.01_msmarco-linker': {},
+            'mogicX.core': {'mogicX.core.foo': ('core.html#foo', 'mogicX/core.py')}}}

@@ -8,4 +8,5 @@ d = { 'settings': { 'branch': 'main',
   'syms': { 'mogicX.00_ngame-for-msmarco-inference': {},
             'mogicX.01_msmarco-linker': {},
             'mogicX.02_ngame-for-wikiseealsotitles-20250123': {},
+            'mogicX.03_ngame-for-wikiseealsotitles': {},
             'mogicX.core': {'mogicX.core.foo': ('core.html#foo', 'mogicX/core.py')}}}

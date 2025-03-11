@@ -25,9 +25,9 @@ if __name__ == '__main__':
 
     input_args = parse_args()
 
-    pkl_file = f'{pkl_dir}/mogicX/wikiseealsotitles_data_distilbert-base-uncased'
-    pkl_file = f'{pkl_file}_sxc' if use_sxc_sampler else f'{pkl_file}_xcs'
-    if only_test: pkl_file = f'{pkl_file}_only-test'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles_data_distilbert-base-uncased'
+    pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
+    if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
     pkl_file = f'{pkl_file}.joblib'
 
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation

@@ -41,7 +41,8 @@ if __name__ == '__main__':
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
-    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test, data_dir=data_dir)
+    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
+                        only_test=input_args.only_test, data_dir=data_dir)
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -131,8 +132,11 @@ if __name__ == '__main__':
         else:
             n_clusters = get_cluster_size(m_teacher.lbl_repr.weight.shape[0], cluster_sz=3)
         
-        m_student = OAK007.from_pretrained(student_model, batch_size=bsz, num_batch_labels=5000, margin=0.3, num_negatives=10, tau=0.1, apply_softmax=True,
-                                           data_aug_meta_prefix='cat2data', lbl2data_aug_meta_prefix=None, data_pred_meta_prefix=None, lbl2data_pred_meta_prefix=None,
+        m_student = OAK007.from_pretrained(student_model, batch_size=bsz, num_batch_labels=5000, margin=0.3, 
+                                           num_negatives=10, tau=0.1, apply_softmax=True,
+                                           
+                                           data_aug_meta_prefix='cat2data', lbl2data_aug_meta_prefix=None, 
+                                           data_pred_meta_prefix=None, lbl2data_pred_meta_prefix=None,
                                            
                                            calib_margin=0.05, calib_num_negatives=10, calib_tau=0.1, calib_apply_softmax=False, 
                                            calib_loss_weight=0.1, use_calib_loss=False,
@@ -146,8 +150,8 @@ if __name__ == '__main__':
             model.m_student.set_label_cluster_mapping(label_cluster_mapping)
         else:
             model = DTL004.from_pretrained(mname, m_student=m_student, m_teacher=m_teacher, bsz=bsz, tn_targ=5000, margin=0.3, tau=0.1,
-                                           n_negatives=10, apply_softmax=True, teacher_data_student_label_loss_weight=1.0,student_data_teacher_label_loss_weight=0.0, 
-                                           data_mse_loss_weight=0.1, label_mse_loss_weight=0.0)
+                                           n_negatives=10, apply_softmax=True, teacher_data_student_label_loss_weight=1.0,
+                                           student_data_teacher_label_loss_weight=0.0, data_mse_loss_weight=0.1, label_mse_loss_weight=0.0)
         return model
     
     def init_fn(model):
@@ -159,10 +163,12 @@ if __name__ == '__main__':
 
     metric = PrecReclMrr(block.n_lbl, block.test.data_lbl_filterer, prop=block.train.dset.data.data_lbl,
                          pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
+    
+    bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
     model = load_model(args.output_dir, model_fn, {'teacher_model': teacher_model, 'student_model': student_model, 'mname': None, 
-                                                   'do_inference': do_inference, 'use_pretrained': use_pretrained, 'bsz': bsz}, 
-                       init_fn, do_inference=do_inference, use_pretrained=use_pretrained)
+                                                   'do_inference': do_inference, 'use_pretrained': input_args.use_pretrained, 'bsz': bsz}, 
+                       init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
     
     learn = XCLearner(
         model=model,

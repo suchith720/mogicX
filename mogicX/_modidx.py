@@ -9,4 +9,5 @@ d = { 'settings': { 'branch': 'main',
             'mogicX.01_msmarco-linker': {},
             'mogicX.02_ngame-for-wikiseealsotitles-20250123': {},
             'mogicX.03_ngame-for-wikiseealsotitles': {},
+            'mogicX.05_mogic-meta-encoder-for-wikiseealsotitles': {},
             'mogicX.core': {'mogicX.core.foo': ('core.html#foo', 'mogicX/core.py')}}}

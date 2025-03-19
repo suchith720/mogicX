@@ -82,7 +82,14 @@ if __name__ == '__main__':
     def init_fn(model): 
         model.init_dr_head()
 
-    linker_block = block.linker_dset('ent_meta')
+    if input_args.save_train_prediction or input_args.save_test_prediction:
+        linker_block = block.linker_dset('ent_meta', remove_empty=False)
+        linker_block.train.dset = linker_block.inference_dset(linker_block.train.dset.data.data_info, linker_block.train.dset.data.data_lbl, 
+                                                              linker_block.train.dset.data.lbl_info, linker_block.train.dset.data.data_lbl_filterer)
+        linker_block.test.dset = linker_block.inference_dset(linker_block.test.dset.data.data_info, linker_block.test.dset.data.data_lbl, 
+                                                             linker_block.test.dset.data.lbl_info, linker_block.test.dset.data.data_lbl_filterer)
+    else:
+        linker_block = block.linker_dset('ent_meta')
 
     metric = PrecReclMrr(linker_block.n_lbl, linker_block.test.data_lbl_filterer, prop=linker_block.train.dset.data.data_lbl,
                          pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])

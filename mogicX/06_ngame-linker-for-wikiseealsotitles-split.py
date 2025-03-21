@@ -13,7 +13,7 @@ from xcai.models.PPP0XX import DBT009,DBT011
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT'] = 'mogicX_01-wikiseealsotitles-linker'
 
-# %% ../nbs/06_ngame-linker-for-wikiseealsotitles-split.ipynb 14
+# %% ../nbs/06_ngame-linker-for-wikiseealsotitles-split.ipynb 15
 if __name__ == '__main__':
     output_dir = '/scratch/scai/phd/aiz218323/outputs/mogicX/06_ngame-linker-for-wikiseealsotitles-split'
 
@@ -33,6 +33,8 @@ if __name__ == '__main__':
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test)
+
+    linker_block = block.linker_dset('cat_meta', remove_empty=True)
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -80,7 +82,7 @@ if __name__ == '__main__':
     def init_fn(model): 
         model.init_dr_head()
 
-    metric = PrecReclMrr(block.n_lbl, block.test.data_lbl_filterer, prop=block.train.dset.data.data_lbl,
+    metric = PrecReclMrr(linker_block.n_lbl, linker_block.test.data_lbl_filterer, prop=linker_block.train.dset.data.data_lbl,
                          pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
     
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
@@ -90,11 +92,11 @@ if __name__ == '__main__':
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=block.train.dset,
-        eval_dataset=block.test.dset,
-        data_collator=block.collator,
+        train_dataset=linker_block.train.dset,
+        eval_dataset=linker_block.test.dset,
+        data_collator=linker_block.collator,
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=block.n_lbl)
+    main(learn, input_args, n_lbl=linker_block.n_lbl)
     

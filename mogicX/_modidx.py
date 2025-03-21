@@ -10,4 +10,5 @@ d = { 'settings': { 'branch': 'main',
             'mogicX.02_ngame-for-wikiseealsotitles-20250123': {},
             'mogicX.03_ngame-for-wikiseealsotitles': {},
             'mogicX.05_mogic-meta-encoder-for-wikiseealsotitles': {},
+            'mogicX.06_ngame-linker-for-wikiseealsotitles-split': {},
             'mogicX.core': {'mogicX.core.foo': ('core.html#foo', 'mogicX/core.py')}}}

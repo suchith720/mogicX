@@ -13,7 +13,7 @@ from xcai.models.PPP0XX import DBT009,DBT011
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT'] = 'mogicX_01-wikiseealsotitles'
 
-# %% ../nbs/03_ngame-for-wikiseealsotitles.ipynb 21
+# %% ../nbs/03_ngame-for-wikiseealsotitles.ipynb 23
 if __name__ == '__main__':
     output_dir = '/scratch/scai/phd/aiz218323/outputs/mogicX/03_ngame-for-wikiseealsotitles'
 

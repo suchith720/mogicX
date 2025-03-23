@@ -13,7 +13,7 @@ from xcai.models.PPP0XX import DBT009,DBT011
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT'] = 'mogicX_01-wikiseealsotitles-linker'
 
-# %% ../nbs/08_ngame-linker-for-wikiseealsotitles.ipynb 19
+# %% ../nbs/08_ngame-linker-for-wikiseealsotitles.ipynb 20
 if __name__ == '__main__':
     output_dir = '/scratch/scai/phd/aiz218323/outputs/mogicX/08_ngame-linker-for-wikiseealsotitles'
 
@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     input_args = parse_args()
 
-    pkl_file = f'{pkl_dir}/mogicX/wikiseealsotitles_data-meta_distilbert-base-uncased'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles_data-meta_distilbert-base-uncased'
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
     pkl_file = f'{pkl_file}.joblib'

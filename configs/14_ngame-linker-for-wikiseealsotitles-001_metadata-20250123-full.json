@@ -1,27 +1,27 @@
 {
-    "data_category": {
+    "data_category_linker": {
         "path": {
             "train": {
-                "data_lbl": "/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K//trn_X_Y.npz",
-                "data_info": "/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K//raw_data/train.raw.txt",
-                "lbl_info": "/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K//raw_data/label.raw.txt",
-                "data_lbl_filterer": "/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K//filter_labels_train.txt",
-                "cat_meta": {
-                    "prefix": "cat",
-                    "data_meta": "/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K//category_trn_X_Y.npz",
-                    "lbl_meta": "/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K//category_lbl_X_Y.npz",
+                "data_lbl": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//trn_X_Y.txt",
+                "data_info": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//raw_data/train.raw.txt",
+                "lbl_info": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//raw_data/label.raw.txt",
+                "data_lbl_filterer": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//filter_labels_train.txt",
+                "lnk_meta": {
+                    "prefix": "lnk",
+                    "data_meta": "/data/outputs/mogic/14_ngame-linker-for-wikiseealsotitles-001/predictions/train_predictions_labels-20250123-full.npz",
+                    "lbl_meta": "/data/outputs/mogic/14_ngame-linker-for-wikiseealsotitles-001/predictions/label_predictions_labels-20250123-full.npz",
                     "meta_info": "/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K//raw_data/category.raw.txt"
                 }
             },
             "test": {
-                "data_lbl": "/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K//tst_X_Y.npz",
-                "data_info": "/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K//raw_data/test.raw.txt",
-                "lbl_info": "/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K//raw_data/label.raw.txt",
-                "data_lbl_filterer": "/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K//filter_labels_test.txt",
-                "cat_meta": {
-                    "prefix": "cat",
-                    "data_meta": "/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K//category_tst_X_Y.npz",
-                    "lbl_meta": "/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K//category_lbl_X_Y.npz",
+                "data_lbl": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//tst_X_Y.txt",
+                "data_info": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//raw_data/test.raw.txt",
+                "lbl_info": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//raw_data/label.raw.txt",
+                "data_lbl_filterer": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//filter_labels_test.txt",
+                "lnk_meta": {
+                    "prefix": "lnk",
+                    "data_meta": "/data/outputs/mogic/14_ngame-linker-for-wikiseealsotitles-001/predictions/test_predictions_labels-20250123-full.npz",
+                    "lbl_meta": "/data/outputs/mogic/14_ngame-linker-for-wikiseealsotitles-001/predictions/label_predictions_labels-20250123-full.npz",
                     "meta_info": "/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K//raw_data/category.raw.txt"
                 }
             }
@@ -69,7 +69,7 @@
                 "input_text"
             ],
             "use_tokenizer": true,
-            "tokenizer": "bert-base-cased",
+            "tokenizer": "distilbert-base-uncased",
             "tokenization_column": "input_text",
             "main_max_data_sequence_length": 32,
             "main_max_lbl_sequence_length": 32,

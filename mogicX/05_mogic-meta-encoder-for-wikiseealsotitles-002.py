@@ -45,10 +45,11 @@ if __name__ == '__main__':
                         only_test=input_args.only_test, n_sdata_meta_samples=3, meta_oversample=False, test_meta_topk=3)
 
     # config_file = '/home/aiscuser/scratch1/mogicX/configs/14_ngame-linker-for-wikiseealsotitles-001_wikiseealsotitles-20250123-full.json'
-    config_file = '/home/aiscuser/scratch1/mogicX/configs/14_ngame-linker-for-wikiseealsotitles-001_wikiseealsotitles-20250123-labels-full.json'
+    # config_file = '/home/aiscuser/scratch1/mogicX/configs/14_ngame-linker-for-wikiseealsotitles-001_wikiseealsotitles-20250123-metadata-20251203-full.json'
+    config_file = '/home/aiscuser/scratch1/mogicX/configs/14_ngame-linker-for-wikiseealsotitles-001_metadata-20250123-full.json'
     config_key = 'data_category_linker'
 
-    pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles-20250123_ngame-linker-for-wikiseealsotitles-001-wikiseealsotitles-20250123-labels-full_distilbert-base-uncased'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles-20250123_14-ngame-linker-for-wikiseealsotitles-001-metadata-20250123-full_distilbert-base-uncased'
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
     pkl_file = f'{pkl_file}.joblib'
@@ -178,34 +179,34 @@ if __name__ == '__main__':
                                                    'do_inference': do_inference, 'use_pretrained': input_args.use_pretrained, 'bsz': bsz}, 
                        init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
 
-    # metric = PrecReclMrr(block.n_lbl, block.test.data_lbl_filterer, prop=block.train.dset.data.data_lbl,
-    #                      pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
-    # 
-    # learn = XCLearner(
-    #     model=model.m_student,
-    #     args=args,
-    #     train_dataset=block.train.dset,
-    #     eval_dataset=block.test.dset,
-    #     data_collator=block.collator,
-    #     compute_metrics=metric,
-    # )
-    # main(learn, input_args, n_lbl=block.n_lbl)
-
-    map_file = f'{output_dir}/predictions/wikiseealsotitles-20250123-label_mapping_final.npy'
-    old2new_label_mapping = np.load(map_file)
-
-    with torch.no_grad():
-        model.m_student.label_cluster_mapping = model.m_student.label_cluster_mapping[old2new_label_mapping]
-
-    metric = PrecReclMrr(eval_block.n_lbl, eval_block.test.data_lbl_filterer, prop=eval_block.train.dset.data.data_lbl,
+    metric = PrecReclMrr(block.n_lbl, block.test.data_lbl_filterer, prop=block.train.dset.data.data_lbl,
                          pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
-
+    
     learn = XCLearner(
         model=model.m_student,
         args=args,
-        train_dataset=eval_block.train.dset,
-        eval_dataset=eval_block.test.dset,
-        data_collator=eval_block.collator,
+        train_dataset=block.train.dset,
+        eval_dataset=block.test.dset,
+        data_collator=block.collator,
         compute_metrics=metric,
     )
-    main(learn, input_args, n_lbl=eval_block.n_lbl)
+    main(learn, input_args, n_lbl=block.n_lbl)
+
+    # map_file = f'{output_dir}/predictions/wikiseealsotitles-20250123-label_mapping_final.npy'
+    # old2new_label_mapping = np.load(map_file)
+
+    # with torch.no_grad():
+    #     model.m_student.label_cluster_mapping = model.m_student.label_cluster_mapping[old2new_label_mapping]
+
+    # metric = PrecReclMrr(eval_block.n_lbl, eval_block.test.data_lbl_filterer, prop=eval_block.train.dset.data.data_lbl,
+    #                      pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
+
+    # learn = XCLearner(
+    #     model=model.m_student,
+    #     args=args,
+    #     train_dataset=eval_block.train.dset,
+    #     eval_dataset=eval_block.test.dset,
+    #     data_collator=eval_block.collator,
+    #     compute_metrics=metric,
+    # )
+    # main(learn, input_args, n_lbl=eval_block.n_lbl)

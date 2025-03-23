@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test)
-    linker_block = block.linker_dset('cat_meta', remove_empty=False)
+    linker_block = block.linker_dset('cat_meta', remove_empty=True)
 
     data_dir = None
     config_file = '/home/aiscuser/scratch1/datasets/benchmarks/20250123-LF-WikiSeeAlsoTitles-320K/configs/data_category.json'
@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
     eval_block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
             only_test=input_args.only_test, data_dir=data_dir)
-    eval_linker_block = eval_block.linker_dset('cat_meta', remove_empty=False)
+    eval_linker_block = eval_block.linker_dset('cat_meta', remove_empty=True)
     
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -101,6 +101,18 @@ if __name__ == '__main__':
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
     model = load_model(args.output_dir, model_fn, {"mname": mname, "bsz": bsz}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
+
+    # metric = PrecReclMrr(linker_block.n_lbl, linker_block.test.data_lbl_filterer, prop=linker_block.train.dset.data.data_lbl,
+    #                      pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
+    # learn = XCLearner(
+    #     model=model,
+    #     args=args,
+    #     train_dataset=linker_block.train.dset,
+    #     eval_dataset=linker_block.test.dset,
+    #     data_collator=linker_block.collator,
+    #     compute_metrics=metric,
+    # )
+    # main(learn, input_args, n_lbl=linker_block.n_lbl)
     
     metric = PrecReclMrr(eval_linker_block.n_lbl, eval_linker_block.test.data_lbl_filterer, prop=eval_linker_block.train.dset.data.data_lbl,
                          pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
@@ -112,12 +124,13 @@ if __name__ == '__main__':
         data_collator=eval_linker_block.collator,
         compute_metrics=metric,
     )
+    main(learn, input_args, n_lbl=eval_linker_block.n_lbl)
 
-    dset = eval_linker_block.test.dset.data
-    eval_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
+    # dset = linker_block.test.dset.data
+    # eval_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
 
-    dset = eval_linker_block.train.dset.data
-    train_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
-    
-    main(learn, input_args, n_lbl=eval_linker_block.n_lbl, eval_dataset=eval_dset, train_dataset=train_dset)
+    # dset = linker_block.train.dset.data
+    # train_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
+    # 
+    # main(learn, input_args, n_lbl=eval_linker_block.n_lbl, eval_dataset=eval_dset, train_dataset=train_dset)
     

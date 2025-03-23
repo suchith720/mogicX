@@ -17,14 +17,15 @@ os.environ['WANDB_PROJECT'] = 'mogicX_01-wikiseealsotitles-linker'
 if __name__ == '__main__':
     output_dir = '/home/aiscuser/scratch1/outputs/mogicX/06_ngame-linker-for-wikiseealsotitles-split'
 
-    config_file = '/home/aiscuser/scratch1/datasets/benchmarks/LF-WikiSeeAlsoTitles-320K-split-for-Linker/configs/data_category.json'
+    # config_file = '/home/aiscuser/scratch1/datasets/benchmarks/LF-WikiSeeAlsoTitles-320K-split-for-Linker/configs/data_category.json'
+    config_file = '/home/aiscuser/scratch1/datasets/benchmarks/LF-WikiSeeAlsoTitles-320K-split-for-OAK/configs/data_category.json'
     config_key = 'data_category'
 
     mname = 'sentence-transformers/msmarco-distilbert-base-v4'
 
     input_args = parse_args()
 
-    pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles-split-for-linker_data-category_distilbert-base-uncased'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles-split-for-oak_data-category_distilbert-base-uncased'
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
     pkl_file = f'{pkl_file}.joblib'

@@ -25,4 +25,6 @@ d = { 'settings': { 'branch': 'main',
             'mogicX.08_ngame-linker-for-wikiseealsotitles': {},
             'mogicX.08_ngame-linker-for-wikiseealsotitles-001': {},
             'mogicX.09_oak-for-wikiseealsotitles-split': {},
+            'mogicX.09_oak-for-wikiseealsotitles-split-001': {},
+            'mogicX.10_ngame-linker-for-wikiseealsotitles-noise': {},
             'mogicX.core': {'mogicX.core.foo': ('core.html#foo', 'mogicX/core.py')}}}

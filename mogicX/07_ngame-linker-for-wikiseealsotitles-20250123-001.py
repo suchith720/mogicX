@@ -33,8 +33,21 @@ if __name__ == '__main__':
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test)
-    linker_block = block.linker_dset('cat_meta', remove_empty=True)
-    
+    linker_block = block.linker_dset('cat_meta', remove_empty=False)
+
+    data_dir = '/home/scai/phd/aiz218323/scratch/datasets/benchmarks/'
+    config_file = 'wikiseealsotitles'
+    config_key = 'data_meta'
+
+    pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles_data-meta_distilbert-base-uncased'
+    pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
+    if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
+    pkl_file = f'{pkl_file}.joblib'
+
+    eval_block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
+            only_test=input_args.only_test, data_dir=data_dir)
+    eval_linker_block = eval_block.linker_dset('cat_meta', remove_empty=False)
+
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
@@ -80,21 +93,56 @@ if __name__ == '__main__':
     def init_fn(model): 
         model.init_dr_head()
 
-    metric = PrecReclMrr(linker_block.n_lbl, linker_block.test.data_lbl_filterer, prop=linker_block.train.dset.data.data_lbl,
-                         pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
-    
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
-    model = load_model(args.output_dir, model_fn, {"mname": mname, "bsz": bsz}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
-    
+    model = load_model(args.output_dir, model_fn, {"mname": mname, "bsz": bsz}, init_fn, do_inference=do_inference, 
+            use_pretrained=input_args.use_pretrained)
+
+    # metric = PrecReclMrr(linker_block.n_lbl, linker_block.test.data_lbl_filterer, prop=linker_block.train.dset.data.data_lbl,
+    #                      pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
     learn = XCLearner(
         model=model,
         args=args,
         train_dataset=linker_block.train.dset,
         eval_dataset=linker_block.test.dset,
         data_collator=linker_block.collator,
-        compute_metrics=metric,
+        # compute_metrics=metric,
     )
+
+    # dset = linker_block.test.dset.data
+    # eval_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
+
+    # dset = linker_block.train.dset.data
+    # train_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
+    # 
+    # main(learn, input_args, n_lbl=linker_block.n_lbl, eval_dataset=eval_dset, train_dataset=train_dset)
+
+    # metric = PrecReclMrr(eval_linker_block.n_lbl, eval_linker_block.test.data_lbl_filterer, prop=eval_linker_block.train.dset.data.data_lbl,
+    #                      pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
+    # learn = XCLearner(
+    #     model=model,
+    #     args=args,
+    #     train_dataset=eval_linker_block.train.dset,
+    #     eval_dataset=eval_linker_block.test.dset,
+    #     data_collator=eval_linker_block.collator,
+    #     compute_metrics=metric,
+    # )
     
-    main(learn, input_args, n_lbl=linker_block.n_lbl)
+    dset = eval_linker_block.test.dset.data
+    eval_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
+
+    dset = eval_linker_block.train.dset.data
+    train_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
     
+    main(learn, input_args, n_lbl=linker_block.n_lbl, eval_dataset=eval_dset, train_dataset=train_dset, eval_k=20, train_k=20)
+    
+    # main(learn, input_args, n_lbl=linker_block.n_lbl)
+
+    # dset = linker_block.test.dset.data
+    # eval_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
+
+    # dset = linker_block.train.dset.data
+    # train_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
+    # 
+    # main(learn, input_args, n_lbl=eval_linker_block.n_lbl, eval_dataset=eval_dset, train_dataset=train_dset, eval_k=20, train_k=20)
+

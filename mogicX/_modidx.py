@@ -34,4 +34,7 @@ d = { 'settings': { 'branch': 'main',
             'mogicX.12_mogic-for-wikiseealsotitles-noise': {},
             'mogicX.13_ngame-linker-for-wikititles-noise': {},
             'mogicX.14_ngame-oracle-for-wikititles-noise': {},
+            'mogicX.15_mogic-for-wikititles-noise': {},
+            'mogicX.16_ngame-linker-for-amazontitles': {},
+            'mogicX.17_ngame-oracle-for-amazontitles': {},
             'mogicX.core': {'mogicX.core.foo': ('core.html#foo', 'mogicX/core.py')}}}

@@ -44,7 +44,7 @@ def get_label_remap(lbl_repr:torch.Tensor, cluster_sz:int=3):
 
 # %% ../nbs/31_momos-for-wikiseealsotitles.ipynb 8
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/12_mogic-for-wikiseealsotitles-noise-001'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/12_momos-for-wikiseealsotitles-noise-001'
 
     data_dir = '/data/datasets/benchmarks/'
     config_file = '/home/aiscuser/scratch1/mogicX/configs/12_momos-for-wikiseealsotitles-noise_data_category_ngame-linker.json'

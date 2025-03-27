@@ -18,8 +18,8 @@ from xclib.utils.sparse import retain_topk
 from fastcore.utils import *
 
 # %% ../nbs/31_momos-for-wikiseealsotitles.ipynb 4
-os.environ['CUDA_VISIBLE_DEVICES'] = '10,11'
-os.environ['WANDB_PROJECT']='mogicX_01-wikiseealsotitles'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
+os.environ['WANDB_PROJECT'] = 'mogicX_01-wikiseealsotitles'
 
 # %% ../nbs/31_momos-for-wikiseealsotitles.ipynb 6
 @patch
@@ -44,54 +44,20 @@ def get_label_remap(lbl_repr:torch.Tensor, cluster_sz:int=3):
 
 # %% ../nbs/31_momos-for-wikiseealsotitles.ipynb 8
 if __name__ == '__main__':
-    # build_block = False
-
-    # data_dir = '/data/datasets'
-    # pkl_dir = '/home/aiscuser/scratch1/datasets/'
-
-    # output_dir = '/home/aiscuser/scratch1/outputs/medic/31_momos-for-wikiseealsotitles-001'
-    # model_output = '/data/Projects/xc_nlg/outputs//67-ngame-ep-for-wikiseealso-with-input-concatenation-6-3'
-    # meta_embed_file = '/data/OGB_Weights/LF-WikiSeeAlsoTitles-320K/emb_weights.npy'
-
-    # """ Load data """
-    # pkl_file = f'{pkl_dir}/processed/wikiseealsotitles_data-lnk_distilbert-base-uncased_xcs.pkl'
-
-    # if build_block:
-    #     block = XCBlock.from_cfg(data_dir, 'data_lnk', transform_type='xcs', tokenizer='distilbert-base-uncased', 
-    #                              sampling_features=[('lbl2data',4), ('lnk2data',3)], oversample=False)
-    #     with open(pkl_file, 'wb') as file: pickle.dump(block, file)
-    # else:
-    #     with open(pkl_file, 'rb') as file: block = pickle.load(file)
-
-    # """ Prune metadata """
-    # data_meta = retain_topk(block.train.dset.meta.lnk_meta.data_meta, k=5)
-    # lbl_meta = block.train.dset.meta.lnk_meta.lbl_meta
-    # block.train.dset.meta.lnk_meta.update_meta_matrix(data_meta, lbl_meta)
-    # 
-    # data_meta = retain_topk(block.test.dset.meta.lnk_meta.data_meta, k=3)
-    # lbl_meta = block.test.dset.meta.lnk_meta.lbl_meta
-    # block.test.dset.meta.lnk_meta.update_meta_matrix(data_meta, lbl_meta)
-
-    # block.collator.tfms.tfms[0].sampling_features = [('lbl2data',4),('lnk2data',3)]
-    # block.collator.tfms.tfms[0].oversample = False
-    # 
-    # block.train.dset.meta.lnk_meta.meta_info = None
-    # block.test.dset.meta.lnk_meta.meta_info = None
-
     output_dir = '/home/aiscuser/scratch1/outputs/mogicX/12_mogic-for-wikiseealsotitles-noise-001'
 
     data_dir = '/data/datasets/benchmarks/'
-    config_file = 'wikiseealsotitles'
-    config_key = 'data_lnk'
+    config_file = '/home/aiscuser/scratch1/mogicX/configs/12_momos-for-wikiseealsotitles-noise_data_category_ngame-linker.json'
+    config_key = 'data_category_linker'
 
-    model_output = '/data/projects/xc_nlg/outputs//67-ngame-ep-for-wikiseealso-with-input-concatenation-6-3/'
+    model_output = '/home/aiscuser/scratch1/outputs/mogicX/11_ngame-oracle-for-wikiseealsotitles-noise/'
     meta_embed_file = '/data/datasets/ogb_weights/LF-WikiSeeAlsoTitles-320K/emb_weights.npy'
     
     meta_name = 'lnk'
 
     input_args = parse_args()
 
-    pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles_data-lnk_distilbert-base-uncased'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles-noise_data-category-linker_distilbert-base-uncased'
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
     pkl_file = f'{pkl_file}.joblib'
@@ -234,6 +200,5 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
-    mp.freeze_support()
-    learn.train()
+    main(learn, input_args, n_lbl=block.n_lbl)
     

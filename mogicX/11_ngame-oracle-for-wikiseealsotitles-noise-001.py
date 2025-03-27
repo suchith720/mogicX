@@ -121,5 +121,5 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=block.n_lbl)
+    main(learn, input_args, n_lbl=block.n_lbl, save_teacher=True)
     

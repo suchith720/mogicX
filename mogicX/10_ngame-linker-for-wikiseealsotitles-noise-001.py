@@ -34,7 +34,17 @@ if __name__ == '__main__':
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test)
 
-    linker_block = block.linker_dset('cat_meta', remove_empty=True)
+    #debug
+    import xclib.data.data_utils as du
+    data_dir = '/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K/'
+    trn_meta = du.read_sparse_file(f'{data_dir}/category_trn_X_Y.txt')
+    tst_meta = du.read_sparse_file(f'{data_dir}/category_tst_X_Y.txt')
+
+    block.train.dset.meta['cat_meta'].data_meta = trn_meta
+    block.test.dset.meta['cat_meta'].data_meta = tst_meta
+    #debug
+
+    linker_block = block.linker_dset('cat_meta', remove_empty=False)
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -98,5 +108,16 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=linker_block.n_lbl)
+    # main(learn, input_args, n_lbl=linker_block.n_lbl)
     
+    dset = linker_block.test.dset.data
+    eval_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
+
+    dset = linker_block.train.dset.data
+    train_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
+    
+    main(learn, input_args, n_lbl=linker_block.n_lbl, eval_dataset=eval_dset, train_dataset=train_dset, eval_k=20, train_k=20)
+
+    suffix = f'_{input_args.prediction_suffix}' if len(input_args.prediction_suffix) else ''
+    lbl_file = f'{args.output_dir}/predictions/label_predictions{suffix}.npz'
+    sp.save_npz(lbl_file, sp.csr_matrix((block.n_lbl, linker_block.n_lbl), dtype=np.float32))

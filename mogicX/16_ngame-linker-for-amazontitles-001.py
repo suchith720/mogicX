@@ -41,22 +41,22 @@ if __name__ == '__main__':
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
-        per_device_train_batch_size=800,
-        per_device_eval_batch_size=800,
+        per_device_train_batch_size=1024,
+        per_device_eval_batch_size=1024,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
         evaluation_strategy="steps",
-        eval_steps=20_000,
-        save_steps=20_000,
+        eval_steps=5000,
+        save_steps=5000,
         save_total_limit=5,
         num_train_epochs=300,
         predict_with_representation=True,
         representation_search_type='BRUTEFORCE',
         adam_epsilon=1e-6,
         warmup_steps=100,
-        weight_decay=0.01,
-        learning_rate=2e-4,
+        weight_decay=1.0,
+        learning_rate=1e-7,
     
         group_by_cluster=True,
         num_clustering_warmup_epochs=10,
@@ -89,7 +89,8 @@ if __name__ == '__main__':
     
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
-    model = load_model(args.output_dir, model_fn, {"mname": mname, "bsz": bsz}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
+    model = load_model(args.output_dir, model_fn, {"mname": mname, "bsz": bsz}, init_fn, do_inference=do_inference, 
+            use_pretrained=input_args.use_pretrained)
     
     learn = XCLearner(
         model=model,
@@ -99,6 +100,6 @@ if __name__ == '__main__':
         data_collator=linker_block.collator,
         compute_metrics=metric,
     )
-    
+
     main(learn, input_args, n_lbl=linker_block.n_lbl)
     

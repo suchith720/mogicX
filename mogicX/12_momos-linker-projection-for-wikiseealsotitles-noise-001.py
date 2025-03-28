@@ -10,7 +10,7 @@ from transformers import DistilBertConfig
 
 from xcai.basics import *
 from xcai.models.oak import OAK008
-from xcai.models.distillation import DTL005,TCH004
+from xcai.models.distillation import DTL005,TCH004, TCH001
 from xcai.clustering.cluster import BalancedClusters
 
 from xclib.utils.sparse import retain_topk
@@ -18,7 +18,7 @@ from xclib.utils.sparse import retain_topk
 from fastcore.utils import *
 
 # %% ../nbs/34_momos-slm-for-wikiseealsotitles.ipynb 4
-os.environ['CUDA_VISIBLE_DEVICES'] = '10,11'
+os.environ['CUDA_VISIBLE_DEVICES'] = '12,13,14,15'
 os.environ['WANDB_PROJECT'] = 'mogicX_01-wikiseealsotitles'
 
 # %% ../nbs/34_momos-slm-for-wikiseealsotitles.ipynb 6
@@ -43,13 +43,13 @@ def get_label_remap(lbl_repr:torch.Tensor, cluster_sz:int=3):
 
 # %% ../nbs/34_momos-slm-for-wikiseealsotitles.ipynb 8
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/12_mogic-for-wikiseealsotitles-noise-001'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/12_momos-linker-projection-for-wikiseealsotitles-noise-001'
 
     data_dir = '/data/datasets/benchmarks/'
     config_file = '/home/aiscuser/scratch1/mogicX/configs/12_momos-for-wikiseealsotitles-noise_data_category_ngame-linker.json'
     config_key = 'data_category_linker'
 
-    model_output = '/home/aiscuser/scratch1/outputs/mogicX/11_ngame-oracle-for-wikiseealsotitles-noise/'
+    model_output = '/data/outputs/mogicX/11_ngame-oracle-for-wikiseealsotitles-noise/'
     meta_embed_file = '/data/datasets/ogb_weights/LF-WikiSeeAlsoTitles-320K/emb_weights.npy'
     
     meta_name = 'lnk'
@@ -147,12 +147,12 @@ if __name__ == '__main__':
     m_embeds = TCH001.from_pretrained(f'{model_output}/teacher', n_data=block.train.dset.n_data, n_lbl=block.n_lbl)
 
     config = DistilBertConfig()
-    m_teacher = TCH004(config, n_data=block.train.dset.n_data, embed_dim=m_embeds.data_repr.shape[1])
-    m_teacher.init_embeddings(m_embeds.data_repr)
+    m_teacher = TCH004(config, n_data=block.train.dset.n_data, embed_dim=m_embeds.data_repr.weight.shape[1])
+    m_teacher.init_embeddings(m_embeds.data_repr.weight)
     m_teacher.init_transform()
     m_teacher.freeze_embeddings()
 
-    lbl_remap, n_clusters = get_label_remap(m_embeds.lbl_repr.weight, cluster_sz=3)
+    lbl_remap, n_clusters = get_label_remap(m_embeds.lbl_repr.weight.detach(), cluster_sz=3)
 
     """ Student model """
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
@@ -202,6 +202,8 @@ if __name__ == '__main__':
         data_collator=block.collator,
         compute_metrics=metric,
     )
+
+    if do_inference: os.environ['WANDB_MODE'] = 'disabled'
 
     main(learn, input_args, n_lbl=block.n_lbl)
     

@@ -8,8 +8,8 @@
                 "data_lbl_filterer": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//filter_labels_train.txt",
                 "lnk_meta": {
                     "prefix": "lnk",
-                    "data_meta": "/home/aiscuser/scratch1/outputs/mogicX/10_ngame-linker-for-wikiseealsotitles-noise-001/predictions/train_predictions_full.npz",
-                    "lbl_meta": "/home/aiscuser/scratch1/outputs/mogicX/10_ngame-linker-for-wikiseealsotitles-noise-001/predictions/label_predictions_full.npz",
+                    "data_meta": "/data/outputs/mogicX/10_ngame-linker-for-wikiseealsotitles-noise-001/predictions/train_predictions_full.npz",
+                    "lbl_meta": "/data/outputs/mogicX/10_ngame-linker-for-wikiseealsotitles-noise-001/predictions/label_predictions_full.npz",
                     "meta_info": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//raw_data/category.raw.txt"
                 }
             },
@@ -20,8 +20,8 @@
                 "data_lbl_filterer": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//filter_labels_test.txt",
                 "lnk_meta": {
                     "prefix": "lnk",
-                    "data_meta": "/home/aiscuser/scratch1/outputs/mogicX/10_ngame-linker-for-wikiseealsotitles-noise-001/predictions/test_predictions_full.npz",
-                    "lbl_meta": "/home/aiscuser/scratch1/outputs/mogicX/10_ngame-linker-for-wikiseealsotitles-noise-001/predictions/label_predictions_full.npz",
+                    "data_meta": "/data/outputs/mogicX/10_ngame-linker-for-wikiseealsotitles-noise-001/predictions/test_predictions_full.npz",
+                    "lbl_meta": "/data/outputs/mogicX/10_ngame-linker-for-wikiseealsotitles-noise-001/predictions/label_predictions_full.npz",
                     "meta_info": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//raw_data/category.raw.txt"
                 }
             }

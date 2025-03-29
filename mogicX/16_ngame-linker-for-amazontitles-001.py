@@ -36,7 +36,7 @@ if __name__ == '__main__':
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test, 
                         data_dir=data_dir)
 
-    linker_block = block.linker_dset('cat_meta', remove_empty=True)
+    linker_block = block.linker_dset('cat_meta', remove_empty=False)
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -55,7 +55,7 @@ if __name__ == '__main__':
         representation_search_type='BRUTEFORCE',
         adam_epsilon=1e-6,
         warmup_steps=100,
-        weight_decay=1.0,
+        weight_decay=100.0,
         learning_rate=1e-7,
     
         group_by_cluster=True,
@@ -101,5 +101,11 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
 
-    main(learn, input_args, n_lbl=linker_block.n_lbl)
+    dset = linker_block.test.dset.data
+    eval_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
+
+    dset = linker_block.train.dset.data
+    train_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
     
+    main(learn, input_args, n_lbl=linker_block.n_lbl, eval_dataset=eval_dset, train_dataset=train_dset, eval_k=5, train_k=5)
+

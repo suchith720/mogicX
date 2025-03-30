@@ -18,7 +18,7 @@ from xclib.utils.sparse import retain_topk
 from fastcore.utils import *
 
 # %% ../nbs/31_momos-for-wikiseealsotitles.ipynb 4
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3,4,5'
 os.environ['WANDB_PROJECT'] = 'mogicX_01-wikiseealsotitles'
 
 # %% ../nbs/31_momos-for-wikiseealsotitles.ipynb 6
@@ -44,7 +44,7 @@ def get_label_remap(lbl_repr:torch.Tensor, cluster_sz:int=3):
 
 # %% ../nbs/31_momos-for-wikiseealsotitles.ipynb 8
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/12_momos-for-wikiseealsotitles-noise-001'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/12_momos-for-wikiseealsotitles-noise-002'
 
     data_dir = '/data/datasets/benchmarks/'
     config_file = '/home/aiscuser/scratch1/mogicX/configs/12_momos-for-wikiseealsotitles-noise_data_category_ngame-linker.json'
@@ -190,12 +190,12 @@ if __name__ == '__main__':
     if do_inference:
         mname = f'{output_dir}/{os.path.basename(get_best_model(output_dir))}'
         model = DTL004.from_pretrained(mname, m_student=m_student, m_teacher=m_teacher, bsz=bsz, tn_targ=5000, margin=0.3, tau=0.1, 
-                n_negatives=10, apply_softmax=True, teacher_data_student_label_loss_weight=1.0, student_data_teacher_label_loss_weight=0.0, 
-                data_mse_loss_weight=0.1, label_mse_loss_weight=0.0)
+                n_negatives=10, apply_softmax=True, teacher_data_student_label_loss_weight=0.0, student_data_teacher_label_loss_weight=0.0, 
+                data_mse_loss_weight=0.0, label_mse_loss_weight=0.0)
     else:
         model = DTL004(DistilBertConfig(), m_student=m_student, m_teacher=m_teacher, bsz=bsz, tn_targ=5000, margin=0.3, tau=0.1, 
-                       n_negatives=10, apply_softmax=True, teacher_data_student_label_loss_weight=1.0, 
-                       student_data_teacher_label_loss_weight=0.0, data_mse_loss_weight=0.1, label_mse_loss_weight=0.0)
+                       n_negatives=10, apply_softmax=True, teacher_data_student_label_loss_weight=0.0, 
+                       student_data_teacher_label_loss_weight=0.0, data_mse_loss_weight=0.0, label_mse_loss_weight=0.0)
     
     """ Training """
     metric = PrecRecl(block.n_lbl, block.test.data_lbl_filterer, prop=block.train.dset.data.data_lbl,

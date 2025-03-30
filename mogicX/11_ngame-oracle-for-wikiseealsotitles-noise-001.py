@@ -10,7 +10,7 @@ from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
 # %% ../nbs/11_ngame-oracle-for-wikiseealsotitles-noise.ipynb 5
-os.environ['CUDA_VISIBLE_DEVICES'] = '2,3,4,5'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT'] = 'mogicX_01-wikiseealsotitles-oracle'
 
 # %% ../nbs/11_ngame-oracle-for-wikiseealsotitles-noise.ipynb 19
@@ -20,12 +20,19 @@ if __name__ == '__main__':
     config_file = '/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K/configs/data_category_noise-050.json'
     config_key = 'data_category'
 
+    # data_dir = '/data/datasets/benchmarks/'
+    # config_file = 'wikiseealsotitles'
+    # config_key = 'data_meta'
+
+    data_dir = None
     mname = 'sentence-transformers/msmarco-distilbert-base-v4'
     meta_name = 'cat'
 
     input_args = parse_args()
 
     pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles-noise_data-category_distilbert-base-uncased'
+    # pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles_data-meta_distilbert-base-uncased'
+
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
     pkl_file = f'{pkl_file}.joblib'
@@ -39,7 +46,7 @@ if __name__ == '__main__':
         block = joblib.load(aug_file)
     else:
         block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test,
-                           sampling_features=[('lbl2data',1)], oversample=False)
+                           sampling_features=[('lbl2data',1)], oversample=False, data_dir=data_dir)
         
         block = AugmentMetaInputIdsTfm.apply(block, f'{meta_name}_meta', 'data', 128, True)
         block = AugmentMetaInputIdsTfm.apply(block, f'{meta_name}_meta', 'lbl', 128, True)
@@ -110,7 +117,8 @@ if __name__ == '__main__':
     
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
-    model = load_model(args.output_dir, model_fn, {"mname": mname, "bsz": bsz}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
+    model = load_model(args.output_dir, model_fn, {"mname": mname, "bsz": bsz}, init_fn, do_inference=do_inference, 
+            use_pretrained=input_args.use_pretrained)
     
     learn = XCLearner(
         model=model,
@@ -121,5 +129,6 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
+    # main(learn, input_args, n_lbl=block.n_lbl)
+
     main(learn, input_args, n_lbl=block.n_lbl, save_teacher=True)
-    

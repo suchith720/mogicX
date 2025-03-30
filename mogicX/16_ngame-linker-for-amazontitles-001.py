@@ -10,12 +10,12 @@ from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
 # %% ../nbs/16_ngame-linker-for-amazontitles.ipynb 5
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
 os.environ['WANDB_PROJECT'] = 'mogicX_03-amazontitles-linker'
 
 # %% ../nbs/16_ngame-linker-for-amazontitles.ipynb 7
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/16_ngame-linker-for-amazontitles-001'
+    output_dir = '/data/outputs/mogicX/16_ngame-linker-for-amazontitles-001'
 
     data_dir = '/data/datasets/benchmarks/G_Datasets/'
     config_file = 'amazontitles'

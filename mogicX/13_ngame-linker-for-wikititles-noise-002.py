@@ -10,12 +10,12 @@ from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
 # %% ../nbs/13_ngame-linker-for-wikititles-noise.ipynb 5
-os.environ['CUDA_VISIBLE_DEVICES'] = '6,7'
+os.environ['CUDA_VISIBLE_DEVICES'] = '6,7,14,15'
 os.environ['WANDB_PROJECT'] = 'mogicX_02-wikititles-linker'
 
 # %% ../nbs/13_ngame-linker-for-wikititles-noise.ipynb 18
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/13_ngame-linker-for-wikititles-noise-001'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/13_ngame-linker-for-wikititles-noise-002'
 
     config_file = '/data/datasets/benchmarks/(mapped)LF-WikiTitles-500K/configs/data_hyper_link_noise-050.json'
     config_key = 'data_hyper_link'
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     # block.test.dset.meta['hlk_meta'].data_meta = tst_meta
     # debug
 
-    linker_block = block.linker_dset('hlk_meta', remove_empty=False)
+    linker_block = block.linker_dset('hlk_meta', remove_empty=True)
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -63,7 +63,7 @@ if __name__ == '__main__':
         adam_epsilon=1e-6,
         warmup_steps=100,
         weight_decay=0.01,
-        learning_rate=2e-4,
+        learning_rate=2e-8,
     
         group_by_cluster=True,
         num_clustering_warmup_epochs=10,
@@ -108,13 +108,13 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
-    # main(learn, input_args, n_lbl=linker_block.n_lbl)
+    main(learn, input_args, n_lbl=linker_block.n_lbl)
 
-    dset = linker_block.test.dset.data
-    eval_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
+    # dset = linker_block.test.dset.data
+    # eval_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
 
-    dset = linker_block.train.dset.data
-    train_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
+    # dset = linker_block.train.dset.data
+    # train_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
 
-    main(learn, input_args, n_lbl=linker_block.n_lbl, eval_dataset=eval_dset, train_dataset=train_dset, eval_k=5, train_k=5)
+    # main(learn, input_args, n_lbl=linker_block.n_lbl, eval_dataset=eval_dset, train_dataset=train_dset, eval_k=5, train_k=5)
     

@@ -10,7 +10,7 @@ from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
 # %% ../nbs/11_ngame-oracle-for-wikiseealsotitles-noise.ipynb 5
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '8,9,10,11'
 os.environ['WANDB_PROJECT'] = 'mogicX_01-wikiseealsotitles-oracle'
 
 # %% ../nbs/11_ngame-oracle-for-wikiseealsotitles-noise.ipynb 19
@@ -37,6 +37,7 @@ if __name__ == '__main__':
     input_args = parse_args()
 
     pkl_file = f'{input_args.pickle_dir}/mogicX/11-ngame-oracle-for-wikiseealsotitles-noise-002_test'
+
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
     pkl_file = f'{pkl_file}.joblib'
@@ -110,7 +111,7 @@ if __name__ == '__main__':
 
     def model_fn(mname, bsz):
         model = DBT009.from_pretrained(mname, bsz=bsz, tn_targ=5000, margin=0.3, tau=0.1, n_negatives=10, 
-                                       apply_softmax=True, use_encoder_parallel=True, ignore_mismatched_sizes=True)
+                                       apply_softmax=True, use_encoder_parallel=True)
         return model
     
     def init_fn(model): 

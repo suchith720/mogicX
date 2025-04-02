@@ -10,61 +10,36 @@ from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
 # %% ../nbs/17_ngame-oracle-for-amazontitles.ipynb 5
-os.environ['CUDA_VISIBLE_DEVICES'] = '6,7,8,9'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3,4,5,6,7'
 os.environ['WANDB_PROJECT'] = 'mogicX_03-amazontitles-oracle'
 
 # %% ../nbs/17_ngame-oracle-for-amazontitles.ipynb 7
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/17_ngame-oracle-for-amazontitles-001'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/17_ngame-oracle-for-amazontitles-003'
 
-    data_dir = '/data/datasets/benchmarks/G_Datasets/'
-    config_file = 'amazontitles'
-    config_key = 'data_meta'
+    data_dir = None
+    config_file = 'configs/17_ngame-oracle-for-amazontitles-003_entities.json'
+    config_key = 'data'
 
     mname = 'sentence-transformers/msmarco-distilbert-base-v4'
-    meta_name = 'cat'
 
     input_args = parse_args()
 
-    pkl_file = f'{input_args.pickle_dir}/mogicX/amazontitles_data-meta_distilbert-base-uncased'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/amazontitles_data-entities_distilbert-base-uncased'
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
     pkl_file = f'{pkl_file}.joblib'
-    aug_file = pkl_file[:-7] + f'_aug{meta_name}-128.joblib'
 
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
 
-    os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
-
-    if os.path.exists(aug_file):
-        block = joblib.load(aug_file)
-    else:
-        block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test,
-                           sampling_features=[('lbl2data',1)], oversample=False, data_dir=data_dir)
-        
-        block = AugmentMetaInputIdsTfm.apply(block, f'{meta_name}_meta', 'data', 128, True)
-        block = AugmentMetaInputIdsTfm.apply(block, f'{meta_name}_meta', 'lbl', 128, True)
-        
-        block.train.dset.data.data_info['input_ids'] = block.train.dset.data.data_info[f'input_ids_aug_{meta_name}']
-        block.train.dset.data.data_info['attention_mask'] = block.train.dset.data.data_info[f'attention_mask_aug_{meta_name}']
-        block.test.dset.data.data_info['input_ids'] = block.test.dset.data.data_info[f'input_ids_aug_{meta_name}']
-        block.test.dset.data.data_info['attention_mask'] = block.test.dset.data.data_info[f'attention_mask_aug_{meta_name}']
-        
-        block.train.dset.data.lbl_info['input_ids'] = block.train.dset.data.lbl_info[f'input_ids_aug_{meta_name}']
-        block.train.dset.data.lbl_info['attention_mask'] = block.train.dset.data.lbl_info[f'attention_mask_aug_{meta_name}']
-        block.test.dset.data.lbl_info['input_ids'] = block.test.dset.data.lbl_info[f'input_ids_aug_{meta_name}']
-        block.test.dset.data.lbl_info['attention_mask'] = block.test.dset.data.lbl_info[f'attention_mask_aug_{meta_name}']
-        
-        block.train.dset.meta = {}
-        block.test.dset.meta = {}
-    
-        joblib.dump(block, aug_file)
+    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test,
+            data_dir=data_dir)
 
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
-        per_device_train_batch_size=300,
-        per_device_eval_batch_size=300,
+        per_device_train_batch_size=600,
+        per_device_eval_batch_size=600,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",

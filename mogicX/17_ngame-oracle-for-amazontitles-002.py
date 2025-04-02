@@ -10,7 +10,7 @@ from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
 # %% ../nbs/17_ngame-oracle-for-amazontitles.ipynb 5
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3,4,5,14,15'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,10,11,12,13,14,15'
 os.environ['WANDB_PROJECT'] = 'mogicX_03-amazontitles-oracle'
 
 # %% ../nbs/17_ngame-oracle-for-amazontitles.ipynb 7
@@ -35,13 +35,11 @@ if __name__ == '__main__':
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test,
             data_dir=data_dir)
 
-    breakpoint()
-        
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
-        per_device_train_batch_size=300,
-        per_device_eval_batch_size=300,
+        per_device_train_batch_size=600,
+        per_device_eval_batch_size=600,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
@@ -102,5 +100,5 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=block.n_lbl)
+    main(learn, input_args, n_lbl=block.n_lbl, save_teacher=True)
     

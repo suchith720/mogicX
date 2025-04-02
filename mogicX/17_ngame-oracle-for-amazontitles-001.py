@@ -10,7 +10,7 @@ from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
 # %% ../nbs/17_ngame-oracle-for-amazontitles.ipynb 5
-os.environ['CUDA_VISIBLE_DEVICES'] = '2,3,4,5,6,7,8,9'
+os.environ['CUDA_VISIBLE_DEVICES'] = '6,7,8,9'
 os.environ['WANDB_PROJECT'] = 'mogicX_03-amazontitles-oracle'
 
 # %% ../nbs/17_ngame-oracle-for-amazontitles.ipynb 7

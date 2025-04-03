@@ -99,12 +99,4 @@ if __name__ == '__main__':
     )
     
     main(learn, input_args, n_lbl=linker_block.n_lbl)
-
-    # dset = linker_block.test.dset.data
-    # eval_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
-
-    # dset = linker_block.train.dset.data
-    # train_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
-    # 
-    # main(learn, input_args, n_lbl=linker_block.n_lbl, eval_dataset=eval_dset, train_dataset=train_dset)
     

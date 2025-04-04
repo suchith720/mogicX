@@ -212,5 +212,5 @@ if __name__ == '__main__':
 
     if do_inference: os.environ['WANDB_MODE'] = 'disabled'
     
-    main(learn, input_args, n_lbl=block.n_lbl)
+    main(learn, input_args, n_lbl=block.n_lbl, save_classifier=True)
     

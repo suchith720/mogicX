@@ -17,8 +17,11 @@ os.environ['WANDB_PROJECT'] = 'mogicX_01-wikiseealsotitles-oracle'
 if __name__ == '__main__':
     output_dir = '/home/aiscuser/scratch1/outputs/mogicX/11_ngame-oracle-for-wikiseealsotitles-noise'
 
-    config_file = '/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K/configs/data_category_noise-050.json'
-    config_key = 'data_category'
+    # config_file = '/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K/configs/data_category_noise-050.json'
+    # config_key = 'data_category'
+
+    config_file = '/home/aiscuser/scratch1/mogicX/configs/12_momos-for-wikiseealsotitles-noise_data_category_ngame-linker.json'
+    config_key = 'data_category_linker'
 
     # data_dir = '/data/datasets/benchmarks/'
     # config_file = 'wikiseealsotitles'
@@ -26,11 +29,14 @@ if __name__ == '__main__':
 
     data_dir = None
     mname = 'sentence-transformers/msmarco-distilbert-base-v4'
-    meta_name = 'cat'
+
+    # meta_name = 'cat'
+    meta_name = 'lnk'
 
     input_args = parse_args()
 
-    pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles-noise_data-category_distilbert-base-uncased'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles-noise_data-category-linker_distilbert-base-uncased'
+    # pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles-noise_data-category_distilbert-base-uncased'
     # pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles_data-meta_distilbert-base-uncased'
 
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
@@ -129,6 +135,6 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
-    # main(learn, input_args, n_lbl=block.n_lbl)
+    main(learn, input_args, n_lbl=block.n_lbl)
 
-    main(learn, input_args, n_lbl=block.n_lbl, save_teacher=True)
+    # main(learn, input_args, n_lbl=block.n_lbl, save_teacher=True)

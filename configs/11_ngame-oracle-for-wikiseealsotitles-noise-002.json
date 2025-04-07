@@ -8,7 +8,7 @@
                 "data_lbl_filterer": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//filter_labels_train.txt",
                 "lnk_meta": {
                     "prefix": "lnk",
-                    "data_meta": "/data/outputs/mogicX/10_ngame-linker-for-wikiseealsotitles-noise-001/predictions/train_predictions_full.npz",
+                    "data_meta": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K/category_renee_trn_X_Y.npz",
                     "lbl_meta": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//category_lbl_X_Y.txt",
                     "meta_info": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//raw_data/category.raw.txt"
                 }
@@ -20,7 +20,7 @@
                 "data_lbl_filterer": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//filter_labels_test.txt",
                 "lnk_meta": {
                     "prefix": "lnk",
-                    "data_meta": "/data/outputs/mogicX/10_ngame-linker-for-wikiseealsotitles-noise-001/predictions/test_predictions_full.npz",
+                    "data_meta": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K/category_renee_tst_X_Y.npz",
                     "lbl_meta": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//category_lbl_X_Y.txt",
                     "meta_info": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//raw_data/category.raw.txt"
                 }

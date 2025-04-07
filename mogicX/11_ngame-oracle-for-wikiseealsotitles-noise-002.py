@@ -15,23 +15,28 @@ os.environ['WANDB_PROJECT'] = 'mogicX_01-wikiseealsotitles-oracle'
 
 # %% ../nbs/11_ngame-oracle-for-wikiseealsotitles-noise.ipynb 19
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/11_ngame-oracle-for-wikiseealsotitles-noise-002'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/11_ngame-oracle-for-wikiseealsotitles-noise'
+    # output_dir = '/data/projects/xc_nlg/outputs/67-ngame-ep-for-wikiseealso-with-input-concatenation-6-3'
 
-    # data_dir = None
-    # config_file = '/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K/configs/data_category_noise-data-lbl-050.json'
-    # config_key = 'data_category'
+    data_dir = None
+    config_file = '/home/aiscuser/scratch1/mogicX/configs/11_ngame-oracle-for-wikiseealsotitles-noise-002.json'
+    config_key = 'data_category_linker'
 
-    data_dir = '/data/datasets/benchmarks/'
-    config_file = 'wikiseealsotitles'
-    config_key = 'data_meta'
+    # data_dir = '/data/datasets/benchmarks/'
+    # config_file = '/home/aiscuser/scratch1/mogicX/configs/12_momos-for-wikiseealsotitles-noise_data_category_ngame-linker.json'
+    # config_key = 'data_category_linker'
+
+    # data_dir = '/data/datasets/benchmarks/'
+    # config_file = 'wikiseealsotitles'
+    # config_key = 'data_lnk'
 
     mname = 'sentence-transformers/msmarco-distilbert-base-v4'
-    meta_name = 'cat'
+
+    meta_name = 'lnk'
 
     input_args = parse_args()
 
-    # pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles-noise-data-lbl-050_data-category_distilbert-base-uncased'
-    pkl_file = f'{input_args.pickle_dir}/mogicX/wikiseealsotitles_data-meta_distilbert-base-uncased'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/11-ngame-oracle-for-wikiseealsotitles-noise-002_test'
 
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
@@ -42,7 +47,7 @@ if __name__ == '__main__':
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
 
-    if os.path.exists(aug_file):
+    if os.path.exists(aug_file) and not input_args.build_block:
         block = joblib.load(aug_file)
     else:
         block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test,
@@ -117,7 +122,20 @@ if __name__ == '__main__':
     
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
-    model = load_model(args.output_dir, model_fn, {"mname": mname, "bsz": bsz}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
+    model = load_model(args.output_dir, model_fn, {"mname": mname, "bsz": bsz}, init_fn, do_inference=do_inference, 
+            use_pretrained=input_args.use_pretrained)
+
+    # # loading old model gives an error
+    # from safetensors import safe_open
+    # model_dir = f'{output_dir}/{os.path.basename(get_best_model(output_dir))}'
+
+    # tensors = {}
+    # with safe_open(f"{model_dir}/model.safetensors", framework="pt") as f:
+    #     for k in f.keys():
+    #         tensors[k] = f.get_tensor(k)
+
+    # model.load_state_dict(tensors, strict=False)
+    # # debug
     
     learn = XCLearner(
         model=model,
@@ -128,5 +146,6 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=block.n_lbl, save_teacher=True)
-    
+    main(learn, input_args, n_lbl=block.n_lbl)
+
+    # main(learn, input_args, n_lbl=block.n_lbl, save_teacher=True)

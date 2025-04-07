@@ -1,28 +1,28 @@
 {
-    "data_category_linker": {
+    "data_category": {
         "path": {
             "train": {
-                "data_lbl": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//trn_X_Y.txt",
-                "data_info": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//raw_data/train.raw.txt",
-                "lbl_info": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//raw_data/label.raw.txt",
-                "data_lbl_filterer": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//filter_labels_train.txt",
-                "lnk_meta": {
-                    "prefix": "lnk",
-                    "data_meta": "/data/outputs/mogicX/10_ngame-linker-for-wikiseealsotitles-noise-001/predictions/train_predictions_full.npz",
-                    "lbl_meta": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//category_lbl_X_Y.txt",
-                    "meta_info": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//raw_data/category.raw.txt"
+                "data_lbl": "/data/datasets/benchmarks/(mapped)LF-AmazonTitles-1.3M//trn_X_Y.txt",
+                "data_info": "/data/datasets/benchmarks/(mapped)LF-AmazonTitles-1.3M//raw_data/train.raw.txt",
+                "lbl_info": "/data/datasets/benchmarks/(mapped)LF-AmazonTitles-1.3M//raw_data/label.raw.txt",
+                "data_lbl_filterer": "/data/datasets/benchmarks/(mapped)LF-AmazonTitles-1.3M//filter_labels_train.txt",
+                "cat_meta": {
+                    "prefix": "cat",
+                    "data_meta": "/data/datasets/benchmarks/(mapped)LF-AmazonTitles-1.3M//category_gpt_trn_X_Y.npz",
+                    "lbl_meta": "/data/datasets/benchmarks/(mapped)LF-AmazonTitles-1.3M//category_gpt_lbl_X_Y.npz",
+                    "meta_info": "/data/datasets/benchmarks/(mapped)LF-AmazonTitles-1.3M//raw_data/category_gpt.raw.csv"
                 }
             },
             "test": {
-                "data_lbl": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//tst_X_Y.txt",
-                "data_info": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//raw_data/test.raw.txt",
-                "lbl_info": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//raw_data/label.raw.txt",
-                "data_lbl_filterer": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//filter_labels_test.txt",
-                "lnk_meta": {
-                    "prefix": "lnk",
-                    "data_meta": "/data/outputs/mogicX/10_ngame-linker-for-wikiseealsotitles-noise-001/predictions/test_predictions_full.npz",
-                    "lbl_meta": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//category_lbl_X_Y.txt",
-                    "meta_info": "/data/datasets/benchmarks/(mapped)LF-WikiSeeAlsoTitles-320K//raw_data/category.raw.txt"
+                "data_lbl": "/data/datasets/benchmarks/(mapped)LF-AmazonTitles-1.3M//tst_X_Y.txt",
+                "data_info": "/data/datasets/benchmarks/(mapped)LF-AmazonTitles-1.3M//raw_data/test.raw.txt",
+                "lbl_info": "/data/datasets/benchmarks/(mapped)LF-AmazonTitles-1.3M//raw_data/label.raw.txt",
+                "data_lbl_filterer": "/data/datasets/benchmarks/(mapped)LF-AmazonTitles-1.3M//filter_labels_test.txt",
+                "cat_meta": {
+                    "prefix": "cat",
+                    "data_meta": "/data/datasets/benchmarks/(mapped)LF-AmazonTitles-1.3M//category_gpt_tst_X_Y.npz",
+                    "lbl_meta": "/data/datasets/benchmarks/(mapped)LF-AmazonTitles-1.3M//category_gpt_lbl_X_Y.npz",
+                    "meta_info": "/data/datasets/benchmarks/(mapped)LF-AmazonTitles-1.3M//raw_data/category_gpt.raw.csv"
                 }
             }
         },

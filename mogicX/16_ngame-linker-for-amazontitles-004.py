@@ -10,27 +10,22 @@ from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
 # %% ../nbs/16_ngame-linker-for-amazontitles.ipynb 5
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
+os.environ['CUDA_VISIBLE_DEVICES'] = '4,5,6,7'
 os.environ['WANDB_PROJECT'] = 'mogicX_03-amazontitles-linker'
 
 # %% ../nbs/16_ngame-linker-for-amazontitles.ipynb 7
 if __name__ == '__main__':
-    output_dir = '/data/outputs/mogicX/16_ngame-linker-for-amazontitles-002'
+    output_dir = '/data/outputs/mogicX/16_ngame-linker-for-amazontitles-004'
 
     data_dir = None
-    # config_file = 'configs/16_ngame-linker-for-amazontitles-002_gpt-category.json'
-    # config_file = 'configs/16_ngame-linker-for-amazontitles-002_gpt-category-conflated-1.json'
-    # config_file = 'configs/16_ngame-linker-for-amazontitles-002_gpt-category-conflated-2.json'
-    config_file = 'configs/16_ngame-linker-for-amazontitles-002_gpt-category-conflated-3.json'
+    config_file = 'configs/16_ngame-linker-for-amazontitles-002_gpt-category-conflated-1.json'
     config_key = 'data_category'
 
     mname = 'sentence-transformers/msmarco-distilbert-base-v4'
 
     input_args = parse_args()
 
-    # pkl_file = f'{input_args.pickle_dir}/mogicX/amazontitles_data-gpt-category-conflated-1_distilbert-base-uncased'
-    # pkl_file = f'{input_args.pickle_dir}/mogicX/amazontitles_data-gpt-category-conflated-2_distilbert-base-uncased'
-    pkl_file = f'{input_args.pickle_dir}/mogicX/amazontitles_data-gpt-category-conflated-3_distilbert-base-uncased'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/amazontitles_data-gpt-category-conflated-1_distilbert-base-uncased'
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
     pkl_file = f'{pkl_file}.joblib'
@@ -41,8 +36,8 @@ if __name__ == '__main__':
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test, 
                         data_dir=data_dir)
 
-    # linker_block = block.linker_dset('cat_meta', remove_empty=False)
-    linker_block = block.linker_dset('cat_meta', remove_empty=True)
+    # linker_block = block.linker_dset('cat_meta', remove_empty=True)
+    linker_block = block.linker_dset('cat_meta', remove_empty=False)
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -62,7 +57,7 @@ if __name__ == '__main__':
         adam_epsilon=1e-6,
         warmup_steps=100,
         weight_decay=0.01,
-        learning_rate=2e-5,
+        learning_rate=2e-4,
     
         group_by_cluster=True,
         num_clustering_warmup_epochs=10,
@@ -90,13 +85,13 @@ if __name__ == '__main__':
     def init_fn(model): 
         model.init_dr_head()
 
-    metric = PrecReclMrr(linker_block.n_lbl, linker_block.test.data_lbl_filterer, prop=linker_block.train.dset.data.data_lbl,
-                         pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
-    
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
     model = load_model(args.output_dir, model_fn, {"mname": mname, "bsz": bsz}, init_fn, do_inference=do_inference, 
             use_pretrained=input_args.use_pretrained)
+
+    metric = PrecReclMrr(linker_block.n_lbl, linker_block.test.data_lbl_filterer, prop=linker_block.train.dset.data.data_lbl,
+                         pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
     
     learn = XCLearner(
         model=model,
@@ -107,13 +102,15 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
 
-    # dset = linker_block.test.dset.data
-    # eval_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
+    if do_inference: os.environ['WANDB_MODE'] = 'disabled'
 
-    # dset = linker_block.train.dset.data
-    # train_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
-    # 
-    # main(learn, input_args, n_lbl=linker_block.n_lbl, eval_dataset=eval_dset, train_dataset=train_dset, eval_k=5, train_k=5)
+    dset = linker_block.test.dset.data
+    eval_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
 
-    main(learn, input_args, n_lbl=linker_block.n_lbl)
+    dset = linker_block.train.dset.data
+    train_dset = block.inference_dset(dset.data_info, dset.data_lbl, dset.lbl_info, dset.data_lbl_filterer)
+
+    main(learn, input_args, n_lbl=linker_block.n_lbl, eval_dataset=eval_dset, train_dataset=train_dset, eval_k=5, train_k=5)
+
+    # main(learn, input_args, n_lbl=linker_block.n_lbl)
 

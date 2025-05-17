@@ -26,12 +26,12 @@ if __name__ == '__main__':
 
     pkl_file = f'{input_args.pickle_dir}/mogicX/msmarco_data_distilbert-base-uncased'
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
-    
+
+    pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
     pkl_file = f'{pkl_file}_exact'
-    
     pkl_file = f'{pkl_file}.joblib'
-
+    
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)

@@ -31,6 +31,12 @@ if __name__ == '__main__':
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
     pkl_file = f'{pkl_file}.joblib'
 
+    do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
+
+    os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
+    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test, 
+                        data_dir=data_dir)
+
     """ Training arguements """
     args = XCLearningArguments(
         output_dir=output_dir,

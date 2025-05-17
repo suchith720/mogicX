@@ -11,7 +11,7 @@ from xcai.main import *
 from xcai.basics import *
 from xcai.clustering.cluster import get_cluster_mapping, get_cluster_size
 
-from xcai.models.oak import OAK008
+from xcai.models.oakY import OAK004
 
 # %% ../nbs/23_oak-for-msmarco-with-gpt-entity-linker.ipynb 5
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'

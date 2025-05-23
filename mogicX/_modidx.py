@@ -113,4 +113,5 @@ d = { 'settings': { 'branch': 'main',
                                                                           'mogicX.21_momos-for-wikititles-hyperparameter-search-002.get_label_remap': ( 'momos-for-wikititles.html#get_label_remap',
                                                                                                                                                         'mogicX/21_momos-for-wikititles-hyperparameter-search-002.py')},
             'mogicX.23_oak-for-msmarco-with-gpt-entity-linker': {},
+            'mogicX.25_sbert-for-msmarco-inference': {},
             'mogicX.core': {'mogicX.core.foo': ('core.html#foo', 'mogicX/core.py')}}}

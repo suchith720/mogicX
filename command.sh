@@ -22,3 +22,14 @@ python mogicX/05_mogic-meta-encoder-for-wikiseealsotitles-001.py --use_sxc_sampl
 
 # linker on wikiseealsotitles split
 python mogicX/06_ngame-linker-for-wikiseealsotitles-split-001.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --build_block --do_test_inference
+
+python mogicX/01-msmarco-gpt-entity-linker-001.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --do_test_inference --do_train_inference --save_test_prediction --save_train_prediction --prediction_suffix full
+
+# MSMARCO
+python mogicX/00_ngame-for-msmarco-inference-001.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --do_test_inference --save_test_prediction --only_test --use_pretrained
+
+python mogicX/00_ngame-for-msmarco-inference-001.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --do_test_inference --save_test_prediction --only_test --use_pretrained --prediction_suffix full
+
+python mogicX/23_oak-for-msmarco-with-gpt-entity-linker-001.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --do_test_inference --use_pretrained --only_test
+
+python mogicX/25_sbert-for-msmarco-inference-001.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --only_test

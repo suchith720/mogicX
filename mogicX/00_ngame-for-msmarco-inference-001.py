@@ -4,35 +4,42 @@
 __all__ = []
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 3
-import os,torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
+import os
+os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3,4,5,6,7'
+
+import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 5
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 20
 if __name__ == '__main__':
     output_dir = '/home/aiscuser/scratch1/outputs/mogicX/00_ngame-for-msmarco-001'
 
-    config_file = '/home/aiscuser/scratch1/datasets/msmarco/XC/configs/entity_gpt.json'
+    config_file = '/data/datasets/msmarco/XC/configs/entity_gpt.json'
     config_key = 'data_entity-gpt'
+
+    # config_file = '/data/datasets/msmarco/XC/configs/entity_gpt_exact.json'
+    # config_key = 'data_entity-gpt_exact' 
     
     mname = 'sentence-transformers/msmarco-distilbert-dot-v5'
 
     input_args = parse_args()
 
-    pkl_file = f'{input_args.pickle_dir}/mogicX/msmarco_data-entity-gpt_distilbert-base-uncased'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/msmarco_data-entity-gpt_msmarco-distilbert-dot-v5'
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
+    # pkl_file = f'{pkl_file}_exact'
     pkl_file = f'{pkl_file}.joblib'
 
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_inference or input_args.save_test_inference or input_args.save_representation
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
-    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test)
+    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test, 
+            n_slbl_samples=3, main_oversample=False)
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -42,7 +49,7 @@ if __name__ == '__main__':
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
-        evaluation_strategy="steps",
+        eval_strategy="steps",
         eval_steps=5000,
         save_steps=5000,
         save_total_limit=5,
@@ -87,7 +94,8 @@ if __name__ == '__main__':
 
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
-    model = load_model(args.output_dir, model_fn, {"mname": mname, "bsz": bsz}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
+    model = load_model(args.output_dir, model_fn, {"mname": mname, "bsz": bsz}, init_fn, do_inference=do_inference, 
+            use_pretrained=input_args.use_pretrained)
     
     learn = XCLearner(
         model=model,
@@ -96,6 +104,6 @@ if __name__ == '__main__':
         data_collator=block.collator,
         compute_metrics=metric,
     )
-    
+
     main(learn, input_args, n_lbl=block.test.dset.n_lbl)
     

@@ -10,7 +10,7 @@ from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
 # %% ../nbs/03_ngame-for-wikiseealsotitles.ipynb 5
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '15'
 os.environ['WANDB_PROJECT'] = 'mogicX_01-wikiseealsotitles'
 
 # %% ../nbs/03_ngame-for-wikiseealsotitles.ipynb 21

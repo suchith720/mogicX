@@ -19,7 +19,6 @@ if __name__ == '__main__':
 
     config_file = '/home/scai/phd/aiz218323/scratch/datasets/msmarco/XC/configs/data.json'
     config_key = 'data'
-
     mname = 'sentence-transformers/msmarco-distilbert-dot-v5'
 
     input_args = parse_args()
@@ -53,7 +52,6 @@ if __name__ == '__main__':
         warmup_steps=100,
         weight_decay=0.01,
         learning_rate=2e-4,
-
         group_by_cluster=True,
         num_clustering_warmup_epochs=10,
         num_cluster_update_epochs=5,
@@ -99,4 +97,3 @@ if __name__ == '__main__':
     )
 
     main(learn, input_args, n_lbl=block.test.dset.n_lbl, eval_k=10, train_k=10)
-

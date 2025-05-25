@@ -10,14 +10,14 @@ from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
 # %% ../nbs/01_msmarco-linker.ipynb 5
-os.environ['CUDA_VISIBLE_DEVICES'] = '4,5'
+os.environ['HIP_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-linker'
 
 # %% ../nbs/01_msmarco-linker.ipynb 20
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/01-msmarco-gpt-entity-linker-001'
+    output_dir = '/data/outputs/mogicX/01-msmarco-gpt-entity-linker-001'
 
-    config_file = '/home/aiscuser/scratch1/datasets/msmarco/XC/configs/entity_gpt_exact.json'
+    config_file = '/data/datasets/msmarco/XC/configs/entity_gpt_exact.json'
     config_key = 'data_entity-gpt_exact'
     
     mname = 'sentence-transformers/msmarco-distilbert-dot-v5'
@@ -29,7 +29,6 @@ if __name__ == '__main__':
     
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
     pkl_file = f'{pkl_file}_exact'
-    
     pkl_file = f'{pkl_file}.joblib'
 
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
@@ -45,7 +44,7 @@ if __name__ == '__main__':
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
-        evaluation_strategy="steps",
+        eval_strategy="steps",
         eval_steps=5000,
         save_steps=5000,
         save_total_limit=5,
@@ -82,14 +81,22 @@ if __name__ == '__main__':
     def init_fn(model): 
         model.init_dr_head()
 
-    if input_args.save_train_prediction or input_args.save_test_prediction:
-        linker_block = block.linker_dset('ent_meta', remove_empty=False)
-        linker_block.train.dset = linker_block.inference_dset(linker_block.train.dset.data.data_info, linker_block.train.dset.data.data_lbl, 
-                                                              linker_block.train.dset.data.lbl_info, linker_block.train.dset.data.data_lbl_filterer)
-        linker_block.test.dset = linker_block.inference_dset(linker_block.test.dset.data.data_info, linker_block.test.dset.data.data_lbl, 
-                                                             linker_block.test.dset.data.lbl_info, linker_block.test.dset.data.data_lbl_filterer)
-    else:
-        linker_block = block.linker_dset('ent_meta')
+    # if input_args.save_train_prediction or input_args.save_test_prediction:
+    #     linker_block = block.linker_dset('ent_meta', remove_empty=False)
+    #     linker_block.train.dset = linker_block.inference_dset(linker_block.train.dset.data.data_info, linker_block.train.dset.data.data_lbl, 
+    #                                                           linker_block.train.dset.data.lbl_info, linker_block.train.dset.data.data_lbl_filterer)
+    #     linker_block.test.dset = linker_block.inference_dset(linker_block.test.dset.data.data_info, linker_block.test.dset.data.data_lbl, 
+    #                                                          linker_block.test.dset.data.lbl_info, linker_block.test.dset.data.data_lbl_filterer)
+    # else:
+    #     linker_block = block.linker_dset('ent_meta')
+
+    linker_block = block.linker_dset('ent_meta')
+
+    # linker_block = block.linker_dset('ent_meta', remove_empty=False)
+    # linker_block.train.dset = linker_block.inference_dset(linker_block.train.dset.data.data_info, linker_block.train.dset.data.data_lbl, 
+    #                                                       linker_block.train.dset.data.lbl_info, linker_block.train.dset.data.data_lbl_filterer)
+    # linker_block.test.dset = linker_block.inference_dset(linker_block.test.dset.data.data_info, linker_block.test.dset.data.data_lbl, 
+    #                                                      linker_block.test.dset.data.lbl_info, linker_block.test.dset.data.data_lbl_filterer)
 
     metric = PrecReclMrr(linker_block.n_lbl, linker_block.test.data_lbl_filterer, prop=linker_block.train.dset.data.data_lbl,
                          pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
@@ -108,5 +115,5 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=linker_block.n_lbl)
+    main(learn, input_args, n_lbl=linker_block.n_lbl, eval_k=10, train_k=10)
     

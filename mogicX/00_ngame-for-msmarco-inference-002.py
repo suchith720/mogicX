@@ -15,16 +15,16 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 20
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/00_ngame-for-msmarco-001'
+    output_dir = '/home/scai/phd/aiz218323/scratch/outputs/mogicX/00_ngame-for-msmarco-002'
 
-    config_file = '/home/aiscuser/scratch1/datasets/msmarco/XC/configs/entity_gpt.json'
-    config_key = 'data_entity-gpt'
+    config_file = '/home/scai/phd/aiz218323/scratch/datasets/msmarco/XC/configs/data.json'
+    config_key = 'data'
 
     mname = 'sentence-transformers/msmarco-distilbert-dot-v5'
 
     input_args = parse_args()
 
-    pkl_file = f'{input_args.pickle_dir}/mogicX/msmarco_data-entity-gpt_distilbert-base-uncased'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/msmarco_data_distilbert-base-uncased'
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
     pkl_file = f'{pkl_file}.joblib'
@@ -42,7 +42,7 @@ if __name__ == '__main__':
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
-        evaluation_strategy="steps",
+        eval_strategy="steps",
         eval_steps=5000,
         save_steps=5000,
         save_total_limit=5,
@@ -98,5 +98,5 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
 
-    main(learn, input_args, n_lbl=block.test.dset.n_lbl)
+    main(learn, input_args, n_lbl=block.test.dset.n_lbl, eval_k=10, train_k=10)
 

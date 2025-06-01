@@ -62,7 +62,7 @@ if __name__ == '__main__':
         scores, idxs = [], []
         for idx in tqdm(range(0, len(queries), batch_size)):
             query_embed = model.encode(queries[idx:idx+batch_size], batch_size=batch_size, convert_to_tensor=True, device=device)
-            sc = util.cos_sim(query_embed, lbl_embed)
+            sc = util.dot_score(query_embed, lbl_embed)
             sc, idx = torch.topk(sc, k=topk, largest=True)
         
             scores.append(sc.to('cpu'))

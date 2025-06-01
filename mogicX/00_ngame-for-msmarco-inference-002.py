@@ -4,18 +4,21 @@
 __all__ = []
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 3
-import os,torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
+import os
+os.environ['HIP_VISIBLE_DEVICES'] = '4,5,6,7,8,9,10,11'
+
+import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 5
-os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3,4,5,6,7'
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 20
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/00_ngame-for-msmarco-001'
+    # output_dir = '/home/aiscuser/scratch1/outputs/mogicX/00_ngame-for-msmarco-001'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/00_ngame-for-msmarco-003'
 
     config_file = '/data/datasets/msmarco/XC/configs/entity_gpt.json'
     config_key = 'data_entity-gpt'
@@ -104,4 +107,3 @@ if __name__ == '__main__':
     )
     
     main(learn, input_args, n_lbl=block.test.dset.n_lbl)
-    

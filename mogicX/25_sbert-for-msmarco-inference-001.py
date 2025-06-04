@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/25_sbert-for-msmarco-inference.ipynb 3
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '15'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 from sentence_transformers import SentenceTransformer, util
@@ -19,11 +19,11 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
 # %% ../nbs/25_sbert-for-msmarco-inference.ipynb 22
 if __name__ == '__main__':
-    output_dir = '/data/outputs/mogicX/25_sbert-for-msmarco-inference-001'
+    output_dir = '/home/scai/phd/aiz218323/scratch/outputs/mogicX/25_sbert-for-msmarco-inference-001'
     os.makedirs(output_dir, exist_ok=True)
 
-    config_file = '/data/datasets/msmarco/XC/configs/entity_gpt.json'
-    config_key = 'data_entity-gpt'
+    config_file = '/home/scai/phd/aiz218323/scratch/datasets/msmarco/XC/configs/data.json'
+    config_key = 'data'
 
     # config_file = '/data/datasets/msmarco/XC/configs/entity_gpt_exact.json'
     # config_key = 'data_entity-gpt_exact'
@@ -31,19 +31,19 @@ if __name__ == '__main__':
     mname = 'sentence-transformers/msmarco-distilbert-dot-v5'
 
     topk = 300
-    batch_size = 256
+    batch_size = 128
     device = 'cuda'
 
     input_args = parse_args()
 
-    pkl_file = f'{input_args.pickle_dir}/mogicX/msmarco_data-entity-gpt_distilbert-base-uncased'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/msmarco_data_distilbert-base-uncased'
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
     # pkl_file = f'{pkl_file}_exact'
     pkl_file = f'{pkl_file}.joblib'
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
-    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
+    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block,
                         only_test=input_args.only_test)
 
     model = SentenceTransformer(mname, device=device)
@@ -52,22 +52,22 @@ if __name__ == '__main__':
     labels = block.test.dset.data.lbl_info['input_text']
 
     with torch.no_grad():
-        # lbl_embed = [model.encode(labels[idx:idx+batch_size], batch_size=batch_size, convert_to_tensor=True, device=device) for idx in tqdm(range(0, len(labels), batch_size))]
-        # lbl_embed = torch.cat(lbl_embed, dim=0)
+        lbl_embed = [model.encode(labels[idx:idx+batch_size], batch_size=batch_size, convert_to_tensor=True, device=device) for idx in tqdm(range(0, len(labels), batch_size))]
+        lbl_embed = torch.cat(lbl_embed, dim=0)
 
         fname = f'{output_dir}/lbl_repr.pth'
-        # torch.save(lbl_embed, fname)
-        lbl_embed = torch.load(fname)
+        torch.save(lbl_embed, fname)
+        # lbl_embed = torch.load(fname)
 
         scores, idxs = [], []
         for idx in tqdm(range(0, len(queries), batch_size)):
             query_embed = model.encode(queries[idx:idx+batch_size], batch_size=batch_size, convert_to_tensor=True, device=device)
-            sc = util.cos_sim(query_embed, lbl_embed)
+            sc = util.dot_score(query_embed, lbl_embed)
             sc, idx = torch.topk(sc, k=topk, largest=True)
-        
+
             scores.append(sc.to('cpu'))
             idxs.append(idx.to('cpu'))
-    
+
         scores = torch.cat(scores, dim=0)
         idxs = torch.cat(idxs, dim=0)
         indptr = torch.arange(0, (scores.shape[0]+1) * topk, topk)
@@ -79,4 +79,4 @@ if __name__ == '__main__':
     print('Ground-truth matrix: ', data_lbl.shape[0], ' x ', data_lbl.shape[1])
 
     print(mrr(pred_mat, data_lbl, k=[10]))
-    
+

@@ -153,4 +153,6 @@ d = { 'settings': { 'branch': 'main',
                                                                                                                                          'mogicX/30_ngame-for-msmarco-with-hard-negatives.py'),
                                                                  'mogicX.30_ngame-for-msmarco-with-hard-negatives.DBT021.forward': ( 'ngame-for-msmarco-with-hard-negatives.html#dbt021.forward',
                                                                                                                                      'mogicX/30_ngame-for-msmarco-with-hard-negatives.py')},
+            'mogicX.33_ngame-mteb-inference': { 'mogicX.33_ngame-mteb-inference.parse_args': ( 'ngame-mteb-inference.html#parse_args',
+                                                                                               'mogicX/33_ngame-mteb-inference.py')},
             'mogicX.core': {'mogicX.core.foo': ('core.html#foo', 'mogicX/core.py')}}}

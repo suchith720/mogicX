@@ -6,6 +6,8 @@ __all__ = ['DBT021']
 # %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 3
 import os,torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
+from transformers import DistilBertConfig
+
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
@@ -35,25 +37,28 @@ class DBT021(DBT009):
                                                  reduce='mean')
 
     def _get_scores(self, data_repr:torch.Tensor, lbl2data_repr:torch.Tensor, neg2data_repr:Optional[torch.Tensor]=None):
-        bsz = data_repr.shape[0]
-        n_meta = neg2data_repr.shape[0] // bsz
-    
         lbl_scores = data_repr @ lbl2data_repr.T
 
         neg_scores = None
         if neg2data_repr is not None:
+            bsz = data_repr.shape[0]
+            n_meta = neg2data_repr.shape[0] // bsz
+
             neg_scores = data_repr.unsqueeze(1) @ neg2data_repr.view(bsz, n_meta, -1).transpose(1, 2)
             neg_scores = neg_scores.squeeze(1)
-        
+
         return lbl_scores if neg_scores is None else torch.hstack([lbl_scores, neg_scores])
 
     def _get_indices(self, lbl2data_idx:torch.Tensor, neg2data_idx:Optional[torch.Tensor]=None):
         bsz = len(lbl2data_idx)
-        n_meta = len(neg2data_idx) // bsz
-        
+
         lbl_idx = torch.repeat_interleave(lbl2data_idx.unsqueeze(0), bsz, 0)
-        neg_idx = None if neg2data_idx is None else neg2data_idx.view(bsz, n_meta)
-        
+
+        neg_idx = None
+        if neg2data_idx is not None:
+            n_meta = len(neg2data_idx) // bsz
+            neg_idx = neg2data_idx.view(bsz, n_meta)
+
         return lbl_idx if neg_idx is None else torch.hstack([lbl_idx, neg_idx])
     
     def forward(
@@ -117,7 +122,7 @@ class DBT021(DBT009):
         )
         
 
-# %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 54
+# %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 55
 if __name__ == '__main__':
     output_dir = '/scratch/scai/phd/aiz218323/outputs/mogicX/30_ngame-for-msmarco-with-hard-negatives'
 

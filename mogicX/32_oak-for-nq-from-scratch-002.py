@@ -5,8 +5,8 @@ __all__ = []
 
 # %% ../nbs/01_cachew-for-wikiseealsotitles-with-meta-loss.ipynb 3
 import os
-# os.environ['HIP_VISIBLE_DEVICES'] = '0,1'
-os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3,4,5'
+os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3'
+# os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3,4,5'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
@@ -18,57 +18,24 @@ from xcai.models.oak import OAK003
 # %% ../nbs/01_cachew-for-wikiseealsotitles-with-meta-loss.ipynb 5
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-search-04'
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--build_block', action='store_true')
-    parser.add_argument('--use_pretrained', action='store_true')
-    
-    parser.add_argument('--do_train_inference', action='store_true')
-    parser.add_argument('--do_test_inference', action='store_true')
-    
-    parser.add_argument('--save_train_prediction', action='store_true')
-    parser.add_argument('--save_test_prediction', action='store_true')
-    parser.add_argument('--save_label_prediction', action='store_true')
-    
-    parser.add_argument('--save_representation', action='store_true')
-    
-    parser.add_argument('--use_sxc_sampler', action='store_true')
-    parser.add_argument('--only_test', action='store_true')
-
-    parser.add_argument('--pickle_dir', type=str, required=True)
-    
-    parser.add_argument('--prediction_suffix', type=str, default='')
-
-    parser.add_argument('--exact', action='store_true')
-    
-    return parser.parse_args()
-
 # %% ../nbs/01_cachew-for-wikiseealsotitles-with-meta-loss.ipynb 7
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/32_oak-for-msmarco-from-scratch-001'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/32_oak-for-nq-from-scratch-002'
 
     input_args = parse_args()
 
     data_dir = None
 
-    if input_args.exact:
-        config_file = 'configs/23_oak-for-msmarco-with-gpt-entity-linker-002_entity-gpt-exact.json'
-        config_key = 'data_entity-gpt_exact'
-    else:
-        config_file = 'configs/23_oak-for-msmarco-with-gpt-entity-linker-002_entity-gpt.json'
-        config_key = 'data_entity-gpt'
+    config_file = '/home/aiscuser/scratch1/datasets/nq/XC/configs/data_entity-gpt_ngame_kaggle.json'
+    config_key = 'data_entity-gpt-ngame_kaggle'
 
     mname = 'distilbert-base-uncased'
-    meta_name = 'lnk'
+    meta_name = 'ent'
     meta_embed_init_file = '/data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/predictions/label_repr_full.pth'
 
-    if input_args.exact:
-        pkl_file = f'{input_args.pickle_dir}/mogicX/msmarco_data-23-oak-for-msmarco-with-gpt-entity-linker-002-entity-gpt-exact_distilbert-base-uncased'
-    else:
-        pkl_file = f'{input_args.pickle_dir}/mogicX/msmarco_data-23-oak-for-msmarco-with-gpt-entity-linker-002-entity-gpt_distilbert-base-uncased'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/nq_data-entity-gpt-ngame-kaggle_distilbert-base-uncased'
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
-    if input_args.exact: pkl_file = f'{pkl_file}_exact'
     pkl_file = f'{pkl_file}.joblib'
 
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
@@ -81,8 +48,8 @@ if __name__ == '__main__':
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
-        per_device_train_batch_size=800,
-        per_device_eval_batch_size=800,
+        per_device_train_batch_size=400,
+        per_device_eval_batch_size=400,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
@@ -154,10 +121,10 @@ if __name__ == '__main__':
         model = OAK003.from_pretrained(mname, batch_size=bsz, num_batch_labels=5000,
                 margin=0.3, num_negatives=10, tau=0.1, apply_softmax=True,
                                            
-                data_aug_meta_prefix='lnk2data', lbl2data_aug_meta_prefix=None,
+                data_aug_meta_prefix=f'{meta_name}2data', lbl2data_aug_meta_prefix=None,
                 data_pred_meta_prefix=None, lbl2data_pred_meta_prefix=None,
                 
-                num_metadata=block.test.dset.meta['lnk_meta'].n_meta, resize_length=5000,
+                num_metadata=block.test.dset.meta[f'{meta_name}_meta'].n_meta, resize_length=5000,
                 
                 calib_margin=0.05, calib_num_negatives=10, calib_tau=0.1, calib_apply_softmax=False,
                 calib_loss_weight=0.1, use_calib_loss=True,
@@ -179,8 +146,8 @@ if __name__ == '__main__':
         model.encoder.set_pretrained_meta_embeddings(meta_embeddings)
         model.encoder.freeze_pretrained_meta_embeddings()
 
-    metric = PrecReclMrr(block.n_lbl, block.test.data_lbl_filterer, prop=None if block.train is None else block.train.dset.data.data_lbl,
-                         pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
+    metric = PrecReclMrr(block.test.dset.data.n_lbl, block.test.data_lbl_filterer, prop=None, pk=10, rk=200, 
+            rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
 
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
@@ -196,5 +163,5 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
 
-    main(learn, input_args, n_lbl=block.n_lbl)
+    main(learn, input_args, n_lbl=block.test.dset.data.n_lbl)
     

@@ -5,8 +5,8 @@ __all__ = []
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 3
 import os
-# os.environ['HIP_VISIBLE_DEVICES'] = '2,3'
-os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9,10,11'
+os.environ['HIP_VISIBLE_DEVICES'] = '4,5,6,7'
+# os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9,10,11'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
@@ -16,51 +16,20 @@ from xcai.models.PPP0XX import DBT009,DBT011
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 5
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-search-04'
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--build_block', action='store_true')
-    parser.add_argument('--use_pretrained', action='store_true')
-    
-    parser.add_argument('--do_train_inference', action='store_true')
-    parser.add_argument('--do_test_inference', action='store_true')
-    
-    parser.add_argument('--save_train_prediction', action='store_true')
-    parser.add_argument('--save_test_prediction', action='store_true')
-    parser.add_argument('--save_label_prediction', action='store_true')
-    
-    parser.add_argument('--save_representation', action='store_true')
-    
-    parser.add_argument('--use_sxc_sampler', action='store_true')
-    parser.add_argument('--only_test', action='store_true')
-
-    parser.add_argument('--pickle_dir', type=str, required=True)
-    
-    parser.add_argument('--prediction_suffix', type=str, default='')
-
-    parser.add_argument('--exact', action='store_true')
-    
-    return parser.parse_args()
-
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 20
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/31_ngame-for-msmarco-from-scratch-001'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/31_ngame-for-nq-from-scratch-002'
 
     input_args = parse_args()
 
-    if input_args.exact:
-        config_file = '/data/datasets/msmarco/XC/configs/data_exact.json'
-        config_key = 'data_exact'
-    else:
-        config_file = '/data/datasets/msmarco/XC/configs/data.json'
-        config_key = 'data'
+    config_file = '/home/aiscuser/scratch1/datasets/nq/XC/configs/data_kaggle.json'
+    config_key = 'data_kaggle'
 
     mname = 'distilbert-base-uncased'
-    # mname = 'sentence-transformers/msmarco-distilbert-cos-v5'
 
-    pkl_file = f'{input_args.pickle_dir}/mogicX/msmarco_data_distilbert-base-uncased'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/nq_data-kaggle_distilbert-base-uncased'
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
-    if input_args.exact: pkl_file = f'{pkl_file}_exact'
     pkl_file = f'{pkl_file}.joblib'
 
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
@@ -72,8 +41,8 @@ if __name__ == '__main__':
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
-        per_device_train_batch_size=800,
-        per_device_eval_batch_size=800,
+        per_device_train_batch_size=400,
+        per_device_eval_batch_size=400,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
@@ -117,8 +86,8 @@ if __name__ == '__main__':
     def init_fn(model): 
         model.init_dr_head()
 
-    metric = PrecReclMrr(block.n_lbl, block.test.data_lbl_filterer, prop=None if block.train is None else block.train.dset.data.data_lbl, 
-            pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
+    metric = PrecReclMrr(block.test.dset.data.n_lbl, block.test.data_lbl_filterer, prop=None, pk=10, rk=200, rep_pk=[1, 3, 5, 10], 
+            rep_rk=[10, 100, 200], mk=[5, 10, 20])
 
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
@@ -134,5 +103,5 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=block.test.dset.n_lbl)
+    main(learn, input_args, n_lbl=block.test.dset.data.n_lbl)
     

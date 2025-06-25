@@ -5,12 +5,17 @@ __all__ = ['parse_args']
 
 # %% ../nbs/33_ngame-mteb-inference.ipynb 3
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3'
+os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3,4,5'
+os.environ["NCCL_DEBUG"] = "NONE"
+os.environ["ROCM_DISABLE_WARNINGS"] = "1"
+os.environ["MIOPEN_LOG_LEVEL"] = "0"
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
 from transformers import DistilBertConfig
 
+from xcai.sdata import *
+from xcai.core import Info
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
@@ -45,7 +50,7 @@ def parse_args():
 
 # %% ../nbs/33_ngame-mteb-inference.ipynb 32
 if __name__ == '__main__':
-    output_dir = '/data/outputs/mogicX/00_ngame-for-msmarco-004'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/31_ngame-for-msmarco-from-scratch-001'
     
     input_args = parse_args()
 
@@ -100,6 +105,9 @@ if __name__ == '__main__':
         use_encoder_parallel=True,
         max_grad_norm=None,
         fp16=True,
+
+        use_cpu_for_searching=True,
+        use_cpu_for_clustering=True,
     )
 
     def model_fn(mname, bsz):
@@ -110,8 +118,8 @@ if __name__ == '__main__':
     def init_fn(model): 
         model.init_dr_head()
 
-    metric = PrecReclMrr(block.test.dset.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, rep_pk=[1, 3, 5, 10], 
-            rep_rk=[10, 100, 200], mk=[5, 10, 20])
+    metric = PrecReclMrr(block.n_lbl, block.test.data_lbl_filterer, prop=None if block.train is None else block.train.dset.data.data_lbl, 
+            pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
 
     bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
@@ -121,6 +129,7 @@ if __name__ == '__main__':
     learn = XCLearner(
         model=model,
         args=args,
+        train_dataset=None if block.train is None else block.train.dset,
         eval_dataset=block.test.dset,
         data_collator=block.collator,
         compute_metrics=metric,

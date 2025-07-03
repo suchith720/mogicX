@@ -5,7 +5,7 @@ __all__ = ['parse_args']
 
 # %% ../nbs/33_ngame-mteb-inference.ipynb 3
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '2,3,4,5,6,7'
+os.environ['HIP_VISIBLE_DEVICES'] = '8,9,10,11,12,13'
 os.environ["NCCL_DEBUG"] = "NONE"
 os.environ["ROCM_DISABLE_WARNINGS"] = "1"
 os.environ["MIOPEN_LOG_LEVEL"] = "0"
@@ -21,6 +21,18 @@ from xcai.models.oak import OAK003
 
 # %% ../nbs/33_ngame-mteb-inference.ipynb 5
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
+
+from typing import List
+
+from fastcore.meta import *
+from fastcore.utils import *
+
+entity_mapper = joblib.load('/data/from_b/wiki-entity_2_entity-gpt.joblib')
+
+@patch
+def _store_indices(self:SMetaXCDataset):
+    if self.data_meta is not None: self.curr_data_meta = [[entity_mapper[x] for x in o.indices.tolist()] for o in self.data_meta]
+    if self.lbl_meta is not None: self.curr_lbl_meta = [[entity_mapper[x] for x in o.indices.tolist()] for o in self.lbl_meta]
 
 # %% ../nbs/33_ngame-mteb-inference.ipynb 7
 def parse_args():
@@ -51,14 +63,14 @@ def parse_args():
 # %% ../nbs/33_ngame-mteb-inference.ipynb 32
 if __name__ == '__main__':
     output_dir = '/home/aiscuser/scratch1/outputs/mogicX/32_oak-for-msmarco-from-scratch-001'
-    
+
     input_args = parse_args()
 
     data_dir = None
 
     config_file = f'/home/aiscuser/scratch1/datasets/{input_args.dataset}/XC/configs/data_entity-gpt_ngame.json'
     config_key = 'data_entity-gpt-ngame'
-
+    
     meta_name = 'ent'
     mname = 'sentence-transformers/msmarco-distilbert-cos-v5'
     meta_embed_init_file = '/data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/predictions/label_repr_full.pth'
@@ -74,6 +86,21 @@ if __name__ == '__main__':
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test, 
                         n_slbl_samples=1, main_oversample=False, n_sdata_meta_samples=5, meta_oversample=False, train_meta_topk=5, test_meta_topk=3, 
                         data_dir=data_dir)
+
+    # wiki entity
+    pkl_file = '/data/from_b/wiki-entity_meta-info.joblib'
+    meta_info = joblib.load(pkl_file)
+    data_meta = sp.load_npz(f"/home/aiscuser/scratch1/datasets/{input_args.dataset}/XC/wiki-entity_ngame_tst_X_Y.npz")
+    lbl_meta = sp.load_npz(f"/home/aiscuser/scratch1/datasets/{input_args.dataset}/XC/wiki-entity_ngame_lbl_X_Y.npz")
+    meta = block.test.dset.meta['ent_meta']
+
+    meta_dset = SMetaXCDataset(prefix='ent', data_meta=data_meta, lbl_meta=lbl_meta, meta_info=meta_info,
+            n_data_meta_samples=meta.n_data_meta_samples, n_lbl_meta_samples=meta.n_lbl_meta_samples,
+            meta_info_keys=meta.meta_info_keys, n_sdata_meta_samples=meta.n_sdata_meta_samples, 
+            n_slbl_meta_samples=meta.n_slbl_meta_samples, meta_oversample=meta.meta_oversample, 
+            use_meta_distribution=meta.use_meta_distribution)
+    test_dset = SXCDataset(block.test.dset.data, **{'ent_meta': meta_dset})
+    # wiki entity
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -188,7 +215,7 @@ if __name__ == '__main__':
         model=model,
         args=args,
         train_dataset=None if block.train is None else block.train.dset,
-        eval_dataset=block.test.dset,
+        eval_dataset=test_dset,
         data_collator=block.collator,
         compute_metrics=metric,
     )

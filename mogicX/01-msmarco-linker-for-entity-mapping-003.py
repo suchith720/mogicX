@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/01_msmarco-linker.ipynb 3
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9'
+os.environ['HIP_VISIBLE_DEVICES'] = '2,3,4,5'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
@@ -36,7 +36,6 @@ def parse_args():
     
     parser.add_argument('--prediction_suffix', type=str, default='')
     
-    parser.add_argument('--dataset', type=str, required=True)
     return parser.parse_args()
 
 # %% ../nbs/01_msmarco-linker.ipynb 20
@@ -45,53 +44,50 @@ if __name__ == '__main__':
 
     input_args = parse_args()
 
-    config_file = '/home/aiscuser/scratch1/datasets/{input_args.dataset}/XC/data.json'
-    config_key = 'data'
-    
+    config_file = '/data/datasets/msmarco/XC/configs/data_exact.json'
+    config_key = 'data_exact'
+
     mname = 'sentence-transformers/msmarco-distilbert-dot-v5'
 
-    pkl_file = f'{input_args.pickle_dir}/mogicX/{input_args.dataset}_data_distilbert-base-uncased'
+    pkl_file = f'{input_args.pickle_dir}/mogicX/msmarco_data_distilbert-base-uncased'
     pkl_file = f'{pkl_file}_sxc' if input_args.use_sxc_sampler else f'{pkl_file}_xcs'
     if input_args.only_test: pkl_file = f'{pkl_file}_only-test'
+    pkl_file = f'{pkl_file}_exact'
     pkl_file = f'{pkl_file}.joblib'
 
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
-    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block)
+    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test, 
+            n_slbl_samples=1, main_oversample=False)
 
     # entity information
-    fname = '/data/datasets/msmarco/XC/raw_data/entity_gpt.raw.txt'
-    meta_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
-            tokenization_column="input_text", use_tokenizer=True, tokenizer="sentence-transformers/msmarco-distilbert-dot-v5")
-    linker_dset = SXCDataset(SMainXCDataset(data_info=block.test.dset.data.data_info, lbl_info=meta_info))
+    pkl_file = '/data/from_b/wiki-entity_meta-info.joblib'
+    if os.path.exists(pkl_file):
+        meta_info_1 = joblib.load(pkl_file)
+    else:
+        fname = '/data/from_b/wiki_entity.raw.csv'
+        meta_info_1 = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
+                tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
+        joblib.dump(meta_info_1, pkl_file)
 
-    lbl_pred = sp.csr_matrix((block.n_lbl, len(meta_info['identifier'])), dtype=np.float32)
-    sp.save_npz(f'{output_dir}/predictions/label_predictions_{input_args.dataset}.npz', lbl_pred)
-    # entity information
+    pkl_file = '/data/from_b/entity-gpt_meta-info.joblib'
+    if os.path.exists(pkl_file):
+        meta_info_2 = joblib.load(pkl_file)
+    else:
+        fname = '/data/datasets/msmarco/XC/raw_data/entity_gpt.raw.txt'
+        meta_info_2 = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
+                tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
+        joblib.dump(meta_info_2, pkl_file)
 
-    # entity information
-    # fname = '/data/datasets/msmarco/XC/raw_data/entity_gpt.raw.txt'
-    # meta_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
-    #         tokenization_column="input_text", use_tokenizer=True, tokenizer="sentence-transformers/msmarco-distilbert-dot-v5")
-
-    # fname = '/home/aiscuser/scratch1/datasets/nq/XC/raw_data/train.raw.csv'
-    # data_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
-    #         tokenization_column="input_text", use_tokenizer=True, tokenizer="sentence-transformers/msmarco-distilbert-dot-v5")
-
-    # linker_dset = SXCDataset(SMainXCDataset(data_info=data_info, lbl_info=meta_info))
-
-    # fname = '/home/aiscuser/scratch1/datasets/nq/XC/raw_data/label.kaggle.raw.csv'
-    # lbl_info = Info.from_txt(fname, info_column_names=["identifier", "input_text"])
-    # lbl_pred = sp.csr_matrix((len(lbl_info['identifier']), len(meta_info['identifier'])), dtype=np.float32)
-    # sp.save_npz(f'{output_dir}/predictions/train-label_predictions_{input_args.dataset}.npz', lbl_pred)
+    linker_dset = SXCDataset(SMainXCDataset(data_info=meta_info_1, lbl_info=meta_info_2))
     # entity information
 
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=800,
-        per_device_eval_batch_size=800,
+        per_device_eval_batch_size=2000,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
@@ -102,7 +98,8 @@ if __name__ == '__main__':
         num_train_epochs=300,
         predict_with_representation=True,
         representation_search_type='BRUTEFORCE',
-        adam_epsilon=1e-6,                                                                                                                                          warmup_steps=100,
+        adam_epsilon=1e-6,
+        warmup_steps=100,
         weight_decay=0.01,
         learning_rate=2e-6,
     
@@ -148,5 +145,11 @@ if __name__ == '__main__':
         data_collator=block.collator,
     )
     
-    main(learn, input_args, n_lbl=linker_dset.n_lbl, eval_k=10, train_k=10)
-    
+    trn_repr, tst_repr, lbl_repr, trn_pred, tst_pred = main(learn, input_args, n_lbl=linker_dset.data.n_lbl, eval_k=1, train_k=1)
+
+    assert len(tst_pred.indices) == tst_pred.shape[0]
+    entity_map = dict({p:q for p,q in enumerate(tst_pred.indices)})
+
+    pkl_file = '/data/from_b/wiki-entity_2_entity-gpt.joblib'
+    joblib.dump(entity_map, pkl_file)
+

@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/01_msmarco-linker.ipynb 3
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9'
+os.environ['HIP_VISIBLE_DEVICES'] = '12,13,14,15'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
@@ -45,9 +45,9 @@ if __name__ == '__main__':
 
     input_args = parse_args()
 
-    config_file = '/home/aiscuser/scratch1/datasets/{input_args.dataset}/XC/data.json'
+    config_file = f'/home/aiscuser/scratch1/datasets/{input_args.dataset}/XC/configs/data.json'
     config_key = 'data'
-    
+
     mname = 'sentence-transformers/msmarco-distilbert-dot-v5'
 
     pkl_file = f'{input_args.pickle_dir}/mogicX/{input_args.dataset}_data_distilbert-base-uncased'
@@ -58,40 +58,31 @@ if __name__ == '__main__':
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
-    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block)
+    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test)
 
     # entity information
-    fname = '/data/datasets/msmarco/XC/raw_data/entity_gpt.raw.txt'
-    meta_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
-            tokenization_column="input_text", use_tokenizer=True, tokenizer="sentence-transformers/msmarco-distilbert-dot-v5")
-    linker_dset = SXCDataset(SMainXCDataset(data_info=block.test.dset.data.data_info, lbl_info=meta_info))
+    pkl_file = '/data/from_b/wiki-entity_meta-info.joblib'
 
-    lbl_pred = sp.csr_matrix((block.n_lbl, len(meta_info['identifier'])), dtype=np.float32)
-    sp.save_npz(f'{output_dir}/predictions/label_predictions_{input_args.dataset}.npz', lbl_pred)
-    # entity information
+    if os.path.exists(pkl_file):
+        meta_info = joblib.load(pkl_file)
+    else:
+        fname = '/data/from_b/wiki_entity.raw.csv'
+        meta_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
+                tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
+        joblib.dump(meta_info, pkl_file)
 
-    # entity information
-    # fname = '/data/datasets/msmarco/XC/raw_data/entity_gpt.raw.txt'
-    # meta_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
-    #         tokenization_column="input_text", use_tokenizer=True, tokenizer="sentence-transformers/msmarco-distilbert-dot-v5")
+    tst_linker_dset = SXCDataset(SMainXCDataset(data_info=block.test.dset.data.data_info, lbl_info=meta_info))
+    trn_linker_dset = None if block.train is None else SXCDataset(SMainXCDataset(data_info=block.train.dset.data.data_info, lbl_info=meta_info))
 
-    # fname = '/home/aiscuser/scratch1/datasets/nq/XC/raw_data/train.raw.csv'
-    # data_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
-    #         tokenization_column="input_text", use_tokenizer=True, tokenizer="sentence-transformers/msmarco-distilbert-dot-v5")
-
-    # linker_dset = SXCDataset(SMainXCDataset(data_info=data_info, lbl_info=meta_info))
-
-    # fname = '/home/aiscuser/scratch1/datasets/nq/XC/raw_data/label.kaggle.raw.csv'
-    # lbl_info = Info.from_txt(fname, info_column_names=["identifier", "input_text"])
-    # lbl_pred = sp.csr_matrix((len(lbl_info['identifier']), len(meta_info['identifier'])), dtype=np.float32)
-    # sp.save_npz(f'{output_dir}/predictions/train-label_predictions_{input_args.dataset}.npz', lbl_pred)
+    lbl_pred = sp.csr_matrix((block.n_lbl, tst_linker_dset.data.n_lbl), dtype=np.float32)
+    sp.save_npz(f'{output_dir}/predictions/label_predictions_wiki-{input_args.dataset}.npz', lbl_pred)
     # entity information
 
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=800,
-        per_device_eval_batch_size=800,
+        per_device_eval_batch_size=2000,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
@@ -102,7 +93,8 @@ if __name__ == '__main__':
         num_train_epochs=300,
         predict_with_representation=True,
         representation_search_type='BRUTEFORCE',
-        adam_epsilon=1e-6,                                                                                                                                          warmup_steps=100,
+        adam_epsilon=1e-6,
+        warmup_steps=100,
         weight_decay=0.01,
         learning_rate=2e-6,
     
@@ -143,10 +135,10 @@ if __name__ == '__main__':
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=linker_dset,
-        eval_dataset=linker_dset,
+        train_dataset=tst_linker_dset if trn_linker_dset is None else trn_linker_dset,
+        eval_dataset=tst_linker_dset,
         data_collator=block.collator,
     )
     
-    main(learn, input_args, n_lbl=linker_dset.n_lbl, eval_k=10, train_k=10)
+    main(learn, input_args, n_lbl=tst_linker_dset.data.n_lbl, eval_k=10, train_k=10)
     

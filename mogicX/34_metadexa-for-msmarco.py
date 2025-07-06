@@ -15,7 +15,7 @@ from xcai.models.oakY import OAK008
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
-# %% ../nbs/34_metadexa-for-msmarco.ipynb 26
+# %% ../nbs/34_metadexa-for-msmarco.ipynb 33
 if __name__ == '__main__':
     output_dir = '/scratch/scai/phd/aiz218323/outputs/mogicX/34_metadexa-for-msmarco'
 
@@ -87,7 +87,7 @@ if __name__ == '__main__':
         
         label_names=['plbl2data_idx', 'plbl2data_data2ptr', 'lbl2data_idx', 'lbl2data_data2ptr', 'lbl2data_input_ids', 'lbl2data_attention_mask', 
                      f'{meta_name}2data_idx', f'{meta_name}2data_data2ptr', f'{meta_name}2data_input_ids', f'{meta_name}2data_attention_mask', 
-                     f'{meta_name}2data_dropout_mask'],
+                     f'{meta_name}2data_dropout_remove_mask', f'{meta_name}2data_dropout_replace_mask'],
         
         prune_metadata=False,
         num_metadata_prune_warmup_epochs=10,

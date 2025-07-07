@@ -3,7 +3,7 @@
 # %% auto 0
 __all__ = ['DBT021']
 
-# %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 3
+# %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 2
 import os,torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
 from transformers import DistilBertConfig
@@ -11,16 +11,15 @@ from transformers import DistilBertConfig
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
 
-# %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 5
+# %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 4
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
-# %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 37
+# %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 38
 from typing import Optional
-from xcai.losses import PKMMultiTripletFromScores
 from xcai.models.PPP0XX import XCModelOutput
 
-# %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 38
+# %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 39
 class DBT021(DBT009):
 
     def __init__(
@@ -33,45 +32,21 @@ class DBT021(DBT009):
         **kwargs
     ):
         super().__init__(config, margin=margin, tau=tau, apply_softmax=apply_softmax, n_negatives=n_negatives, **kwargs)
-        self.loss_fn = PKMMultiTripletFromScores(margin=margin, n_negatives=n_negatives, tau=tau, apply_softmax=apply_softmax, 
-                                                 reduce='mean')
-
-    def _get_scores(self, data_repr:torch.Tensor, lbl2data_repr:torch.Tensor, neg2data_repr:Optional[torch.Tensor]=None):
-        lbl_scores = data_repr @ lbl2data_repr.T
-
-        neg_scores = None
-        if neg2data_repr is not None:
-            bsz = data_repr.shape[0]
-            n_meta = neg2data_repr.shape[0] // bsz
-
-            neg_scores = data_repr.unsqueeze(1) @ neg2data_repr.view(bsz, n_meta, -1).transpose(1, 2)
-            neg_scores = neg_scores.squeeze(1)
-
-        return lbl_scores if neg_scores is None else torch.hstack([lbl_scores, neg_scores])
-
-    def _get_indices(self, lbl2data_idx:torch.Tensor, neg2data_idx:Optional[torch.Tensor]=None):
-        bsz = len(lbl2data_idx)
-
-        lbl_idx = torch.repeat_interleave(lbl2data_idx.unsqueeze(0), bsz, 0)
-
-        neg_idx = None
-        if neg2data_idx is not None:
-            n_meta = len(neg2data_idx) // bsz
-            neg_idx = neg2data_idx.view(bsz, n_meta)
-
-        return lbl_idx if neg_idx is None else torch.hstack([lbl_idx, neg_idx])
+        self.loss_fn = None
     
     def forward(
         self,
         data_input_ids:Optional[torch.Tensor]=None,
         data_attention_mask:Optional[torch.Tensor]=None,
+        
+        plbl2data_data2ptr:Optional[torch.Tensor]=None,
+        plbl2data_idx:Optional[torch.Tensor]=None,
+
         lbl2data_data2ptr:Optional[torch.Tensor]=None,
         lbl2data_idx:Optional[torch.Tensor]=None,
         lbl2data_input_ids:Optional[torch.Tensor]=None,
         lbl2data_attention_mask:Optional[torch.Tensor]=None,
-        plbl2data_data2ptr:Optional[torch.Tensor]=None,
-        plbl2data_idx:Optional[torch.Tensor]=None,
-
+        
         neg2data_data2ptr:Optional[torch.Tensor]=None,
         neg2data_idx:Optional[torch.Tensor]=None,
         neg2data_input_ids:Optional[torch.Tensor]=None,
@@ -99,18 +74,14 @@ class DBT021(DBT009):
                                                 output_attentions=output_attentions, 
                                                 output_hidden_states=output_hidden_states,
                                                 return_dict=return_dict)
-            neg2data_repr = None
+            
             if neg2data_input_ids is not None:
                 neg2data_o, neg2data_repr = encoder(neg2data_input_ids, neg2data_attention_mask,
                                                     output_attentions=output_attentions, 
                                                     output_hidden_states=output_hidden_states,
                                                     return_dict=return_dict)
-
-                assert torch.all(neg2data_data2ptr == neg2data_data2ptr.max()), f'All datapoints should have equal negatives'
+                loss = None
                 
-            scores, idx = self._get_scores(data_repr, lbl2data_repr, neg2data_repr), self._get_indices(lbl2data_idx, neg2data_idx)
-            loss = self.loss_fn(scores, idx, plbl2data_data2ptr, plbl2data_idx)
-
         if not return_dict:
             o = (data_repr, lbl2data_repr)
             return ((loss,) + o) if loss is not None else o
@@ -122,7 +93,7 @@ class DBT021(DBT009):
         )
         
 
-# %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 55
+# %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 58
 if __name__ == '__main__':
     output_dir = '/scratch/scai/phd/aiz218323/outputs/mogicX/30_ngame-for-msmarco-with-hard-negatives'
 

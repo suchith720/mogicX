@@ -37,6 +37,6 @@ python mogicX/25_sbert-for-msmarco-inference-001.py --use_sxc_sampler --pickle_d
 python mogicX/37_training-msmarco-distilbert-from-scratch-002.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --exact --do_test_inference --use_pretrained
 
 # MSMARCO distilbert inference
-python mogicX/37_training-msmarco-distilbert-from-scratch-inference.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --only_test --do_test_inference
+python mogicX/37_training-msmarco-distilbert-from-scratch-inference.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --only_test --do_test_inference --expt_no 8
 
 python mogicX/30_ngame-for-msmarco-with-hard-negatives-inference.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --only_test --do_test_inference

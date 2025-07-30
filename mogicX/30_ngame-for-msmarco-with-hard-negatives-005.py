@@ -5,8 +5,7 @@ __all__ = []
 
 # %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 2
 import os
-# os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9'
-os.environ['HIP_VISIBLE_DEVICES'] = '4,5,12,13'
+os.environ['HIP_VISIBLE_DEVICES'] = '12,13'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -20,39 +19,33 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
 # %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 6
 if __name__ == '__main__':
-    # output_dir = '/home/aiscuser/scratch1/outputs/mogicX/30_ngame-for-msmarco-with-hard-negatives-003'
-
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/30_ngame-for-msmarco-with-hard-negatives-004'
-    # output_dir = '/home/aiscuser/scratch1/outputs/mogicX/30_ngame-for-msmarco-with-hard-negatives-005'
-    # output_dir = '/home/aiscuser/scratch1/outputs/mogicX/30_ngame-for-msmarco-with-hard-negatives-006'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/30_ngame-for-msmarco-with-hard-negatives-005'
 
     input_args = parse_args()
     
-    if input_args.exact: 
-        raise ValueError("Arguement 'exact' is not allowed.")
-    
-    if not input_args.only_test:
-        raise ValueError("Arguement 'only_test' required.")
-    
-    config_file = '/data/datasets/msmarco/XC/configs/data.json'
-    config_key = 'data'
+    if input_args.exact:
+        config_file = '/data/datasets/msmarco/XC/configs/data_ce-negatives_exact.json'
+        config_key = 'data_exact'
+    else:
+        raise NotImplementedError('Create a configuration file for using all the labels.')
     
     mname = 'distilbert-base-uncased'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data-ce-negatives_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
 
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
-                        only_test=input_args.only_test, n_slbl_samples=1)
+                        only_test=input_args.only_test, main_oversample=False, meta_oversample=True, 
+                        n_slbl_samples=1, n_sdata_meta_samples=10)
 
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=1600,
+        per_device_eval_batch_size=800,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
@@ -60,13 +53,13 @@ if __name__ == '__main__':
         eval_steps=500,
         save_steps=500,
         save_total_limit=5,
-        num_train_epochs=300,
+        num_train_epochs=30,
         predict_with_representation=True,
         representation_search_type='BRUTEFORCE',
         adam_epsilon=1e-6,
         warmup_steps=100,
         weight_decay=0.01,
-        learning_rate=2e-5,
+        learning_rate=6e-6,
     
         group_by_cluster=True,
         num_clustering_warmup_epochs=10,
@@ -108,7 +101,7 @@ if __name__ == '__main__':
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=block.train.dset if block.train else block.test.dset,
+        train_dataset=block.train.dset,
         eval_dataset=block.test.dset,
         data_collator=block.collator,
         compute_metrics=metric,

@@ -17,7 +17,7 @@ from xcai.models.oak import OAK015
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
-# %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 22
+# %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 25
 if __name__ == '__main__':
     output_dir = '/scratch/scai/phd/aiz218323/outputs/mogicX/39_oak-for-msmarco-with-hard-negatives'
     
@@ -40,7 +40,8 @@ if __name__ == '__main__':
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
                         only_test=input_args.only_test, main_oversample=False, meta_oversample={'lnk_meta':False, 'neg_meta':True}, 
-                        n_slbl_samples=1, n_sdata_meta_samples={'lnk_meta':5, 'neg_meta':10})
+                        n_slbl_samples=1, n_sdata_meta_samples={'lnk_meta':5, 'neg_meta':10}, 
+                        train_meta_topk={"lnk_meta":5}, test_meta_topk={"lnk_meta":5})
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -88,8 +89,7 @@ if __name__ == '__main__':
         max_grad_norm=None,
         fp16=True,
         
-        label_names=['plbl2data_idx', 'plbl2data_data2ptr', 'lbl2data_idx', 'lbl2data_data2ptr', 'lbl2data_input_ids', 'lbl2data_attention_mask', 
-                     f'{meta_name}2data_idx', f'{meta_name}2data_data2ptr'],
+        label_names=[f'{meta_name}2data_idx', f'{meta_name}2data_data2ptr'],
         
         prune_metadata=False,
         num_metadata_prune_warmup_epochs=10,

@@ -23,41 +23,42 @@ if __name__ == '__main__':
     input_args = parse_args()
 
     if input_args.exact:
-        config_file = '/home/scai/phd/aiz218323/scratch/datasets/msmarco/XC/configs/data_ce_exact.json'
+        config_file = '/home/scai/phd/aiz218323/scratch/datasets/msmarco/XC/configs/oak-for-msmarco-with-hard-negatives.json'
         config_key = 'data'
     else:
         raise NotImplementedError('Create a configuration file for using all the labels.')
-    
-    mname = 'distilbert-base-uncased'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data-ce_distilbert-base-uncased', input_args.use_sxc_sampler, 
-                            input_args.exact, input_args.only_test, use_nxc_sampler=input_args.use_nxc_sampler)
+    mname, meta_name = 'distilbert-base-uncased', 'lnk'
+    meta_embed_init_file = None
+
+    pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data-oak-for-msmarco-with-hard-negatives_distilbert-base-uncased', input_args.use_sxc_sampler, 
+                            input_args.exact, input_args.only_test)
 
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
-                        only_test=input_args.only_test, main_oversample=True, meta_oversample=True, return_scores=True, 
-                        n_slbl_samples=1, n_sdata_meta_samples=10, use_nxc=input_args.use_nxc_sampler)
+                        only_test=input_args.only_test, main_oversample=True, meta_oversample={'lnk_meta':False, 'neg_meta':True}, 
+                        n_slbl_samples=1, n_sdata_meta_samples={'lnk_meta':5, 'neg_meta':1}, return_scores=True)
 
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
-        per_device_train_batch_size=512,
-        per_device_eval_batch_size=512,
+        per_device_train_batch_size=800,
+        per_device_eval_batch_size=800,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
         eval_strategy="steps",
-        eval_steps=5000,
-        save_steps=5000,
+        eval_steps=500,
+        save_steps=500,
         save_total_limit=5,
-        num_train_epochs=300,
+        num_train_epochs=30,
         predict_with_representation=True,
         adam_epsilon=1e-6,
         warmup_steps=100,
         weight_decay=0.01,
-        learning_rate=2e-4,
+        learning_rate=6e-5,
         representation_search_type='BRUTEFORCE',
     
         output_representation_attribute='data_fused_repr',
@@ -114,8 +115,7 @@ if __name__ == '__main__':
     )
         
     def model_fn(mname):
-        model = OAK016.from_pretrained('sentence-transformers/msmarco-distilbert-base-v4', margin=0.3, num_negatives=5,
-                                       tau=0.1, apply_softmax=True,
+        model = OAK016.from_pretrained(mname, margin=0.3, num_negatives=10, tau=0.1, apply_softmax=True,
                                
                                        data_aug_meta_prefix=f'{meta_name}2data', lbl2data_aug_meta_prefix=None,
                                        neg2data_aug_meta_prefix=None,
@@ -127,12 +127,12 @@ if __name__ == '__main__':
         
                                        use_query_loss=True,
                                        
-                                       use_encoder_parallel=False, normalize=False)
+                                       use_encoder_parallel=True, normalize=False)
         return model
     
     def init_fn(model):
         model.init_retrieval_head()
-        model.init_cross_head()
+        # model.init_cross_head()
         model.init_meta_embeddings()
 
         meta_embeddings = torch.tensor(np.load(meta_embed_init_file), dtype=torch.float32)

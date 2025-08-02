@@ -124,9 +124,9 @@ if __name__ == '__main__':
                                        num_metadata=block.train.dset.meta[f'{meta_name}_meta'].n_meta, resize_length=5000,
                                        
                                        calib_margin=0.05, calib_num_negatives=10, calib_tau=0.1, calib_apply_softmax=False, 
-                                       calib_loss_weight=0.1, use_calib_loss=True,
+                                       calib_loss_weight=0.1, use_calib_loss=False,
         
-                                       use_query_loss=True,
+                                       use_query_loss=False,
                                        
                                        use_encoder_parallel=True, normalize=False)
         return model

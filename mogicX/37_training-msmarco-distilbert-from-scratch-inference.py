@@ -5,7 +5,8 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9'
+# os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9'
+os.environ['HIP_VISIBLE_DEVICES'] = '0,1,8,9'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
@@ -121,7 +122,7 @@ if __name__ == '__main__':
     )
 
     def model_fn(mname):
-        model = DBT023.from_pretrained(mname, normalize=input_args.use_normalized, use_encoder_parallel=True)
+        model = DBT023.from_pretrained(mname, normalize=input_args.use_normalized, use_layer_norm=True, use_encoder_parallel=True)
         return model
     
     def init_fn(model): 

@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 3
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '2,3'
+os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 from transformers import DistilBertConfig
@@ -29,7 +29,8 @@ if __name__ == '__main__':
         config_file = 'configs/39_oak-for-msmarco-with-hard-negatives_entity-gpt-linker_exact.json'
         config_key = 'data_entity-gpt_exact'
     else:
-        raise NotImplementedError('Create a configuration file for using all the labels.')
+        config_file = 'configs/39_oak-for-msmarco-with-hard-negatives_entity-gpt-linker.json'
+        config_key = 'data_entity-gpt'
     
     mname, meta_name = 'distilbert-base-uncased', 'lnk'
     meta_embed_init_file = '/data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/predictions/label_repr_full.pth'
@@ -124,7 +125,7 @@ if __name__ == '__main__':
                                        data_aug_meta_prefix=f'{meta_name}2data', lbl2data_aug_meta_prefix=None,
                                        neg2data_aug_meta_prefix=None,
                                        
-                                       num_metadata=block.train.dset.meta[f'{meta_name}_meta'].n_meta, resize_length=5000,
+                                       num_metadata=block.test.dset.meta[f'{meta_name}_meta'].n_meta, resize_length=5000,
                                        
                                        calib_margin=0.05, calib_num_negatives=10, calib_tau=0.1, calib_apply_softmax=False, 
                                        calib_loss_weight=0.1, use_calib_loss=True,
@@ -145,7 +146,7 @@ if __name__ == '__main__':
 
     model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
 
-    metric = PrecReclMrr(block.n_lbl, block.test.data_lbl_filterer, prop=block.train.dset.data.data_lbl,
+    metric = PrecReclMrr(block.n_lbl, block.test.data_lbl_filterer, prop=None if block.train is None else block.train.dset.data.data_lbl,
                          pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
     
     learn = XCLearner(

@@ -61,7 +61,7 @@ if __name__ == '__main__':
         adam_epsilon=1e-6,
         warmup_steps=100,
         weight_decay=0.01,
-        learning_rate=2e-6,
+        learning_rate=2e-5,
         representation_search_type='BRUTEFORCE',
     
         output_representation_attribute='data_fused_repr',
@@ -147,10 +147,6 @@ if __name__ == '__main__':
 
     metric = PrecReclMrr(block.test.dset.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, rep_pk=[1, 3, 5, 10], 
                          rep_rk=[10, 100, 200], mk=[5, 10, 20])
-
-    #debug
-    breakpoint()
-    #debug
 
     learn = XCLearner(
         model=model,

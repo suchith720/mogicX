@@ -8,6 +8,7 @@ import os
 os.environ['HIP_VISIBLE_DEVICES'] = '8,9,10,11'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
+import torch.nn.functional as F
 
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT009,DBT011
@@ -15,9 +16,11 @@ from xcai.models.PPP0XX import DBT009,DBT011
 # %% ../nbs/01_msmarco-linker.ipynb 5
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
-from xcai.models.PPP0XX import DBT009Encoder
+from xcai.models.PPP0XX import DBT009Encoder, Pooling
 
 from typing import Optional
+from transformers.activations import get_activation
+
 from fastcore.meta import *
 from fastcore.utils import *
 
@@ -28,34 +31,44 @@ def forward(
     attention_mask:Optional[torch.Tensor]=None,
     **kwargs
 ):
+    self.dr_activation = get_activation(self.config.activation)
+
     o = self.distilbert(
         input_ids=input_ids,
         attention_mask=attention_mask,
         **kwargs
     )
-    return o, o[0] 
 
+    rep = self.dr_transform(o[0])
+    rep = self.dr_activation(rep)
+    rep = self.dr_layer_norm(rep)
+    rep = self.dr_projector(rep)
+    # return o, Pooling.mean_pooling(rep, attention_mask)
+    return o, F.normalize(Pooling.mean_pooling(rep, attention_mask), dim=1)
 
 # %% ../nbs/01_msmarco-linker.ipynb 20
 if __name__ == '__main__':
-    config_file = '/data/datasets/msmarco/XC/configs/data.json'
-    config_key = 'data'
+    output_dir = '/data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/'
+
+    config_file = '/data/datasets/msmarco/XC/configs/entity_gpt_exact.json'
+    config_key = 'data_entity-gpt_exact'
     
     mname = 'distilbert-base-uncased'
 
     input_args = parse_args()
 
-    input_args.only_test, input_args.use_pretrained = True, True
-    pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    input_args.exact, input_args.only_test, input_args.do_test_inference, input_args.use_pretrained = True, True, True, False
+    pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data-entity-gpt_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
 
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block)
+    linker_block = block.linker_dset('ent_meta')
 
     args = XCLearningArguments(
-        output_dir='.',
+        output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=800,
         per_device_eval_batch_size=800,
@@ -103,12 +116,12 @@ if __name__ == '__main__':
     learn = XCLearner(
         model=model,
         args=args,
-        eval_dataset=block.test.dset,
+        eval_dataset=linker_block.test.dset,
         data_collator=block.collator,
     )
     
-    lbl_rep = learn._get_lbl_representation(block.test.dset, to_cpu=True)
+    ent_rep = learn._get_lbl_representation(linker_block.test.dset, to_cpu=True)
 
-    save_file = '/home/aiscuser/scratch1/datasets/lbl_repr.pth'
-    torch.save(lbl_rep, save_file)
+    save_file = '/home/aiscuser/scratch1/datasets/ent_repr_ln-norm_01-msmarco-gpt-entity-linker-001.pth'
+    torch.save(ent_rep, save_file)
     

@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 3
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3'
+os.environ['HIP_VISIBLE_DEVICES'] = '2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 from transformers import DistilBertConfig
@@ -21,7 +21,7 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
 # %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 7
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/39_oak-for-msmarco-with-hard-negatives-001'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/39_oak-for-msmarco-with-hard-negatives-003'
     
     input_args = parse_args()
 
@@ -34,8 +34,6 @@ if __name__ == '__main__':
     
     mname, meta_name = 'distilbert-base-uncased', 'lnk'
     meta_embed_init_file = '/data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/predictions/label_repr_full.pth'
-
-    mname = '/home/aiscuser/scratch1/outputs/mogicX/39_oak-for-msmarco-with-hard-negatives-001/checkpoint-58950/'
 
     pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data-oak-for-msmarco-with-hard-negatives_entity-gpt-linker_distilbert-base-uncased', 
             input_args.use_sxc_sampler, input_args.exact, input_args.only_test)
@@ -66,7 +64,7 @@ if __name__ == '__main__':
         adam_epsilon=1e-6,
         warmup_steps=100,
         weight_decay=0.01,
-        learning_rate=6e-6,
+        learning_rate=2e-5,
         representation_search_type='BRUTEFORCE',
     
         output_representation_attribute='data_fused_repr',
@@ -139,7 +137,7 @@ if __name__ == '__main__':
         
     def init_fn(model):
         model.init_retrieval_head()
-        # model.init_cross_head()
+        model.init_cross_head()
         model.init_meta_embeddings()
 
         meta_embeddings = torch.load(meta_embed_init_file)

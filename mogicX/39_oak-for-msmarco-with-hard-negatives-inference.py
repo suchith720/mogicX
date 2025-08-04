@@ -5,9 +5,10 @@ __all__ = []
 
 # %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 3
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3'
+os.environ['HIP_VISIBLE_DEVICES'] = '4,5,10,11'
+# os.environ['HIP_VISIBLE_DEVICES'] = '8,9,10,11'
 
-import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
+import torch, json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 from transformers import DistilBertConfig
 
 from xcai.main import *
@@ -19,23 +20,48 @@ from xcai.models.oak import OAK015
 # %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 5
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--build_block', action='store_true')
+    parser.add_argument('--use_pretrained', action='store_true')
+    
+    parser.add_argument('--do_train_inference', action='store_true')
+    parser.add_argument('--do_test_inference', action='store_true')
+    
+    parser.add_argument('--save_train_prediction', action='store_true')
+    parser.add_argument('--save_test_prediction', action='store_true')
+    parser.add_argument('--save_label_prediction', action='store_true')
+    
+    parser.add_argument('--save_representation', action='store_true')
+    
+    parser.add_argument('--use_sxc_sampler', action='store_true')
+    parser.add_argument('--only_test', action='store_true')
+
+    parser.add_argument('--pickle_dir', type=str, required=True)
+    
+    parser.add_argument('--prediction_suffix', type=str, default='')
+
+    parser.add_argument('--exact', action='store_true')
+    parser.add_argument('--dataset', type=str)
+
+    parser.add_argument('--expt_no', type=int, required=True)
+    
+    return parser.parse_args()
+
 # %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 7
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/39_oak-for-msmarco-with-hard-negatives-001'
-    
     input_args = parse_args()
 
-    if input_args.exact:
-        config_file = 'configs/39_oak-for-msmarco-with-hard-negatives_entity-gpt-linker_exact.json'
-        config_key = 'data_entity-gpt_exact'
-    else:
-        config_file = 'configs/39_oak-for-msmarco-with-hard-negatives_entity-gpt-linker.json'
-        config_key = 'data_entity-gpt'
+    output_dir = f'/home/aiscuser/scratch1/outputs/mogicX/39_oak-for-msmarco-with-hard-negatives-{input_args.expt_no:03d}'
+    print(f'Output directory: {output_dir}')
+
+    input_args.exact, input_args.do_test_inference, input_args.only_test = False, True, True
+
+    config_file = 'configs/39_oak-for-msmarco-with-hard-negatives_entity-gpt-linker.json'
+    config_key = 'data_entity-gpt'
     
     mname, meta_name = 'distilbert-base-uncased', 'lnk'
     meta_embed_init_file = '/data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/predictions/label_repr_full.pth'
-
-    mname = '/home/aiscuser/scratch1/outputs/mogicX/39_oak-for-msmarco-with-hard-negatives-001/checkpoint-58950/'
 
     pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data-oak-for-msmarco-with-hard-negatives_entity-gpt-linker_distilbert-base-uncased', 
             input_args.use_sxc_sampler, input_args.exact, input_args.only_test)
@@ -66,7 +92,7 @@ if __name__ == '__main__':
         adam_epsilon=1e-6,
         warmup_steps=100,
         weight_decay=0.01,
-        learning_rate=6e-6,
+        learning_rate=2e-5,
         representation_search_type='BRUTEFORCE',
     
         output_representation_attribute='data_fused_repr',
@@ -139,7 +165,7 @@ if __name__ == '__main__':
         
     def init_fn(model):
         model.init_retrieval_head()
-        # model.init_cross_head()
+        model.init_cross_head()
         model.init_meta_embeddings()
 
         meta_embeddings = torch.load(meta_embed_init_file)

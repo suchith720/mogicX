@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '4,5'
+os.environ['CUDA_VISIBLE_DEVICES'] = '6,7'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -15,7 +15,7 @@ from xcai.basics import *
 from xcai.models.oak import OAK016
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 4
-os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
+os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-06'
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 7
 if __name__ == '__main__':
@@ -24,15 +24,16 @@ if __name__ == '__main__':
     input_args = parse_args()
 
     if input_args.exact:
-        config_file = 'configs/39_oak-for-msmarco-with-hard-negatives_entity-gpt-linker_exact.json'
+        config_file = 'configs/38_oak-distilbert-for-msmarco-from-scratch_entity-gpt-linker_exact.json'
         config_key = 'data_entity-gpt_exact'
     else:
-        raise NotImplementedError('Create a configuration file for using all the labels.')
+        config_file = 'configs/38_oak-distilbert-for-msmarco-from-scratch_entity-gpt-linker.json'
+        config_key = 'data_entity-gpt'
 
     mname, meta_name = 'distilbert-base-uncased', 'lnk'
-    meta_embed_init_file = '/data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/predictions/label_repr_full.pth'
+    meta_embed_init_file = '/data/outputs/39_oak-for-msmarco-with-hard-negatives/ent_repr_uln-unorm_distilbert-base-uncased.pth'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data-oak-for-msmarco-with-hard-negatives_entity-gpt-linker_distilbert-base-uncased', 
+    pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data-oak-distilbert-for-msmarco-from-scratch_entity-gpt-linker_distilbert-base-uncased', 
             input_args.use_sxc_sampler, input_args.exact, input_args.only_test)
 
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
@@ -46,21 +47,21 @@ if __name__ == '__main__':
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
-        per_device_train_batch_size=128,
+        per_device_train_batch_size=256,
         per_device_eval_batch_size=800,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
         eval_strategy="steps",
-        eval_steps=500,
-        save_steps=500,
+        eval_steps=1000,
+        save_steps=1000,
         save_total_limit=5,
         num_train_epochs=30,
         predict_with_representation=True,
         adam_epsilon=1e-6,
         warmup_steps=100,
         weight_decay=0.01,
-        learning_rate=6e-5,
+        learning_rate=2e-5,
         representation_search_type='BRUTEFORCE',
     
         output_representation_attribute='data_fused_repr',
@@ -121,19 +122,19 @@ if __name__ == '__main__':
                                        data_aug_meta_prefix=f'{meta_name}2data', lbl2data_aug_meta_prefix=None,
                                        neg2data_aug_meta_prefix=None,
                                        
-                                       num_metadata=block.train.dset.meta[f'{meta_name}_meta'].n_meta, resize_length=5000,
+                                       num_metadata=block.test.dset.meta[f'{meta_name}_meta'].n_meta, resize_length=5000,
                                        
                                        calib_margin=0.05, calib_num_negatives=10, calib_tau=0.1, calib_apply_softmax=False, 
                                        calib_loss_weight=0.1, use_calib_loss=False,
         
                                        use_query_loss=False,
                                        
-                                       use_encoder_parallel=True, normalize=False)
+                                       use_encoder_parallel=True, normalize=False, use_layer_norm=False)
         return model
     
     def init_fn(model):
         model.init_retrieval_head()
-        # model.init_cross_head()
+        model.init_cross_head()
         model.init_meta_embeddings()
 
         meta_embeddings = torch.load(meta_embed_init_file)

@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '8,9'
+os.environ['HIP_VISIBLE_DEVICES'] = '4,5,10,11'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -17,18 +17,46 @@ from xcai.models.oak import OAK016
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 4
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-06'
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--build_block', action='store_true')
+    parser.add_argument('--use_pretrained', action='store_true')
+    
+    parser.add_argument('--do_train_inference', action='store_true')
+    parser.add_argument('--do_test_inference', action='store_true')
+    
+    parser.add_argument('--save_train_prediction', action='store_true')
+    parser.add_argument('--save_test_prediction', action='store_true')
+    parser.add_argument('--save_label_prediction', action='store_true')
+    
+    parser.add_argument('--save_representation', action='store_true')
+    
+    parser.add_argument('--use_sxc_sampler', action='store_true')
+    parser.add_argument('--only_test', action='store_true')
+
+    parser.add_argument('--pickle_dir', type=str, required=True)
+    
+    parser.add_argument('--prediction_suffix', type=str, default='')
+
+    parser.add_argument('--exact', action='store_true')
+    parser.add_argument('--dataset', type=str)
+
+    parser.add_argument('--expt_no', type=int, required=True)
+    
+    return parser.parse_args()
+
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 7
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/38_oak-distilbert-for-msmarco-from-scratch-003'
     
     input_args = parse_args()
+    
+    output_dir = f'/home/aiscuser/scratch1/outputs/mogicX/38_oak-distilbert-for-msmarco-from-scratch-{input_args.expt_no:03d}'
+    print(f'Output directory: {output_dir}')
 
-    if input_args.exact:
-        config_file = 'configs/38_oak-distilbert-for-msmarco-from-scratch_entity-gpt-linker_exact.json'
-        config_key = 'data_entity-gpt_exact'
-    else:
-        config_file = 'configs/38_oak-distilbert-for-msmarco-from-scratch_entity-gpt-linker.json'
-        config_key = 'data_entity-gpt'
+    input_args.exact, input_args.do_test_inference, input_args.only_test = False, True, True
+
+    config_file = 'configs/38_oak-distilbert-for-msmarco-from-scratch_entity-gpt-linker.json'
+    config_key = 'data_entity-gpt'
 
     mname, meta_name = 'distilbert-base-uncased', 'lnk'
     meta_embed_init_file = '/data/outputs/39_oak-for-msmarco-with-hard-negatives/ent_repr_uln-unorm_distilbert-base-uncased.pth'
@@ -125,7 +153,7 @@ if __name__ == '__main__':
                                        num_metadata=block.test.dset.meta[f'{meta_name}_meta'].n_meta, resize_length=5000,
                                        
                                        calib_margin=0.05, calib_num_negatives=10, calib_tau=0.1, calib_apply_softmax=False, 
-                                       calib_loss_weight=0.1, use_calib_loss=True,
+                                       calib_loss_weight=0.1, use_calib_loss=False,
         
                                        use_query_loss=False,
                                        

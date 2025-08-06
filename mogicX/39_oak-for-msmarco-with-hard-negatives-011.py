@@ -5,9 +5,9 @@ __all__ = []
 
 # %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 3
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '10,11,12,13'
+os.environ['HIP_VISIBLE_DEVICES'] = '8,9'
 
-import torch, json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
+import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 from transformers import DistilBertConfig
 
 from xcai.main import *
@@ -17,50 +17,23 @@ from xcai.clustering.cluster import get_cluster_mapping, get_cluster_size
 from xcai.models.oak import OAK015
 
 # %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 5
-os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
-
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--build_block', action='store_true')
-    parser.add_argument('--use_pretrained', action='store_true')
-    
-    parser.add_argument('--do_train_inference', action='store_true')
-    parser.add_argument('--do_test_inference', action='store_true')
-    
-    parser.add_argument('--save_train_prediction', action='store_true')
-    parser.add_argument('--save_test_prediction', action='store_true')
-    parser.add_argument('--save_label_prediction', action='store_true')
-    
-    parser.add_argument('--save_representation', action='store_true')
-    
-    parser.add_argument('--use_sxc_sampler', action='store_true')
-    parser.add_argument('--only_test', action='store_true')
-
-    parser.add_argument('--pickle_dir', type=str, required=True)
-    
-    parser.add_argument('--prediction_suffix', type=str, default='')
-
-    parser.add_argument('--exact', action='store_true')
-    parser.add_argument('--dataset', type=str)
-
-    parser.add_argument('--expt_no', type=int, required=True)
-    
-    return parser.parse_args()
+os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-07'
 
 # %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 7
 if __name__ == '__main__':
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/39_oak-for-msmarco-with-hard-negatives-011'
+    
     input_args = parse_args()
 
-    output_dir = f'/home/aiscuser/scratch1/outputs/mogicX/39_oak-for-msmarco-with-hard-negatives-{input_args.expt_no:03d}'
-    print(f'Output directory: {output_dir}')
-
-    input_args.exact, input_args.do_test_inference, input_args.only_test = False, True, True
-
-    config_file = 'configs/39_oak-for-msmarco-with-hard-negatives_entity-gpt-linker.json'
-    config_key = 'data_entity-gpt'
+    if input_args.exact:
+        config_file = 'configs/39_oak-for-msmarco-with-hard-negatives_entity-gpt-linker_exact.json'
+        config_key = 'data_entity-gpt_exact'
+    else:
+        config_file = 'configs/39_oak-for-msmarco-with-hard-negatives_entity-gpt-linker.json'
+        config_key = 'data_entity-gpt'
     
     mname, meta_name = 'distilbert-base-uncased', 'lnk'
-    meta_embed_init_file = '/data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/predictions/label_repr_full.pth'
+    meta_embed_init_file = '/home/aiscuser/scratch1/datasets/ent_repr_ln-norm_01-msmarco-gpt-entity-linker-001.pth'  
 
     pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data-oak-for-msmarco-with-hard-negatives_entity-gpt-linker_distilbert-base-uncased', 
             input_args.use_sxc_sampler, input_args.exact, input_args.only_test)
@@ -70,8 +43,8 @@ if __name__ == '__main__':
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
                         only_test=input_args.only_test, main_oversample=False, meta_oversample={'lnk_meta':False, 'neg_meta':True}, 
-                        n_slbl_samples=1, n_sdata_meta_samples={'lnk_meta':5, 'neg_meta':10}, 
-                        train_meta_topk={"lnk_meta":5}, test_meta_topk={"lnk_meta":5})
+                        n_slbl_samples=1, n_sdata_meta_samples={'lnk_meta':3, 'neg_meta':10}, 
+                        train_meta_topk={"lnk_meta":3}, test_meta_topk={"lnk_meta":3})
 
 
     args = XCLearningArguments(

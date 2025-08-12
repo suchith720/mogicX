@@ -74,7 +74,7 @@ def normalize_matrix(data_lbl:sp.csr_matrix, lbl_lbl:sp.csr_matrix):
     
 
 # %% ../nbs/42_entity-conflation.ipynb 20
-def compute_embed_similarity(lbl_lbl:sp.csr_matrix, embed:torch.Tensor, batch_size:Optional[int]=1024):
+def compute_embed_similarity(lbl_lbl:sp.csr_matrix, lbl_repr:torch.Tensor, batch_size:Optional[int]=1024):
     lbl_lbl = lbl_lbl.tocoo()
     scores = []
     for i in tqdm(range(0, lbl_lbl.nnz, batch_size)):
@@ -88,14 +88,14 @@ def compute_embed_similarity(lbl_lbl:sp.csr_matrix, embed:torch.Tensor, batch_si
 
 # %% ../nbs/42_entity-conflation.ipynb 21
 def get_components(data_lbl:sp.csr_matrix, lbl_ids:List, lbl_repr:Optional[torch.Tensor]=None, 
-                   score_thresh:Optional[float]=0.0, q:Optional[float]=50, batch_size:Optional[int]=1024):
+                   score_thresh:Optional[float]=25, freq_thresh:Optional[float]=50, batch_size:Optional[int]=1024):
     lbl_lbl = get_one_hop(data_lbl, batch_size)
     lbl_lbl = normalize_matrix(data_lbl, lbl_lbl)
-    lbl_lbl = Filter.threshold(lbl_lbl, t=np.percentile(lbl_lbl.data, q=q))
+    lbl_lbl = Filter.threshold(lbl_lbl, t=np.percentile(lbl_lbl.data, q=freq_thresh))
     
     if lbl_repr is not None:
         lbl_lbl = compute_embed_similarity(lbl_lbl, lbl_repr, batch_size=batch_size)
-        lbl_lbl = Filter.threshold(lbl_lbl, t=score_thresh)
+        lbl_lbl = Filter.threshold(lbl_lbl, t=np.percentile(lbl_lbl.data, q=score_thresh))
     
     n_comp, clusters = connected_components(lbl_lbl, directed=False, return_labels=True)
     components = {}
@@ -165,7 +165,7 @@ def save_conflated_data(lbl_txt:List, lbl_file:str, trn_lbl:sp.csr_matrix, trn_f
 # %% ../nbs/42_entity-conflation.ipynb 42
 def main(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, embed_file:Optional[str]=None, 
          topk:Optional[int]=3, batch_size:Optional[int]=1024, min_thresh:Optional[int]=2, 
-         max_thresh:Optional[int]=100, score_thresh:Optional[float]=0.0, percentile_thresh:Optional[float]=50, 
+         max_thresh:Optional[int]=100, score_thresh:Optional[float]=25, freq_thresh:Optional[float]=50, 
          encoding:Optional[str]='latin-1'):
     
     pred_lbl, trn_lbl, tst_lbl, (lbl_ids, lbl_txt), lbl_repr = load_data(pred_file, trn_file, tst_file, 
@@ -174,7 +174,7 @@ def main(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, embed_file:Opt
 
     data_lbl = Filter.topk(pred_lbl, k=topk)
     components = get_components(data_lbl, lbl_ids, lbl_repr=lbl_repr, score_thresh=score_thresh, 
-                                q=percentile_thresh, batch_size=batch_size)
+                                freq_thresh=freq_thresh, batch_size=batch_size)
 
     valid_cluster_idxs = Filter.by_length(components, min_thresh=min_thresh, max_thresh=max_thresh)
     
@@ -203,8 +203,8 @@ def parse_args():
     
     parser.add_argument('--min_thresh', type=int, default=2)
     parser.add_argument('--max_thresh', type=int, default=100)
-    parser.add_argument('--score_thresh', type=float, default=0.0)
-    parser.add_argument('--percentile_thresh', type=float, default=50)
+    parser.add_argument('--score_thresh', type=float, default=25)
+    parser.add_argument('--freq_thresh', type=float, default=50)
     
     parser.add_argument('--encoding', type=str, default='latin-1')
     
@@ -217,5 +217,5 @@ if __name__ == '__main__':
     
     main(args.pred_file, args.trn_file, args.tst_file, args.lbl_file, args.embed_file, topk=args.topk, 
          batch_size=args.batch_size, min_thresh=args.min_thresh, max_thresh=args.max_thresh, 
-         score_thresh=args.score_thresh, percentile_thresh=args.percentile_thresh, encoding=args.encoding)
+         score_thresh=args.score_thresh, freq_thresh=args.freq_thresh, encoding=args.encoding)
 

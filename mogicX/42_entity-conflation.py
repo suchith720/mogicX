@@ -77,7 +77,7 @@ def normalize_matrix(data_lbl:sp.csr_matrix, lbl_lbl:sp.csr_matrix):
 def compute_embed_similarity(lbl_lbl:sp.csr_matrix, embed:torch.Tensor, batch_size:Optional[int]=1024):
     lbl_lbl = lbl_lbl.tocoo()
     scores = []
-    for i in tqdm(range(0, lbl_lbl.nnz, batch_size=batch_size)):
+    for i in tqdm(range(0, lbl_lbl.nnz, batch_size)):
         row_idx, col_idx = lbl_lbl.row[i:i+batch_size], lbl_lbl.col[i:i+batch_size]
         sc = lbl_repr[row_idx].view(len(row_idx), 1, -1) @ lbl_repr[col_idx].view(len(col_idx), -1, 1)
         scores.append(sc.squeeze(1).squeeze(1))

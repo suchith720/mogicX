@@ -102,7 +102,7 @@ def get_id_to_cluster_idx_mapping(lbl_ids2cluster_map:Dict, lbl_ids:List):
 
 # %% ../nbs/42_entity-conflation.ipynb 26
 def get_conflated_matrix(data_lbl:sp.csr_matrix, lbl_ids2cluster:Dict):
-    indices = [lbl_ids2cluster[idx] for idx in trn_lbl.indices]
+    indices = [lbl_ids2cluster[idx] for idx in data_lbl.indices]
     data = len(indices) * [1]
     
     matrix = sp.csr_matrix((data, indices, data_lbl.indptr), dtype=np.float32)

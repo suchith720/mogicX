@@ -5,9 +5,9 @@ __all__ = []
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '4,5,10,11'
+os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9'
 
-import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
+import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
 from transformers import DistilBertConfig
 
@@ -71,6 +71,10 @@ if __name__ == '__main__':
                         only_test=input_args.only_test, main_oversample=True, meta_oversample={'lnk_meta':False, 'neg_meta':True}, 
                         n_slbl_samples=1, n_sdata_meta_samples={'lnk_meta':5, 'neg_meta':1}, return_scores=True, 
                         train_meta_topk={"lnk_meta":5}, test_meta_topk={"lnk_meta":5})
+
+    #debug
+    breakpoint()
+    #debug
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -179,7 +183,7 @@ if __name__ == '__main__':
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=block.train.dset,
+        train_dataset=None if block.train is None else block.train.dset,
         eval_dataset=block.test.dset,
         data_collator=block.collator,
         compute_metrics=metric,

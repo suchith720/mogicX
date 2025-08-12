@@ -1,30 +1,10 @@
 {
-    "data_entity-gpt_exact": {
+    "data": {
         "path": {
-            "train": {
-                "data_lbl": "/data/datasets/msmarco/XC//trn_X_Y_ce-exact.npz",
-                "data_info": "/data/datasets/msmarco/XC//raw_data/train.raw.txt",
-                "lbl_info": "/data/datasets/msmarco/XC//raw_data/label.exact.raw.txt",
-                "lnk_meta": {
-                    "prefix": "lnk",
-                    "data_meta": "/data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/predictions/train_predictions_full.npz",
-                    "meta_info": "/data/datasets/msmarco/XC//raw_data/entity_gpt.raw.txt"
-                },
-                "neg_meta": {
-                    "prefix": "neg",
-                    "data_meta": "/data/datasets/msmarco/XC//ce-negatives_trn_X_Y.npz",
-                    "meta_info": "/data/datasets/msmarco/XC//raw_data/ce-scores.raw.txt"
-                }
-            },
             "test": {
-                "data_lbl": "/data/datasets/msmarco/XC//tst_X_Y_exact.npz",
-                "data_info": "/data/datasets/msmarco/XC//raw_data/test.raw.txt",
-                "lbl_info": "/data/datasets/msmarco/XC//raw_data/label.exact.raw.txt",
-                "lnk_meta": {
-                    "prefix": "lnk",
-                    "data_meta": "/data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/predictions/test_predictions_full.npz",
-                    "meta_info": "/data/datasets/msmarco/XC//raw_data/entity_gpt.raw.txt"
-                }
+                "data_lbl": "/data/datasets/msmarco/XC//tst_X_Y.npz",
+                "data_info": "/data/from_b/msmarco_test_categories.raw.csv",
+                "lbl_info": "/data/datasets/msmarco/XC//raw_data/label.raw.txt"
             }
         },
         "parameters": {
@@ -74,7 +54,7 @@
             "tokenization_column": "input_text",
             "main_max_data_sequence_length": 32,
             "main_max_lbl_sequence_length": 128,
-	    "meta_max_sequence_length": {"lnk_meta": 32, "neg_meta": 128},
+            "meta_max_sequence_length": 128,
             "padding": false,
             "return_tensors": null,
             "sep": "->",
@@ -92,13 +72,13 @@
             "data_info_keys": null,
             "lbl_info_keys": null,
             "n_slbl_samples": 1,
-	    "n_sdata_meta_samples": {"lnk_meta": 5, "neg_meta": 1},
             "main_oversample": false,
-	    "meta_oversample": {"lnk_meta": false, "neg_meta": true}, 
             "n_data_meta_samples": null,
             "n_lbl_meta_samples": null,
             "meta_info_keys": null,
-            "n_slbl_meta_samples": 1
+            "n_sdata_meta_samples": 1,
+            "n_slbl_meta_samples": 1,
+            "meta_oversample": false
         }
     }
 }

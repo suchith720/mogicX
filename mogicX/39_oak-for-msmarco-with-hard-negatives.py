@@ -17,7 +17,7 @@ from xcai.models.oak import OAK015
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
-# %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 25
+# %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 27
 if __name__ == '__main__':
     output_dir = '/scratch/scai/phd/aiz218323/outputs/mogicX/39_oak-for-msmarco-with-hard-negatives'
     

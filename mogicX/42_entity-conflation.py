@@ -61,7 +61,7 @@ def get_one_hop(data_lbl:sp.csr_matrix, batch_size:Optional[int]=1000):
     
 
 # %% ../nbs/42_entity-conflation.ipynb 17
-def get_components(data_lbl:sp.csr_matrix, batch_size:Optional[int]=1000):
+def get_components(data_lbl:sp.csr_matrix, lbl_ids:List, batch_size:Optional[int]=1000):
     lbl_lbl = get_one_hop(data_lbl, batch_size)
     
     n_comp, clusters = connected_components(lbl_lbl, directed=False, return_labels=True)
@@ -138,7 +138,7 @@ def main(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, topk:Optional[
     lbl_ids2txt = {k:v for k,v in zip(lbl_ids, lbl_txt)}
 
     data_lbl = Filter.topk(pred_lbl, k=topk)
-    components = get_components(data_lbl, batch_size)
+    components = get_components(data_lbl, lbl_ids, batch_size)
 
     valid_cluster_idxs = Filter.by_length(components, min_thresh=min_thresh, max_thresh=max_thresh)
     

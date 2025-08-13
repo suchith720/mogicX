@@ -10,7 +10,7 @@ import scipy.sparse as sp, numpy as np, argparse, os, torch
 from tqdm.auto import tqdm
 from termcolor import colored, COLORS
 from scipy.sparse.csgraph import connected_components
-from typing import List, Optional, Dict, Set
+from typing import List, Optional, Dict, Set, Tuple
 
 from sugar.core import load_raw_file, save_raw_file
 from xclib.utils.sparse import retain_topk
@@ -142,11 +142,15 @@ def get_id_to_cluster_idx_mapping(lbl_ids2cluster_map:Dict, lbl_ids:List):
     
 
 # %% ../nbs/42_entity-conflation.ipynb 32
-def get_conflated_matrix(data_lbl:sp.csr_matrix, lbl_ids2cluster:Dict):
+def get_conflated_matrix(data_lbl:sp.csr_matrix, lbl_ids2cluster:Dict, n_clusters:Optional[Tuple]=None):
     indices = [lbl_ids2cluster[idx] for idx in data_lbl.indices]
     data = len(indices) * [1]
     
-    matrix = sp.csr_matrix((data, indices, data_lbl.indptr), dtype=np.float32)
+    matrix = (
+        sp.csr_matrix((data, indices, data_lbl.indptr), dtype=np.float32) 
+        if n_clusters is None else 
+        sp.csr_matrix((data, indices, data_lbl.indptr), shape=(data_lbl.shape[0], n_clusters), dtype=np.float32)
+    )
     matrix.sum_duplicates()
     return matrix
     
@@ -192,8 +196,8 @@ def main(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, embed_file:Opt
     lbl_ids2cluster = get_id_to_cluster_idx_mapping(lbl_ids2cluster_map, lbl_ids)
 
     conflated_trn_lbl = get_conflated_matrix(trn_lbl, lbl_ids2cluster)
-    conflated_tst_lbl = get_conflated_matrix(tst_lbl, lbl_ids2cluster)
-
+    conflated_tst_lbl = get_conflated_matrix(tst_lbl, lbl_ids2cluster, n_clusters=conflated_trn_lbl.shape[1])
+    
     save_conflated_data(conflated_lbl_txt, lbl_file, conflated_trn_lbl, trn_file, conflated_tst_lbl, tst_file)
     
 

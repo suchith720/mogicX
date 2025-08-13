@@ -53,6 +53,14 @@ class Filter:
         data_lbl.data[idx] = 0
         data_lbl.eliminate_zeros()
         return data_lbl
+
+    @staticmethod
+    def difference(data_lbl:sp.csr_matrix, t:int):
+        rowise_max = data_lbl.max(axis=1).toarray().ravel()
+        scores = np.repeat(rowise_max, np.diff(data_lbl.indptr)) - data_lbl.data
+        data_lbl.data[scores > t] = 0
+        data_lbl.eliminate_zeros()
+        return data_lbl
         
 
 # %% ../nbs/42_entity-conflation.ipynb 17
@@ -66,11 +74,11 @@ def get_one_hop(data_lbl:sp.csr_matrix, batch_size:Optional[int]=1024):
     
 
 # %% ../nbs/42_entity-conflation.ipynb 19
-def normalize_matrix(data_lbl:sp.csr_matrix, lbl_lbl:sp.csr_matrix):
-    lbl_mult = data_lbl.getnnz(axis=0).astype(np.float32)
-    mask = lbl_mult > 0
-    lbl_mult[mask] = 1/lbl_mult[mask]
-    return lbl_lbl.multiply(lbl_mult[None]).multiply(lbl_mult[:, None]).tocsr()
+def normalize_matrix(lbl_lbl:sp.csr_matrix):
+    lbl_lbl = lbl_lbl + sp.eye(lbl_lbl.shape[0])
+    row_deg, col_deg = lbl_lbl.sum(axis=1), lbl_lbl.sum(axis=0)
+    lbl_lbl = lbl_lbl.multiply(np.sqrt(1/row_deg)).multiply(np.sqrt(1/col_deg)).tocsr()
+    return lbl_lbl
     
 
 # %% ../nbs/42_entity-conflation.ipynb 20
@@ -90,7 +98,7 @@ def compute_embed_similarity(lbl_lbl:sp.csr_matrix, lbl_repr:torch.Tensor, batch
 def get_components(data_lbl:sp.csr_matrix, lbl_ids:List, lbl_repr:Optional[torch.Tensor]=None, 
                    score_thresh:Optional[float]=25, freq_thresh:Optional[float]=50, batch_size:Optional[int]=1024):
     lbl_lbl = get_one_hop(data_lbl, batch_size)
-    lbl_lbl = normalize_matrix(data_lbl, lbl_lbl)
+    lbl_lbl = normalize_matrix(lbl_lbl)
     lbl_lbl = Filter.threshold(lbl_lbl, t=np.percentile(lbl_lbl.data, q=freq_thresh))
     
     if lbl_repr is not None:
@@ -166,13 +174,14 @@ def save_conflated_data(lbl_txt:List, lbl_file:str, trn_lbl:sp.csr_matrix, trn_f
 def main(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, embed_file:Optional[str]=None, 
          topk:Optional[int]=3, batch_size:Optional[int]=1024, min_thresh:Optional[int]=2, 
          max_thresh:Optional[int]=100, score_thresh:Optional[float]=25, freq_thresh:Optional[float]=50, 
-         encoding:Optional[str]='latin-1'):
+         diff_thresh:Optional[float]=0.1, encoding:Optional[str]='latin-1'):
     
     pred_lbl, trn_lbl, tst_lbl, (lbl_ids, lbl_txt), lbl_repr = load_data(pred_file, trn_file, tst_file, 
                                                                          lbl_file, embed_file, encoding=encoding)
     lbl_ids2txt = {k:v for k,v in zip(lbl_ids, lbl_txt)}
 
     data_lbl = Filter.topk(pred_lbl, k=topk)
+    data_lbl = Filter.difference(data_lbl, t=diff_thresh)
     components = get_components(data_lbl, lbl_ids, lbl_repr=lbl_repr, score_thresh=score_thresh, 
                                 freq_thresh=freq_thresh, batch_size=batch_size)
 
@@ -188,7 +197,7 @@ def main(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, embed_file:Opt
     save_conflated_data(conflated_lbl_txt, lbl_file, conflated_trn_lbl, trn_file, conflated_tst_lbl, tst_file)
     
 
-# %% ../nbs/42_entity-conflation.ipynb 45
+# %% ../nbs/42_entity-conflation.ipynb 44
 def parse_args():
     parser = argparse.ArgumentParser()
 
@@ -205,17 +214,19 @@ def parse_args():
     parser.add_argument('--max_thresh', type=int, default=100)
     parser.add_argument('--score_thresh', type=float, default=25)
     parser.add_argument('--freq_thresh', type=float, default=50)
+    parser.add_argument('--diff_thresh', type=float, default=0.1)
     
     parser.add_argument('--encoding', type=str, default='latin-1')
     
     return parser.parse_args()
     
 
-# %% ../nbs/42_entity-conflation.ipynb 46
+# %% ../nbs/42_entity-conflation.ipynb 45
 if __name__ == '__main__':
     args = parse_args()
     
     main(args.pred_file, args.trn_file, args.tst_file, args.lbl_file, args.embed_file, topk=args.topk, 
          batch_size=args.batch_size, min_thresh=args.min_thresh, max_thresh=args.max_thresh, 
-         score_thresh=args.score_thresh, freq_thresh=args.freq_thresh, encoding=args.encoding)
+         score_thresh=args.score_thresh, freq_thresh=args.freq_thresh, diff_thresh=args.diff_thresh, 
+         encoding=args.encoding)
 

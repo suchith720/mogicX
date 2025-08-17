@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9'
+os.environ['HIP_VISIBLE_DEVICES'] = '10,11'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -19,30 +19,29 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-07'
 
 # %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 6
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/44_ngame-gpt-conflated-entity-oracle-for-msmarco-001'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/44_ngame-summary-oracle-for-msmarco-002'
 
     input_args = parse_args()
     
     if input_args.exact:
-        config_file = '/data/datasets/msmarco/XC/configs/data_gpt-conflated-entity-ce-negatives_exact.json'
+        config_file = '/data/datasets/msmarco/XC/configs/data-summary_ce-negatives_exact.json'
         config_key = 'data_exact'
     else:
         input_args.only_test = True
-        config_file = '/data/datasets/msmarco/XC/configs/data_gpt-conflated-entity-ce-negatives.json'
+        config_file = '/data/datasets/msmarco/XC/configs/data-summary_ce-negatives.json'
         config_key = 'data'
     
     mname = 'distilbert-base-uncased'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data-gpt-conflated-entity-ce-negatives_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data-summary-ce-negatives_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test, use_oracle=input_args.use_oracle)
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
 
     do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
 
-    def data_prompt(txt): return f"{txt} <METADATA> "
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
                         only_test=input_args.only_test, main_oversample=False, meta_oversample=True, main_max_data_sequence_length=128, 
-                        n_slbl_samples=1, n_sdata_meta_samples=10, use_oracle=input_args.use_oracle, meta_name="ent", prompt=data_prompt)
+                        n_slbl_samples=1, n_sdata_meta_samples=10)
 
     args = XCLearningArguments(
         output_dir=output_dir,

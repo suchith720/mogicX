@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -19,7 +19,7 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-06'
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 7
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/38_oak-distilbert-for-msmarco-from-scratch-005'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/38_oak-distilbert-for-msmarco-from-scratch-006'
     
     input_args = parse_args()
 
@@ -63,7 +63,7 @@ if __name__ == '__main__':
         'do_inference': do_inference,
         'use_pretrained': input_args.use_pretrained,
         'num_metadata': block.train.dset.meta[f'{meta_name}_meta'].n_meta,
-        'cluster_size': 2,
+        'cluster_size': 3,
         'meta_embed_init_file': '/home/aiscuser/scratch1/outputs/mogicX/43_msmarco-conflated-gpt-entity-linker-001/lbl_repr/lbl_repr_uln-unorm-act_distilbert-base-uncased.pth',
         'model_name': mname, 
         'meta_info': block.train.dset.meta[f'{meta_name}_meta'].meta_info,

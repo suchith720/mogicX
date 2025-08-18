@@ -5,7 +5,8 @@ __all__ = []
 
 # %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '10,11'
+# os.environ['HIP_VISIBLE_DEVICES'] = '10,11'
+os.environ['HIP_VISIBLE_DEVICES'] = '4,5,6,7'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -27,7 +28,6 @@ if __name__ == '__main__':
         config_file = '/data/datasets/msmarco/XC/configs/data-summary_ce-negatives_exact.json'
         config_key = 'data_exact'
     else:
-        input_args.only_test = True
         config_file = '/data/datasets/msmarco/XC/configs/data-summary_ce-negatives.json'
         config_key = 'data'
     
@@ -98,11 +98,11 @@ if __name__ == '__main__':
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=block.train.dset,
+        train_dataset=None if block.train is None else block.train.dset,
         eval_dataset=block.test.dset,
         data_collator=block.collator,
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=block.n_lbl)
+    main(learn, input_args, n_lbl=block.n_lbl, eval_k=10, train_k=10)
     

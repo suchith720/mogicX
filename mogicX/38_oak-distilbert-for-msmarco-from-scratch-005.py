@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -62,11 +62,11 @@ if __name__ == '__main__':
     clustering_args = {
         'do_inference': do_inference,
         'use_pretrained': input_args.use_pretrained,
-        'num_metadata': block.train.dset.meta[f'{meta_name}_meta'].n_meta,
+        'num_metadata': block.test.dset.meta[f'{meta_name}_meta'].n_meta,
         'cluster_size': 2,
         'meta_embed_init_file': '/home/aiscuser/scratch1/outputs/mogicX/43_msmarco-conflated-gpt-entity-linker-001/lbl_repr/lbl_repr_uln-unorm-act_distilbert-base-uncased.pth',
         'model_name': mname, 
-        'meta_info': block.train.dset.meta[f'{meta_name}_meta'].meta_info,
+        'meta_info': block.test.dset.meta[f'{meta_name}_meta'].meta_info,
         'collator': block.collator,
         'normalize': input_args.normalize,
         'use_layer_norm': input_args.use_ln,
@@ -185,7 +185,7 @@ if __name__ == '__main__':
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=block.train.dset,
+        train_dataset=None if block.train is None else block.train.dset,
         eval_dataset=block.test.dset,
         data_collator=block.collator,
         compute_metrics=metric,

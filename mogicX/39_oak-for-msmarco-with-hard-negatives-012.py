@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 3
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '4,5'
+os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 from transformers import DistilBertConfig
@@ -65,11 +65,11 @@ if __name__ == '__main__':
         'meta_name': meta_name,
         'do_inference': do_inference,
         'use_pretrained': input_args.use_pretrained,
-        'num_metadata': block.train.dset.meta[f'{meta_name}_meta'].n_meta,
+        'num_metadata': block.test.dset.meta[f'{meta_name}_meta'].n_meta,
         'cluster_size': 2,
         'meta_embed_init_file': '/home/aiscuser/scratch1/outputs/mogicX/43_msmarco-conflated-gpt-entity-linker-001/lbl_repr/lbl_repr_ln-norm-act_distilbert-base-uncased.pth',
         'model_name': mname, 
-        'meta_info': block.train.dset.meta[f'{meta_name}_meta'].meta_info,
+        'meta_info': block.test.dset.meta[f'{meta_name}_meta'].meta_info,
         'collator': block.collator,
         'normalize': input_args.normalize,
         'use_layer_norm': input_args.use_ln,

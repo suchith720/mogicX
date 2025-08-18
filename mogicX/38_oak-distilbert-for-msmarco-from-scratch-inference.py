@@ -17,64 +17,43 @@ from xcai.models.oak import OAK016
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 4
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-06'
 
-def parse_args():
+def extra_parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--build_block', action='store_true')
-    parser.add_argument('--use_pretrained', action='store_true')
-    
-    parser.add_argument('--do_train_inference', action='store_true')
-    parser.add_argument('--do_test_inference', action='store_true')
-    
-    parser.add_argument('--save_train_prediction', action='store_true')
-    parser.add_argument('--save_test_prediction', action='store_true')
-    parser.add_argument('--save_label_prediction', action='store_true')
-    
-    parser.add_argument('--save_representation', action='store_true')
-    
-    parser.add_argument('--use_sxc_sampler', action='store_true')
-    parser.add_argument('--only_test', action='store_true')
-
-    parser.add_argument('--pickle_dir', type=str, required=True)
-    
-    parser.add_argument('--prediction_suffix', type=str, default='')
-
-    parser.add_argument('--exact', action='store_true')
-    parser.add_argument('--dataset', type=str)
-
     parser.add_argument('--expt_no', type=int, required=True)
-    
-    return parser.parse_args()
+    return parser.parse_known_args()[0]
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 7
 if __name__ == '__main__':
     
     input_args = parse_args()
-    
-    output_dir = f'/home/aiscuser/scratch1/outputs/mogicX/38_oak-distilbert-for-msmarco-from-scratch-{input_args.expt_no:03d}'
+    extra_args = extra_parse_args()
+
+    output_dir = f'/home/aiscuser/scratch1/outputs/mogicX/38_oak-distilbert-for-msmarco-from-scratch-{extra_args.expt_no:03d}'
     print(f'Output directory: {output_dir}')
 
     input_args.exact, input_args.do_test_inference, input_args.only_test = False, True, True
 
-    config_file = 'configs/38_oak-distilbert-for-msmarco-from-scratch_entity-gpt-linker.json'
-    config_key = 'data_entity-gpt'
+    config_args = {
+        'config_file': '/data/datasets/msmarco/XC/configs/data_gpt-entity.json',
+        'config_key': 'data_entity-gpt',
+        'model_name': 'sentence-transformers/msmarco-distilbert-dot-v5',
+        'meta_name': 'ent',
+        'meta_embed_init_file': '/data/outputs/39_oak-for-msmarco-with-hard-negatives/ent_repr_uln-unorm_distilbert-base-uncased.pth',
+    }
 
-    mname, meta_name = 'distilbert-base-uncased', 'lnk'
-    meta_embed_init_file = '/data/outputs/39_oak-for-msmarco-with-hard-negatives/ent_repr_uln-unorm_distilbert-base-uncased.pth'
+    block_name = os.path.basename(config_args['config_file']).split('.')[0].split('_', maxsplit=1)[1]
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_data-{block_name}_distilbert-base-uncased', 
+                            input_args.use_sxc_sampler, input_args.exact, input_args.only_test)
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data-oak-distilbert-for-msmarco-from-scratch_entity-gpt-linker_distilbert-base-uncased', 
-            input_args.use_sxc_sampler, input_args.exact, input_args.only_test)
-
-    do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
+    do_inference = check_inference_mode(input_args) 
+    meta_name = config_args['meta_name']
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
-    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
-                        only_test=input_args.only_test, main_oversample=True, meta_oversample={'lnk_meta':False, 'neg_meta':True}, 
-                        n_slbl_samples=1, n_sdata_meta_samples={'lnk_meta':5, 'neg_meta':1}, return_scores=True, 
-                        train_meta_topk={"lnk_meta":5}, test_meta_topk={"lnk_meta":5})
+    block = build_block(pkl_file, config_args['config_file'], input_args.use_sxc_sampler, config_args['config_key'], do_build=input_args.build_block, 
+                        only_test=input_args.only_test, main_oversample=True, meta_oversample={f'{meta_name}_meta':False, 'neg_meta':True}, 
+                        n_slbl_samples=1, n_sdata_meta_samples={f'{meta_name}_meta':5, 'neg_meta':1}, return_scores=True, 
+                        train_meta_topk={f"{meta_name}_meta":5}, test_meta_topk={f"{meta_name}_meta":5})
 
-    #debug
-    breakpoint()
-    #debug
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -96,12 +75,17 @@ if __name__ == '__main__':
         learning_rate=2e-5,
         representation_search_type='BRUTEFORCE',
     
-        output_representation_attribute='data_fused_repr',
+        # representation_attribute='data_fused_repr',
+        # output_representation_attribute='data_fused_repr',
+        # clustering_representation_attribute='data_fused_repr',
+
+        representation_attribute='data_repr',
+        output_representation_attribute='data_repr',
+        clustering_representation_attribute='data_repr',
+
+        data_augmentation_attribute='data_repr',
         label_representation_attribute='data_repr',
         metadata_representation_attribute='data_repr',
-        data_augmentation_attribute='data_repr',
-        representation_attribute='data_fused_repr',
-        clustering_representation_attribute='data_fused_repr',
 
         group_by_cluster=True,
         num_clustering_warmup_epochs=10,
@@ -169,12 +153,12 @@ if __name__ == '__main__':
         model.init_cross_head()
         model.init_meta_embeddings()
 
-        meta_embeddings = torch.load(meta_embed_init_file)
+        meta_embeddings = torch.load(config_args['meta_embed_init_file'])
         model.encoder.set_pretrained_meta_embeddings(meta_embeddings)
         model.encoder.freeze_pretrained_meta_embeddings()
 
 
-    model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, 
+    model = load_model(args.output_dir, model_fn, {"mname": config_args['model_name']}, init_fn, do_inference=do_inference, 
                        use_pretrained=input_args.use_pretrained)
 
     metric = PrecReclMrr(block.test.dset.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, rep_pk=[1, 3, 5, 10], 

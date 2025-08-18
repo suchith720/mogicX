@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 3
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '8,9'
+os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 

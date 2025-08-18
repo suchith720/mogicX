@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9'
+os.environ['HIP_VISIBLE_DEVICES'] = '12,13,14,15'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -27,7 +27,6 @@ if __name__ == '__main__':
         config_file = '/data/datasets/msmarco/XC/configs/data_gpt-conflated-entity-ce-negatives_exact.json'
         config_key = 'data_exact'
     else:
-        input_args.only_test = True
         config_file = '/data/datasets/msmarco/XC/configs/data_gpt-conflated-entity-ce-negatives.json'
         config_key = 'data'
     
@@ -92,18 +91,18 @@ if __name__ == '__main__':
     def init_fn(model): 
         model.init_dr_head()
 
-    metric = PrecReclMrr(block.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
+    metric = PrecReclMrr(block.test.dset.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
 
     model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
     
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=block.train.dset,
+        train_dataset=None if block.train is None else block.train.dset,
         eval_dataset=block.test.dset,
         data_collator=block.collator,
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=block.n_lbl)
+    main(learn, input_args, n_lbl=block.test.dset.n_lbl)
     

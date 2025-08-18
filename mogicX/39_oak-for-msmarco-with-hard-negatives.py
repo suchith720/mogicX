@@ -9,7 +9,7 @@ from transformers import DistilBertConfig
 
 from xcai.main import *
 from xcai.basics import *
-from xcai.clustering.cluster import get_cluster_mapping, get_cluster_size
+from xcai.clustering.cluster import get_cluster_size
 
 from xcai.models.oak import OAK015
 
@@ -17,7 +17,7 @@ from xcai.models.oak import OAK015
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
-# %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 27
+# %% ../nbs/39_oak-for-msmarco-with-hard-negatives.ipynb 29
 if __name__ == '__main__':
     output_dir = '/scratch/scai/phd/aiz218323/outputs/mogicX/39_oak-for-msmarco-with-hard-negatives'
     

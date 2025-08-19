@@ -7,6 +7,10 @@ __all__ = []
 import os
 os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9'
 
+os.environ["NCCL_DEBUG"] = "NONE"
+os.environ["ROCM_DISABLE_WARNINGS"] = "1"
+os.environ["MIOPEN_LOG_LEVEL"] = "0"
+
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
 from transformers import DistilBertConfig
@@ -52,9 +56,11 @@ if __name__ == '__main__':
     input_args = parse_args()
 
     if input_args.use_normalized: 
-        output_dir = '/home/aiscuser/scratch1/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-002'
+        # output_dir = '/home/aiscuser/scratch1/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-002'
+        output_dir = '/data/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-002'
     else: 
-        output_dir = f'/home/aiscuser/scratch1/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-{input_args.expt_no:03d}'
+        # output_dir = f'/home/aiscuser/scratch1/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-{input_args.expt_no:03d}'
+        output_dir = f'/data/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-{input_args.expt_no:03d}'
 
     print("Model directory:", output_dir)
 
@@ -93,6 +99,7 @@ if __name__ == '__main__':
         num_train_epochs=300,
         predict_with_representation=True,
         representation_search_type='BRUTEFORCE',
+        search_normalize=input_args.use_normalized,
         adam_epsilon=1e-6,
         warmup_steps=100,
         weight_decay=0.01,

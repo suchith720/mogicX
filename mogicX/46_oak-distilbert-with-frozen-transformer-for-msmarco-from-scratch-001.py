@@ -19,12 +19,12 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-06'
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 7
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/38_oak-distilbert-for-msmarco-from-scratch-006'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/46_oak-distilbert-with-frozen-transformer-for-msmarco-from-scratch-001'
     
     input_args = parse_args()
 
     # Load data
-    mname = 'distilbert-base-uncased'
+    mname = 'sentence-transformers/msmarco-distilbert-dot-v5'
     meta_name = 'lnk'
 
     if input_args.exact:
@@ -81,7 +81,7 @@ if __name__ == '__main__':
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=800,
+        per_device_eval_batch_size=1600,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
@@ -168,13 +168,14 @@ if __name__ == '__main__':
     
     def init_fn(model):
         model.init_retrieval_head()
-        # model.init_cross_head()
+        model.init_cross_head()
         model.init_meta_embeddings()
 
         model.encoder.set_pretrained_meta_embeddings(meta_repr)
         model.encoder.freeze_pretrained_meta_embeddings()
 
         model.encoder.set_metadata_mapping(metadata_idx2cluster)
+        model.encoder.freeze_transformer()
 
 
     model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)

@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9'
+os.environ['HIP_VISIBLE_DEVICES'] = '8,9,10,11'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
@@ -34,32 +34,34 @@ if __name__ == '__main__':
     input_args.exact, input_args.do_test_inference, input_args.only_test = False, True, True
 
     config_args = {
-        'config_file': '/data/datasets/msmarco/XC/configs/data_gpt-entity.json',
-        'config_key': 'data_entity-gpt',
+        'config_file' : '/data/datasets/msmarco/XC/configs/data_gpt-entity.json',
+        'config_key' : 'data_entity-gpt',
         'model_name': 'sentence-transformers/msmarco-distilbert-dot-v5',
         'meta_name': 'ent',
         'meta_embed_init_file': '/data/outputs/39_oak-for-msmarco-with-hard-negatives/ent_repr_uln-unorm_distilbert-base-uncased.pth',
     }
 
     block_name = os.path.basename(config_args['config_file']).split('.')[0].split('_', maxsplit=1)[1]
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_data-{block_name}_distilbert-base-uncased', 
-                            input_args.use_sxc_sampler, input_args.exact, input_args.only_test)
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_data-{block_name}_distilbert-base-uncased', input_args.use_sxc_sampler, 
+                            input_args.exact, input_args.only_test, use_oracle=input_args.use_oracle)
+    os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
 
     do_inference = check_inference_mode(input_args) 
     meta_name = config_args['meta_name']
 
-    os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
+    def data_prompt(txt): return f"{txt} <METADATA> "
     block = build_block(pkl_file, config_args['config_file'], input_args.use_sxc_sampler, config_args['config_key'], do_build=input_args.build_block, 
                         only_test=input_args.only_test, main_oversample=True, meta_oversample={f'{meta_name}_meta':False, 'neg_meta':True}, 
                         n_slbl_samples=1, n_sdata_meta_samples={f'{meta_name}_meta':5, 'neg_meta':1}, return_scores=True, 
-                        train_meta_topk={f"{meta_name}_meta":5}, test_meta_topk={f"{meta_name}_meta":5})
+                        train_meta_topk={f"{meta_name}_meta":5}, test_meta_topk={f"{meta_name}_meta":5}, use_oracle=input_args.use_oracle, 
+                        meta_name="ent", prompt=data_prompt, main_max_data_sequence_length=128)
 
 
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=256,
-        per_device_eval_batch_size=800,
+        per_device_eval_batch_size=1600,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
@@ -74,6 +76,7 @@ if __name__ == '__main__':
         weight_decay=0.01,
         learning_rate=2e-5,
         representation_search_type='BRUTEFORCE',
+        search_normalize=False,
     
         # representation_attribute='data_fused_repr',
         # output_representation_attribute='data_fused_repr',
@@ -134,15 +137,15 @@ if __name__ == '__main__':
         
     def model_fn(mname):
         model = OAK016.from_pretrained(mname, margin=0.3, num_negatives=10, tau=0.1, apply_softmax=True,
-                               
+                                   
                                        data_aug_meta_prefix=f'{meta_name}2data', lbl2data_aug_meta_prefix=None,
                                        neg2data_aug_meta_prefix=None,
                                        
-                                       num_metadata=block.test.dset.meta[f'{meta_name}_meta'].n_meta, resize_length=5000,
+                                       num_metadata=block.test.dset.meta[f'{meta_name}_meta'].n_meta, 
                                        
                                        calib_margin=0.05, calib_num_negatives=10, calib_tau=0.1, calib_apply_softmax=False, 
                                        calib_loss_weight=0.1, use_calib_loss=False,
-        
+            
                                        use_query_loss=False,
                                        
                                        use_encoder_parallel=True, normalize=False, use_layer_norm=False)
@@ -160,6 +163,7 @@ if __name__ == '__main__':
 
     model = load_model(args.output_dir, model_fn, {"mname": config_args['model_name']}, init_fn, do_inference=do_inference, 
                        use_pretrained=input_args.use_pretrained)
+    model.encoder.dr_head = torch.nn.Identity()
 
     metric = PrecReclMrr(block.test.dset.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, rep_pk=[1, 3, 5, 10], 
                          rep_rk=[10, 100, 200], mk=[5, 10, 20])

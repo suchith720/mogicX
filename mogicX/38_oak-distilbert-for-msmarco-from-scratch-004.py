@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -63,6 +63,7 @@ if __name__ == '__main__':
         weight_decay=0.01,
         learning_rate=2e-5,
         representation_search_type='BRUTEFORCE',
+        search_normalize=False,
     
         output_representation_attribute='data_fused_repr',
         label_representation_attribute='data_repr',
@@ -122,7 +123,7 @@ if __name__ == '__main__':
                                        data_aug_meta_prefix=f'{meta_name}2data', lbl2data_aug_meta_prefix=None,
                                        neg2data_aug_meta_prefix=None,
                                        
-                                       num_metadata=block.test.dset.meta[f'{meta_name}_meta'].n_meta, resize_length=5000,
+                                       num_metadata=block.test.dset.meta[f'{meta_name}_meta'].n_meta, 
                                        
                                        calib_margin=0.05, calib_num_negatives=10, calib_tau=0.1, calib_apply_softmax=False, 
                                        calib_loss_weight=0.1, use_calib_loss=False,
@@ -151,7 +152,7 @@ if __name__ == '__main__':
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=block.train.dset,
+        train_dataset=None if block.train is None else block.train.dset,
         eval_dataset=block.test.dset,
         data_collator=block.collator,
         compute_metrics=metric,

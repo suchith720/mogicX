@@ -8,7 +8,6 @@
                 "lnk_meta": {
                     "prefix": "lnk",
                     "data_meta": "/data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/predictions/test_predictions_full.npz",
-                    "lbl_meta": "/data/datasets/msmarco/XC//entity_gpt_lbl_X_Y.npz",
                     "meta_info": "/data/datasets/msmarco/XC//raw_data/entity_gpt.raw.txt"
                 }
             }

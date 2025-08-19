@@ -81,7 +81,7 @@ if __name__ == '__main__':
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=800,
+        per_device_eval_batch_size=1600,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
@@ -96,6 +96,7 @@ if __name__ == '__main__':
         weight_decay=0.01,
         learning_rate=2e-5,
         representation_search_type='BRUTEFORCE',
+        search_normalize=False,
     
         output_representation_attribute='data_fused_repr',
         label_representation_attribute='data_repr',
@@ -156,7 +157,6 @@ if __name__ == '__main__':
                                        neg2data_aug_meta_prefix=None,
                                        
                                        num_metadata=block.test.dset.meta[f'{meta_name}_meta'].n_meta, num_meta_clusters=num_meta_cluster, 
-                                       resize_length=5000,
                                        
                                        calib_margin=0.05, calib_num_negatives=10, calib_tau=0.1, calib_apply_softmax=False, 
                                        calib_loss_weight=0.1, use_calib_loss=False,

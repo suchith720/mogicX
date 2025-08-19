@@ -19,7 +19,7 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-06'
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 7
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/38_oak-distilbert-for-msmarco-from-scratch-006'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/38_oak-distilbert-for-msmarco-from-scratch-007'
     
     input_args = parse_args()
 
@@ -168,7 +168,7 @@ if __name__ == '__main__':
     
     def init_fn(model):
         model.init_retrieval_head()
-        # model.init_cross_head()
+        model.init_cross_head()
         model.init_meta_embeddings()
 
         model.encoder.set_pretrained_meta_embeddings(meta_repr)

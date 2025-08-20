@@ -78,6 +78,8 @@ def parse_args():
 
 # %% ../nbs/45_llama-for-conflation-quality.ipynb 9
 if __name__ == '__main__':
+    args = parse_args()
+    
     model_name = "meta-llama/Meta-Llama-3-8B-Instruct"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(

@@ -15,7 +15,7 @@ from xcai.models.oak import OAK016
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
-# %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 7
+# %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 6
 if __name__ == '__main__':
     output_dir = '/scratch/scai/phd/aiz218323/outputs/mogicX/38_oak-distilbert-for-msmarco-from-scratch'
     meta_embed_init_file = None

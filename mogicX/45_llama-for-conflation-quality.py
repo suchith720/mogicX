@@ -4,13 +4,20 @@
 __all__ = ['PROMPT_TEMPLATE', 'make_prompts', 'evaluate_clusters_in_batch', 'parse_args']
 
 # %% ../nbs/45_llama-for-conflation-quality.ipynb 1
-import torch, json
+import torch, json, argparse
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
-from sugar.core import load_raw_file
+from sugar.core import load_raw_file, save_raw_file
 
 # %% ../nbs/45_llama-for-conflation-quality.ipynb 5
-PROMPT_TEMPLATE = """You are an expert evaluator of entity conflation.
+PROMPT_TEMPLATE = """<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 23 July 2024
+
+You are a helpful assistant<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+You are an expert evaluator of entity conflation.
 
 Task:
 Determine whether the given entities belong to a coherent cluster (i.e., they represent the same underlying entity).
@@ -30,20 +37,21 @@ where `content` has exactly two keys: "score" and "reason".
 Example:
 Input: Apple iPhone 14 Pro || Samsung Galaxy S23 || Google Pixel 7
 Output:
-{
+{{
 "score": 1,
 "reason": "Entities belong to the same category (smartphones) but are from different manufacturers and product lines."
-}
+}}
 
 Now evaluate the following cluster:
+{cluster}<|eot_id|><|start_header_id|>assistant<|end_header_id|>
 """
 
-# %% ../nbs/45_llama-for-conflation-quality.ipynb 6
+# %% ../nbs/45_llama-for-conflation-quality.ipynb 7
 def make_prompts(clusters):
-    return [PROMPT_TEMPLATE + o for o in clusters]
+    return [PROMPT_TEMPLATE.format(cluster=o) for o in clusters]
     
 
-# %% ../nbs/45_llama-for-conflation-quality.ipynb 7
+# %% ../nbs/45_llama-for-conflation-quality.ipynb 8
 def evaluate_clusters_in_batch(clusters, batch_size=4, max_new_tokens=128):
     prompts = make_prompts(clusters)
     
@@ -63,12 +71,13 @@ def evaluate_clusters_in_batch(clusters, batch_size=4, max_new_tokens=128):
     
         batch_texts = tokenizer.batch_decode(outputs, skip_special_tokens=True)
         for prompt, full_output in zip(prompts[i:i+batch_size], batch_texts):
-            generations.append(json.loads(full_output.split(prompt)[-1].strip()))
+            # generations.append(json.loads(full_output.split(prompt)[-1].strip()))
+            generations.append(full_output.split(prompt)[-1].strip())
     
     return generations
     
 
-# %% ../nbs/45_llama-for-conflation-quality.ipynb 8
+# %% ../nbs/45_llama-for-conflation-quality.ipynb 9
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_file', type=str, required=True)
@@ -76,7 +85,7 @@ def parse_args():
     return parser.parse_known_args()[0]
     
 
-# %% ../nbs/45_llama-for-conflation-quality.ipynb 9
+# %% ../nbs/45_llama-for-conflation-quality.ipynb 10
 if __name__ == '__main__':
     args = parse_args()
     
@@ -91,8 +100,10 @@ if __name__ == '__main__':
     ids, txts = load_raw_file(args.input_file)
     generations = evaluate_clusters_in_batch(txts)
     
-    for i,o in zip(ids, generations): o['identifier'] = i
+    # for i,o in zip(ids, generations): o['identifier'] = i
 
-    with open(args.output_file, 'w') as file:
-        json.dump(generations, file)
+    save_raw_file(args.output_file, ids, generations)
+    
+    # with open(args.output_file, 'w') as file:
+    #     json.dump(generations, file)
         

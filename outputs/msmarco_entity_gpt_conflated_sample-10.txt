@@ -1,0 +1,10 @@
+0->eq || et seq || etq || eoq
+1->king tut || king tut grass || tut
+2->denver || colorado || cu denver || denver, co || metro denver || colorado day || state of colorado || colorado state university || colorado college || university of denver || denver, colorado || u.s. state of colorado || colorado technical university || metropolitan state university of denver || university of colorado denver || colorado state
+3->roof || roof replacement || roofs || wood roofs || roof repairs || roofing replacement || roof repair
+4->deck || decking || deck construction || decks || decking material || patio deck || patio decking || deck materials || deck installation
+5->bad breath || breath
+6->tonsil stones || tonsils || tonsil cancer || tonsil tissue || tonsil stone || tonsil || tonsil removal
+7->excel || spreadsheet || excel spreadsheet || microsoft excel || spreadsheet files || microsoft office excel || spreadsheet application || excel file || excel development || excel online || spreadsheets || spreadsheet software
+8->solidarity || solidarity movement
+10->spring || first day of spring || spring begins || the spring || springtime || spring time || 1st day of spring

@@ -43,3 +43,7 @@ python mogicX/30_ngame-for-msmarco-with-hard-negatives-inference.py --use_sxc_sa
 
 # Conflation code
 python mogicX/42_entity-conflation.py --pred_file /data/datasets/msmarco/XC/entity-gpt_ngame_trn_X_Y.npz --lbl_file //data/datasets/msmarco/XC/raw_data/entity_gpt.raw.txt  --trn_file /data/datasets/msmarco/XC/entity_gpt_trn_X_Y.npz --tst_file /data/datasets/msmarco/XC/entity_gpt_tst_X_Y.npz --topk 3 --batch_size 1024 --min_thresh 2 --max_thresh 100 --freq_thresh 50 --score_thresh 25 --diff_thresh 0.1 --embed_file /data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/predictions/label_repr_full.pth
+
+# Llama for quality analysis
+CUDA_VISIBLE_DEVICES=0,1,2,3 python mogicX/45_llama-for-conflation-quality.py --input_file outputs/msmarco_entity_gpt_conflated_sample-10.txt  --output_file outputs/msmarco_entity_gpt_conflated_sample-10_quality.txt
+

@@ -1,0 +1,52 @@
+[
+    {
+        "score": 5,
+        "reason": "Entities are abbreviations of the same phrase ('equal to'), indicating they belong to the same underlying entity.",
+        "identifier": "0"
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all related to the same historical figure, King Tut, with the second entity being a location ('Grass') and the third being the king's name.",
+        "identifier": "1"
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (geographic locations and institutions related to Colorado) and share a common theme, with most being names of places or institutions in the state of Colorado.",
+        "identifier": "2"
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (roofs and roof-related services) and share a common theme, indicating high coherence.",
+        "identifier": "3"
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (decks and decking) and share similar meanings, with some referring to the structure itself and others referring to the process or materials used in its construction.",
+        "identifier": "4"
+    },
+    {
+        "score": 5,
+        "reason": "The entities are synonyms, referring to the same concept (bad or unpleasant breath).",
+        "identifier": "5"
+    },
+    {
+        "score": 5,
+        "reason": "All entities belong to the same anatomical part (tonsils) and share a common theme, indicating high coherence.",
+        "identifier": "6"
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all related to the same concept (Microsoft Excel) and share similar characteristics, indicating a high level of coherence.",
+        "identifier": "7"
+    },
+    {
+        "score": 5,
+        "reason": "The entities'solidarity' and'solidarity movement' are synonyms, referring to the same concept of unity and collective support.",
+        "identifier": "8"
+    },
+    {
+        "score": 5,
+        "reason": "Entities are synonyms and refer to the same concept (the season or period of the year characterized by the vernal equinox).",
+        "identifier": "10"
+    }
+]

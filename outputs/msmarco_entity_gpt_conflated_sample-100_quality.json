@@ -1,0 +1,1311 @@
+[
+    {
+        "score": 5,
+        "reason": "Entities are abbreviations of the same phrase ('equal to'), indicating they belong to the same underlying entity.",
+        "identifier": "0",
+        "entities": [
+            "eq",
+            "et seq",
+            "etq",
+            "eoq"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all related to the same historical figure, King Tut, with the second entity being a location ('Grass') and the third being the king's name.",
+        "identifier": "1",
+        "entities": [
+            "king tut",
+            "king tut grass",
+            "tut"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (geographic locations and institutions related to Colorado) and share a common theme, with most being names of places or institutions in the state of Colorado.",
+        "identifier": "2",
+        "entities": [
+            "denver",
+            "colorado",
+            "cu denver",
+            "denver, co",
+            "metro denver",
+            "colorado day",
+            "state of colorado",
+            "colorado state university",
+            "colorado college",
+            "university of denver",
+            "denver, colorado",
+            "u.s. state of colorado",
+            "colorado technical university",
+            "metropolitan state university of denver",
+            "university of colorado denver",
+            "colorado state"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (roofs and roof-related services) and share a common theme, indicating high coherence.",
+        "identifier": "3",
+        "entities": [
+            "roof",
+            "roof replacement",
+            "roofs",
+            "wood roofs",
+            "roof repairs",
+            "roofing replacement",
+            "roof repair"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (decks and decking) and share similar meanings, with some referring to the structure itself and others referring to the process or materials used in its construction.",
+        "identifier": "4",
+        "entities": [
+            "deck",
+            "decking",
+            "deck construction",
+            "decks",
+            "decking material",
+            "patio deck",
+            "patio decking",
+            "deck materials",
+            "deck installation"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The entities are synonyms, referring to the same concept (bad or unpleasant breath).",
+        "identifier": "5",
+        "entities": [
+            "bad breath",
+            "breath"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "All entities belong to the same anatomical part (tonsils) and share a common theme, indicating high coherence.",
+        "identifier": "6",
+        "entities": [
+            "tonsil stones",
+            "tonsils",
+            "tonsil cancer",
+            "tonsil tissue",
+            "tonsil stone",
+            "tonsil",
+            "tonsil removal"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all related to the same concept (Microsoft Excel) and share similar characteristics, indicating a high level of coherence.",
+        "identifier": "7",
+        "entities": [
+            "excel",
+            "spreadsheet",
+            "excel spreadsheet",
+            "microsoft excel",
+            "spreadsheet files",
+            "microsoft office excel",
+            "spreadsheet application",
+            "excel file",
+            "excel development",
+            "excel online",
+            "spreadsheets",
+            "spreadsheet software"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The entities'solidarity' and'solidarity movement' are synonyms, referring to the same concept of unity and collective support.",
+        "identifier": "8",
+        "entities": [
+            "solidarity",
+            "solidarity movement"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are synonyms and refer to the same concept (the season or period of the year characterized by the vernal equinox).",
+        "identifier": "10",
+        "entities": [
+            "spring",
+            "first day of spring",
+            "spring begins",
+            "the spring",
+            "springtime",
+            "spring time",
+            "1st day of spring"
+        ]
+    },
+    {
+        "score": 4,
+        "reason": "Entities are related to the same concept (month of the year), with slight variations in format.",
+        "identifier": "11",
+        "entities": [
+            "march",
+            "march 1",
+            "march-april"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (dates) and represent different notations of the same date (April 1st).",
+        "identifier": "12",
+        "entities": [
+            "april",
+            "mid-april",
+            "april 1st",
+            "april 1",
+            "16 april"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same concept (child support) and share similar functions and purposes, indicating a high level of coherence.",
+        "identifier": "13",
+        "entities": [
+            "child support",
+            "child support recovery",
+            "child support payment",
+            "child support enforcement",
+            "department of child support services"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The entities'starkist' and'starkist foods' are likely referring to the same entity, Starkist Foods, a canned tuna company.",
+        "identifier": "15",
+        "entities": [
+            "starkist",
+            "starkist foods"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (tuna) and share similar characteristics, with some being specific types or forms of tuna.",
+        "identifier": "16",
+        "entities": [
+            "tuna",
+            "tuna steaks",
+            "tuna fishers",
+            "tuna fish",
+            "tuna steak",
+            "tuna fishing boat",
+            "tuna salad sandwich",
+            "canned tuna",
+            "tuna salad",
+            "ahi tuna steaks",
+            "ahi tuna",
+            "water packed canned tuna",
+            "largest tuna",
+            "tuna sandwich"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (condors) and share a common name, indicating a high level of coherence.",
+        "identifier": "17",
+        "entities": [
+            "condor",
+            "california condors",
+            "california condor",
+            "condor air"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same domain (neurology/neuropsychology) and share similar terms, indicating a high level of coherence.",
+        "identifier": "19",
+        "entities": [
+            "neurology department",
+            "neurologist",
+            "neuropsychological",
+            "clinical neuropsychologist",
+            "neurology",
+            "neuropsychologists",
+            "neuropsychological testing",
+            "neuropsychological evaluation",
+            "neuropsychology",
+            "neuropsychologist",
+            "neurologists"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (kitchenware) and are often used interchangeably.",
+        "identifier": "22",
+        "entities": [
+            "cookware",
+            "bakeware"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (places in Alaska) and share similar names, indicating a high level of coherence.",
+        "identifier": "25",
+        "entities": [
+            "alaska",
+            "fairbanks, alaska",
+            "ak",
+            "anchorage",
+            "fairbanks",
+            "anchorage, alaska",
+            "akt",
+            "anchorage, ak",
+            "fairbanks, ak",
+            "u.s. state of alaska"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "All entities belong to the same category (Registered Nurse) and share a common abbreviation 'rn', indicating a high level of coherence.",
+        "identifier": "26",
+        "entities": [
+            "rn",
+            "rn license",
+            "rns",
+            "rn nurse",
+            "rn program",
+            "rn degree",
+            "rn nurses",
+            "compact rn license",
+            "certified rn"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (home health services) and have similar meanings, with some being synonyms or variations of each other.",
+        "identifier": "27",
+        "entities": [
+            "home care",
+            "home health",
+            "home health care",
+            "home health plan of care",
+            "home health services",
+            "home health care provider",
+            "home provider",
+            "home care services"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (hurricanes) and share similar characteristics, with 'hurricane' being a type of storm and 'hurricane season' referring to a specific time period for these storms, while 'carolina hurricanes' is a specific geographic location affected by hurricanes.",
+        "identifier": "28",
+        "entities": [
+            "hurricanes",
+            "hurricane",
+            "hurricane season",
+            "carolina hurricanes"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are different names for the same geographic entity, specifically the state of Texas in the United States.",
+        "identifier": "30",
+        "entities": [
+            "texas",
+            "texas state",
+            "state of texas",
+            "tx state"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The given entities are synonyms, referring to the same concept of a disease or a state of being unwell.",
+        "identifier": "31",
+        "entities": [
+            "illness",
+            "period of illness",
+            "illnesses"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The entities belong to the same category (people) and have similar forms, indicating a high degree of coherence.",
+        "identifier": "32",
+        "entities": [
+            "people",
+            "person",
+            "20 people",
+            "persons",
+            "50 people",
+            "1 person",
+            "one person company"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (skin) and share similar characteristics, indicating a high level of coherence.",
+        "identifier": "33",
+        "entities": [
+            "skin",
+            "skin issues",
+            "skin color",
+            "skin colors",
+            "skin colour",
+            "skin problems"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are synonyms, referring to the same type of retirement savings account.",
+        "identifier": "34",
+        "entities": [
+            "traditional ira",
+            "traditional iras"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all related to lupus, a type of autoimmune disease, with varying forms and manifestations.",
+        "identifier": "36",
+        "entities": [
+            "lupus",
+            "cutaneous lupus",
+            "discoid lupus",
+            "lupus erythematosus",
+            "lupus anticoagulant",
+            "lupus awareness month",
+            "systemic lupus erythematosus",
+            "lupus cerebritis",
+            "canis lupus",
+            "discoid lupus erythematosus",
+            "active lupus"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are synonyms and refer to the same concept (the first three months of pregnancy).",
+        "identifier": "37",
+        "entities": [
+            "trimester",
+            "1st trimester",
+            "first trimester",
+            "trimesters"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (pregnancy) and are related concepts, with 'pregnancy symptoms' being a subset of 'pregnancy' and 'early pregnancy' being a stage of 'pregnancy'.",
+        "identifier": "38",
+        "entities": [
+            "pregnancy",
+            "pregnancy symptoms",
+            "early pregnancy"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same entity, Siemens, with different contexts (person, company, and subsidiary).",
+        "identifier": "39",
+        "entities": [
+            "siemens",
+            "werner von siemens",
+            "siemens healthcare"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (hearing aids) and share similar characteristics, with the last two entities being specific types of hearing aids.",
+        "identifier": "40",
+        "entities": [
+            "hearing aid",
+            "hearing aids",
+            "behind the ear hearing aids",
+            "hearing aid batteries",
+            "hearing aid bank"
+        ]
+    },
+    {
+        "score": 4,
+        "reason": "Entities belong to the same category (cabinets) with varying specifications and contexts, but share a common core concept.",
+        "identifier": "41",
+        "entities": [
+            "kitchen cabinets",
+            "cabinet",
+            "kitchen cabinet",
+            "presidential cabinet",
+            "cabinets",
+            "wooden cabinets",
+            "kitchen bottom cabinets",
+            "us cabinet",
+            "u s president's cabinet",
+            "wood cabinets",
+            "base cabinet",
+            "custom kitchen cabinets",
+            "kitchen base cabinets",
+            "base kitchen cabinets",
+            "base cabinets"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are different names for the same country, the Dominican Republic.",
+        "identifier": "47",
+        "entities": [
+            "dominican republic",
+            "dominican",
+            "republica dominicana",
+            "dominicans"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (primary care medical services) and have similar names, indicating a high level of coherence.",
+        "identifier": "49",
+        "entities": [
+            "primary care physician",
+            "primary care doctor",
+            "primary care",
+            "primary care services",
+            "primary care physicians",
+            "primary care provider",
+            "primary direct care",
+            "primary care dr.",
+            "primary care nurse practitioner",
+            "primary care doctors",
+            "direct medical care",
+            "primary doctor"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are different forms of the same plant-based ingredient, indicating a high level of coherence.",
+        "identifier": "51",
+        "entities": [
+            "beetroot",
+            "beetroots",
+            "beetroot powder"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "All entities belong to the same category (liver or liver-related) and are closely related concepts, indicating a highly coherent cluster.",
+        "identifier": "52",
+        "entities": [
+            "liver",
+            "liver function",
+            "human liver",
+            "liver damage",
+            "liver problems",
+            "liver function test",
+            "liver pain",
+            "liver function tests",
+            "liver health",
+            "liver test",
+            "liver functions",
+            "liver blood test"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all referring to the same award ceremony, 'The Oscars', with slight variations in naming.",
+        "identifier": "53",
+        "entities": [
+            "oscars",
+            "oscar",
+            "oscar award",
+            "oscar awards",
+            "the oscars"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all names of the same person, Adam Brody, with slight variations in spelling or additional middle names.",
+        "identifier": "54",
+        "entities": [
+            "brody",
+            "brody foxx",
+            "adam brody"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The entities are synonyms, referring to the same concept.",
+        "identifier": "55",
+        "entities": [
+            "offspring",
+            "the offspring"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all names of the same company, with slight variations in naming conventions.",
+        "identifier": "56",
+        "entities": [
+            "parsons",
+            "parsons group",
+            "parsons company, inc."
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are variations of the same dish (piccata), differing only in the type of protein used.",
+        "identifier": "58",
+        "entities": [
+            "piccata",
+            "chicken piccata"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The given entities are the same person, 'ian', with a repetition of the name.",
+        "identifier": "59",
+        "entities": [
+            "ian",
+            "ian read"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The given entities are all related to dates and share a common theme, indicating a high level of coherence.",
+        "identifier": "61",
+        "entities": [
+            "dates",
+            "date",
+            "best before date",
+            "best by date",
+            "use by date",
+            "best use date",
+            "used by date",
+            "use-by date",
+            "best if used by date"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are likely referring to the same person, Jerry Wexler, with 'wexler's' being a possessive form.",
+        "identifier": "62",
+        "entities": [
+            "jerry wexler",
+            "wexler's"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all related to the concept of 'billboard', with varying forms and contexts, but share a common core meaning.",
+        "identifier": "63",
+        "entities": [
+            "billboard magazine",
+            "billboard",
+            "billboard music awards",
+            "billboards",
+            "electronic billboards",
+            "billboards country chart"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The given dates are identical or very close, indicating a high level of coherence.",
+        "identifier": "64",
+        "entities": [
+            "1948",
+            "10 december 1948",
+            "june 26, 1948"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (geographical entities, specifically countries or regions) and are synonyms or closely related terms.",
+        "identifier": "65",
+        "entities": [
+            "united states",
+            "states",
+            "usa",
+            "united states of america",
+            "america",
+            "born in the usa",
+            "u.s. states",
+            "50 states",
+            "13 states",
+            "us states",
+            "born in the u.s.a."
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are related to the same medical concept (hemodialysis) and share similar prefixes, indicating a high degree of coherence.",
+        "identifier": "67",
+        "entities": [
+            "hemodialysis diet",
+            "hemolysis",
+            "hemodialysis",
+            "hemodialysis machines"
+        ]
+    },
+    {
+        "score": 4,
+        "reason": "Entities belong to the same category (Argentina-related) and share similar names, indicating a strong connection.",
+        "identifier": "71",
+        "entities": [
+            "argentina",
+            "central argentina",
+            "argentine government",
+            "don't cry for me argentina"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The given entities are likely referring to the same person, Scott Peterson, with different labels (full name, last name, and military base name).",
+        "identifier": "72",
+        "entities": [
+            "scott peterson",
+            "peterson",
+            "peterson afb"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are different names for the same prison, indicating a high level of coherence.",
+        "identifier": "73",
+        "entities": [
+            "san quentin prison",
+            "san quentin",
+            "san quentin state prison"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all referring to the same geographic location, California, with different descriptions.",
+        "identifier": "74",
+        "entities": [
+            "california",
+            "california city",
+            "state of california",
+            "californian"
+        ]
+    },
+    {
+        "score": 4,
+        "reason": "Entities belong to the same category (stress) but have different meanings and connotations, with one being a psychological state and the other being a type of supplement.",
+        "identifier": "75",
+        "entities": [
+            "stress",
+            "stress vitamins"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (blood pressure) and share similar characteristics, indicating a high level of coherence.",
+        "identifier": "76",
+        "entities": [
+            "blood pressure",
+            "high blood pressure",
+            "low blood pressure",
+            "pressure system",
+            "resting blood pressure",
+            "low pressure system",
+            "low pressure",
+            "blood pressure tablets",
+            "blood pressure pill",
+            "blood pressure pills",
+            "blood pressure test"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same entity, referring to the legislative branch of the United States government, with slight variations in naming conventions.",
+        "identifier": "77",
+        "entities": [
+            "senate",
+            "us senate",
+            "u.s. senate",
+            "united states senate",
+            "president of the senate",
+            "u.s senate"
+        ]
+    },
+    {
+        "score": 4,
+        "reason": "Entities belong to the same category (US political parties or politicians) and share common keywords, but some entities have specific roles or descriptions that differentiate them.",
+        "identifier": "78",
+        "entities": [
+            "republicans",
+            "democrats",
+            "democrat",
+            "republican",
+            "republican president",
+            "republican presidents",
+            "democratic-republican presidents",
+            "democratic-republicans",
+            "democratic/republicans",
+            "republican symbol"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all names of the same person, Mitch McConnell, with different suffixes and contexts.",
+        "identifier": "80",
+        "entities": [
+            "mitch mcconnell",
+            "mcconnell",
+            "gene a. mcconnell",
+            "mcconnell afb"
+        ]
+    },
+    {
+        "score": 4,
+        "reason": "Entities belong to the same cluster as they are all related to the state of Kentucky, its cities, counties, and people, with some entities being geographic locations and others being names of institutions or individuals.",
+        "identifier": "82",
+        "entities": [
+            "kentucky",
+            "ky",
+            "masons",
+            "louisville",
+            "louisville, kentucky",
+            "louisville, ky",
+            "john mason",
+            "virginia mason medical center",
+            "mason county",
+            "mason",
+            "dixon",
+            "dixon, ky",
+            "virginia mason",
+            "mason county kentucky",
+            "louisville, ms",
+            "mason dixon",
+            "johnson county, kentucky",
+            "university of louisville",
+            "dixon hughes",
+            "college of louisville"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same geographic region (Nevada) and are related to different aspects of it (city, state, fair, county, etc.).",
+        "identifier": "83",
+        "entities": [
+            "nevada",
+            "nevada city",
+            "nevada state fair",
+            "reno, nv",
+            "reno nv",
+            "reno",
+            "nevada county",
+            "reno nevada",
+            "nevada day",
+            "reno, nevada",
+            "state of nevada"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are different names for the same fast-food restaurant chain.",
+        "identifier": "89",
+        "entities": [
+            "wendy's",
+            "wendy",
+            "wendys"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (marble) and share similar meanings, with 'cultured marble' being a type of marble and'marble sculpture' being a type of object made from marble.",
+        "identifier": "92",
+        "entities": [
+            "cultured marble",
+            "marble",
+            "marbles",
+            "marble sculpture"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are different names for the same service (iTunes) provided by Apple.",
+        "identifier": "94",
+        "entities": [
+            "itunes",
+            "itunes connect"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "All entities belong to the same brand (Amazon Kindle) and represent different aspects of the same product line.",
+        "identifier": "95",
+        "entities": [
+            "kindle",
+            "kindle books",
+            "kindle app",
+            "kindle reader",
+            "kindle edition",
+            "kindles"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The given entities are all related to energy and its sources, with some being renewable and others non-renewable, indicating a high level of coherence within the cluster.",
+        "identifier": "96",
+        "entities": [
+            "energy source",
+            "renewable energy",
+            "non-renewable energy sources",
+            "energy sources",
+            "nonrenewable resource",
+            "renewable fuel",
+            "nonrenewable energy resources",
+            "renewable energy resources",
+            "energy resources",
+            "renewable sources of energy",
+            "non-renewable energy source",
+            "nonrenewable natural resource",
+            "renewable sources",
+            "non-renewable energy",
+            "renewable source of energy",
+            "non-renewable source of energy",
+            "nonrenewable energy",
+            "renewable",
+            "renewable fuel source",
+            "energy resource"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (law professionals) and share similar meanings, with some being synonyms or related terms.",
+        "identifier": "97",
+        "entities": [
+            "lawyer",
+            "attorney",
+            "attorneys",
+            "lawyers",
+            "attorney in fact",
+            "attorney fees",
+            "business lawyer"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are different names for the same person, a United States Senator.",
+        "identifier": "98",
+        "entities": [
+            "elizabeth warren",
+            "sen. elizabeth warren",
+            "senator elizabeth warren"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (Native American groups or culture) and share similar names, indicating a high level of coherence.",
+        "identifier": "99",
+        "entities": [
+            "native american",
+            "american indians",
+            "indians",
+            "american indian",
+            "native americans",
+            "native american culture",
+            "native american indians",
+            "native north americans",
+            "native american-navajo",
+            "native american nation",
+            "native american museum"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The given entities are all related to the concept of skills or abilities, with some being more specific (e.g., 'fitness skill', 'job-specific skill') and others being broader (e.g.,'skills', 'professional skills').",
+        "identifier": "100",
+        "entities": [
+            "workplace",
+            "skills",
+            "workplace skills",
+            "fitness skill",
+            "skill",
+            "professional job skills",
+            "professional skills",
+            "job skills",
+            "behavior skills",
+            "job-specific skill"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The entities'morale' and 'work morale' are synonyms, referring to the same concept of a person's attitude or feeling towards their job or workplace.",
+        "identifier": "101",
+        "entities": [
+            "morale",
+            "work morale"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "All entities belong to the same category (wedding-related events or aspects) and share a common theme.",
+        "identifier": "102",
+        "entities": [
+            "wedding",
+            "rehearsal dinner",
+            "wedding flowers",
+            "weddings",
+            "wedding dinner",
+            "wedding rehearsal",
+            "wedding rehearsal dinner"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all abbreviations for the United States of America, indicating a high level of coherence.",
+        "identifier": "103",
+        "entities": [
+            "u.s.",
+            "u.s",
+            "u.s.a.",
+            "u.s.a",
+            "u. s."
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all related to the name 'Greenwood', with varying forms and contexts, indicating a high degree of coherence.",
+        "identifier": "104",
+        "entities": [
+            "greenwood",
+            "greenwood village",
+            "greenwood lake",
+            "lee greenwood",
+            "greenwood, sc"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all names for the same geographic location, specifically the state of New York and its capital city, New York City.",
+        "identifier": "106",
+        "entities": [
+            "new york",
+            "new york city",
+            "nys",
+            "state of new york",
+            "ny",
+            "new york state",
+            "nyc",
+            "ny state",
+            "ny city",
+            "city of new york",
+            "york, ny",
+            "nys fair"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (urine) and share similar characteristics, indicating a high level of coherence.",
+        "identifier": "107",
+        "entities": [
+            "urine",
+            "urine output",
+            "yellow urine",
+            "blood in urine",
+            "urine odor",
+            "urine color"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all related to the same concept (color or person), sharing the same name 'amber'.",
+        "identifier": "108",
+        "entities": [
+            "amber",
+            "amber turner",
+            "amber color"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (US healthcare programs) and are related to the same government agency (Centers for Medicare and Medicaid Services).",
+        "identifier": "111",
+        "entities": [
+            "medicare",
+            "medicaid",
+            "medicare-medicaid plan",
+            "original medicare",
+            "medicare number",
+            "centers for medicare & medicaid services",
+            "centers for medicare and medicaid services",
+            "us medicare",
+            "medicaid program",
+            "medicare-medicaid"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (mountain) and share similar characteristics, with'mountain' being a general term and'mountains' being a plural form, and 'fire on the mountain' being a specific event occurring on a mountain.",
+        "identifier": "112",
+        "entities": [
+            "mountain",
+            "mountains",
+            "fire on the mountain"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (vitamins and nutritional deficiencies) and share similar names, indicating a high level of coherence.",
+        "identifier": "113",
+        "entities": [
+            "vitamin d",
+            "vitamin d deficiency disease",
+            "vitamin d deficiency",
+            "vitamin deficiency",
+            "nutrient deficiency",
+            "low vitamin d",
+            "vitamin a deficiency",
+            "nutritional deficiencies",
+            "nutrient deficiencies",
+            "nutritional deficiency",
+            "nutrition deficiency",
+            "vitamin deficiencies",
+            "vitamins d"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are the same event, with 'kennel club' being a descriptive phrase.",
+        "identifier": "114",
+        "entities": [
+            "westminster kennel club dog show",
+            "westminster dog show"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (paper) and share similar characteristics, such as size and type, indicating a high level of coherence.",
+        "identifier": "115",
+        "entities": [
+            "paper",
+            "up with paper",
+            "normal paper size",
+            "paper size",
+            "us letter paper",
+            "term paper",
+            "copy paper",
+            "standard copy paper",
+            "sheet of paper",
+            "letter size",
+            "piece of paper",
+            "letter paper",
+            "standard size sheet of paper",
+            "letter paper size",
+            "regular paper"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The entities 'labels' and 'label' are likely referring to the same concept, as they are synonyms.",
+        "identifier": "116",
+        "entities": [
+            "labels",
+            "label"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all referring to the same breed of dog, with the first two being synonyms and the third being a broader category.",
+        "identifier": "117",
+        "entities": [
+            "german shepherds",
+            "german shepherd",
+            "german dogs"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are synonyms, referring to the same concept (physical movements of the human body).",
+        "identifier": "119",
+        "entities": [
+            "body movements",
+            "body movement"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are synonyms and refer to the same concept (the process or cost of renovating or remodeling a kitchen).",
+        "identifier": "120",
+        "entities": [
+            "kitchen remodel cost",
+            "kitchen renovation",
+            "kitchen remodel",
+            "kitchen remodeling"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (RNA-related processes and concepts) and share similar meanings, indicating a high level of coherence.",
+        "identifier": "121",
+        "entities": [
+            "rna",
+            "transcription",
+            "transcription services",
+            "rna synthesis",
+            "messenger rna",
+            "gene transcription",
+            "rnas",
+            "rna transcription"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are related to the same biological process (protein synthesis) and share a common theme (viral proteins and viral protein synthesis), indicating a high level of coherence.",
+        "identifier": "122",
+        "entities": [
+            "protein synthesis",
+            "viral proteins",
+            "viral protein synthesis"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are synonyms and refer to the same concept, 'the speed at which light travels in vacuum'.",
+        "identifier": "124",
+        "entities": [
+            "light",
+            "speed of light",
+            "velocity of light",
+            "light speed",
+            "lighting"
+        ]
+    },
+    {
+        "score": 4,
+        "reason": "Entities belong to the same category (sounds) and share similar characteristics, but may refer to different types of sounds.",
+        "identifier": "125",
+        "entities": [
+            "sound",
+            "letter sounds",
+            "sounds",
+            "head sounds"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The given entities are different forms of the same entity, 'chia', which is a type of seed.",
+        "identifier": "126",
+        "entities": [
+            "chia seeds",
+            "chia",
+            "chia seed"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (cats) and share similar characteristics, with some being specific instances or phrases related to cats.",
+        "identifier": "127",
+        "entities": [
+            "cat",
+            "cats",
+            "house cat",
+            "like cats and dogs",
+            "year of the cat",
+            "house cats",
+            "cat sitting",
+            "pet cat"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The entities belong to the same category (furniture) and are related to the same concept, making them highly coherent.",
+        "identifier": "128",
+        "entities": [
+            "furniture",
+            "furniture company"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "All entities belong to the same geographic region or concept (Maine), with some being specific locations or events related to Maine.",
+        "identifier": "130",
+        "entities": [
+            "portland, maine",
+            "maine",
+            "maine lobster festival",
+            "gulf of maine",
+            "maine lobster",
+            "state of maine"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are the same geographic location, Boothbay Harbor in Maine, USA.",
+        "identifier": "131",
+        "entities": [
+            "boothbay harbor",
+            "boothbay, me"
+        ]
+    },
+    {
+        "score": 4,
+        "reason": "Entities are related to the same concept (gallons) with slight variations in notation (lb/gal) and location (California), indicating a coherent cluster.",
+        "identifier": "133",
+        "entities": [
+            "gal",
+            "galt",
+            "lb/gal",
+            "galt, california"
+        ]
+    },
+    {
+        "score": 4,
+        "reason": "Entities belong to the same category (places in Wisconsin) with some being cities, counties, and the state itself, but they all share a common geographical connection.",
+        "identifier": "134",
+        "entities": [
+            "wisconsin",
+            "wi",
+            "milwaukee",
+            "milwaukee, wi",
+            "milwaukee county",
+            "madison",
+            "madison, wi",
+            "milwaukee, wisconsin",
+            "madison ga",
+            "madison, ga",
+            "madison, wisconsin",
+            "state of wi"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "The entities 'rgb' and 'rgb led' are likely referring to the same concept, which is a color model or a type of LED lighting.",
+        "identifier": "135",
+        "entities": [
+            "rgb",
+            "rgb led"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (hexadecimal color codes) and share a common prefix 'hex', indicating a high level of coherence.",
+        "identifier": "136",
+        "entities": [
+            "hex",
+            "hex a",
+            "hex color codes",
+            "hex code"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities are all related to the same type of plant, with varying descriptions and locations.",
+        "identifier": "140",
+        "entities": [
+            "ferns",
+            "fern",
+            "fern tree",
+            "fern plants",
+            "fern park",
+            "fern plant"
+        ]
+    },
+    {
+        "score": 5,
+        "reason": "Entities belong to the same category (heart-related medical conditions or terms) and are closely related, with some being synonyms or variations of each other.",
+        "identifier": "142",
+        "entities": [
+            "heart disease",
+            "valve",
+            "heart valves",
+            "valves",
+            "heart valve",
+            "leaky heart valves",
+            "heart valve disease",
+            "cardiac heart disease",
+            "heart diseases",
+            "cardiac disease"
+        ]
+    }
+]

@@ -1,0 +1,100 @@
+0->eq || et seq || etq || eoq
+1->king tut || king tut grass || tut
+2->denver || colorado || cu denver || denver, co || metro denver || colorado day || state of colorado || colorado state university || colorado college || university of denver || denver, colorado || u.s. state of colorado || colorado technical university || metropolitan state university of denver || university of colorado denver || colorado state
+3->roof || roof replacement || roofs || wood roofs || roof repairs || roofing replacement || roof repair
+4->deck || decking || deck construction || decks || decking material || patio deck || patio decking || deck materials || deck installation
+5->bad breath || breath
+6->tonsil stones || tonsils || tonsil cancer || tonsil tissue || tonsil stone || tonsil || tonsil removal
+7->excel || spreadsheet || excel spreadsheet || microsoft excel || spreadsheet files || microsoft office excel || spreadsheet application || excel file || excel development || excel online || spreadsheets || spreadsheet software
+8->solidarity || solidarity movement
+10->spring || first day of spring || spring begins || the spring || springtime || spring time || 1st day of spring
+11->march || march 1 || march-april
+12->april || mid-april || april 1st || april 1 || 16 april
+13->child support || child support recovery || child support payment || child support enforcement || department of child support services
+15->starkist || starkist foods
+16->tuna || tuna steaks || tuna fishers || tuna fish || tuna steak || tuna fishing boat || tuna salad sandwich || canned tuna || tuna salad || ahi tuna steaks || ahi tuna || water packed canned tuna || largest tuna || tuna sandwich
+17->condor || california condors || california condor || condor air
+19->neurology department || neurologist || neuropsychological || clinical neuropsychologist || neurology || neuropsychologists || neuropsychological testing || neuropsychological evaluation || neuropsychology || neuropsychologist || neurologists
+22->cookware || bakeware
+25->alaska || fairbanks, alaska || ak || anchorage || fairbanks || anchorage, alaska || akt || anchorage, ak || fairbanks, ak || u.s. state of alaska
+26->rn || rn license || rns || rn nurse || rn program || rn degree || rn nurses || compact rn license || certified rn
+27->home care || home health || home health care || home health plan of care || home health services || home health care provider || home provider || home care services
+28->hurricanes || hurricane || hurricane season || carolina hurricanes
+30->texas || texas state || state of texas || tx state
+31->illness || period of illness || illnesses
+32->people || person || 20 people || persons || 50 people || 1 person || one person company
+33->skin || skin issues || skin color || skin colors || skin colour || skin problems
+34->traditional ira || traditional iras
+36->lupus || cutaneous lupus || discoid lupus || lupus erythematosus || lupus anticoagulant || lupus awareness month || systemic lupus erythematosus || lupus cerebritis || canis lupus || discoid lupus erythematosus || active lupus
+37->trimester || 1st trimester || first trimester || trimesters
+38->pregnancy || pregnancy symptoms || early pregnancy
+39->siemens || werner von siemens || siemens healthcare
+40->hearing aid || hearing aids || behind the ear hearing aids || hearing aid batteries || hearing aid bank
+41->kitchen cabinets || cabinet || kitchen cabinet || presidential cabinet || cabinets || wooden cabinets || kitchen bottom cabinets || us cabinet || u s president's cabinet || wood cabinets || base cabinet || custom kitchen cabinets || kitchen base cabinets || base kitchen cabinets || base cabinets
+47->dominican republic || dominican || republica dominicana || dominicans
+49->primary care physician || primary care doctor || primary care || primary care services || primary care physicians || primary care provider || primary direct care || primary care dr. || primary care nurse practitioner || primary care doctors || direct medical care || primary doctor
+51->beetroot || beetroots || beetroot powder
+52->liver || liver function || human liver || liver damage || liver problems || liver function test || liver pain || liver function tests || liver health || liver test || liver functions || liver blood test
+53->oscars || oscar || oscar award || oscar awards || the oscars
+54->brody || brody foxx || adam brody
+55->offspring || the offspring
+56->parsons || parsons group || parsons company, inc.
+58->piccata || chicken piccata
+59->ian || ian read
+61->dates || date || best before date || best by date || use by date || best use date || used by date || use-by date || best if used by date
+62->jerry wexler || wexler's
+63->billboard magazine || billboard || billboard music awards || billboards || electronic billboards || billboards country chart
+64->1948 || 10 december 1948 || june 26, 1948
+65->united states || states || usa || united states of america || america || born in the usa || u.s. states || 50 states || 13 states || us states || born in the u.s.a.
+67->hemodialysis diet || hemolysis || hemodialysis || hemodialysis machines
+71->argentina || central argentina || argentine government || don't cry for me argentina
+72->scott peterson || peterson || peterson afb
+73->san quentin prison || san quentin || san quentin state prison
+74->california || california city || state of california || californian
+75->stress || stress vitamins
+76->blood pressure || high blood pressure || low blood pressure || pressure system || resting blood pressure || low pressure system || low pressure || blood pressure tablets || blood pressure pill || blood pressure pills || blood pressure test
+77->senate || us senate || u.s. senate || united states senate || president of the senate || u.s senate
+78->republicans || democrats || democrat || republican || republican president || republican presidents || democratic-republican presidents || democratic-republicans || democratic/republicans || republican symbol
+80->mitch mcconnell || mcconnell || gene a. mcconnell || mcconnell afb
+82->kentucky || ky || masons || louisville || louisville, kentucky || louisville, ky || john mason || virginia mason medical center || mason county || mason || dixon || dixon, ky || virginia mason || mason county kentucky || louisville, ms || mason dixon || johnson county, kentucky || university of louisville || dixon hughes || college of louisville
+83->nevada || nevada city || nevada state fair || reno, nv || reno nv || reno || nevada county || reno nevada || nevada day || reno, nevada || state of nevada
+89->wendy's || wendy || wendys
+92->cultured marble || marble || marbles || marble sculpture
+94->itunes || itunes connect
+95->kindle || kindle books || kindle app || kindle reader || kindle edition || kindles
+96->energy source || renewable energy || non-renewable energy sources || energy sources || nonrenewable resource || renewable fuel || nonrenewable energy resources || renewable energy resources || energy resources || renewable sources of energy || non-renewable energy source || nonrenewable natural resource || renewable sources || non-renewable energy || renewable source of energy || non-renewable source of energy || nonrenewable energy || renewable || renewable fuel source || energy resource
+97->lawyer || attorney || attorneys || lawyers || attorney in fact || attorney fees || business lawyer
+98->elizabeth warren || sen. elizabeth warren || senator elizabeth warren
+99->native american || american indians || indians || american indian || native americans || native american culture || native american indians || native north americans || native american-navajo || native american nation || native american museum
+100->workplace || skills || workplace skills || fitness skill || skill || professional job skills || professional skills || job skills || behavior skills || job-specific skill
+101->morale || work morale
+102->wedding || rehearsal dinner || wedding flowers || weddings || wedding dinner || wedding rehearsal || wedding rehearsal dinner
+103->u.s. || u.s || u.s.a. || u.s.a || u. s.
+104->greenwood || greenwood village || greenwood lake || lee greenwood || greenwood, sc
+106->new york || new york city || nys || state of new york || ny || new york state || nyc || ny state || ny city || city of new york || york, ny || nys fair
+107->urine || urine output || yellow urine || blood in urine || urine odor || urine color
+108->amber || amber turner || amber color
+111->medicare || medicaid || medicare-medicaid plan || original medicare || medicare number || centers for medicare & medicaid services || centers for medicare and medicaid services || us medicare || medicaid program || medicare-medicaid
+112->mountain || mountains || fire on the mountain
+113->vitamin d || vitamin d deficiency disease || vitamin d deficiency || vitamin deficiency || nutrient deficiency || low vitamin d || vitamin a deficiency || nutritional deficiencies || nutrient deficiencies || nutritional deficiency || nutrition deficiency || vitamin deficiencies || vitamins d
+114->westminster kennel club dog show || westminster dog show
+115->paper || up with paper || normal paper size || paper size || us letter paper || term paper || copy paper || standard copy paper || sheet of paper || letter size || piece of paper || letter paper || standard size sheet of paper || letter paper size || regular paper
+116->labels || label
+117->german shepherds || german shepherd || german dogs
+119->body movements || body movement
+120->kitchen remodel cost || kitchen renovation || kitchen remodel || kitchen remodeling
+121->rna || transcription || transcription services || rna synthesis || messenger rna || gene transcription || rnas || rna transcription
+122->protein synthesis || viral proteins || viral protein synthesis
+124->light || speed of light || velocity of light || light speed || lighting
+125->sound || letter sounds || sounds || head sounds
+126->chia seeds || chia || chia seed
+127->cat || cats || house cat || like cats and dogs || year of the cat || house cats || cat sitting || pet cat
+128->furniture || furniture company
+130->portland, maine || maine || maine lobster festival || gulf of maine || maine lobster || state of maine
+131->boothbay harbor || boothbay, me
+133->gal || galt || lb/gal || galt, california
+134->wisconsin || wi || milwaukee || milwaukee, wi || milwaukee county || madison || madison, wi || milwaukee, wisconsin || madison ga || madison, ga || madison, wisconsin || state of wi
+135->rgb || rgb led
+136->hex || hex a || hex color codes || hex code
+140->ferns || fern || fern tree || fern plants || fern park || fern plant
+142->heart disease || valve || heart valves || valves || heart valve || leaky heart valves || heart valve disease || cardiac heart disease || heart diseases || cardiac disease

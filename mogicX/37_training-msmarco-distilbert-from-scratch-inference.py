@@ -7,9 +7,9 @@ __all__ = []
 import os
 os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9'
 
-os.environ["NCCL_DEBUG"] = "NONE"
-os.environ["ROCM_DISABLE_WARNINGS"] = "1"
-os.environ["MIOPEN_LOG_LEVEL"] = "0"
+# os.environ["NCCL_DEBUG"] = "NONE"
+# os.environ["ROCM_DISABLE_WARNINGS"] = "1"
+# os.environ["MIOPEN_LOG_LEVEL"] = "0"
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
@@ -59,8 +59,8 @@ if __name__ == '__main__':
         # output_dir = '/home/aiscuser/scratch1/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-002'
         output_dir = '/data/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-002'
     else: 
-        # output_dir = f'/home/aiscuser/scratch1/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-{input_args.expt_no:03d}'
-        output_dir = f'/data/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-{input_args.expt_no:03d}'
+        output_dir = f'/home/aiscuser/scratch1/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-{input_args.expt_no:03d}'
+        # output_dir = f'/data/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-{input_args.expt_no:03d}'
 
     print("Model directory:", output_dir)
 

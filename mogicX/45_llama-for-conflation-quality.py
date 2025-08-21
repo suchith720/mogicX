@@ -4,8 +4,10 @@
 __all__ = ['PROMPT_TEMPLATE', 'make_prompts', 'evaluate_clusters_in_batch', 'parse_args']
 
 # %% ../nbs/45_llama-for-conflation-quality.ipynb 1
-import torch, json, argparse
+import torch, json, argparse, re
 from transformers import AutoTokenizer, AutoModelForCausalLM
+
+from tqdm.auto import tqdm
 
 from sugar.core import load_raw_file, save_raw_file
 
@@ -52,13 +54,13 @@ def make_prompts(clusters):
     
 
 # %% ../nbs/45_llama-for-conflation-quality.ipynb 8
-def evaluate_clusters_in_batch(clusters, batch_size=4, max_new_tokens=128):
+def evaluate_clusters_in_batch(clusters, batch_size=4, max_new_tokens=1024):
     prompts = make_prompts(clusters)
     
     inputs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True).to(model.device)
     
-    generations = []
-    for i in range(0, len(prompts), batch_size):
+    responses, generations = [], []
+    for i in tqdm(range(0, len(prompts), batch_size)):
         batch_input_ids = inputs["input_ids"][i:i+batch_size]
         batch_attention_mask = inputs["attention_mask"][i:i+batch_size]
     
@@ -69,12 +71,17 @@ def evaluate_clusters_in_batch(clusters, batch_size=4, max_new_tokens=128):
             do_sample=False
         )
     
-        batch_texts = tokenizer.batch_decode(outputs, skip_special_tokens=True)
-        for prompt, full_output in zip(prompts[i:i+batch_size], batch_texts):
-            # generations.append(json.loads(full_output.split(prompt)[-1].strip()))
-            generations.append(full_output.split(prompt)[-1].strip())
+        batch_texts = tokenizer.batch_decode(outputs[:, batch_input_ids.shape[1]:], skip_special_tokens=True)
+        for text in batch_texts:
+            generations.append(text)
+            match = re.search(r"\{.*?\}", text + "}", re.DOTALL)
+            try:
+                content = json.loads(match.group(0))
+            except:
+                content = {}
+            responses.append(content)
     
-    return generations
+    return responses, generations
     
 
 # %% ../nbs/45_llama-for-conflation-quality.ipynb 9
@@ -82,6 +89,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_file', type=str, required=True)
     parser.add_argument('--output_file', type=str, required=True)
+    parser.add_argument('--batch_size', type=int, default=4)
     return parser.parse_known_args()[0]
     
 
@@ -91,6 +99,8 @@ if __name__ == '__main__':
     
     model_name = "meta-llama/Meta-Llama-3-8B-Instruct"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer.pad_token = tokenizer.eos_token
+
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         torch_dtype=torch.float16,
@@ -98,12 +108,13 @@ if __name__ == '__main__':
     )
 
     ids, txts = load_raw_file(args.input_file)
-    generations = evaluate_clusters_in_batch(txts)
+    responses, generations = evaluate_clusters_in_batch(txts, batch_size=args.batch_size)
     
-    # for i,o in zip(ids, generations): o['identifier'] = i
+    for i,g,t in zip(ids, responses, txts): 
+        g['identifier'] = i; g['entities'] = t.split(" || ")
 
-    save_raw_file(args.output_file, ids, generations)
-    
-    # with open(args.output_file, 'w') as file:
-    #     json.dump(generations, file)
+    with open(args.output_file, 'w') as file:
+        json.dump(responses, file, indent=4)
+
+    save_raw_file(f'{args.output_file}.csv', ids, generations)
         

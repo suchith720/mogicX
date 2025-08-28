@@ -3,10 +3,11 @@
 # %% auto 0
 __all__ = ['show_conflated_labels', 'load_data', 'Filter', 'get_one_hop', 'normalize_matrix', 'compute_embed_similarity',
            'get_components', 'get_valid_components', 'get_conflated_info', 'get_id_to_cluster_idx_mapping',
-           'get_conflated_matrix', 'get_conflated_path', 'save_conflated_data', 'main', 'parse_args']
+           'get_conflated_matrix', 'cluster_length_stats', 'get_conflated_path', 'save_conflated_data', 'main',
+           'parse_args']
 
 # %% ../nbs/42_entity-conflation.ipynb 2
-import scipy.sparse as sp, numpy as np, argparse, os, torch
+import scipy.sparse as sp, numpy as np, argparse, os, torch, pandas as pd
 from tqdm.auto import tqdm
 from termcolor import colored, COLORS
 from scipy.sparse.csgraph import connected_components
@@ -155,14 +156,21 @@ def get_conflated_matrix(data_lbl:sp.csr_matrix, lbl_ids2cluster:Dict, n_cluster
     return matrix
     
 
-# %% ../nbs/42_entity-conflation.ipynb 38
+# %% ../nbs/42_entity-conflation.ipynb 36
+def cluster_length_stats(components):
+    lengths = np.array([len(o) for o in valid_components.values() if len(o) > 1])
+    with pd.option_context('display.precision', 3):
+        print(pd.DataFrame(lengths).describe().T)
+        
+
+# %% ../nbs/42_entity-conflation.ipynb 42
 def get_conflated_path(fname):
     file_dir = os.path.dirname(fname)
     file_name, file_type = os.path.basename(fname).split('.', maxsplit=1)
     return f'{file_dir}/{file_name}_conflated.{file_type}'
     
 
-# %% ../nbs/42_entity-conflation.ipynb 39
+# %% ../nbs/42_entity-conflation.ipynb 43
 def save_conflated_data(lbl_txt:List, lbl_file:str, trn_lbl:sp.csr_matrix, trn_file:str, 
                         tst_lbl:sp.csr_matrix, tst_file:str):
     lbl_file = get_conflated_path(lbl_file)
@@ -174,11 +182,11 @@ def save_conflated_data(lbl_txt:List, lbl_file:str, trn_lbl:sp.csr_matrix, trn_f
     sp.save_npz(tst_file, tst_lbl)
     
 
-# %% ../nbs/42_entity-conflation.ipynb 42
+# %% ../nbs/42_entity-conflation.ipynb 46
 def main(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, embed_file:Optional[str]=None, 
          topk:Optional[int]=3, batch_size:Optional[int]=1024, min_thresh:Optional[int]=2, 
          max_thresh:Optional[int]=100, score_thresh:Optional[float]=25, freq_thresh:Optional[float]=50, 
-         diff_thresh:Optional[float]=0.1, encoding:Optional[str]='latin-1'):
+         diff_thresh:Optional[float]=0.1, print_stats:Optional[bool]=False, encoding:Optional[str]='latin-1'):
     
     pred_lbl, trn_lbl, tst_lbl, (lbl_ids, lbl_txt), lbl_repr = load_data(pred_file, trn_file, tst_file, 
                                                                          lbl_file, embed_file, encoding=encoding)
@@ -192,6 +200,7 @@ def main(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, embed_file:Opt
     valid_cluster_idxs = Filter.by_length(components, min_thresh=min_thresh, max_thresh=max_thresh)
     
     valid_components, lbl_ids2cluster_map = get_valid_components(components, valid_cluster_idxs)
+    if print_stats: cluster_length_stats(valid_components)
     conflated_lbl_txt = get_conflated_info(valid_components, lbl_ids2txt)
     lbl_ids2cluster = get_id_to_cluster_idx_mapping(lbl_ids2cluster_map, lbl_ids)
 
@@ -201,7 +210,7 @@ def main(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, embed_file:Opt
     save_conflated_data(conflated_lbl_txt, lbl_file, conflated_trn_lbl, trn_file, conflated_tst_lbl, tst_file)
     
 
-# %% ../nbs/42_entity-conflation.ipynb 44
+# %% ../nbs/42_entity-conflation.ipynb 48
 def parse_args():
     parser = argparse.ArgumentParser()
 
@@ -219,18 +228,19 @@ def parse_args():
     parser.add_argument('--score_thresh', type=float, default=25)
     parser.add_argument('--freq_thresh', type=float, default=50)
     parser.add_argument('--diff_thresh', type=float, default=0.1)
-    
+
+    parser.add_argument('--print_stats', action='store_true')
     parser.add_argument('--encoding', type=str, default='latin-1')
     
     return parser.parse_args()
     
 
-# %% ../nbs/42_entity-conflation.ipynb 45
+# %% ../nbs/42_entity-conflation.ipynb 49
 if __name__ == '__main__':
     args = parse_args()
     
     main(args.pred_file, args.trn_file, args.tst_file, args.lbl_file, args.embed_file, topk=args.topk, 
          batch_size=args.batch_size, min_thresh=args.min_thresh, max_thresh=args.max_thresh, 
          score_thresh=args.score_thresh, freq_thresh=args.freq_thresh, diff_thresh=args.diff_thresh, 
-         encoding=args.encoding)
+         print_stats=args.print_stats, encoding=args.encoding)
 

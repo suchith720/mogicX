@@ -158,7 +158,9 @@ def get_conflated_matrix(data_lbl:sp.csr_matrix, lbl_ids2cluster:Dict, n_cluster
 
 # %% ../nbs/42_entity-conflation.ipynb 36
 def cluster_length_stats(components):
+    print(f'Number of components: {len(components)}')
     lengths = np.array([len(o) for o in valid_components.values() if len(o) > 1])
+    print(f'Number of clusters: {len(lengths)}', end='\n\n')
     with pd.option_context('display.precision', 3):
         print(pd.DataFrame(lengths).describe().T)
         

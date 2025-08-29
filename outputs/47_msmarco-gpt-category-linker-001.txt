@@ -1,0 +1,700 @@
+1. data_input_text: cast of the seal team
+2. lbl2data_(scores|input_text): [(1, 'Cast and characters Main. David Boreanaz as Master Chief Special Warfare Operator A Jason Hayes, leader of a Navy SEAL team (Bravo Team) dealing with the recent loss of one of their own. In the series pilot, Jason is referred to as a Senior Chief, but in Collapse, he calls himself an E-9 Master Chief.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.47696948051452637, 'Dramas about espionage and intelligence agencies in the United States'), (0.48566848039627075, 'Bradley Cooper filmography'), (0.4886322617530823, 'American military drama television series'), (0.5047706365585327, 'Wartime drama television series'), (0.506339430809021, 'American military television dramas'), (0.5165520906448364, 'Mark Wahlberg filmography and roles'), (0.523522138595581, 'Bios about United States Navy SEALs in film and television'), (0.5646159648895264, 'Navy SEALs in film'), (0.6117990612983704, 'Films about the United States Navy SEALs'), (0.7310951352119446, 'Navy SEALs in fiction')]
+
+============================================
+
+1. data_input_text: home range of american bison
+2. lbl2data_(scores|input_text): [(1, 'American bison range. Historically, the American bison had the widest natural range of any North American herbivore, extending all the way from northern Mexico to Alaska, with central Alberta being the dividing line between the plains bison to the south and the wood bison to the north .')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.382585734128952, 'Biodiversity in the United States'), (0.3902150094509125, 'Habitats and ecology terminology'), (0.3989160656929016, 'Bison and humans'), (0.4006192088127136, 'Ecosystems in North America'), (0.4024922251701355, 'Ecology of the United States'), (0.427774578332901, 'Animals and humans interaction studies'), (0.4310842454433441, 'Ecosystem management in North America'), (0.4673522710800171, 'Bison in North America'), (0.5810182690620422, 'American bison'), (0.6412160992622375, 'Bison')]
+
+============================================
+
+1. data_input_text: which part of a phospholipid is hydrophobic
+2. lbl2data_(scores|input_text): [(1, "A phospholipid is named for its two main parts, a phosphate group and a lipid. It's usually drawn with the phosphate group as a circle, and this is referred to as the hydrophilic head. Due to its negative charge, this phosphate group is also polar. The phosphate group and the lipid are connected by a glycerol group.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.3114475905895233, 'Hydrophobic effect'), (0.31615597009658813, 'Biochemistry of lipids and membranes'), (0.3446574807167053, 'Lipids'), (0.3623049855232239, 'Phospholipids in cell membranes'), (0.3836703300476074, 'Glycerophospholipids metabolism and function'), (0.40578216314315796, 'Lipid bilayers'), (0.41668346524238586, 'Molecular biology of phospholipids'), (0.4655216932296753, 'Phospholipids'), (0.49501296877861023, 'Cell biology'), (0.6519852876663208, 'Molecular biology')]
+
+============================================
+
+1. data_input_text: what is a epo network
+2. lbl2data_(scores|input_text): [(1, "EPO plans, also known as Exclusive Provider Organizations, consist of small networks of doctors and facilities. Primary care physicians manage all aspects of a patient's medical care and handle the referral process when a specialist's care is needed, according to Mama's Health, a health care reference site.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.02902466058731079, 'Hospitals and health networks in the United States'), (0.029373083263635635, 'Passive transport'), (0.029430650174617767, 'Infrastructure for wireless communication'), (0.02955545112490654, 'Telecommunications networks'), (0.029956744983792305, 'Integrated Services Digital Network'), (0.03002915345132351, 'Myocardial protection solutions'), (0.031110741198062897, 'Medical devices'), (0.03161628171801567, 'Single sign-on technology'), (0.031745973974466324, 'Intercom systems'), (0.032803505659103394, 'Intravenous therapy systems')]
+
+============================================
+
+1. data_input_text: population decline new castle pa
+2. lbl2data_(scores|input_text): [(1, 'New Castle Pennsylvania Population Charts According to the most recent demographics data available from the Census Bureau released in December of 2017, Figure 1 New Castle shows it has 22,500 population which is the most of all placesin the area. Figure 3 compares the population change from 2010 to 2016 and we can see New Castle indicates a decline of 773 (3%). The population percent change for all areas for 2010 to 2016 is shown in Figure 4 and for New Castle reveals it has -3.3% Population Change which is the 4th in Population Change out of 10 total in the area.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.43865546584129333, 'Census-designated places in Pennsylvania by population density'), (0.4582170844078064, 'New Castle County, Delaware'), (0.4595777988433838, 'Census-designated places in New Castle County, Delaware'), (0.4685634970664978, 'Cities in Pennsylvania'), (0.4712710380554199, 'Census-designated places in Pennsylvania by population history'), (0.4810815751552582, 'Populated places in Lawrence County, Pennsylvania'), (0.4923098385334015, 'Demographics of Pennsylvania'), (0.5009163618087769, 'New Castle County, Delaware geography stubs'), (0.5074684619903564, 'Census-designated places in Lawrence County, Pennsylvania'), (0.5272494554519653, 'Lawrence County, Pennsylvania')]
+
+============================================
+
+1. data_input_text: what is the educational system of sweden
+2. lbl2data_(scores|input_text): [(1, 'The educational system in Sweden is based on a nine-year primary school, or Grundskola, with mandatory attendance. Following this comes an elective three-year secondary school, or Gymnasieskola, which is divided in two instances where you either prepare for higher education or receive vocational education.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5092507600784302, 'Secondary education history by country'), (0.5113431215286255, 'Education history by country'), (0.5434927940368652, 'Hanseatic League'), (0.5591025352478027, '1842 establishments in Sweden'), (0.562333345413208, 'Education in Europe'), (0.567352831363678, 'Cultural education in Sweden'), (0.5690735578536987, 'History of education in Europe'), (0.5724853873252869, 'Lund University'), (0.6082961559295654, 'Universities and colleges in Sweden'), (0.7415159344673157, 'Education in Sweden')]
+
+============================================
+
+1. data_input_text: where is steger, il
+2. lbl2data_(scores|input_text): [(1, 'Fax: (708) 755-9512. Steger is located in both southern Cook County and northern Will County, Illinois. Steger School District 194 currently serves 1,700 students throughout Steger, South Chicago Heights, Park Forest, Sauk Village, and Crete.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.40520209074020386, 'Unincorporated communities in Illinois'), (0.40588295459747314, 'Villages in Marshall County, Illinois'), (0.4072478413581848, 'McDonough County, Illinois'), (0.4072478413581848, 'Mcdonough County, Illinois'), (0.4123573899269104, 'Census-designated places in McDonough County, Illinois'), (0.4202623963356018, 'Geography of Washington County, Illinois'), (0.43284672498703003, 'Villages in Washington County, Illinois'), (0.434174120426178, 'Villages in Jefferson County, Illinois'), (0.4383796155452728, 'Villages in Woodford County, Illinois'), (0.45728033781051636, 'Census-designated places in Illinois')]
+
+============================================
+
+1. data_input_text: erp software definition
+2. lbl2data_(scores|input_text): [(1, 'ERP is an acronym for Enterprise Resource Planning. Enterprise Resource Planning (ERP) software applications help businesses to manage and connect information from all core areas of the organization with the aim of improving effective decision making.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.4254874587059021, 'Enterprise resource planning software'), (0.4395904541015625, 'SAP ERP'), (0.45850542187690735, 'Economic software'), (0.4831177592277527, 'Management information systems'), (0.48940253257751465, 'Enterprise resource planning systems'), (0.49657657742500305, 'Gartner Magic Quadrant for ERP vendors'), (0.5073172450065613, 'Accounting software categories'), (0.596451461315155, 'Enterprise resource planning'), (0.6193590760231018, 'Business software'), (0.7093986868858337, 'ERP software')]
+
+============================================
+
+1. data_input_text: what age can you wear baby on back in a carrier?
+2. lbl2data_(scores|input_text): [(1, 'Most front baby carriers are usable from birth and then up to at least 6 months of age. Although you can continue to use a front carrier beyond 6 months up to the maximum recommended by the manufacturer, it is usually around this age that most children are ready to progress into a back carrier should you wish to do so.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.34442490339279175, 'Jogging strollers'), (0.34444838762283325, 'Cultural history of parenting practices'), (0.34498417377471924, 'Education and child development stages'), (0.3460314869880676, 'Human development stages by age group'), (0.35404273867607117, 'Youth development stages'), (0.3645156919956207, 'Bags and carriers for children'), (0.36786702275276184, 'Parenting'), (0.37635934352874756, 'Dress codes by age group'), (0.416983425617218, 'Babywearing'), (0.4196436405181885, 'Infant clothing')]
+
+============================================
+
+1. data_input_text: is two weeks early considered premature
+2. lbl2data_(scores|input_text): [(1, 'Babies born just two weeks early at higher risk of health problems. Babies born even just a few weeks early are more likely to suffer from poor health, including asthma, researchers have discovered. Doctors have traditionally regarded the health prospects of babies born two to three weeks premature as similar to those who were born at full-term.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.25904834270477295, 'Harvard Medical School research studies'), (0.2731715440750122, 'Etymology of medical terms and phrases'), (0.273382306098938, 'Neonatology'), (0.27475643157958984, 'The Journal of the American Medical Association articles'), (0.27871954441070557, 'Medical case reports in the New England Journal of Medicine'), (0.28613096475601196, 'Obstetrics'), (0.28786689043045044, 'International Classification of Diseases (ICD)'), (0.41019725799560547, 'Human reproduction'), (0.4221189022064209, 'Premature birth'), (0.4349101185798645, 'Pediatrics')]
+
+============================================
+
+1. data_input_text: define imperiously
+2. lbl2data_(scores|input_text): [(1, 'LINK / CITE ADD TO WORD LIST. adjective. The definition of imperious is someone or something that is domineering and demanding, without any justification or right. An example of imperious is a demand by a new house guest that you go to the store and buy him the type of drink he enjoys.entence Examples. Ã\x82Â» more... 1  At first he was under the tutelage of Menshikov, who wished him to marry his daughter, but he soon contrived, with the aid of the Dolgorukis and other old families, to get his imperious tutor arrested and exiled to Siberia.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.20658688247203827, 'Hormones and growth factors in animals'), (0.20661820471286774, 'Argent (band) songs'), (0.20834335684776306, 'Adverbs in English language'), (0.3017938733100891, 'Semantics'), (0.3304721415042877, 'Lexicography'), (0.431326299905777, 'English adverbs'), (0.4604908227920532, 'English adjectives'), (0.4634056091308594, 'Etymology of English words and phrases'), (0.6434084177017212, 'Linguistics terminology'), (0.6434084177017212, 'Linguistics terminology ')]
+
+============================================
+
+1. data_input_text: justification  definition literature
+2. lbl2data_(scores|input_text): [(1, 'One way of explaining the theory of justification is to say that a justified belief is one that we are within our rights in holding. The rights in question are neither political nor moral, however, but intellectual.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.4147034287452698, 'Philosophy of Aristotle'), (0.4201663136482239, 'Theories of interpretation (philosophy)'), (0.4202721416950226, 'Ethics and morality in philosophy'), (0.4294903874397278, 'Moral epistemology'), (0.4572443664073944, 'Philosophical terminology'), (0.4715501070022583, 'Interpretation (philosophy)'), (0.48189282417297363, 'Hermeneutics'), (0.5131602883338928, 'Theories of justification in ethics and law'), (0.5910078287124634, 'Theory of justification'), (0.6314389109611511, 'Theories of justification')]
+
+============================================
+
+1. data_input_text: what is the zip code for lake murray sc
+2. lbl2data_(scores|input_text): [(1, "Lake Murray (SC state) ZIP code. ZIP code of Lake Murray (SC) is 29036. Below you can find map of Lake Murray, or look up other ZIP codes in South Carolina or other US states. If Lake Murray's ZIP code is duplicated, and other places have same ZIP code number, you can use our ZIP code searcher by number 29036.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.442638635635376, 'Populated places established in 1920s or earlier (South Carolina)'), (0.4435039162635803, 'Borders of North and South Carolina'), (0.45973795652389526, 'Populated places in South Carolina'), (0.46322619915008545, 'Towns in Chester County, South Carolina'), (0.4696204960346222, 'Neighborhoods in South Carolina'), (0.47533270716667175, 'Demographics of South Carolina communities'), (0.4764788746833801, 'South Carolina geography stubs'), (0.48925143480300903, 'Geography of South Carolina'), (0.4948999881744385, 'Towns in South Carolina'), (0.49562060832977295, 'Geography of Allendale County, South Carolina')]
+
+============================================
+
+1. data_input_text: who played howard's mom
+2. lbl2data_(scores|input_text): [(1, "Carol Ann Susi -- one of the central characters on The Big Bang Theory -- died Tuesday after battling cancer ... according to execs on the hit show. Susi played Howard Wolowitz's mom who almost NEVER appeared on camera -- but whose voice was heard in just about every episode. 'Big Bang' executive producer Chuck Lorre said ... The Mrs. Wolowitz character became a bit of mystery throughout the show's eight seasons. What was not a mystery, however, was Carol Ann's immense talent and comedic timing.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.35908856987953186, 'LGBT directors from the United States'), (0.3688528835773468, 'American television sitcom actresses'), (0.36885976791381836, 'Deaths from cancer in California'), (0.3734738826751709, 'American television directors'), (0.3760485351085663, 'Bikini Summer II cast members'), (0.3933679759502411, 'Deaths from cancer in the United States'), (0.42511436343193054, 'Howard University alumni'), (0.4499390125274658, 'Ron Howard'), (0.5710240602493286, 'Todd Howard'), (0.6147853136062622, 'Howard family (show business)')]
+
+============================================
+
+1. data_input_text: what part of the cell does glycolysis occur
+2. lbl2data_(scores|input_text): [(1, 'The process of glycolysis is the means by which cells break down glucose to obtain the energy stored in the bonds between the carbon atoms. Glycolysis means the splitting of glucose. The first step of the process occurs in the cytoplasm of the cell and yields a small amount of energy (measured in units of ATP) and two molecules of pyruvate. The other steps occur in the mitochondria. It is an ongoing process as your cells have a constant need for energy.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.3301577568054199, 'Anaerobic metabolism'), (0.3472309112548828, 'Mitochondria'), (0.34981968998908997, 'Mitochondria biology'), (0.3507753312587738, 'Glycolysis and citric acid cycle processes'), (0.3600977659225464, 'Mitochondria physiology'), (0.37048423290252686, 'Mitochondrial function in cells'), (0.3885161280632019, 'Bacterial cytoplasm'), (0.4704333543777466, 'Cytoplasm'), (0.6351389288902283, 'Cellular respiration'), (0.6846522092819214, 'Glycolysis')]
+
+============================================
+
+1. data_input_text: what is the goddess of agriculture in greek mythology
+2. lbl2data_(scores|input_text): [(1, 'Goddess of Agriculture The Greek name of the goddess of grain and agriculture is Demeter. The roman name is Ceres. She controls the harvest. she is able to make trees and plants grow or die. Her symbols are the torch and a sheaf of wheat or barley.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5714044570922852, 'Agricultural deities in mythology and religion'), (0.5741456151008606, 'Greek goddesses'), (0.5840096473693848, 'Mythological Greek goddesses'), (0.6058408617973328, 'Agricultural deities'), (0.6071085929870605, 'Ancient Greek goddesses'), (0.6758418083190918, 'Agricultural goddesses'), (0.7024264335632324, 'Mythological characters associated with agriculture'), (0.7033131122589111, 'Agricultural deities in mythology'), (0.7844838500022888, 'Agricultural deities in Greek mythology'), (0.802087128162384, 'Agricultural goddesses in Greek mythology')]
+
+============================================
+
+1. data_input_text: weather in malaga spain in april
+2. lbl2data_(scores|input_text): [(1, 'The average sea tempeature is 15 Ã\x82Â°C (59 Ã\x82Â°F). The average temperature in Malaga, Costa Del Sol in April is very mild at 15.7 Ã\x82Â°C (60.26 Ã\x82Â°F). Afternoons can be warm with average high temperatures reaching 20 Ã\x82Â°C (68 Ã\x82Â°F). Overnight temperatures are generally quite mild with an average low of 12 Ã\x82Â°C (53.6 Ã\x82Â°F).')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.49462971091270447, 'Sierra de Mijas'), (0.49588871002197266, 'Andalusian geography stubs'), (0.5094451904296875, 'Granada, Spain geography stubs'), (0.5238068103790283, 'April events in Spain'), (0.5279504656791687, 'Cultural aspects of Malaga, Spain'), (0.5314090251922607, 'Granada, Spain'), (0.5469584465026855, 'Málaga (city)'), (0.6195358037948608, 'Tourism in Malaga'), (0.6254277229309082, 'Málaga'), (0.7856671214103699, 'Climate of Spain')]
+
+============================================
+
+1. data_input_text: ndola lime address
+2. lbl2data_(scores|input_text): [(1, "Ndola Lime Company is located in Ndola. Ndola Lime Company is working in Other wholesale, General chemical wholesale activities. Ndola Lime Company's address is P.O.Box 70057, Ndola, Zambia. You can contact the company at 021 2627600. You can find more information about Ndola Lime Company at www.ndolalime.co.zm.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.38133299350738525, 'Cresta, Johannesburg'), (0.38356107473373413, 'Infrastructure in Gauteng'), (0.387302041053772, 'Economic development in Southern Africa'), (0.39035218954086304, 'Economic geography of Johannesburg'), (0.3988357484340668, 'African construction companies'), (0.39983344078063965, 'Shopping centres in Gauteng'), (0.4157724678516388, 'Economic development in North West (South African province)'), (0.4209761917591095, 'Economic development projects in South Africa'), (0.4408523440361023, 'Construction and civil engineering companies of South Africa'), (0.47917860746383667, 'Economic development in Gauteng province, South Africa ')]
+
+============================================
+
+1. data_input_text: what type of layers make curly hair look thicker
+2. lbl2data_(scores|input_text): [(1, 'Ringlet Curls makes your Hair Appear Thicker. You probably arenÃ¢Â\x80Â\x99t going to style your hair everyday in ringlet curls, but if you have an event or even just some extra time to do your hair and you want to create a look that makes thin hair look like a thick mane then take your curling iron and create all-over ringlet curls.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.49646905064582825, 'Hairstyles for curly hair'), (0.4968784749507904, 'Human hair'), (0.4978252053260803, 'Human hair biology and structure '), (0.5085384845733643, 'Human hair characteristics'), (0.525015115737915, 'Human hair texture'), (0.5257219076156616, 'Curling and straightening of hair'), (0.5484193563461304, 'Grooming techniques for curly hair types'), (0.6064090728759766, 'Hygiene and grooming practices for curly hair types'), (0.6135208606719971, 'Curly hair'), (0.6401057243347168, 'Hair anatomy')]
+
+============================================
+
+1. data_input_text: how long can i keep cooked italian sausage in refrigerator
+2. lbl2data_(scores|input_text): [(1, 'Other sources say that you can keep the fresh cooked sausage in the refrigerator up to seven days if kept at 40 degrees F (which is the normal setting in both restaurant and home refrigerators). Another says up to five days for cooked Italian sausage, lightly smoked sausage, or breakfast sausage.')]
+3. cat2data_(scores|input_text): [(3.0, 'Culinary techniques'), (4.0, 'Meat products storage and safety'), (4.0, 'Refrigeration technology'), (5.0, 'Sausages'), (5.0, 'Food preservation')]
+4. lnk2data_(scores|input_text): [(0.3159571886062622, 'Bologna (sausage)'), (0.3189087510108948, 'Italian cuisine sausages'), (0.33265140652656555, 'Refrigeration equipment'), (0.33369964361190796, 'Cured meats'), (0.3363869786262512, 'Italian cuisine'), (0.3871614336967468, 'Sausage'), (0.3906809687614441, 'Medical refrigeration technology'), (0.4660542607307434, 'Sausages'), (0.5975056886672974, 'Food preservation'), (0.6409904360771179, 'Refrigeration technology')]
+
+============================================
+
+1. data_input_text: what is the weather in panama city panama?
+2. lbl2data_(scores|input_text): [(1, 'Panama City Beach Weather We have more than 320 days of sunshine a year and average temperatures that are usually pretty great - The Gulf breeze cools us some in the summertime, and the Gulf waters help keep us warmer in the wintertime.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.45883315801620483, 'Panama geography stubs'), (0.4691213369369507, 'Tourism in Panama'), (0.4794624447822571, 'Cultural geography of Panama City, Florida'), (0.4856070876121521, 'Cities in Bay County, Florida'), (0.5255556106567383, 'Panama-related lists and statistics'), (0.5383060574531555, 'Panama'), (0.547440230846405, 'Panama City'), (0.5720709562301636, 'Panama City, Florida'), (0.6041156649589539, 'Weather by location in Panama'), (0.6444215178489685, 'Climate of Panama')]
+
+============================================
+
+1. data_input_text: how much is fireworks disney dessert
+2. lbl2data_(scores|input_text): [(1, 'As the fireworks begin, celebrate with a sparkling cider toast and create a special memory with family and friends. Throughout the evening, you can now enjoy hot drinking chocolate and signature lemonades as well as coffee and tea. Wishes Fireworks Dessert Party is $49 for adults, $29 for children, tax inclusive. Reservations can be made beginning on March 20 by visiting DisneyWorld.com/dine, or calling 407-WDW-DINE.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5115315318107605, 'The Walt Disney Company memorabilia and collectibles'), (0.5206168293952942, 'Disney merchandise'), (0.5212270021438599, 'Cultural aspects of Walt Disney Parks and Resorts'), (0.522059977054596, 'Food and drink at amusement parks'), (0.5250985622406006, 'Disney parades'), (0.5370649695396423, 'Carnival traditions in the United States'), (0.5484550595283508, 'Amusement park souvenirs and merchandise'), (0.5560266971588135, 'Themed parties at Walt Disney World Resort'), (0.5629146695137024, 'The Walt Disney Company products and services'), (0.6170248985290527, 'Amusement park foods')]
+
+============================================
+
+1. data_input_text: naegleria symptoms
+2. lbl2data_(scores|input_text): [(1, 'Review the available Assessment Questionnaires for the symptoms of Naegleria: 1  Headache -- Assessment Questionnaire. 2  Fever -- Assessment Questionnaire. 3  Nausea -- Assessment Questionnaire. 4  Confusion -- Assessment Questionnaire. 5  Seizures -- Assessment Questionnaire. 6  Hallucinations -- Assessment Questionnaire.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.37348589301109314, 'Infectious causes of neurological conditions'), (0.3758735954761505, 'Infectious causes of neurological disorders'), (0.385898619890213, "Paget's disease of bone"), (0.38769030570983887, 'Diseases caused by protozoa'), (0.41046059131622314, 'Entamoeba histolytica'), (0.4333789050579071, 'Diseases caused by Entamoeba histolytica'), (0.4350847601890564, 'Amoebiasis'), (0.4351910352706909, 'Diseases caused by amoebozoa'), (0.4506131708621979, 'Naegleria fowleri'), (0.5672920942306519, 'Naegleria')]
+
+============================================
+
+1. data_input_text: who is the ninja turtle with the blue mask
+2. lbl2data_(scores|input_text): [(1, 'As the oldest brother, Leonardo or Leo, is the natural leader of the Ninja Turtles. He wears a blue mask, which symbolizes one of his main qualities Ã¢Â\x80Â\x93 calmness. Leo is the most serious and disciplined member of the group, and shows essential qualities of a natural-born leader including patience, wisdom, and bravery.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5456074476242065, 'Lego Ninjago: Masters of Spinjitzu'), (0.5670560598373413, 'Television series about turtles'), (0.5749735236167908, 'Fictional turtles'), (0.5871448516845703, 'Teenage Mutant Ninja Turtles characters'), (0.6012680530548096, 'Ninja Turtles (franchise)'), (0.611946702003479, 'Ninja fiction television series'), (0.6243999600410461, 'Animated television series about ninjas'), (0.656935453414917, 'Turtles (Teenage Mutant Ninja Turtles)'), (0.6628098487854004, 'Teenage Mutant Ninja Turtles (2012 TV series) episodes'), (0.7209082841873169, 'Teenage Mutant Ninja Turtles')]
+
+============================================
+
+1. data_input_text: what cell process requires energy
+2. lbl2data_(scores|input_text): [(1, 'there are more, these are but a few! [ATP (adenosine triphosphate) is needed for intracellular energy transfer however it is not the only compound that is used. NTP, ADP, GTP & UTP to name a few.] Cellular Processes That Require Energy. Well, gee...any cell process using ATP (or another NTP/NTP) would answer this question. Eg, replication, transcription, protein synthesis, fatty acid biosynthesis, cell wall biosynthesis--to drop a few names.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.3434534966945648, 'Energy systems in biology'), (0.353781133890152, 'Mitochondria'), (0.35779404640197754, 'Cellular processes'), (0.3588329553604126, 'Cellular energy metabolism'), (0.36831924319267273, 'Photosynthesis'), (0.3800416886806488, 'Biological energy conversion'), (0.3815004229545593, 'Biological pathways'), (0.45521557331085205, 'Biological energy production'), (0.4553425908088684, 'Biological processes'), (0.5404877066612244, 'Cellular respiration')]
+
+============================================
+
+1. data_input_text: how long do i grill salmon in foil?
+2. lbl2data_(scores|input_text): [(1, 'In a small bowl, stir together the oil, soy sauce, Worcestershire sauce, lemon juice, ginger, honey, basil and shallots. Pour over the salmon and let it marinate while you preheat the grill, about 20 minutes. Preheat a grill for medium-low heat. Slide the foil with the salmon off of the cookie sheet and onto the grill. Cover with the lid and grill the fillet for  10 minutes per inch of thickness, about 20 minutes. Salmon should be able to flake with a fork, but not be too dry.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.21233321726322174, 'Nutritional advice for fish consumption'), (0.2162136286497116, 'Houses in Sussex County, New Jersey'), (0.22324781119823456, 'Seafood dishes'), (0.22684134542942047, 'Fish dishes preparation tips'), (0.2620610296726227, 'Grilled fish dishes'), (0.32141271233558655, 'Fish dishes'), (0.4325893819332123, 'Fish as food'), (0.5023925304412842, 'Culinary terminology'), (0.551282525062561, 'Grilling'), (0.620856761932373, 'Cooking techniques')]
+
+============================================
+
+1. data_input_text: how long is treatment for a vaginal yeast infection
+2. lbl2data_(scores|input_text): [(1, 'Vaginal medicine is often used to treat a vaginal yeast infection during pregnancy. Recurrent yeast infection. For a vaginal yeast infection that recurs within 2 months of treatment, or four times in 1 year (recurrent vaginal yeast infection), see your doctor. Further testing or a different treatment may be needed.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.39727628231048584, 'Gynaecology drugs and treatments'), (0.40252840518951416, 'Gynaecology procedures and treatments'), (0.40321022272109985, 'Gynaecological treatments'), (0.42546024918556213, 'Vaginal diseases and disorders treatment options'), (0.42855602502822876, 'Gynaecology procedures and therapies'), (0.4320087730884552, 'Infectious disease treatments'), (0.4389127492904663, 'Gynaecology and obstetrics treatments'), (0.4416849911212921, 'Gynaecology treatments and procedures'), (0.4522954821586609, 'Antifungal drugs'), (0.4913216233253479, 'Gynaecology treatments')]
+
+============================================
+
+1. data_input_text: how much is it to renew wisconsin insurance license
+2. lbl2data_(scores|input_text): [(1, 'The cost to renew drivers license in Wisconsin may vary, and the WI DOT will charge additional fees depending on the payment method you choose. When renewing drivers license in WI, applicants will be charged a fee in the amount of $34 for an eight-year renewal of their regular license to drive.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.4743182063102722, 'Continuing education requirements by state'), (0.47812777757644653, 'Wisconsin-related lists and topics'), (0.47872647643089294, 'Laws and regulations by U.S. state'), (0.4843527674674988, 'Insurance requirements by state in the United States'), (0.4866020083427429, 'Insurance requirements by state in the U.S.'), (0.49486786127090454, 'Wisconsin insurance agencies'), (0.5060254335403442, 'Laws and regulations of U.S. states by state'), (0.5244484543800354, 'Insurance companies of Wisconsin'), (0.5494835376739502, 'Wisconsin law and government'), (0.5915844440460205, 'Laws and regulations of Wisconsin')]
+
+============================================
+
+1. data_input_text: how big does a pomsky get
+2. lbl2data_(scores|input_text): [(1, 'Average Pomsky Size. On average, you can expect a full grown 50/50 pomsky to be about: A full grown adult pomsky is approximately 12 to 17 inches long, 10 to 15 inches tall (from floor to shoulder blade) and weighs about 20 to 30 pounds. 10 to 15 inches tall (from floor to shoulder blade)')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.35889753699302673, 'Animal breeds'), (0.3600098490715027, 'Grooming and pet care'), (0.3605705201625824, 'Husky crossbreeds'), (0.36942270398139954, 'Husky crosses'), (0.3750499188899994, 'Hybrid animals in pet care'), (0.37818601727485657, 'Hybrid animals in pet trade'), (0.4175940752029419, 'Dog types'), (0.4660451412200928, 'Pomsky breed information'), (0.5248589515686035, 'Companion dogs'), (0.7710751891136169, 'Dog breeds')]
+
+============================================
+
+1. data_input_text: what is the location of the river cocytus
+2. lbl2data_(scores|input_text): [(1, 'Cocytus /koÃ\x8aÂ\x8aÃ\x8bÂ\x88saÃ\x89ÂªtÃ\x89Â\x99s/ or Kokytos /koÃ\x8aÂ\x8aÃ\x8bÂ\x88kaÃ\x89ÂªtÃ\x89Â\x99s/ (Ancient Greek: Ã\x8eÂºÃ\x8fÂ\x89Ã\x8eÂºÃ\x8fÂ\x85Ã\x8fÂ\x84Ã\x8fÂ\x8cÃ\x8fÂ\x82, literally lamentation) is a river in the underworld in Greek mythology. Cocytus flows into the river Acheron, on the other side of which lies Hades, The Underworld, the mythological abode of the dead. There are five rivers encircling Hades: the Styx, Phlegethon, Lethe, Acheron and Cocytus. In literature. The Cocytus river was one of the rivers that surrounded Hades. Cocytus, along with the other rivers related to the underworld, was a common topic for ancient authors. Of the ancient authors, Cocytus was mentioned by Virgil, Homer, Cicero, Aeschylus, Apuleius and Plato, among others.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.4754650592803955, 'Greek underworld'), (0.4768846929073334, 'Mythological rivers'), (0.487933874130249, 'Homeric geography'), (0.5749226212501526, 'Mythological rivers in Greek mythology'), (0.5762227773666382, 'Underworld rivers in Greek mythology'), (0.5986502170562744, 'Mythological rivers of the underworld'), (0.625014066696167, 'Mythological rivers of Hades'), (0.6311874389648438, 'Rivers in Greek mythology'), (0.647476077079773, 'Rivers of Greece'), (0.6905044317245483, 'Rivers of the Greek underworld')]
+
+============================================
+
+1. data_input_text: when did brave come out
+2. lbl2data_(scores|input_text): [(1, 'The film was initially set for release on June 15, 2012, but was later changed to June 22, 2012. On April 3, 2012, Pixar screened the first 30 minutes of the movie, and it received a positive reaction by its screeners.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.3962666988372803, 'Award-winning American films'), (0.4019070863723755, 'American epic romance films'), (0.4033334255218506, 'Films directed by Roland Emmerich'), (0.4083513021469116, 'Golden Globe Award-winning films'), (0.41007769107818604, 'Hiroshima and Nagasaki bombings in film'), (0.42205584049224854, 'Kirk Douglas films'), (0.4430559277534485, 'Films directed by Anton Corbijn'), (0.44531509280204773, 'Hollywood Pictures films'), (0.4699503183364868, 'Brave New World'), (0.5967321395874023, 'Brave (2012 film)')]
+
+============================================
+
+1. data_input_text: definition of an empath
+2. lbl2data_(scores|input_text): [(1, 'Definitions for empath. Here are all the possible meanings and translations of the word empath. Wiktionary(4.00 / 2 votes)Rate this definition: empath(Noun) One who has the ability to sense emotions; someone who is empathic or practises empathy. empath(Noun) A person with extra-sensory empathic ability, capable of sensing the emotions of others around them in a way unexplained by conventional science and psychology.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.4017307460308075, 'Mental health terminology'), (0.4057096838951111, 'Happiness and emotions classification systems'), (0.4076908826828003, 'Empathy in psychology'), (0.4190739393234253, 'Emotional sensitivity'), (0.44870275259017944, 'Emotion and motivation in psychology'), (0.463293194770813, 'Empathy and sympathy'), (0.47427886724472046, 'Emotion'), (0.475490003824234, 'Empathy'), (0.5479885339736938, 'Personality traits'), (0.6283524036407471, 'Psychological concepts')]
+
+============================================
+
+1. data_input_text: what does carbamide peroxide used for
+2. lbl2data_(scores|input_text): [(1, 'Carbamide peroxide solution is used for: Softening, loosening, and removing excessive earwax. Carbamide peroxide solution is a form of peroxide. It works by softening and removing earwax. Do NOT use carbamide peroxide solution if: you are allergic to any ingredient in carbamide peroxide solution. you have ear drainage or discharge, ear pain, irritation, rash in the ear, ear injury, hole in the eardrum, broken eardrum, or recent ear surgery.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.44480282068252563, 'Inorganic peroxide chemicals'), (0.4552615284919739, 'Teeth whitening products and methods'), (0.4733516573905945, 'Whitening agents in dentistry'), (0.4803295433521271, 'Inorganic peroxides'), (0.4895547330379486, 'Teeth whitening methods and products'), (0.4930199086666107, 'Benzoyl peroxide'), (0.5592040419578552, 'Hydrogen peroxide applications'), (0.5688828229904175, 'Epoxides'), (0.6803553700447083, 'Hydrogen peroxide'), (0.6906614303588867, 'Peroxides')]
+
+============================================
+
+1. data_input_text: what is the state of london
+2. lbl2data_(scores|input_text): [(1, 'What state is London located in? London, the capital city of the United Kingdom, is located in southeast England. There is also a London in Ontario, Canada and several other Londons throughout the world.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.460513174533844, 'Densely populated regions in the United Kingdom'), (0.4606342017650604, 'Towns and cities on the River Thames'), (0.4622083008289337, 'Cities on the River Thames'), (0.47211775183677673, 'NUTS 2 statistical regions of the United Kingdom'), (0.4981924295425415, 'Boroughs of England created by royal charter'), (0.4988831877708435, 'Boroughs of the United Kingdom'), (0.5667039155960083, 'Ceremonial counties of England'), (0.5883080363273621, 'Greater London'), (0.5923031568527222, 'Boroughs of London'), (0.6236723065376282, 'City of London')]
+
+============================================
+
+1. data_input_text: what is the generic name for zanaflex
+2. lbl2data_(scores|input_text): [(1, 'Brand Name: ZANAFLEX. Generic Name: Tizanidine. Generic for Zanaflex* (Tizanidine) is an oral medication used to treat muscle spasms caused by multiple sclerosis and spinal cord injury. Tizanidine is a short-acting muscle relaxant that temporarily relaxes the muscle tone and treats muscle tightness and cramping.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.41723671555519104, 'Psychoactive drugs with muscle relaxant properties'), (0.4238660931587219, 'Centrally acting alpha-2 adrenergic receptor agonists'), (0.4291994571685791, 'Centrally acting drugs'), (0.432167112827301, 'Skeletal muscle disorders treatments'), (0.43800097703933716, 'Muscle relaxants in medicine'), (0.45063889026641846, 'Skeletal muscle drugs'), (0.4695291519165039, 'Centrally acting muscle relaxants'), (0.47895723581314087, 'Tizanidine'), (0.5074736475944519, 'Tizanidine-based medications'), (0.6034934520721436, 'Muscle relaxants')]
+
+============================================
+
+1. data_input_text: what is the main source of energy for most process at earth's surace
+2. lbl2data_(scores|input_text): [(1, 'The Sun: EarthÃ¢Â\x80Â\x99s Primary Energy Source Astronaut photograph ISS015-E-10469, courtesy NASA/JSC Gateway to Astronaut Photography of Earth. Climate Literacy: The Essential Principles of Climate Sciences summarizes the most important principles and concepts of the climate sciences.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.38712549209594727, 'Aquatic ecosystems energy flow'), (0.4005697965621948, 'Energy sources by type'), (0.4138304591178894, 'Solar power in the environment'), (0.4196646213531494, 'Harnessing natural resources for power generation'), (0.4636908769607544, 'Renewable electricity sources'), (0.46418100595474243, 'Energy sources'), (0.4748242497444153, 'Sustainable energy sources'), (0.48359206318855286, 'Renewable energy sources'), (0.5044836401939392, 'Solar energy'), (0.5391014814376831, 'Energy on Earth')]
+
+============================================
+
+1. data_input_text: determining marginal cost from total cost equation
+2. lbl2data_(scores|input_text): [(1, 'Lesson Summary. Marginal cost is the increase or decrease in total production cost if output is increased by one more unit. The formula to obtain the marginal cost is change in costs/change in quantity. If the price you charge per unit is greater than the marginal cost of producing one more unit, then you should produce that unit.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.45689475536346436, 'Microeconomics examples and illustrations'), (0.46864819526672363, 'Theory of production economics'), (0.4702366590499878, 'Theory of the firm'), (0.47718337178230286, 'Microeconomics terminology'), (0.4815211296081543, 'Production economics terms'), (0.4857463836669922, 'Cost accounting'), (0.543371856212616, 'Production economics terminology'), (0.6795228719711304, 'Production economics'), (0.7807478308677673, 'Economic cost'), (0.7902905941009521, 'Marginal cost')]
+
+============================================
+
+1. data_input_text: what program converts raw to jpg
+2. lbl2data_(scores|input_text): [(1, 'PhotoPad is a free RAW to JPEG converter for personal use. Load RAW images to the editor to begin conversion. Click on Save As > Save As Image to save the image as JPEG, or other image formats, like: PNG, GIF, BMP, and TIFF. This RAW to JPEG converter also lets you choose the output image quality.'), (1, 'IrfanView is a free image viewer and editor, with RAW to JPEG conversion capabilities. Open a RAW file in Irfan View to convert it to JPEG, or many other major image formats. Click the save button to view the conversion option. After you click on the Save option, the save windows appears with another window.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.4350723326206207, 'Crossover platform applications for Windows and macOS'), (0.439839243888855, 'E-mail client software for macOS'), (0.44892260432243347, 'Software for macOS with Windows compatibility layer'), (0.4495624899864197, 'Software applications for macOS'), (0.44986915588378906, 'MacOS graphics-related software'), (0.45061203837394714, 'Computer vision software'), (0.4537469446659088, 'Software with image editing capabilities'), (0.4568144977092743, 'Image processing software for Windows'), (0.4727739691734314, 'Raw image processing software'), (0.4762205481529236, 'Freeware applications for macOS')]
+
+============================================
+
+1. data_input_text: how many reps does missouri have
+2. lbl2data_(scores|input_text): [(1, 'Missouri. Missouri is a U.S. state with two senators in the United States Senate and eight representatives in the United States House of Representatives. Each state elects two senators for staggered 6-year terms. Senators represent the entire state.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5295239686965942, 'Elections in the United States by state and district representation systems'), (0.5500199794769287, 'State legislatures of the United States'), (0.5890678763389587, 'Gerrymandering in the United States by state'), (0.5957275629043579, 'State legislatures of the United States by state'), (0.616256833076477, 'Government of Missouri'), (0.6312508583068848, 'Governing bodies of Missouri counties and municipalities, 163-member House &34 member Senate. '), (0.6667822599411011, 'Elections in Missouri'), (0.7010384202003479, 'Missouri politics-related lists'), (0.7109682559967041, 'Missouri General Assembly'), (0.7300066947937012, 'Politics of Missouri')]
+
+============================================
+
+1. data_input_text: grammy award for album of the year michael jackson
+2. lbl2data_(scores|input_text): [(1, 'Michael JacksonÃ¢Â\x80Â\x99s Ã¢Â\x80Â\x98ThrillerÃ¢Â\x80Â\x99 Wins Album of the Year. Already in the record books this year as the best-selling artist of all time, Michael Jackson made Grammy Award history last night at the Shrine Auditorium, as his Ã¢Â\x80Â\x9cThrillerÃ¢Â\x80Â\x9d album and its smash contents received eight awards out of a possible 10 wins on 12 nominations.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.48219209909439087, 'Quincy Jones soundtracks'), (0.4874425530433655, 'Grammy Award for Album of the Year winners'), (0.4887077212333679, 'Covers of The Jackson 5 songs'), (0.4908175468444824, 'Quincy Jones productions'), (0.4996844232082367, 'Cultural depictions of Michael Jackson in music videos'), (0.5690890550613403, 'Covers of Michael Jackson songs'), (0.5802320837974548, 'Michael Jackson singles discography'), (0.6306633949279785, 'Michael Jackson songs'), (0.6469517946243286, 'Songs written by Michael Jackson'), (0.7820181846618652, 'Michael Jackson albums')]
+
+============================================
+
+1. data_input_text: what is the purpose of buttermilk in baking
+2. lbl2data_(scores|input_text): [(1, 'The Purpose of Buttermilk in Baking. Buttermilk, made by adding culture to milk, much like yogurt, is most commonly used for baked goods, including quick breads, such as biscuits and muffins. Buttermilk has a very pronounced tangy taste and thick texture, which comes from the presence of lactic acid.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.31248942017555237, 'Nutritional science'), (0.3219842314720154, 'Types of food by ingredient'), (0.33564049005508423, 'Buttermilk recipes'), (0.33658063411712646, 'Buttermilk dishes'), (0.34006980061531067, 'Milk products'), (0.3444313108921051, 'Culinary techniques'), (0.3668225407600403, 'Baking products'), (0.4413827061653137, 'Buttermilk'), (0.5298972129821777, 'Baking ingredients'), (0.5645869970321655, 'Dairy products')]
+
+============================================
+
+1. data_input_text: smirk meaning
+2. lbl2data_(scores|input_text): [(1, "Definition of smirk for English Language Learners. : to smile in an unpleasant way because you are pleased with yourself, glad about someone else's trouble, etc.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5654836893081665, 'Smile expressions in culture and communication'), (0.5721439123153687, 'Semiotics of nonverbal communication'), (0.5873498916625977, 'Smile'), (0.5895155668258667, 'Happiness and smiling in humans'), (0.6091800928115845, 'Facial features'), (0.6231676936149597, 'Facial expressions in art and culture'), (0.6297372579574585, 'Facial expressions in psychology and medicine'), (0.6640332341194153, 'Human facial expressions'), (0.6786928176879883, 'Facial expressions in humans'), (0.7126047611236572, 'Facial expressions')]
+
+============================================
+
+1. data_input_text: what are some operating systems for computers
+2. lbl2data_(scores|input_text): [(1, 'UNIX is a multitasking, command-line operating system implemented on many different types of computers. Because it is both a stand-alone operating system and a network operating system, some call UNIX a multipurpose operating system. Linux is a popular, free, multitasking UNIX-type operating system.'), (1, 'Ubuntu and Mint are some of the most popular. If you want to install a non-Windows operating system on your PC and actually use it, you should probably pick Linux. Linux is a Unix-like operating system, and there are other open-source operating systems like FreeBSD out there. FreeBSD uses a different kernel, but it uses much of the same software youÃ¢Â\x80Â\x99d find on a typical Linux distributions. The experience of using FreeBSD on a desktop PC will be pretty similar. Chrome OS.'), (1, 'Mac Operating Systems. Mac OS is the official name of the Apple Macintosh operating system. Mac OS features a graphical user interface (GUI) that utilizes windows, icons, and all applications that run on a Macintosh computer have a similar user interface.'), (1, 'DOS - Disk Operating System - one of the first operating systems for the personal computer. When you turned the computer on all you saw was the command prompt which looked like c:\\ >. You had to type all commands at the command prompt which might look like c:\\>wp\\wp.exe. This is called a command-line interface.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.42571210861206055, 'DOS variants'), (0.431860089302063, 'Operating system technology'), (0.43230345845222473, 'Microsoft Windows'), (0.43416547775268555, 'Iso images of operating systems'), (0.43709197640419006, 'Linux distributions-related topics'), (0.44089946150779724, 'Software distributions'), (0.45095720887184143, 'Computer operating systems'), (0.4867132306098938, 'Linux distributions'), (0.5131853222846985, 'Lists of operating systems'), (0.516311764717102, 'Operating systems')]
+
+============================================
+
+1. data_input_text: how to pass the certified occupancy course
+2. lbl2data_(scores|input_text): [(1, "While anyone can become a certified occupancy specialist, you must complete the training and pass the test. To become a certified occupancy specialist, you must first complete a 2 1/2-day course. The course is offered all over the country and covers how to verify a tenant's income and assets and how to analyze them to ensure that the resident qualifies to be in the project.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.45866984128952026, 'Examinations and credentials in the United States'), (0.467318594455719, 'Educational certifications by subject area'), (0.469809889793396, 'CLEP (examinations)'), (0.47822293639183044, 'Examinations and testing in the United States'), (0.483345627784729, 'Construction industry training and certification'), (0.4847536087036133, 'Higher education examinations and certifications'), (0.48752692341804504, 'Housing inspection standards'), (0.48759254813194275, 'Property managers by qualification'), (0.5015631914138794, 'Examinations and tests in the United States'), (0.5280486345291138, 'Examinations and tests of the United States')]
+
+============================================
+
+1. data_input_text: what county is midland, tx
+2. lbl2data_(scores|input_text): [(1, 'Midland County is a county located in the U.S. state of Texas. As of the 2010 census, the population was 136,872. The county seat is Midland. The county is so named as the county is halfway (midway) between Fort Worth and El Paso on the Texas and Pacific Railway. Midland County is included in the Midland, TX Metropolitan Statistical Area as well as the MidlandÃ¢Â\x80Â\x93 Odessa Combined Statistical Area.')]
+3. cat2data_(scores|input_text): [(2.0, 'Populated places established in 1885'), (3.0, 'Census-designated places in Midland County, Texas'), (4.0, 'Texas geography stubs'), (5.0, 'Counties in Texas'), (5.0, 'Midland County, Texas')]
+4. lnk2data_(scores|input_text): [(0.5052123665809631, 'Geography of Midland, Texas'), (0.5070284605026245, 'Texas geography stubs'), (0.5101367235183716, 'Micropolitan areas of Texas'), (0.5464553236961365, 'Counties of Texas geography stubs'), (0.5673672556877136, 'Midland, Texas'), (0.567990779876709, 'Cities in Midland County, Texas'), (0.6087493896484375, 'Counties of Texas'), (0.6332414746284485, 'Counties in Texas'), (0.696834146976471, 'Census-designated places in Midland County, Texas'), (0.7190096378326416, 'Midland County, Texas')]
+
+============================================
+
+1. data_input_text: net worth for rupert grint
+2. lbl2data_(scores|input_text): [(1, 'It has been announced that Rupert Grint net worth reaches 50 million dollars. He is known as an actor who became an international celebrity when he together with his two co-stars appeared in the movie series of Harry Potter where he portrayed a character of Ron Weasley and which added a lot of revenues to the overall amount of Rupert Grint net worth.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.33315274119377136, 'Austrian people of English descent'), (0.33358365297317505, 'Wealthiest people in entertainment industry history'), (0.33384573459625244, 'Lifestyle and entertainment magazines contributors'), (0.3348548412322998, 'How the Grinch Stole Christmas (film)'), (0.33868658542633057, 'Billionaires in entertainment industry'), (0.3419457674026489, 'Billionaires and multi-millionaires in entertainment industry'), (0.34425023198127747, 'The Grinch franchise'), (0.3481096029281616, 'Celebrities by net worth ranking'), (0.35371488332748413, 'Celebrities by net worth'), (0.3763781785964966, 'The Grinch (franchise)')]
+
+============================================
+
+1. data_input_text: where can you cash a fidelity investment check
+2. lbl2data_(scores|input_text): [(1, 'Making the world better, one answer at a time. Your friend can cash the FIELITY INVESTMENT check at Bank Of America that the Bank that the investment check is written off on.here are a couple ways to answer this question. 1) IF A CHECK IS WRITTEN OUT TO YOU.. and you would like to cash it but have no money in YOUR account: Unless it is a governme Ã¢Â\x80Â¦ nt check or a payroll check you will not be able to cash it.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.39053454995155334, 'Financial services companies of the United States'), (0.39468905329704285, 'Investment management companies based in the United States'), (0.39828261733055115, 'Investment services companies of the United States'), (0.399360328912735, 'Pension funds in the United States'), (0.40667155385017395, 'Ira accounts in finance'), (0.40773290395736694, 'Investment management firms of the United Kingdom'), (0.41750475764274597, 'Financial services companies established in 1987'), (0.42927393317222595, 'Pooled investment funds'), (0.4353379011154175, 'Ira accounts in finance and investment '), (0.5230283737182617, 'Fidelity Investments')]
+
+============================================
+
+1. data_input_text: did eric holder ever recuse himself
+2. lbl2data_(scores|input_text): [(1, "Attorney General Eric Holder didn't recuse himself from the leak investigation that subpoenaed emails of Fox News reporter James Rosen. | Getty Images. Attorney General Eric Holder didn't recuse himself from the leak investigation that subpoenaed emails of Fox News reporter James Rosen. | Getty Images."), (1, "WASHINGTON -- Attorney General Eric Holder did not recuse himself from the 2010 search warrant for emails from a Fox News reporter's personal account, a Justice Department official said Monday evening.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.3899924159049988, 'D.C. Circuit cases'), (0.4012377858161926, 'D.C. Circuit Court of Appeals cases and controversies'), (0.41082531213760376, 'Dismissals by the President of the United States'), (0.4118078351020813, 'Pardons in the United States'), (0.42045408487319946, 'Dismissals of United States government officials'), (0.43010014295578003, 'Recusal cases by country'), (0.47657468914985657, 'Bans and boycotts of people'), (0.49058082699775696, 'Dismissals of James Comey as FBI Director controversy'), (0.557081937789917, 'Eric Holder'), (0.6257835030555725, 'Eric Holder controversies')]
+
+============================================
+
+1. data_input_text: what is the primary objective of the fraud brainstorming session?
+2. lbl2data_(scores|input_text): [(1, 'The purpose of fraud risk brainstorming as outlined in PCAOB AS 2110 is to help audit team. members consider how and where the entityÃ¢Â\x80Â\x99s financial statements might be susceptible to material. misstatement due to fraud and to reinforce the importance of an appropriate mindset of professional. skepticism.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.3966490626335144, 'Credit fraud mitigation techniques'), (0.40295737981796265, 'Inferential statistics alternatives in marketing'), (0.4064062535762787, 'Economic fraud'), (0.4080992341041565, 'Economic fraud and scams awareness'), (0.4086664021015167, 'Survey participation for rewards'), (0.41542720794677734, 'Marketing techniques for lead generation'), (0.42085206508636475, 'Marketing techniques'), (0.4265059232711792, 'Fraud investigation techniques'), (0.46508070826530457, 'Fraud detection'), (0.48254644870758057, 'Fraud techniques')]
+
+============================================
+
+1. data_input_text: phone number to cancel sirius xm
+2. lbl2data_(scores|input_text): [(1, "How to Cancel Sirius. March 31, 2015. In December 2014, SiriusXM released a statement in which the company pledged to make it easier for customers to cancel their satellite radio service. As of March 2015, however, it is still impossible to cancel your SiriusXM service online. Instead, terminating your subscription requires you to call SiriusXM's Listener Care hotline at 1-866-635-5020 Monday to Saturday from 8 a.m. to 11 p.m. EST or from 8 a.m. to 8 p.m. EST on Sundays. Calling SiriusXM."), (1, "Sirius/XM Cancel Services. 866-635-5020. Before dialing Sirius/XM Cancel Services. We've tried for years to eliminate that 3 minute wait for you. But the fact is that it can still take many phone calls to Sirius/XM to resolve your issue. Now you can hire GetHuman to do all the work on the phone for you."), (1, 'SiriusXM Chat. A SiriusXM Customer Care representative may be able to help solve your issue quickly. Please be advised that Chat is available Monday Ã¢Â\x80Â\x93 Saturday 8:00 AM Ã¢Â\x80Â\x93 11:00 PM EDT and Sunday and Holidays 8:00 AM Ã¢Â\x80Â\x93 8:00 PM EDT. By Phone. If you need assistance, please call Customer Care at 1-888-539-7474. By Email. Please complete the form below and a member of our Listener Care team will get back to you. If you are an existing Sirius or XM subscriber, please include your ESN and phone number to assist our teamÃ¢Â\x80Â\x99s response.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.42087069153785706, 'Satellite radio stations in the United States'), (0.423317551612854, 'Radio broadcasting companies of the United States'), (0.4262145459651947, 'Satellite radio services in North America'), (0.4449240565299988, 'SiriusXM brands and services'), (0.48281970620155334, 'Sirius Satellite Radio'), (0.5158169269561768, 'Satellite radio in the United States'), (0.5504336953163147, 'Sirius XM Radio'), (0.5735405087471008, 'Sirius XM Holdings'), (0.6029165983200073, 'Sirius XM'), (0.6542702317237854, 'Toll-free telephone numbers in the United States')]
+
+============================================
+
+1. data_input_text: indent meaning
+2. lbl2data_(scores|input_text): [(1, 'Definition of indent. 1  transitive verb. 2  1 : to force inward so as to form a depression. 3  2 : to form a dent in.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.0718945786356926, 'Economic terms in law'), (0.07266483455896378, 'Printing terms'), (0.07289478182792664, 'Economic concepts in law'), (0.0733787938952446, 'Money and finance stubs'), (0.07518132776021957, 'Financial terms'), (0.07555744051933289, 'Information management terms'), (0.07651764154434204, 'Publishing terms'), (0.0801541656255722, 'Economic concepts in popular culture'), (0.24017789959907532, 'Linguistics terminology'), (0.24017789959907532, 'Linguistics terminology ')]
+
+============================================
+
+1. data_input_text: where is stanton michigan
+2. lbl2data_(scores|input_text): [(1, 'Not to be confused with Stanton Township, Michigan. Stanton is a city in the U.S. state of Michigan. The population was 1,417 at the 2010 census. It is the county seat of Montcalm County.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.3698428273200989, 'Census-designated places in Michigan by population size (2000)'), (0.37335723638534546, 'Towns named after Michigan locations'), (0.3747389316558838, 'Cities in Clinton County, Michigan'), (0.37564101815223694, 'Towns and villages of the United States with a population under 10,000 as of 2010 census data. '), (0.3769156336784363, 'Census-designated places in Michigan by population size (2010)'), (0.4143334925174713, 'Towns and villages along the Namekagon River'), (0.41610831022262573, 'Towns and villages of the United States with a population over 10,000 at the 2010 census'), (0.4214347004890442, 'Census-designated places in the United States with over 30,000 residents as of the 2010 census'), (0.42881929874420166, 'Census-designated places in Michigan'), (0.448224276304245, 'Towns and villages of Polkton Township, Michigan')]
+
+============================================
+
+1. data_input_text: what is gomorrah
+2. lbl2data_(scores|input_text): [(1, 'Gomorrah is a city that went down with Sodom, Admah, and Zeboiim (Genesis 19; Deuteronomy 29:23). We hear first of Gomorrah in the War of Four Against Five Kings, when king Amraphel of Shinar and three of his royal friends waged war against king Birsha of Gomorrah and four of his associates (Genesis 14:2).')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.007678279187530279, 'Traditional lighting devices'), (0.007678747642785311, 'Tasmanian culture'), (0.0077272579073905945, 'Dawn rituals and traditions'), (0.0077461423352360725, 'Outdoor entertainment equipment'), (0.008058514446020126, 'Bunnings Warehouse brands and products'), (0.00811904575675726, 'Cultural history of drugs'), (0.008125665597617626, 'Feasting traditions by region'), (0.008222433738410473, '19th-century slang'), (0.00835789367556572, 'Inns in literature'), (0.008494365029036999, 'Gumbaynggirr culture')]
+
+============================================
+
+1. data_input_text: why is health communications
+2. lbl2data_(scores|input_text): [(1, 'The Field of Health Communication. Health communication is the study of how health information is generated and disseminated and how that information affects individuals, community groups, institutions and public policy. The field includes the study of secular communication, as well as the strategic communication of evidence-based health information to professional and non-professional audiences.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5283905863761902, 'Communication in healthcare'), (0.532427191734314, 'Medical communication barriers'), (0.5374823808670044, 'E-health'), (0.5374823808670044, 'E-Health'), (0.5432194471359253, 'Healthcare communication models'), (0.5482867956161499, 'Medical communication'), (0.5546189546585083, 'Healthcare communication systems'), (0.5589181780815125, 'Hospital communication systems'), (0.562606692314148, 'Health communication'), (0.6334189176559448, 'Medical communication systems')]
+
+============================================
+
+1. data_input_text: what is the current time in lagos nigeria
+2. lbl2data_(scores|input_text): [(1, 'Sunrise: 06:37AM. Sunset: 06:54PM. Day length: 12h 17m. Solar noon: 12:46PM. The current local time in Lagos is 46 minutes ahead of apparent solar time.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5741786956787109, 'Nigerian geography stubs'), (0.5829166769981384, 'Populated places in Lagos State'), (0.6025993824005127, 'Economic history of Lagos'), (0.6068968772888184, 'Nigerian cities by population'), (0.6246559023857117, 'Cities in Nigeria by population size'), (0.641122579574585, 'Lagos geography stubs'), (0.656466007232666, 'Nigeria-related lists and statistics articles needing attention to detail or sources from 2011 onwards. '), (0.7014808654785156, '2016 in Lagos State'), (0.7276760339736938, 'Lagos'), (0.7947355508804321, 'Time in Nigeria')]
+
+============================================
+
+1. data_input_text: age discrimination in the workplace cases
+2. lbl2data_(scores|input_text): [(1, "Age discrimination in the workplace happens when a person's age is unfairly used as a factor in his or her employment. The Age Discrimination in Employment Act of 1967 was enacted to protect workers from this type of discrimination.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5178086757659912, 'Laws prohibiting employment discrimination in the United States'), (0.5212728977203369, 'Laws prohibiting employment discrimination'), (0.5307283401489258, 'Ageism in the workplace'), (0.532737672328949, 'Age discrimination lawsuits and cases'), (0.5714071989059448, 'Employment discrimination by age'), (0.6074888110160828, 'Laws protecting older workers from employment discrimination'), (0.6556410789489746, 'Age discrimination in the United States'), (0.6805559992790222, 'Age discrimination'), (0.7249488830566406, 'Age discrimination in employment'), (0.7603116035461426, 'Age Discrimination in Employment Act')]
+
+============================================
+
+1. data_input_text: who was richard nixon
+2. lbl2data_(scores|input_text): [(1, 'Richard Milhous Nixon (January 9, 1913 Ã¢Â\x80Â\x93 April 22, 1994) was the 37th President of the United States, serving from 1969 to 1974, when he became the only president to resign the office.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.41107216477394104, '1969 deaths'), (0.42439699172973633, 'Watergate scandal figures'), (0.4415324330329895, 'American politicians who resigned from office'), (0.46479421854019165, 'Gouvernors of California'), (0.5215089917182922, '1913 births'), (0.5425987243652344, '1994 deaths'), (0.5566375851631165, '20th-century American politicians'), (0.5811874866485596, 'Resigned presidents of the United States'), (0.5811874866485596, 'Resigned Presidents of the United States'), (0.6340519785881042, 'Presidents of the United States')]
+
+============================================
+
+1. data_input_text: how long for an eye twitch to go away
+2. lbl2data_(scores|input_text): [(1, "Eye twitching is usually a sign that you need to take a break and relax. Have you been under unusual stress lately? Have you had a few sleepless nights? Sometimes a twitch will go away following a good night's sleep, but a stubborn twitch may last as long as three weeks. Here are a few common eye twitch triggers: Caffeine or certain medications")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.27206647396087646, 'Recovery (health)'), (0.274705708026886, 'Neurology disorders related to stress'), (0.2777320444583893, 'Lifestyle advice for health improvement'), (0.27853572368621826, 'Hygiene and health practices for better living'), (0.286560595035553, 'Effects of aging on the human body'), (0.29198455810546875, 'Hygiene practices for better living standards in humans '), (0.30351561307907104, 'Neurological disorders'), (0.30406466126441956, 'Eye diseases'), (0.31250062584877014, 'Ophthalmology'), (0.3365197777748108, 'Healing')]
+
+============================================
+
+1. data_input_text: can you catch a sinus infection
+2. lbl2data_(scores|input_text): [(1, 'Can you get a sinus infection from someone else? Not usually: Most viral upper respiratory infections are contagious (common cold viruses, flu), and these viral infections may lead to sinusitis. However, typical bacterial rhinosinusitis is not contagious.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.2924882173538208, 'Respiratory system diseases'), (0.3053135275840759, 'Nasal and paranasal sinus conditions'), (0.30697816610336304, 'Alternative medicine treatments for sinusitis'), (0.3071644902229309, 'Nasal and paranasal sinus diseases'), (0.31742820143699646, 'Otorhinolaryngology disorders'), (0.32627755403518677, 'Surgical treatments for sinusitis'), (0.35546743869781494, 'Medical treatments for sinusitis'), (0.3823506832122803, 'Otorhinolaryngology'), (0.5447452068328857, 'Infectious diseases'), (0.6486794948577881, 'Sinusitis')]
+
+============================================
+
+1. data_input_text: what is pad thai?
+2. lbl2data_(scores|input_text): [(1, '(Redirected from Pad Thai) Pad thai or phad thai (/Ã\x8bÂ\x8cpÃ\x89Â\x91Ã\x8bÂ\x90d Ã\x8bÂ\x88taÃ\x89Âª/ or /Ã\x8bÂ\x8cpÃ\x83Â¦d Ã\x8bÂ\x88taÃ\x89Âª/; Thai: Ã\xa0Â¸Â\x9cÃ\xa0Â¸Â±Ã\xa0Â¸Â\x94Ã\xa0Â¹Â\x84Ã\xa0Â¸Â\x97Ã\xa0Â¸Â¢, rtgs: phat thai, ISO: pÃ\x8cÂ\x84hÃ¡ÂºÂ¡dÃ¡Â»Â\x8bthy, pronounced [pÃ\x8aÂ°Ã\x83Â\xa0t tÃ\x8aÂ°Ã\x84Â\x81j], fried Thai style) is a stir-fried rice noodle dish commonly served as a street food and at casual local eateries in Thailand.'), (1, 'Definition of pad thai. : a Thai dish consisting of rice noodles stir-fried usually with any of various additional ingredients (as bean sprouts, peanuts, chicken, shrimp, and egg)')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5547038316726685, 'Sauces in Thai cuisine'), (0.5561584830284119, 'Eating establishments in Thailand'), (0.58353590965271, 'Thai culture'), (0.5872328877449036, 'Thai culture-related terms'), (0.5897447466850281, 'Cultural history of Thailand'), (0.6010971665382385, 'Comparison of Chinese and Thai cuisines'), (0.6341127157211304, 'Northern Thai cuisine'), (0.6610626578330994, 'Thai cuisine'), (0.6662233471870422, 'Northern Thailand culture'), (0.6745131015777588, 'Pad Thai dishes')]
+
+============================================
+
+1. data_input_text: what is the longest baseball hit
+2. lbl2data_(scores|input_text): [(1, "Hitting streak. Joe DiMaggio's 56-game hitting streak in 1941 is the longest in Major League Baseball history. In baseball, a hitting streak refers to the number of consecutive official games in which a player appears and gets at least one base hit. According to the Official Baseball Rules, such a streak is ended when a player has at least 1 plate appearance and no hits.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5197187066078186, '1998 in baseball'), (0.5359407663345337, '1962 in baseball'), (0.5383017659187317, '1985 in baseball'), (0.5392475128173828, '1998 Major League Baseball season'), (0.5484959483146667, '1974 in baseball'), (0.5583064556121826, '1944 in baseball'), (0.5780922174453735, 'Mickey Mantle'), (0.6415114402770996, '1960 in baseball'), (0.6725785732269287, 'Baseball in 1960'), (0.736708402633667, 'Major League Baseball records')]
+
+============================================
+
+1. data_input_text: where can you watch dance camp
+2. lbl2data_(scores|input_text): [(1, 'YouTube, Awesomeness Films Announce First Movie: Ã¢Â\x80Â\x98Dance CampÃ¢Â\x80Â\x99. Todd Spangler. YouTube and Awesomeness Films have announced Ã¢Â\x80Â\x9cDance Camp,Ã¢Â\x80Â\x9d a music-and-dance teen drama, as the first feature-length film under their co-production deal.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.4875326156616211, 'Dance education facilities'), (0.4891607463359833, 'Athletics and performing arts crossover activities'), (0.49426278471946716, 'Dancing events and trends on social media platforms'), (0.4994681477546692, 'Dance companies in the United States'), (0.5099687576293945, 'Dance competitions in the United States'), (0.5254325866699219, 'Dance education organizations'), (0.5366066694259644, 'West Coast Swing dance clubs'), (0.5554803013801575, 'Dance education and training in the United States'), (0.5757510662078857, 'Dance teams'), (0.6160891056060791, 'Dance organizations in the United States')]
+
+============================================
+
+1. data_input_text: how long are german shepherds pregnant
+2. lbl2data_(scores|input_text): [(1, 'Report Abuse. Hi i breed german shepherds and a gsd is pregnant for 9 weeks they have an average of 8 to 16 pups i have had a litter of 9 pups and a litter of 6 so it varies a lot lol. very proud mummy :) Ã\x82Â· 9 years ago. Thumbs up. 2. Thumbs down. 1. 1 comment. Loading ...')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.41355428099632263, 'Canine reproduction and breeding'), (0.41372382640838623, 'Mammalian pregnancy'), (0.41386663913726807, 'German dog breeds'), (0.44531872868537903, 'Veterinary medicine in dogs'), (0.4526015520095825, 'Animal breeding in dogs'), (0.5100852847099304, 'Dog breeding'), (0.686689555644989, 'German Shepherds as pets'), (0.7104724645614624, 'German Shepherd'), (0.7111049890518188, 'German Shepherds'), (0.7111049890518188, 'German shepherds')]
+
+============================================
+
+1. data_input_text: what was the fundamental cause of the great depression
+2. lbl2data_(scores|input_text): [(1, 'The causes of the Great Depression in the early 20th Century are a matter of active debate among economists, and are part of the larger debate about economic crisis, although the common belief is that the Great Depression was triggered by the 1929 crash of the stock market.')]
+3. cat2data_(scores|input_text): [(3.0, '1929 in economics'), (4.0, 'Economic crises in the United States'), (4.0, 'Stock market crashes'), (5.0, 'Economic history of the 20th century'), (5.0, 'Great Depression')]
+4. lnk2data_(scores|input_text): [(0.425253689289093, '1929 in economics'), (0.43564945459365845, 'Stock market crashes'), (0.44709068536758423, '1931 in economics'), (0.45847082138061523, 'Economic crises'), (0.46881628036499023, 'Causes of economic crises'), (0.4775177836418152, 'Global economic crises'), (0.479716420173645, 'Economic crises in global history'), (0.483717679977417, 'Economic collapses in history'), (0.6077437996864319, 'Great Depression'), (0.6079903244972229, 'Causes of the Great Depression')]
+
+============================================
+
+1. data_input_text: wright city mo population
+2. lbl2data_(scores|input_text): [(1, 'Most / Least Educated Cities in MO. As of 2010-2014, the total population of Wright City is 3,297, which is 115.21% more than it was in 2000. The population growth rate is much higher than the state average rate of 7.74% and is much higher than the national average rate of 11.61%.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.4789155423641205, 'Cities in Cooper County, Missouri'), (0.48679518699645996, 'Warren County, Missouri geography stubs'), (0.4926793575286865, 'Geography of Cooper County, Missouri'), (0.5121568441390991, 'Geography of Warren County, Missouri'), (0.5187577605247498, 'Populated places in Cooper County, Missouri'), (0.5282465219497681, 'Census-designated places in Missouri'), (0.5661704540252686, 'Cities in Warren County, Missouri'), (0.6559754610061646, 'Wright County, Missouri'), (0.6635264158248901, 'Towns in Wright County, Missouri'), (0.6833968162536621, 'Cities in Wright County, Missouri')]
+
+============================================
+
+1. data_input_text: dr azadpour phone number
+2. lbl2data_(scores|input_text): [(1, 'Call Dr. Maziar Azadpour on phone number (503) 485-4787 for more information and advice or to book an appointment. 875 Oak St Se Suite 5080 Salem, OR 97301-3975 (503) 485-4787')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.4092482924461365, 'Hospitals and clinics directories'), (0.4109695255756378, 'Directories of people by location and profession'), (0.41546207666397095, 'American physicians directory listings'), (0.4202192425727844, 'Medical professionals by name'), (0.4220319986343384, 'Healthcare contact information'), (0.42220762372016907, 'Directories of physicians and surgeons'), (0.42732763290405273, 'Medical directories'), (0.4366147816181183, 'Medical offices and clinics in the United States'), (0.4441797733306885, 'Medical offices in the United States'), (0.44614651799201965, 'Directories of healthcare professionals')]
+
+============================================
+
+1. data_input_text: percentage of cases that settle before trial
+2. lbl2data_(scores|input_text): [(1, 'In a financial sense, settlements tend to favor plaintiffs over defendants. Of course, settling a case out of court may protect the reputation and dignity of a defendant. In this regard, it can be said that both plaintiffs and defendants benefit from pre-trial settlements. According to the most recently-available statistics, about 95 percent of pending lawsuits end in a pre-trial settlement.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.32913556694984436, 'Civil litigation topics'), (0.33082127571105957, 'Court decisions by type'), (0.3334152400493622, 'Lawsuits by type of court system'), (0.3365861177444458, 'Lawsuits and disputes by type'), (0.34070128202438354, 'Settlement (litigation)'), (0.342410683631897, 'Civil procedure in common law jurisdictions'), (0.350900262594223, 'Lawsuits and litigation by type'), (0.37074005603790283, 'Civil litigation in the United States'), (0.45491111278533936, 'Civil procedure'), (0.5655382871627808, 'Legal terminology')]
+
+============================================
+
+1. data_input_text: what is it called when you make up illnesses
+2. lbl2data_(scores|input_text): [(1, 'Empathic illnesses are those in which you manifest symptoms that are not your own. Many patients have come to me labeled Ã¢Â\x80Â\x9cagoraphobicÃ¢Â\x80Â\x9d with panic disorders, chronic depression, fatigue, pain, or mysterious ailments that respond only partially to medications or psychotherapy.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.25932490825653076, 'Diseases and disorders'), (0.2712112069129944, 'Infectious diseases and their history'), (0.2715643048286438, 'Non-communicable diseases'), (0.28460246324539185, 'Diseases and disorders by type'), (0.29871782660484314, 'Lists of diseases'), (0.3066190183162689, 'Causes of disease'), (0.30865728855133057, 'Disease causes and triggers'), (0.31142061948776245, 'Pathology'), (0.6424477100372314, 'Medical terminology'), (0.6424477100372314, 'Medical terminology ')]
+
+============================================
+
+1. data_input_text: where is new river
+2. lbl2data_(scores|input_text): [(1, 'Rafting on the New River The New River in West Virginia is the oldest river on the continent, flowing northward through deep canyons to form what is commonly referred to as Ã¢Â\x80Â\x98The Grand Canyon of the EastÃ¢Â\x80Â\x99.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.31403887271881104, 'Mauricie'), (0.31413525342941284, 'Olivine River tributaries'), (0.3251221179962158, 'Nerang River catchment'), (0.331556499004364, 'Dams completed in 2012'), (0.33614200353622437, 'Rivers of New South Wales'), (0.33767929673194885, 'Rivers of Surrey'), (0.3385516405105591, 'Burntwood River'), (0.3404786288738251, 'Gunn High School alumni and faculty locations'), (0.37405452132225037, 'Albany River system'), (0.5707849860191345, 'New River Valley')]
+
+============================================
+
+1. data_input_text: where does misery take place
+2. lbl2data_(scores|input_text): [(1, "Misery by Stephen King. Book Report. The stories setting takes place in Western Colorado. In Western Colorado in a home of a retired nurse named Annie is where the whole story takes place. Annie's home is a two story log cabin out in the middle of nowhere. The closest neighbors are miles away.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5057547688484192, 'Torture in fiction'), (0.5149075984954834, 'Novellas by Stephen King'), (0.5164220333099365, 'The Poisonwood Bible'), (0.5338187217712402, 'Horror novels by Stephen King'), (0.5520124435424805, 'American horror novels'), (0.5554156303405762, 'Novels by Stephen King'), (0.5633819103240967, 'Biblical fiction'), (0.5690501928329468, 'Works by Stephen King'), (0.5876046419143677, 'Stephen King novels'), (0.5913846492767334, 'Horror novels')]
+
+============================================
+
+1. data_input_text: what is broth
+2. lbl2data_(scores|input_text): [(1, 'Broth is a liquid food preparation, typically consisting of water, in which bones, meat, fish, cereal grains, or vegetables have been simmered. Broth is used as a basis for other edible liquids such as soup, gravy, or sauce.It can be eaten alone or with garnish. If other ingredients are used, such as rice, pearl barley or oats, it is then generally called soup.n Britain, a broth is defined as a soup in which there are solid pieces of meat or fish, along with some vegetables. A broth is usually made with a stock or plain water as its base, with meat or fish added while being brought to a boil, and vegetables added later.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.2822665572166443, 'Soup mixes'), (0.28480857610702515, 'Broth-based recipes'), (0.2956610321998596, 'Bone broth dishes'), (0.302315890789032, 'Broths'), (0.311119943857193, 'Broth and stock'), (0.3349892497062683, 'Soup'), (0.358394980430603, 'Broth dishes'), (0.4032228887081146, 'Soups'), (0.628023624420166, 'Cooking techniques'), (0.7316316962242126, 'Culinary terminology')]
+
+============================================
+
+1. data_input_text: do artichokes contain niacin
+2. lbl2data_(scores|input_text): [(1, 'It contains vitamins which include vitamin C, thiamin, riboflavin, niacin, folate, vitamin B-6,B-12, A, E, D and vitamin K. Artichokes also provide minerals such as calcium, iron, zinc, sodium, potassium, manganese, phosphorus and zinc.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.28712230920791626, 'Pomegranate juice benefits'), (0.2898051142692566, 'Melons in cooking and nutrition'), (0.29809218645095825, 'Vitamins'), (0.3113645315170288, 'Dietary antioxidants'), (0.31983882188796997, 'Nutritional sources of beta carotene'), (0.329197496175766, 'Nutritional science'), (0.3456074595451355, 'Dietary sources of niacin'), (0.3504718244075775, 'Dietary supplements'), (0.4199291467666626, 'Artichoke dishes'), (0.5075470209121704, 'Artichokes')]
+
+============================================
+
+1. data_input_text: tinea pedis is also called
+2. lbl2data_(scores|input_text): [(1, "Tinea (TIN-ee-uh) pedis is also called athlete's foot. It is a skin infection (in-FEK-shun) of the bottom of the foot and between the toes. It can spread to other areas of the body, such as the toenails. The infection is usually gone in three weeks with treatment. It may take one to three months before it is completely gone.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.4001973271369934, 'Tinea-related cutaneous infections'), (0.40098699927330017, 'Tinea infections'), (0.41157519817352295, 'Tinea (dermatophyte infections)'), (0.42527779936790466, 'Infectious skin diseases'), (0.43352505564689636, 'Tinea (dermatology)'), (0.4389747977256775, 'Dermatophytosis'), (0.45310941338539124, 'Tinea-related cutaneous conditions'), (0.45398253202438354, "Athlete's foot"), (0.45707669854164124, 'Mycology-related cutaneous conditions'), (0.7447255849838257, 'Fungal diseases')]
+
+============================================
+
+1. data_input_text: what is a interstim
+2. lbl2data_(scores|input_text): [(1, 'What is InterStim? InterStim Therapy is a proven neuromodulation therapy that targets the communication problem between the brain and the nerves that control the bladder. If those nerves are not communicating correctly, the bladder will not function properly.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.007520599290728569, 'Words coined by William Shakespeare'), (0.007552964147180319, 'Tumors in endocrinology'), (0.007555142976343632, 'Sociolinguistics of gender identity and sexuality'), (0.007562072016298771, 'Intersex'), (0.0076340967789292336, 'SARMs (Selective Androgen Receptor Modulators)'), (0.007745992857962847, 'Hormone antagonists'), (0.007762874010950327, 'Intersex people'), (0.0081239128485322, 'Hormone receptor modulators in breast cancer treatment'), (0.008157865144312382, 'Androgen insensitivity syndrome'), (0.00819920003414154, 'Love and sexuality terminology')]
+
+============================================
+
+1. data_input_text: what is paranoid sc
+2. lbl2data_(scores|input_text): [(1, 'Paranoid schizophrenia is a psychotic disorder. In-depth information on symptoms, causes, treatment of paranoid schizophrenia. Find this Pin and more on Schizophrenia by healthyplace. Paranoid schizophrenia is a psychotic disorder. In-depth information on symptoms, causes, treatment of paranoid schizophrenia. See More')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.42747485637664795, 'Mental illnesses diagnosed in childhood or adolescence'), (0.4290187358856201, 'Psychiatry specialties'), (0.43171554803848267, 'Mental disorders diagnosis by specialty'), (0.43472492694854736, 'Health sciences literature reviews articles needing expert attention from psychiatry experts '), (0.43504542112350464, 'Mental disorders diagnosed in childhood, adolescence or adulthood'), (0.4563358426094055, 'Mental disorders diagnosed in childhood or adolescence'), (0.4746825098991394, 'Medical terminology related to psychiatry and psychology'), (0.4765600562095642, 'Paranoid schizophrenia'), (0.48672106862068176, 'Mental disorders diagnosed in neurological practice'), (0.5012791156768799, 'Paranoid personality disorder')]
+
+============================================
+
+1. data_input_text: what is the difference between a medical doctor and a doctor of osteopathic
+2. lbl2data_(scores|input_text): [(1, 'MD is short for Medical Doctor. This type of doctor has an allopathic degree. DO stands for Doctor of Osteopathic Medicine. This type of doctor has an osteopathic degree. Like an MD, a Doctor of Osteopathic Medicine (DO) is licensed to practice medicine in any field they choose to specialize in. For example, I practice family medicine, but a DO can be anything from a family doctor or internist to a general surgeon, orthopedic surgeon, neurosurgeon or psychiatrist.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.39992719888687134, 'Physicians by qualification'), (0.40009093284606934, 'Osteopathy and osteopathic medicine in the United States'), (0.40323102474212646, 'Allopathic medicine'), (0.4184342622756958, 'Osteopathic physicians and practices in the United States'), (0.42312103509902954, 'Medical degrees'), (0.4371366500854492, 'Medical education in the United States'), (0.4497907757759094, 'Differentiated medical degrees by country'), (0.4538254737854004, 'Physicians by type of medical degree'), (0.4961031377315521, 'Healthcare occupations'), (0.6157224178314209, 'Osteopathic medicine')]
+
+============================================
+
+1. data_input_text: meaning of porting
+2. lbl2data_(scores|input_text): [(1, 'Porting Definition - Porting is the process of adapting software in an environment for which it was not originally written or intended to execute in. The.... Porting Definition - Porting is the process of adapting software in an environment for which it was not originally written or intended to execute in. The...')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.00513565493747592, 'Financial agreements'), (0.005184810142964125, 'Legal entities in finance'), (0.005216329358518124, 'Family law terms'), (0.005234203301370144, 'Hate speech terms'), (0.0052453395910561085, 'Unix file system technology'), (0.005277312360703945, 'Financial technology terms'), (0.005278837867081165, 'Lawsuits involving financial services firms'), (0.005288747139275074, 'Database transactions'), (0.00531669519841671, 'Credit management'), (0.005552216432988644, 'Mysticism in language')]
+
+============================================
+
+1. data_input_text: how does society affect the individual
+2. lbl2data_(scores|input_text): [(1, 'The society can impact an individual in many ways. One way that they can effect an individual is by the wars that may arise. In the past, many individuals were effected by World War I, and World War II.There are also health factors of certain people, because of air pollution or other things.ociety feeds, grooms, secures when an individual lives. It provides a sexual partner and helps to reproduce. Man is a thinking animal, only after his social behaviour improved. Thinking process depends on the language of the society and the language is a great gift and impact on an individual.'), (1, 'Also the types of food that are consumed in different cultures and societies can affect the health and wellbeing of an individual. Eating junk food which can be seen as status in some societies can be detrimental for the health of the individual and society.hey want the best for their children Ã¢Â\x80Â\x93 and can afford it. It is not that other societies or people donÃ¢Â\x80Â\x99t want the best; it is just that many people in society can not afford it or donÃ¢Â\x80Â\x99t have access to it.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.40055984258651733, 'Human social interaction'), (0.40465882420539856, 'Theories of society'), (0.40485256910324097, 'Social issues'), (0.4174795150756836, 'Cultural studies'), (0.41782665252685547, 'Family and society'), (0.4216266870498657, 'Society-related topics'), (0.4225388169288635, 'Economic sociology'), (0.449452668428421, 'Society-related concepts in social sciences'), (0.4629327654838562, 'Human behavior and society'), (0.5810663104057312, 'Society')]
+
+============================================
+
+1. data_input_text: what is a transit number
+2. lbl2data_(scores|input_text): [(1, 'Routing transit number. An ABA routing transit number (ABA RTN) is a nine digit code, used in the United States, which appears on the bottom of negotiable instruments such as checks to identify the financial institution on which it was drawn.')]
+3. cat2data_(scores|input_text): [(2.0, 'Economic terminology'), (3.0, 'Financial regulation in the United States'), (4.0, 'Payment systems'), (5.0, 'Checks (banking)'), (5.0, 'Banking in the United States')]
+4. lnk2data_(scores|input_text): [(0.29447126388549805, 'Coding and decoding methods in mathematics'), (0.2949853539466858, 'Transportation in Canada'), (0.2964443266391754, 'Transport codes and classifications'), (0.30023881793022156, 'Parsing tools'), (0.30050069093704224, 'Invalid area codes'), (0.301998108625412, 'Urban transit systems'), (0.3081653416156769, 'Unicode in computing'), (0.32040339708328247, 'Postal codes'), (0.32562312483787537, 'Number lines'), (0.33197101950645447, 'SEMI standards')]
+
+============================================
+
+1. data_input_text: when do atoms become excited
+2. lbl2data_(scores|input_text): [(1, 'Quick Answer. Electrons become excited when they absorb energy. In an atom, electrons prefer to stay in the orbitals closest to protons, known as the ground state. When given energy, electrons move to a higher energy level, known as an excited state. Continue Reading')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.3755422830581665, 'Electrostatics in molecules'), (0.3858269453048706, 'Molecular science'), (0.3862518072128296, 'Chemical physics'), (0.3936992287635803, "Avogadro's law"), (0.4088524878025055, 'Energy states of electrons in atoms'), (0.43552374839782715, 'Quantum mechanics'), (0.46202659606933594, 'Theoretical chemistry'), (0.49350109696388245, 'Molecular physics'), (0.6172321438789368, 'Excited states'), (0.6352189779281616, 'Atomic physics')]
+
+============================================
+
+1. data_input_text: what causes low liver enzymes
+2. lbl2data_(scores|input_text): [(1, 'Reduced production of liver enzymes may indicate dysfunction of the liver. This article explains the causes and symptoms of low liver enzymes. Scroll down to know how the production of the enzymes can be accelerated.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.25292420387268066, '2016 in aviation incidents and accidents'), (0.25449150800704956, 'Gastroenterology-related disorders'), (0.2550506591796875, 'Medical conditions related to fatigue'), (0.25714945793151855, 'Gastroenterology conditions'), (0.262495756149292, 'Hypoalbuminemia-related disorders'), (0.2640596628189087, 'Hypoalbuminemia'), (0.31181132793426514, 'Hypoalbuminemia disorders'), (0.3145460784435272, 'Gastroenterology disorders'), (0.4096488356590271, 'Hepatology'), (0.7072175145149231, 'Liver diseases')]
+
+============================================
+
+1. data_input_text: what flavor is space jam starhunter
+2. lbl2data_(scores|input_text): [(1, 'Starhunter E-Juice by Space jam begins with classic homemade lemonade. This refreshing and delightful taste is then met with fresh, juicy peaches, resulting in a mouthwatering flavor that will absolutely blow you away.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.34008729457855225, 'Velocity Channel original programming'), (0.342093825340271, 'Candy flavors'), (0.3425949811935425, 'Superstore (TV series)'), (0.3430328965187073, 'Parodies of Star Wars'), (0.3528139293193817, 'Nostalgic food products in the United States'), (0.3590811789035797, 'Fringe (TV series)'), (0.3653409481048584, 'Sci-fi fandom'), (0.37916654348373413, 'Space Jam (film)'), (0.42085278034210205, 'Space Jam'), (0.4272024631500244, 'Star Trek fan productions')]
+
+============================================
+
+1. data_input_text: how long does tap water have to sit before i put my fish in it
+2. lbl2data_(scores|input_text): [(1, 'I recently cleaned out and changed the water in our goldfish tank. Normally I use spring water in the tank, but last night I filled it with city tap water. I had heard that if that water is left to sit for about 24 hours before the fish are added that the chlorine will be gone enough to be safe for the fish. Is...')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5055617690086365, 'Water filtration systems for aquariums'), (0.5186501741409302, 'Tropical fish as pets'), (0.5275133848190308, 'Water chemistry in aquariums'), (0.5543093085289001, 'Aquarium water quality'), (0.5581715106964111, 'Water quality management in aquariums'), (0.5607917308807373, 'Aquarium maintenance'), (0.5621628165245056, 'Fishkeeping equipment'), (0.5856006145477295, 'Aquarium water treatment'), (0.5877389907836914, 'Aquarium water conditioners'), (0.6858866810798645, 'Aquarium water quality management')]
+
+============================================
+
+1. data_input_text: what is a correlational case study?
+2. lbl2data_(scores|input_text): [(1, 'Correlational studies are a type of research often used in psychology as a preliminary way to gather information about a topic or in situations where performing an experiment is not possible. The correlational method involves looking at relationships between two or more variables.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.44989079236984253, 'Research design in sociology'), (0.4537363648414612, 'Sociological methodology'), (0.45952537655830383, 'Social research methods'), (0.46557125449180603, 'Social science terminology'), (0.4708107113838196, 'Sociological methods and techniques'), (0.4713061451911926, 'Social research techniques'), (0.498798668384552, 'Sociological research methods'), (0.5084068179130554, 'Sociological research techniques'), (0.5420294404029846, 'Sociology methods'), (0.5544739961624146, 'Sociological methods')]
+
+============================================
+
+1. data_input_text: number of original star trek episode
+2. lbl2data_(scores|input_text): [(1, 'Number of original Star Trek episodes. January 19, 2014, charm, Leave a comment. How many original Star Trek episodes are there? 80. It is widely known the fact that Star Trek is an American science fiction television series created by Gene Roddenberry that follows the adventures of the starship USS Enterprise. Star Trek is famous all over the world. There were 3 original series and 80 episodes. It is interesting to know that Star Trek aired on NBC from September 8, 1966 to June 3, 1969. It is interesting to know that Star Trek has inspired many fans to produce stories for free Internet distribution.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.6507957577705383, 'Television shows set in the future'), (0.6639370322227478, 'Star Trek franchise media'), (0.6694061756134033, 'Television series set in the 23rd century'), (0.6784623265266418, 'Web series based on Star Trek'), (0.6845406293869019, 'Star Trek'), (0.7029204368591309, 'Star Trek: The Animated Series'), (0.7183064818382263, 'The Original Series (Star Trek)'), (0.7387718558311462, 'Lists of Star Trek episodes'), (0.7540045976638794, 'Star Trek: The Original Series'), (0.8079638481140137, 'Star Trek television series')]
+
+============================================
+
+1. data_input_text: what does the constitutional protection of due process mean??
+2. lbl2data_(scores|input_text): [(1, 'The Fifth and Fourteenth Amendments to the United States Constitution each contain a due process clause. Due process deals with the administration of justice and thus the due process clause acts as a safeguard from arbitrary denial of life, liberty, or property by the Government outside the sanction of law.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.44203510880470276, 'National security and civil liberties in the United States'), (0.4423055052757263, 'Civil rights and liberties in America'), (0.44805291295051575, 'Due process in the United States law'), (0.4651700556278229, 'Due process in the United States'), (0.46737563610076904, 'Legal doctrines and principles of due process'), (0.4693123996257782, 'Fourteenth Amendment to the United States Constitution'), (0.5024650692939758, 'Due Process Clause'), (0.5175502896308899, 'Rights and freedoms in the United States'), (0.5179930925369263, 'United States constitutional law'), (0.6193752884864807, 'Civil rights and liberties in the United States')]
+
+============================================
+
+1. data_input_text: average heavy equipment mechanic salary
+2. lbl2data_(scores|input_text): [(1, 'Heavy Equipment Mechanic average salary is $34,143, median salary is $31,512 with a salary range from $22,880 to $46,488.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.3748999536037445, 'Heavy machinery operation'), (0.38393351435661316, 'Heavy machinery'), (0.384128600358963, 'Heavy equipment transporters'), (0.3988655209541321, 'Heavy machinery industry'), (0.4173533618450165, 'Heavy equipment maintenance'), (0.4246048927307129, 'Heavy equipment industry'), (0.44810551404953003, 'Heavy equipment operators'), (0.4503462314605713, 'Economic statistics'), (0.4577600955963135, 'Heavy equipment mechanics'), (0.5073946714401245, 'Salaries by occupation')]
+
+============================================
+
+1. data_input_text: where is mayflower arkansas
+2. lbl2data_(scores|input_text): [(1, 'Mayflower is a city in Faulkner County, Arkansas, United States. The population was 1,631 at the 2000 census. It is part of the Little RockÃ¢Â\x80Â\x93North Little RockÃ¢Â\x80Â\x93Conway Metropolitan Statistical Area. In 2006, Mayflower was certified as an Arkansas Community of Excellence by the Arkansas Department of Economic Development. Mayflower is located at 34Ã\x82Â°58Ã¢Â\x80Â²5Ã¢Â\x80Â³N 92Ã\x82Â°25Ã¢Â\x80Â²11Ã¢Â\x80Â³W / 34.96806Ã\x82Â°N 92.41972Ã\x82Â°W / 34.96806; -92.41972 (34.968118, -92.419603).')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.42770886421203613, 'Geography of Pope County, Arkansas'), (0.4300352931022644, 'White County, Arkansas geography stubs'), (0.43151044845581055, 'National Register of Historic Places listings in Ashley County, Arkansas'), (0.433799147605896, 'Populated places in Pulaski County, Arkansas'), (0.4355732202529907, 'Populated places in Lonoke County, Arkansas'), (0.4452529549598694, 'Populated places in Chicot County, Arkansas'), (0.45058101415634155, 'Cities in Pope County, Arkansas'), (0.4620327055454254, 'Populated places in Desha County, Arkansas'), (0.4718484580516815, 'Towns in Arkansas'), (0.4925938844680786, 'Populated places in White County, Arkansas')]
+
+============================================
+
+1. data_input_text: danny phantom the ultimate enemy game
+2. lbl2data_(scores|input_text): [(1, 'Danny Phantom: The Ultimate Enemy is a video game for the Game Boy Advance console. The game itself is based on an episode of the television series Danny Phantom which is titled The Ultimate Enemy..')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5483633875846863, 'Video game franchises introduced in 1992'), (0.5498908758163452, 'Stealth video games'), (0.5526221990585327, 'Stealth video games by Ubisoft'), (0.5539897084236145, 'Stealth video games by Ubisoft Montreal'), (0.5550307035446167, 'Video game franchises'), (0.556032121181488, 'SingleTrac games'), (0.5629401206970215, 'Stealth video games by series'), (0.5750397443771362, 'Video game franchises introduced in 1998'), (0.583662211894989, 'Platformers by series'), (0.6085876226425171, 'Censored video games in Germany')]
+
+============================================
+
+1. data_input_text: moon spiritual meaning
+2. lbl2data_(scores|input_text): [(1, 'A Time of Opportunity. A Full Moon is a lunar phase that happens when the moon is on the opposite side of the earth from the sun, and is a significant period among spiritual societies. In astrology, planets and heavenly bodies are considered as energy beings, affecting the life and states of people on earth.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5800296664237976, 'Folklore about the Moon'), (0.5813671946525574, 'Cultural symbols of the moon'), (0.5843620300292969, 'Moon in culture and tradition'), (0.5885579586029053, 'Phrases related to the Moon in culture'), (0.5972369909286499, 'Moon in religion'), (0.6163308620452881, 'Mysticism and the moon'), (0.6306629180908203, 'Moon in culture'), (0.6336191892623901, 'Mythology and symbols of the Moon'), (0.6407174468040466, 'Lunar symbolism'), (0.746642529964447, 'Spirituality and religion related to the Moon')]
+
+============================================
+
+1. data_input_text: is kratom banned in dea
+2. lbl2data_(scores|input_text): [(1, 'DEA reconsidering its ban on the herbal supplement kratom. fter announcing that the herbal supplement kratom would be made as illegal as heroin, the Drug Enforcement Administration is now reconsidering its decision, a US official familiar with the process told STAT on Wednesday morning.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5365696549415588, 'Laws regarding psychoactive drugs by jurisdiction'), (0.5439346432685852, 'Legal status of psychoactive drugs'), (0.5509955883026123, 'Psychoactive drugs and their regulation by country'), (0.5511047840118408, 'Psychoactive drugs banned in the United States'), (0.5576398372650146, 'Legal status of psychoactive drugs in the United States'), (0.5609009265899658, 'Laws regarding psychoactive drugs in Australia, Burma, Malaysia, and Thailand'), (0.564061164855957, 'Kratom legality by jurisdiction'), (0.5645639300346375, 'Psychoactive plant legal issues by country or territory'), (0.5682851076126099, 'Kratom legality by country and state'), (0.6171829700469971, 'Kratom legality in the United States')]
+
+============================================
+
+1. data_input_text: what is the term divorce mean
+2. lbl2data_(scores|input_text): [(1, 'divorce noun (PEOPLE). B1 [C or U] an Ã¢Â\x80Â\x8bofficial or Ã¢Â\x80Â\x8blegal Ã¢Â\x80Â\x8bprocess to end a Ã¢Â\x80Â\x8bmarriage: The last I Ã¢Â\x80Â\x8bheard they were getting a divorce. Divorce is on the Ã¢Â\x80Â\x8bincrease. Ellie Ã¢Â\x80Â\x8bwants a divorce.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.3293072581291199, 'Marriage'), (0.3294239938259125, 'Civil procedure'), (0.33289408683776855, 'Divorce in culture and society'), (0.3509005010128021, 'Sociology of the family'), (0.3588336110115051, 'Divorce and its effects on society'), (0.3694319427013397, 'Marriage and divorce in society'), (0.42806529998779297, 'Causes of divorce'), (0.526634931564331, 'Divorce'), (0.5389812588691711, 'Family law'), (0.5996243953704834, 'Legal terminology')]
+
+============================================
+
+1. data_input_text: what is the purpose of pencil tool
+2. lbl2data_(scores|input_text): [(1, 'Should I remove Pencil by Evolus Co? Pencil is built for the purpose of providing a free and open-source GUI prototyping tool that people can easily install and use to create mockups in popular desktop platforms.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.6494463086128235, 'Drawing tools'), (0.6534047722816467, 'Charcoal drawing equipment'), (0.6609851121902466, 'Cultural history of writing implements'), (0.6620203852653503, 'Pencil holders'), (0.6655005812644958, 'Pencil erasers'), (0.6764565706253052, 'Writing implements'), (0.6770493984222412, 'Pencils and writing implements'), (0.7437372207641602, 'Pencil drawing accessories'), (0.7458719611167908, 'Pencils'), (0.7607461810112, 'Pencil drawing tools')]
+
+============================================
+
+1. data_input_text: what is the principle?
+2. lbl2data_(scores|input_text): [(1, '(April 2013). A principle is a law or rule that has to be, or usually is to be followed, or can be desirably followed, or is an inevitable consequence of something, such as the laws observed in nature or the way that a system is constructed.')]
+3. cat2data_(scores|input_text): [(2.0, 'Cognitive science concepts'), (3.0, 'Laws of nature'), (4.0, 'Theories in philosophy of law'), (5.0, 'Rules and principles'), (5.0, 'Philosophical concepts')]
+4. lnk2data_(scores|input_text): [(0.47459644079208374, 'Linguistic terms for concepts in epistemology'), (0.482547402381897, 'Concepts in metaphysics'), (0.48743900656700134, 'Concepts in epistemology'), (0.4937134385108948, 'Theories in philosophy'), (0.5052199363708496, 'Theories of concepts'), (0.5387046337127686, 'Philosophical concepts'), (0.5444740056991577, 'Theoretical principles'), (0.5599490404129028, 'Philosophical principles'), (0.6217309236526489, 'Rules and principles'), (0.6307878494262695, 'Principles')]
+
+============================================
+
+1. data_input_text: netgear help desk number
+2. lbl2data_(scores|input_text): [(1, 'Alllll NETGEAR tech support number (18442349752) NETGEAR router number 1-844-234-9752 Netgear router help desk number Big netgear tech support phone number =1-844-234-9752= NETGEAR Router customer service number NETGEAR router support number')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.43909990787506104, 'Wired communication systems manufacturers'), (0.45644527673721313, 'Telecommunications companies of the United States'), (0.4573554992675781, 'Technology support companies of the United States'), (0.4585181474685669, 'Technology support services in California'), (0.4897919297218323, 'Remote technical support providers'), (0.49569231271743774, 'Toll-free telephone numbers in the United States'), (0.5488325357437134, 'Netgear products'), (0.5488325357437134, 'NETGEAR products'), (0.5726575255393982, 'NETGEAR products and services'), (0.7014263868331909, 'Netgear')]
+
+============================================
+
+1. data_input_text: recuse meaning
+2. lbl2data_(scores|input_text): [(1, "Princeton's WordNet(5.00 / 1 vote)Rate this definition: 1  recuse(verb) disqualify oneself (as a judge) in a particular case. 2  recuse(verb) challenge or except to a judge as being incompetent or interested, in canon and civil law.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.25146549940109253, 'Office equipment and supplies reuse strategies'), (0.2524356245994568, 'Bona fide occupational qualifications'), (0.25463229417800903, 'Recycling'), (0.25527334213256836, 'Court procedures in law systems'), (0.26061299443244934, 'Creative reuse of materials'), (0.2649715840816498, 'Civil rights and liberties law terms'), (0.2836413085460663, 'Recycling and reuse of materials'), (0.2911081910133362, 'Wikipedia content reuse imprints'), (0.30906182527542114, 'Judicial ethics'), (0.752830982208252, 'Legal terminology')]
+
+============================================
+
+1. data_input_text: what are the tax benefits of a heloc
+2. lbl2data_(scores|input_text): [(1, 'Tax benefits with a HELOC can help homeowners who plan properly. A home equity line-of-credit (HELOC) can be a wonderful, low-cost option to generate cash for home improvements or other necessities. However, homeowners cannot assume that all interest paid is tax deductible as it is with their first mortgage loan.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.01264268159866333, 'Income tax deductions and credits'), (0.01281045377254486, 'Internal Revenue Service programs'), (0.012844748795032501, 'Medicare taxation and finance in the United States'), (0.013312561437487602, 'Alternative minimum tax (United States)'), (0.013394690118730068, 'Personal taxes'), (0.01353462878614664, 'Taxation of individuals'), (0.013688124716281891, 'Income tax in the United States'), (0.014264020137488842, 'Reciprocal agreements on taxation'), (0.014378031715750694, 'Tax credits'), (0.017535150051116943, 'Taxation in the United States')]
+
+============================================
+
+1. data_input_text: what is kyc?
+2. lbl2data_(scores|input_text): [(1, "What is KYC? KYC is an initialism that stands for know your customer.. It is a regulatory phrase that refers to the process used by a business for verification of merchants, customers, and other elements when it comes to a financial transaction. In WePay's case, we use it as the motivation behind our Trust Center.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.005004562437534332, 'Standard streams'), (0.005011472385376692, 'Pedology (soil study)'), (0.0050347126089036465, 'Lawsuits involving financial services firms'), (0.005060941446572542, 'Hate speech terminology'), (0.005066265817731619, 'Issues in database management systems'), (0.0050712088122963905, 'Intrusion software incidents'), (0.005099933594465256, 'Scripting languages and environments'), (0.005122012924402952, 'Financial technology terms'), (0.005196743179112673, 'Unix file system technology'), (0.005327275022864342, 'Hate speech terms')]
+
+============================================
+
+1. data_input_text: what is megatron called
+2. lbl2data_(scores|input_text): [(1, "Megatron is the founder of the Decepticon uprising, and their most well-known and feared leader. As a young, charismatic leader forged in battle and the heritage of war, he began to believe in a grand purpose for his raceÃ¢Â\x80Â\x94it is the Transformers' glorious destiny to rule an empire which will span the universe.")]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.5790407657623291, 'Fictional characters in Transformers films'), (0.5884730815887451, 'Bumblebee (Transformers)'), (0.5903850793838501, 'Giant robots in fiction'), (0.6152230501174927, 'Fictional robots'), (0.6364925503730774, 'Autobots (Transformers)'), (0.6478506326675415, 'Science fiction robots'), (0.6814135313034058, 'Machine Wars Transformers toys'), (0.6898977160453796, 'Transformers toys'), (0.7027493119239807, 'Transformers characters'), (0.7120295166969299, 'Decepticons')]
+
+============================================
+
+1. data_input_text: what is an example of insight thinking
+2. lbl2data_(scores|input_text): [(1, 'Insight Helps Accomplish Tasks. Insight learning is a form of cognitive learning where animals use insight to accomplish something. Here are examples: A dog is in a room with a small gate to keep him from leaving. He pushes a box over to the gate in order to stand on it and jump over the gate.')]
+3. cat2data_(scores|input_text): []
+4. lnk2data_(scores|input_text): [(0.4328274130821228, 'Critical thinking'), (0.4371767044067383, 'Higher-order thinking skills'), (0.44620880484580994, 'Reasoning'), (0.46668803691864014, 'Thought processes'), (0.4669669270515442, 'Cognition'), (0.47484835982322693, 'Types of thinking'), (0.5048906207084656, 'Psychology of reasoning'), (0.5083522796630859, 'Thinking skills'), (0.533493161201477, 'Thinking'), (0.5348976254463196, 'Psychology of thinking')]
+
+============================================
+

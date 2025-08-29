@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '2,3'
+os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -19,14 +19,14 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-07'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-010'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/44_distilbert-summary-oracle-for-msmarco-003'
 
     input_args = parse_args()
 
     if input_args.exact:
         config_file = '/data/datasets/msmarco/XC/configs/data-summary_lbl_ce-negatives-topk-05_exact.json'
     else:
-        raise NotImplementedError('Create a configuration file for using all the labels.')
+        config_file = '/data/datasets/msmarco/XC/configs/data-summary.json'
     
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
@@ -103,7 +103,7 @@ if __name__ == '__main__':
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=block.train.dset,
+        train_dataset=None if block.train is None else block.train.dset,
         eval_dataset=block.test.dset,
         data_collator=block.collator,
         compute_metrics=metric,

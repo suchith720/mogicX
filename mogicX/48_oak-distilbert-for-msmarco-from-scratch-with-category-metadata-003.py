@@ -64,12 +64,13 @@ if __name__ == '__main__':
     do_inference = check_inference_mode(input_args)
 
     clustering_args = {
+        'output_dir': output_dir,
         'do_inference': do_inference,
         'use_pretrained': input_args.use_pretrained,
         'num_metadata': block.test.dset.meta[f'{meta_name}_meta'].n_meta,
         'cluster_size': 3,
-        'meta_embed_init_file': '/home/aiscuser/scratch1/outputs/mogicX/43_msmarco-conflated-gpt-entity-linker-001/lbl_repr/lbl_repr_uln-unorm-act_distilbert-base-uncased.pth',
-        'model_name': mname, 
+        'meta_embed_init_file': None,
+        'model_name': 'sentence-transformers/msmarco-distilbert-dot-v5',
         'meta_info': block.test.dset.meta[f'{meta_name}_meta'].meta_info,
         'collator': block.collator,
         'normalize': input_args.normalize,
@@ -180,7 +181,6 @@ if __name__ == '__main__':
 
         model.encoder.set_metadata_mapping(metadata_idx2cluster)
 
-
     model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
 
     metric = PrecReclMrr(block.test.dset.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, rep_pk=[1, 3, 5, 10], 
@@ -196,4 +196,3 @@ if __name__ == '__main__':
     )
 
     main(learn, input_args, n_lbl=block.test.dset.n_lbl)
-    

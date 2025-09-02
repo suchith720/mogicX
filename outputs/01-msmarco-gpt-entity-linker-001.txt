@@ -1,0 +1,600 @@
+1. data_input_text: convert acres to sq. ft.
+2. lbl2data_(scores|input_text): [(1, 'Ã¢Â\x80ÂºÃ¢Â\x80Âº Definition: Acre. An acre is a measure of land area in Imperial units or U.S. customary units. It is equal to 43 560 square feet, 4840 square yards, or 160 square rods. The precise meaning of this depends on the exact definition adopted for a foot: the international acre is 4 046.856 422 4 m (for the UK, see).')]
+3. lnk2data_(scores|input_text): [(0.7313560247421265, 'sq feet'), (0.7359880208969116, 'square acre'), (0.7464147210121155, 'acre feet'), (0.7533917427062988, 'acre-feet'), (0.7706128358840942, 'acres'), (0.7820276021957397, 'sq ft'), (0.7953199148178101, 'sq/ft'), (0.7967091798782349, 'sq. ft'), (0.8022774457931519, 'sq. ft.'), (0.8603028059005737, 'sq. acres')]
+
+============================================
+
+1. data_input_text: what causes low pressure on a pump for well water
+2. lbl2data_(scores|input_text): [(1, 'As the water level in the tank drops from household demand, pressure in the tank declines to a preset minimum. The well pump then actuates to pump more water into the tank and restore pressure. An under-inflated air bladder results in lower water pressure output from the tank. Well-pressure tanks provide an automotive-style Schrader air valve on the top or the side where bladder pressure can be verified with a standard air gauge.')]
+3. lnk2data_(scores|input_text): [(0.6470683813095093, 'water pumps'), (0.6494333744049072, 'pump'), (0.6503986716270447, 'solar well pump'), (0.6610744595527649, 'well water'), (0.6628831028938293, 'water pump'), (0.6643655300140381, 'low pressure'), (0.6821532845497131, 'shallow well pumps'), (0.7408515214920044, 'well pump valve'), (0.7477890253067017, 'well pumps'), (0.7653470039367676, 'well pump')]
+
+============================================
+
+1. data_input_text: copperhead snake bite effects
+2. lbl2data_(scores|input_text): [(1, 'Cottonmouth and copperhead bites are immediately painful and signs and symptoms such as those listed below, usually begin immediately: 1  body as a whole swelling. 2  respiratory difficulty breathing. 3  skin discoloration of skin.  gastrointestinal nausea, 1  vomiting. heart and blood vessels weak pulse.'), (1, "I was bitten by a copperhead in 1981 on the foot. The bite immed. started swelling, lots of pain like a super bee sting that doesn't stop, next was the feeling of throwing up. I went to the ER and by then the area around the bite fangs were turning into blue red 50 cent piece. The ER tested the anivemon in my arm but the swelling was now all the way up my thigh.")]
+3. lnk2data_(scores|input_text): [(0.7035644054412842, 'venomous snake'), (0.7062315940856934, 'snakehead fish'), (0.7152270674705505, 'copperheads'), (0.7372639179229736, 'snake bite shot'), (0.7510559558868408, 'copperhead'), (0.752860426902771, 'snake bites'), (0.7664538025856018, 'snake bite'), (0.7816179990768433, 'baby copperhead snakes'), (0.8412085771560669, 'copperhead snakes'), (0.8664482235908508, 'copperhead snake')]
+
+============================================
+
+1. data_input_text: what honey locust are seedless
+2. lbl2data_(scores|input_text): [(1, "`Majestic' has nice dark-green foliage. It is seedless and podless. Comments. Native Honey Locust trees are best known for their hazardous thorns and long, flat seed pods. Thornless, podless nursery varieties are highly recommended. Lacy foliage gives a loose, open shade ideal for patios and shade loving plants.")]
+3. lnk2data_(scores|input_text): [(0.6387277245521545, 'seedless watermelon'), (0.6421976089477539, 'honey'), (0.6473529934883118, 'seedless watermelons'), (0.6553534269332886, 'seedless straw'), (0.6660165786743164, 'locust trees'), (0.6807277798652649, 'black locust'), (0.7050463557243347, 'locusts'), (0.7320230007171631, 'locust'), (0.7681217789649963, 'honey locust tree'), (0.8312992453575134, 'honey locusts')]
+
+============================================
+
+1. data_input_text: what is county mean
+2. lbl2data_(scores|input_text): [(1, 'The definition of county refers to an administrative division in a state or country. An example of county used as an adjective is in the phrase county court, which means a court of that particular geographic area. A county is defined as an administrative division of a state or country. An example of a county is Suffolk County on Long Island in New York.')]
+3. lnk2data_(scores|input_text): [(0.7107208967208862, 'independence county'), (0.7151365876197815, 'union county'), (0.7154723405838013, 'johnson county'), (0.7187776565551758, 'person county'), (0.7215988636016846, 'county kerry'), (0.7222748398780823, 'county cork'), (0.7324261665344238, 'county seat'), (0.7336987257003784, 'kings county'), (0.8156335353851318, 'counties'), (0.8636107444763184, 'county')]
+
+============================================
+
+1. data_input_text: frontier customer service number
+2. lbl2data_(scores|input_text): [(1, 'And here are some reasons that other Frontier Communications customers called 877-462-8188 recently:  1 told the wrong email to FrontierGetHuman-ivyliu20d agoI want to change my caller ID nameGetHuman5224525d agoKeep getting message Check Signal Cable. I have unplugged the box with n...GetHuman-gkfamily8 mons ago.')]
+3. lnk2data_(scores|input_text): [(0.700196385383606, 'new frontier'), (0.7152256369590759, 'customer service phone number'), (0.7394158244132996, 'customer service number'), (0.7509341239929199, 'nissan frontier'), (0.7636979818344116, 'frontier airlines'), (0.7749784588813782, 'frontier restaurant'), (0.7771508097648621, 'frontier communications corporation'), (0.7958203554153442, 'frontier communications'), (0.7982060313224792, 'frontier nursing service'), (0.8085262775421143, 'frontier')]
+
+============================================
+
+1. data_input_text: who becomes president if the president is impeached
+2. lbl2data_(scores|input_text): [(1, 'Who becomes president if Barack Obama is impeached? If a president becomes unable to serve, whether through death, severe illness, or impeachment, the vice president would assume the position of president. This is what happenedÃ¢Â\x80Â¦ when President Kennedy was assassinated: his vice president, Lyndon Johnson, was sworn in.')]
+3. lnk2data_(scores|input_text): [(0.6870381832122803, 'president-elect'), (0.6887342929840088, 'president of the united states of america'), (0.6922365427017212, 'impeachment process'), (0.7027642726898193, 'united states president'), (0.7035830616950989, 'impeachments'), (0.707102358341217, 'president of united states'), (0.7141841053962708, 'president of the united states'), (0.7250417470932007, 'impeachment'), (0.7713515758514404, 'presidential impeachment'), (0.8142341375350952, 'impeached')]
+
+============================================
+
+1. data_input_text: can tennis elbow cause pain in your shoulder?
+2. lbl2data_(scores|input_text): [(1, 'Pain with tennis elbow is typically localised over the bony bump on the outside of the elbow (lateral epicondyle) and may extend down to the hand. This area is usually very tender to touch. Rest usually relieves the pain. Sometimes other conditions that are not linked to tennis elbow can cause pain in the elbow. For example, arthritis of the elbow, a pinched nerve in the neck, shoulder impingement and carpal tunnel syndrome. Treatment: The type and duration of the treatment will depend on the severity of the condition. The first step in treating tennis elbow is to manage the activities that cause the pain, such as tennis or golf. 1  Pain killers and anti-inflammatory medications relieve the pain and reduce the inflammation. 2  A tennis elbow strap can be worn just below the elbow to limit the stress on the ECRB tendon.')]
+3. lnk2data_(scores|input_text): [(0.6361247301101685, 'left shoulder pain'), (0.637601375579834, 'acute shoulder pain'), (0.6432691812515259, 'elbow inflammation'), (0.6525278687477112, 'shoulder'), (0.6986293792724609, 'shoulder pain'), (0.7039858102798462, 'elbow'), (0.7324473857879639, 'elbow joint pain'), (0.7485541105270386, 'elbow pain'), (0.793347179889679, 'tennis elbow'), (0.8365570306777954, 'tennis elbow pain')]
+
+============================================
+
+1. data_input_text: how much caffeine is in lipton tea bags
+2. lbl2data_(scores|input_text): [(1, 'Caffeine In Green Tea. Lipton 100 Percent Green Tea contains about the same amount of caffeine as Lipton Black Tea: 45 mg per serving. Lipton flavored green teas contain between 15 and 30 mg of caffeine per serving.')]
+3. lnk2data_(scores|input_text): [(0.6217552423477173, 'james lipton'), (0.6228430867195129, 'caffeine overdose'), (0.630591869354248, 'tea bags'), (0.6358316540718079, 'caffeinated tea'), (0.6360264420509338, 'caffeine withdrawal'), (0.6648163795471191, 'caffeine pills'), (0.6696655750274658, 'lipton'), (0.6948566436767578, 'lipton iced tea'), (0.6991667151451111, 'caffeine'), (0.7292227149009705, 'lipton tea')]
+
+============================================
+
+1. data_input_text: what is ocular hypertension
+2. lbl2data_(scores|input_text): [(1, 'Ocular hypertension is a clinical term describing the presence of elevated intraocular pressure in the absence of optic nerve damage or visual field loss. For most individuals, the normal range of introcular pressure is between 10 mmHg and 21 mmHg. Elevated intraocular pressure is an important risk factor for glaucoma. The Ocular Hypertension Treatment Study, a large, multicentered, randomized clinical trial, determined that topical ocular hypotensive medication delays or prevents the onset of Primary Open-Angle Glaucoma.')]
+3. lnk2data_(scores|input_text): [(0.656949520111084, 'ocular migraine'), (0.6574886441230774, 'hypervascular lesion'), (0.6596409678459167, 'reactive hypertension'), (0.6622723937034607, 'ocular migraines'), (0.6633880138397217, 'hypertension heart disease'), (0.6959314942359924, 'ocular pressure'), (0.715597927570343, 'hyperextension'), (0.7527780532836914, 'hypertension'), (0.783290445804596, 'renovascular hypertension'), (0.9621788263320923, 'ocular hypertension')]
+
+============================================
+
+1. data_input_text: what is the plural of titmouse
+2. lbl2data_(scores|input_text): [(1, 'titmouse. n, pl-mice. 1. (Animals) (usually plural) any small active songbird of the family Paridae, esp those of the genus Parus. See tit 1.itmouse. n, pl-mice. 1. (Animals) (usually plural) any small active songbird of the family Paridae, esp those of the genus Parus. See tit 1.')]
+3. lnk2data_(scores|input_text): [(0.5901084542274475, 'meanings'), (0.5925065875053406, 'p. g. wodehouse'), (0.6010689735412598, 'plural subject pronoun'), (0.603003740310669, 'scouse'), (0.6105678677558899, 'hazel grouse'), (0.6233177781105042, 'plural verb'), (0.6413576602935791, 'grouse'), (0.6747653484344482, 'titmice'), (0.7181859016418457, 'tufted titmouse'), (0.8482714295387268, 'titmouse')]
+
+============================================
+
+1. data_input_text: weather in gig harbor, wa
+2. lbl2data_(scores|input_text): [(1, "CLIMATE OVERVIEW : Gig Harbor, Washington, gets 44 inches of rain per year. The US average is 39. Snowfall is 2 inches. The average US city gets 26 inches of snow per year. The number of days with any measurable precipitation is 117. On average, there are 139 sunny days per year in Gig Harbor, Washington. The July high is around 75 degrees. The January low is 36. Sperling's comfort index for Gig Harbor is a 77 out of 100, where a higher score indicates a more comfortable year-around climate. The US average for the comfort index is 54.")]
+3. lnk2data_(scores|input_text): [(0.6856852769851685, 'wa'), (0.686346173286438, 'seattle, washington'), (0.6890849471092224, 'giga'), (0.6939882636070251, 'tacoma, wa'), (0.6940175294876099, 'bar harbor, maine'), (0.6963170766830444, 'weather'), (0.6992124319076538, 'seattle, wa'), (0.7073225378990173, 'benton harbor, mi'), (0.7189523577690125, 'benton harbor'), (0.8321539163589478, 'gig harbor')]
+
+============================================
+
+1. data_input_text: what is va abbreviation
+2. lbl2data_(scores|input_text): [(1, 'Quick Answer. The abbreviation VA stands for the state of Virginia in the United States of America. It became the 10th state to join the Union on June 25, 1788. This state is the 35th largest when compared to all other states in the U.S. Continue Reading.')]
+3. lnk2data_(scores|input_text): [(0.7204774618148804, 'va compensation'), (0.7239784002304077, 'va hospital'), (0.73407381772995, 'vas'), (0.7387834191322327, 'va loan'), (0.7455554604530334, 'va loans'), (0.7455722093582153, 'va benefits'), (0.7760817408561707, 'd.va'), (0.7832124829292297, 'abbreviations'), (0.7865420579910278, 'abbreviation'), (0.8260396122932434, 'va')]
+
+============================================
+
+1. data_input_text: what is protected by hipaa rules
+2. lbl2data_(scores|input_text): [(1, 'HIPAA (Health Insurance Portability and Accountability Act of 1996) is United States legislation that provides data privacy and security provisions for safeguarding medical information.')]
+3. lnk2data_(scores|input_text): [(0.6312850117683411, 'safe harbor rule'), (0.6350725889205933, 'apaas'), (0.6369390487670898, 'rules'), (0.6371960043907166, 'patient protection and affordable care act'), (0.6502374410629272, 'protected species'), (0.800352156162262, 'hipaa'), (0.8282543420791626, 'hipaa security rule'), (0.8289235234260559, 'hipaa law'), (0.8422490358352661, 'hipaa privacy rule'), (0.843050479888916, 'hipaa regulations')]
+
+============================================
+
+1. data_input_text: can kombucha be harmful
+2. lbl2data_(scores|input_text): [(1, 'Kombucha is loaded with sugar and caffeine, as well as B vitamins. It also has probiotics -- the Ã¢Â\x80Â\x9cgood bacteriaÃ¢Â\x80Â\x9d that are considered helpful for your body. Studies in animals show the drink lowers cholesterol and blood sugar levels, among other things. But, research hasnÃ¢Â\x80Â\x99t shown that it has the same effects in people.')]
+3. lnk2data_(scores|input_text): [(0.5326712131500244, 'koa'), (0.5342473983764648, 'nembutal'), (0.5352872014045715, 'kubota'), (0.5450225472450256, 'koba'), (0.5477927923202515, 'kobo'), (0.5485823750495911, 'kombat'), (0.5595937371253967, 'zumbrota'), (0.5707653760910034, 'gaucho'), (0.7503456473350525, 'organic kombucha'), (0.8602367043495178, 'kombucha')]
+
+============================================
+
+1. data_input_text: what is the purpose of buttermilk in baking
+2. lbl2data_(scores|input_text): [(1, 'The Purpose of Buttermilk in Baking. Buttermilk, made by adding culture to milk, much like yogurt, is most commonly used for baked goods, including quick breads, such as biscuits and muffins. Buttermilk has a very pronounced tangy taste and thick texture, which comes from the presence of lactic acid.')]
+3. lnk2data_(scores|input_text): [(0.6189862489700317, 'baking time'), (0.6227726340293884, 'buttering'), (0.6229375004768372, 'breastmilk'), (0.6361888647079468, 'buttermilk salad dressing'), (0.651913046836853, 'butter'), (0.6671142578125, 'bake'), (0.6671788096427917, 'baking'), (0.7329196929931641, 'buttermilk powder'), (0.7776442766189575, 'buttermilk bread'), (0.8048445582389832, 'buttermilk')]
+
+============================================
+
+1. data_input_text: advanced aerospace engineering salary
+2. lbl2data_(scores|input_text): [(1, 'Salary. 1  Starting salaries for aerospace engineers range from Ã\x82Â£22,000 to Ã\x82Â£28,000. 2  With experience, salaries can rise to Ã\x82Â£28,000 to Ã\x82Â£40,000 depending on the level of your expertise. 3  At senior levels, particularly if you gain chartered status, salaries of Ã\x82Â£45,000 to Ã\x82Â£60,000+ can be reached.')]
+3. lnk2data_(scores|input_text): [(0.6061811447143555, 'aerospace & marine international'), (0.6069492697715759, 'aero engineering'), (0.6080774664878845, 'aircraft engineer'), (0.6168695092201233, 'aeronautical engineering'), (0.6245617270469666, 'aeronautical engineer'), (0.6343967318534851, 'aerospace logistics'), (0.6874879598617554, 'aerospace'), (0.7590882182121277, 'aerospace engineers'), (0.7666991353034973, 'aerospace engineer'), (0.7691971659660339, 'aerospace engineering')]
+
+============================================
+
+1. data_input_text: most valuable employers mve
+2. lbl2data_(scores|input_text): [(1, 'About MVE The RecruitMilitary Most Valuable Employers (MVE) for Military serves to help military-experienced job seekers identify the top employers to target for civilian careers. MVEs are selected annually based on those employers whose recruiting, training and retention plans best serve military servicemembers and veterans.')]
+3. lnk2data_(scores|input_text): [(0.5507116913795471, 'cve'), (0.5573803782463074, 'frank james jobe'), (0.5579619407653809, 'mvs'), (0.5607083439826965, 'small employer'), (0.5624623894691467, 'mvc'), (0.5777889490127563, 'mva'), (0.5858429670333862, 'government employers'), (0.5920301079750061, 'sse'), (0.6050975322723389, 'employer'), (0.631569504737854, 'employers')]
+
+============================================
+
+1. data_input_text: what cars does ford build
+2. lbl2data_(scores|input_text): [(1, "Ford owns Jaguar (-30%), Land Rover (-50%), Aston Martin (-%10), Lincoln, Mercury, Volvo (-70%), and Mazda (-40%). I'm not quite sure of those percentages, nor am I sure if FoÃ¢Â\x80Â¦rd owns 100% owns Lincoln and Volvo, but there's the basic gist of what Ford owns now. The above answer is incorrect. Ford has sold Jaguar, Volvo, & Land Rover.")]
+3. lnk2data_(scores|input_text): [(0.7174723148345947, 'ford fusion'), (0.7217665314674377, 'the car'), (0.7390202283859253, 'model t ford'), (0.7452831864356995, 'cars'), (0.7479197978973389, 'ford motor co.'), (0.759356677532196, 'ford co.'), (0.7779741883277893, 'ford motor company'), (0.7859653830528259, 'ford motors'), (0.8007968664169312, 'fords'), (0.8340273499488831, 'ford')]
+
+============================================
+
+1. data_input_text: what are atlas cedars
+2. lbl2data_(scores|input_text): [(1, 'Blue Atlas Cedar is one of those fairly common plants that, more often than not, is used incorrectly. Somewhere along the line it got labeled as a tall, narrow plant that could be used in tight quarters. At this beautiful home a Blue Atlas Cedar was planted about 5Ã¢Â\x80Â² from the foundation.')]
+3. lnk2data_(scores|input_text): [(0.7033355236053467, 'cedar planks'), (0.7092931270599365, 'cedar tree'), (0.7147213816642761, 'cedar county'), (0.7161139845848083, 'harvey cedars'), (0.7214251756668091, 'cedar of lebanon'), (0.7322973608970642, 'cedars-sinai'), (0.7381941676139832, 'cedar trees'), (0.7505789399147034, 'camp cedars'), (0.768365204334259, 'atlas'), (0.783935010433197, 'cedar')]
+
+============================================
+
+1. data_input_text: what is the oldest constitutional republic
+2. lbl2data_(scores|input_text): [(1, "Although San Marino is the world 's oldest constitutional republic still in existence whereby its laws were established in 1600 , the Constitution of San Marino may or may not be classified as the world 's oldest since in effect , documents dating from the year 1600 were statutes and neither in the form of what is considered a traditional ...")]
+3. lnk2data_(scores|input_text): [(0.6622145771980286, 'constitutional system'), (0.6641914248466492, 'constitutionalism'), (0.6711282134056091, 'constitutional reform'), (0.6726394891738892, 'constitutional monarchy'), (0.679280161857605, 'constitutional government'), (0.6809918880462646, 'constitutional democracy'), (0.6821122765541077, 'republic'), (0.6899171471595764, 'constitutional'), (0.7049120664596558, 'parliamentary republic'), (0.8451265096664429, 'constitutional republic')]
+
+============================================
+
+1. data_input_text: granulocytes dendritic cells
+2. lbl2data_(scores|input_text): [(1, 'The dendritic cells are eater cells and devour intruders, like the granulocytes and the macrophages. And like the macrophages, the dendritic cells help with the activation of the rest of the immune system.')]
+3. lnk2data_(scores|input_text): [(0.669873058795929, 'dendritic opal'), (0.6736275553703308, 'granulocytic leukemia'), (0.6754512786865234, 'granitic magma'), (0.6923068761825562, 'granulocyte'), (0.7132173180580139, 'granulocytic cell line'), (0.7399212121963501, 'neutrophil granulocytes'), (0.7699095606803894, 'granulosa cell'), (0.8166208267211914, 'dendritic cell'), (0.8228246569633484, 'dendritic cells'), (0.8273550271987915, 'granulocytes')]
+
+============================================
+
+1. data_input_text: which muscle type is involved in the function of the digestive tract and blood vessels?
+2. lbl2data_(scores|input_text): [(1, '**Which muscle type is involved in the function of the digestive tract and blood vessels? Smooth smooth muscle functions in many systems of the body, including the digestive tract and blood vessels. **How does cardiac muscle differ from the other types of muscle? **True or false?')]
+3. lnk2data_(scores|input_text): [(0.5756723880767822, 'digestive organs'), (0.5823571085929871, 'digestive organ'), (0.5860856175422668, 'muscle definition'), (0.5864211916923523, 'digestive glands'), (0.5881363153457642, 'digestive disorders'), (0.5999380946159363, 'digestive tract microorganism'), (0.6061660051345825, 'complete digestive tract'), (0.6112996339797974, 'muscle function'), (0.617254376411438, 'digestive'), (0.6653317809104919, 'digestive tract')]
+
+============================================
+
+1. data_input_text: what is a enemy combatant
+2. lbl2data_(scores|input_text): [(1, 'Q: What is an enemy combatant? A: Ã¢Â\x80Â\x9cEnemy combatantÃ¢Â\x80Â\x9d is shorthand for people who are fighting unlawfully. But no one is quite sure exactly what that means. FULL QUESTION. In relation to the current political debate over the Guantanamo prison, what is the legal definition of Ã¢Â\x80Â\x9cenemy combatantÃ¢Â\x80Â\x9d? FULL ANSWER')]
+3. lnk2data_(scores|input_text): [(0.5712093710899353, 'allies'), (0.5820741653442383, 'reactant'), (0.5937769412994385, 'alien enemies act'), (0.6133291125297546, 'combat'), (0.6142361760139465, 'enemy of the state'), (0.627598226070404, 'combatant commands'), (0.6304691433906555, 'opponent'), (0.633019208908081, 'sleeping with the enemy'), (0.6816176176071167, 'enemies'), (0.7516978979110718, 'enemy')]
+
+============================================
+
+1. data_input_text: how much does nanny cost
+2. lbl2data_(scores|input_text): [(1, 'Typical costs: Costs for a nanny vary greatly by region. According to BabyCenter.com and our own data points, a nanny can cost between  $400 - $1,000+ a week based on the local supply and demand, the local cost of living, and the qualifications you seek in a nanny.')]
+3. lnk2data_(scores|input_text): [(0.7062650918960571, 'wireless nanny cams'), (0.7171732187271118, 'nanny mcphee'), (0.7193228602409363, 'nanny wheel'), (0.7300078868865967, 'nanny cam'), (0.7348133325576782, 'nanny goat'), (0.7399316430091858, 'nanny and the professor'), (0.7590284943580627, 'private nanny'), (0.7695348858833313, 'full time nanny'), (0.8760596513748169, 'the nanny'), (0.8893806338310242, 'nanny')]
+
+============================================
+
+1. data_input_text: cast of rock dog
+2. lbl2data_(scores|input_text): [(1, 'Rock Dog - Coming 2016 Huayi Brothers & Mandoo Pictures present, a comedy directed by Academy AwardÃ\x82Â® Nominated Writer-Director of SURFÃ¢Â\x80Â\x99S UP and Co-Director of TOY STORY 2, Ash Brannon. When a radio falls from the sky, a young Tibetan Mastiff is inspired to leave his village in the mountains and move into the big city to become a rock musician. Cast: Luke Wilson, Eddie Izzard, J.K. Simmons, Lewis Black, Kenan Thompson, Mae Whitman, Jorge Garcia, with Matt Dillon and Sam Elliott.')]
+3. lnk2data_(scores|input_text): [(0.6709420680999756, 'big dog'), (0.6714341044425964, 'mad dog'), (0.6719381809234619, 'prairie dog'), (0.6722150444984436, 'reservoir dogs'), (0.6813495755195618, 'dogs'), (0.6816583871841431, 'top dog'), (0.6820025444030762, 'pit dog'), (0.685238242149353, 'breed of dog'), (0.7269932627677917, 'dog'), (0.9068321585655212, 'rock dog')]
+
+============================================
+
+1. data_input_text: how much jail time is a class d felony
+2. lbl2data_(scores|input_text): [(1, 'Class B Felonies often have sentences between no less than five years and no more than twenty years in prison. Class C Felonies can have imprisonments up to ten years or as low as three years. A Class D Felony is punishable by no more than six years in a state penitentiary.')]
+3. lnk2data_(scores|input_text): [(0.7319585680961609, 'felony charge'), (0.7382732629776001, 'felony conviction'), (0.7587835788726807, 'prison time'), (0.7693443298339844, 'class h felony'), (0.7816192507743835, 'felony'), (0.7846648097038269, 'class b felony'), (0.7867177724838257, 'class c felony'), (0.8011988997459412, 'jail time'), (0.8206486701965332, 'd felony'), (0.8350827097892761, 'class a felony')]
+
+============================================
+
+1. data_input_text: what does sibs stand for
+2. lbl2data_(scores|input_text): [(1, 'What does SIBS stand for? SIBS stands for Silverlake Integrated Banking System. Q: A: How to abbreviate Silverlake Integrated Banking System? Silverlake Integrated Banking System can be abbreviated as SIBS. Q: A: What is the meaning of SIBS abbreviation? The meaning of SIBS abbreviation is Silverlake Integrated Banking System. Q: A: What is SIBS abbreviation? One of the definitions of SIBS is Silverlake Integrated Banking System. Q: A: What does SIBS mean? SIBS as abbreviation means Silverlake Integrated Banking System. Q: A: What is shorthand of Silverlake Integrated Banking System? The most common shorthand of Silverlake Integrated Banking System is SIBS.')]
+3. lnk2data_(scores|input_text): [(0.6911556720733643, 'babs'), (0.6915296912193298, 'si'), (0.6999227404594421, 'sig'), (0.7027986645698547, 'ubs'), (0.7197818160057068, 'gub-gub'), (0.7217145562171936, 'ebs'), (0.7231410145759583, 'bcbs'), (0.7318257093429565, 'sibo'), (0.745186448097229, 'plbs'), (0.7478929758071899, 'sebs')]
+
+============================================
+
+1. data_input_text: antithesis definition and examples
+2. lbl2data_(scores|input_text): [(1, 'What is antithesis? Antithesis is a figure of speech which refers to the juxtaposition of opposing or contrasting ideas. It involves the bringing out of a contrast in the ideas by an obvious contrast in the words, clauses, or sentences, within a parallel grammatical structure. These are examples of antithesis:  1 Man proposes, God disposes.. - Source unknown.  Love is an ideal thing, marriage a real thing..')]
+3. lnk2data_(scores|input_text): [(0.6163013577461243, 'meanings'), (0.6199966073036194, 'define'), (0.6247718930244446, 'photosynthesis'), (0.6288425326347351, 'definition'), (0.6311631202697754, 'antibes'), (0.6385798454284668, 'anti'), (0.6541944742202759, 'metathesis'), (0.7372326254844666, 'example'), (0.7470354437828064, 'examples'), (0.8368749618530273, 'antithesis')]
+
+============================================
+
+1. data_input_text: who created school for feeble minded
+2. lbl2data_(scores|input_text): [(1, "In June, 1848, Dr. Hervey B. Wilbur had started an Institution for Feeble Minded Youth, which was located in the building now known as the Jenkins' house, on Pleasant street. It was the first institution of the kind founded in this country, if not in the world, and was wholly a new experiment.")]
+3. lnk2data_(scores|input_text): [(0.5553328990936279, 'ivy league schools'), (0.5601924061775208, 'school mascot'), (0.5651702284812927, 'charter schools'), (0.5654774904251099, 'school'), (0.5681698322296143, 'public schools'), (0.5764535665512085, 'private schools'), (0.5768946409225464, 'school of thought'), (0.577328085899353, 'schools'), (0.5773527026176453, 'public and private secondary schools'), (0.5846807956695557, 'number of schools')]
+
+============================================
+
+1. data_input_text: symptoms of bulging cervical disc
+2. lbl2data_(scores|input_text): [(1, 'Bulging Disc Symptoms. Symptoms of bulging discs generally begin to emerge only when the disc sets other problems into motion. Here are some indicators of a protruding disc: Pain or tingling in the neck, shoulders, arms, hands or fingers can signal a bulging disc in the cervical (upper spine) area. If you begin to have trouble walking, feel heavy in the legs or lose motor skills, seek emergency assistance as this may be evidence of life-threatening damage to the spinal cord.')]
+3. lnk2data_(scores|input_text): [(0.7141790390014648, 'disc bulge'), (0.733517050743103, 'bulge disc'), (0.7389791011810303, 'cervical disc herniation'), (0.7547858953475952, 'bulging disk'), (0.7581172585487366, 'disc bulging'), (0.7647205591201782, 'bulging discs'), (0.7698630690574646, 'cervical disc disorder'), (0.7719193696975708, 'cervical disk'), (0.7928003668785095, 'bulging disc'), (0.9093659520149231, 'cervical bulging disc')]
+
+============================================
+
+1. data_input_text: where did captain james cook explore?
+2. lbl2data_(scores|input_text): [(1, 'Cook, James (1728Ã¢Â\x80Â\x931779) A navigator, surveyor and explorer, who captained three expeditions to the Pacific between 1768 and 1779. He surveyed the coasts of New Zealand and eastern Australia, and explored part of the seaboard of Antarctica. He was able to show that the supposed Ã¢Â\x80Â\x98Great Southern ContinentÃ¢Â\x80Â\x99 did not exist.')]
+3. lnk2data_(scores|input_text): [(0.6384214162826538, 'captain'), (0.6494899988174438, 'john cook'), (0.6581076979637146, 'a.j. cook'), (0.6581076979637146, 'a. j. cook'), (0.6592307090759277, 'cook'), (0.6656059622764587, 'captain john'), (0.6675378680229187, 'thomas cook'), (0.7853273749351501, 'james cook'), (0.7909706234931946, 'captain cook'), (0.8599854111671448, 'captain james cook')]
+
+============================================
+
+1. data_input_text: what is emulation
+2. lbl2data_(scores|input_text): [(1, 'Emulation is the process of mimicking the outwardly observable behavior to match an existing target. The internal state of the emulation mechanism does not have to accurately reflect the internal state of the target which it is emulating.')]
+3. lnk2data_(scores|input_text): [(0.6191361546516418, 'eman'), (0.6199212670326233, 'emmentaler'), (0.6256526708602905, 'deregulation'), (0.6302321553230286, 'em'), (0.6308114528656006, 'emo'), (0.6324079632759094, 'emd'), (0.6476566195487976, 'copulation'), (0.6737356185913086, 'granulation'), (0.6827217936515808, 'emulated adapter'), (0.7213318347930908, 'emulator')]
+
+============================================
+
+1. data_input_text: what is incremental revenue
+2. lbl2data_(scores|input_text): [(1, "Incremental earnings provide an indication of a company's growth rate based on its investment decisions. Incremental earnings are best defined as the amount that a firm's earnings rise as a result of those investments, such as new products to sell, according to Jonathan Berk and Peter Demarzo of Texas State University.")]
+3. lnk2data_(scores|input_text): [(0.7039076685905457, 'tax revenue'), (0.7043012380599976, 'net revenue'), (0.7058970332145691, 'annual gross revenue'), (0.7074295878410339, 'total revenue'), (0.712023138999939, 'gross revenue'), (0.7136080265045166, 'incremental cash flow'), (0.714293360710144, 'revenues'), (0.7398824691772461, 'incremental cost'), (0.7547087669372559, 'average revenue'), (0.7863515019416809, 'revenue')]
+
+============================================
+
+1. data_input_text: visible light from the sun
+2. lbl2data_(scores|input_text): [(1, 'The incoming energy from the Sun to Earth is mainly visible sunlight, called the visible portion of the spectrum of electromagnetic radiation. We perceive visible sunlight as colors from violet (short-wave radiation) to red (long-wave radiation).')]
+3. lnk2data_(scores|input_text): [(0.7034642696380615, 'solar light'), (0.713633120059967, 'morning sun'), (0.7138825058937073, 'sun and moon'), (0.7299035787582397, 'sunlight'), (0.7380407452583313, 'visible light waves'), (0.7434568405151367, 'visible radiation'), (0.7634267210960388, 'visible light spectrum'), (0.7653471827507019, 'sun'), (0.7764678597450256, 'the sun'), (0.8844843506813049, 'visible light')]
+
+============================================
+
+1. data_input_text: meaning of name suri
+2. lbl2data_(scores|input_text): [(1, 'Another meaning of Suri is  Rose . Its origin is  Persian . Suri is a form of Sarah and is generally pronounced like  SUR ee . This name is mostly being used as a girls name. Last year it ranked 1,109th in the U.S. Social Security Administration list of most popular baby girl names.'), (1, 'The meaning of Suri is  Princess . Its origin is  Yiddish variant of the Hebrew name Sarah . Suri is a form of Sarah and is generally pronounced like  SUR ee . Another meaning of Suri is  Sun .')]
+3. lnk2data_(scores|input_text): [(0.6815617680549622, 'sade sati'), (0.6828689575195312, 'meanings'), (0.6876447796821594, 'dui'), (0.6926639676094055, 'surs'), (0.6940577030181885, 'meaning'), (0.7019082307815552, 'seri'), (0.7050047516822815, 'suring'), (0.7429538369178772, 'suri cruz'), (0.7679514288902283, 'suri cruise'), (0.9083303213119507, 'suri')]
+
+============================================
+
+1. data_input_text: what is terminal f
+2. lbl2data_(scores|input_text): [(1, 'Terminal F is in good condition and was a pretty good place to kill some time. But in this day and age, we need more charging plugs for the public. That would have made this 4 stars.')]
+3. lnk2data_(scores|input_text): [(0.6680347919464111, 'f number'), (0.6685076951980591, 'terminal insomnia'), (0.669065535068512, 'terminal block'), (0.6760743856430054, 'terminal degree'), (0.6820865869522095, 'terminal post'), (0.6927778124809265, 'terminal chart'), (0.7013681530952454, 'terminal value'), (0.7303824424743652, 'f'), (0.7798923254013062, 'terminal'), (0.7818273305892944, 'the terminal')]
+
+============================================
+
+1. data_input_text: what is the purpose of the twenty-fifth amendment?
+2. lbl2data_(scores|input_text): [(1, 'What is the purpose of the Twenty-fifth Amendment? The Twenty-fifth Amendment (Amendment XXV) to the United States Constitution deals with succession to the Presidency and establishes procedures both for filling a vacancy Ã¢Â\x80Â¦ in the office of the Vice President, as well as responding to Presidential disabilities.')]
+3. lnk2data_(scores|input_text): [(0.7223439812660217, 'nineteenth amendment'), (0.7231423854827881, 'fourth amendment'), (0.7397149205207825, '5th amendment'), (0.7857139706611633, 'twenty-seventh amendment'), (0.7947633862495422, 'twenty-third amendment'), (0.8016661405563354, 'fifth amendment'), (0.8026844263076782, 'twenty-second amendment'), (0.8144456148147583, 'twenty-first amendment'), (0.8223636150360107, 'twenty-fourth amendment'), (0.8295214176177979, 'twenty-sixth amendment')]
+
+============================================
+
+1. data_input_text: how is soil created from rocks
+2. lbl2data_(scores|input_text): [(1, '| Filed Under: Universe 3 Comments. There are four basic Ã¢Â\x80Â\x9cingredientsÃ¢Â\x80Â\x9d that go into the Ã¢Â\x80Â\x9crecipeÃ¢Â\x80Â\x9d for making soil: tiny pieces of rock, decayed plants and animals, water, and air. When small pieces of rock break off larger ones, they form the basis of all soil.')]
+3. lnk2data_(scores|input_text): [(0.6660130620002747, 'the rock'), (0.6749624609947205, 'soil conservation'), (0.6802461743354797, 'clay soil'), (0.6822870373725891, 'acid soil'), (0.6897053122520447, 'surface soil'), (0.6932395696640015, 'rock'), (0.7120157480239868, 'soil formation'), (0.7468387484550476, 'rocks'), (0.7486578822135925, 'soils'), (0.7826411724090576, 'soil')]
+
+============================================
+
+1. data_input_text: define the natural radioactivity
+2. lbl2data_(scores|input_text): [(1, 'natural radioactivity:- Nuclear reactions which occur spontaneously are said to be an example of natural radioactivity. There are three naturally occurring radioactive series among the elements in the periodic table.')]
+3. lnk2data_(scores|input_text): [(0.6563069820404053, 'natural element'), (0.6597163677215576, 'natural world'), (0.6606749296188354, 'natural science'), (0.6607869863510132, 'natural background radiation'), (0.6620705723762512, 'natural birth'), (0.6629836559295654, 'natural foods'), (0.6827319264411926, 'natural causes'), (0.7207370400428772, 'natural radiation'), (0.7484349012374878, 'natural'), (0.8381968140602112, 'radioactivity')]
+
+============================================
+
+1. data_input_text: get rid of cellulite fast at home
+2. lbl2data_(scores|input_text): [(1, '- Do an anti cellulite massage at home. - Do exercises that tone your thighs and butt muscles, like squats and lunges. 3 great cellulite workouts for free here http://getridofcellulite-na... Try to consume a cellulite diet-natural multivitamins and a source of Omega 3, because they will make your skin more elastic.')]
+3. lnk2data_(scores|input_text): [(0.5509498715400696, 'botulism'), (0.5561381578445435, 'lignite'), (0.557594895362854, 'cellulose insulation'), (0.563686192035675, 'preseptal cellulitis'), (0.5647789835929871, 'home remedies'), (0.5666726231575012, 'home'), (0.5670745372772217, 'mobile home'), (0.5729681849479675, 'radiculitis'), (0.6921874284744263, 'cellulitis'), (0.7813097834587097, 'cellulite')]
+
+============================================
+
+1. data_input_text: what is viral stomatitis
+2. lbl2data_(scores|input_text): [(1, 'What is viral Stomatitis? Herpes stomatitis is caused by infection of the HSV1 virus in young children. Aphthous stomatitis is caused by a variety of problems with oral hygiene or damage to mucous membranes. Some potential causes include: dry tissues from breathing through the mouth due to clogged nasal passages.')]
+3. lnk2data_(scores|input_text): [(0.6639010310173035, 'prostatitis'), (0.6647664904594421, 'viral thyroiditis'), (0.6736804842948914, 'bacterial prostatitis'), (0.6801241040229797, 'viral'), (0.7204360365867615, 'aphthous stomatitis'), (0.7258523106575012, 'viral endocarditis'), (0.7269682288169861, 'angular stomatitis'), (0.7403262853622437, 'nicotinic stomatitis'), (0.7750803828239441, 'viral myositis'), (0.839552104473114, 'stomatitis')]
+
+============================================
+
+1. data_input_text: is betadine and iodine the same
+2. lbl2data_(scores|input_text): [(1, 'The difference between Betadine and Iodine, basically, stems from their chemical nature. Iodine is a rare element that usually exists as a diatomic molecule. Betadine is a complex chemical compound containing iodine in a complex form.')]
+3. lnk2data_(scores|input_text): [(0.6782281994819641, 'povidone-iodine'), (0.6807106733322144, 'iodine monochloride'), (0.6967359781265259, 'iodine supplements'), (0.7052014470100403, 'iodine solution'), (0.7194234132766724, 'iodine pills'), (0.7208786606788635, 'iodine scan'), (0.7312349081039429, 'iodine radiation'), (0.7435435652732849, 'radioactive iodine'), (0.8167600631713867, 'betadine'), (0.8196422457695007, 'iodine')]
+
+============================================
+
+1. data_input_text: when power goes out how long before everything in fridge spoils
+2. lbl2data_(scores|input_text): [(1, 'The refrigerator: how long will foods remain safe without power? Ã\x82Â· All foods: at least 4 hours, if the fridge is left unopened. Ã\x82Â· Discard after 4 hours without power: Meat, poultry, fish, milk, eggs, cooked leftovers, soft cheeses, deli cold cuts/salads and other perishable foods.')]
+3. lnk2data_(scores|input_text): [(0.5815602540969849, 'buying power'), (0.5827838182449341, 'kitchen garbage can'), (0.5847039818763733, 'an inconvenient sequel: truth to power'), (0.5915325284004211, 'powers'), (0.6131691336631775, 'refrigerator'), (0.6227213144302368, 'spoils system'), (0.6299110054969788, 'refrigerators'), (0.6310757994651794, 'power'), (0.6359724402427673, 'the refrigerator'), (0.6694769859313965, 'fridge')]
+
+============================================
+
+1. data_input_text: what causes testicular itch
+2. lbl2data_(scores|input_text): [(1, 'An itchy testicle or groin area can be caused by a number of things, some of which are serious, but many of which are quite harmless. Some of the most common causes of testicle itching are a fungal infection, allergies, and certain types of bugs. Tinea cruris, commonly known as jock itch, is typically caused by a fungus called Trichophyton rubrum. This type of fungus also causes athletes foot and thrives in warm, moist areas.')]
+3. lnk2data_(scores|input_text): [(0.6564323306083679, 'testicular hypofunction'), (0.6694719195365906, 'testicular atrophy'), (0.6742461323738098, 'testicular cancer'), (0.6766170263290405, 'itch'), (0.6808810830116272, 'testicular functions'), (0.6873005628585815, 'testicular torsion'), (0.7042449712753296, 'testicular discomfort'), (0.707271933555603, 'testicular size'), (0.7332893013954163, 'testicular pain'), (0.7569414377212524, 'testicular')]
+
+============================================
+
+1. data_input_text: number of endangered plant species hawaii
+2. lbl2data_(scores|input_text): [(1, 'Plant species are particularly at risk: out of a total of 2,690 plant species, 946 are non-indigenous with 800 of the native species listed as endangered. A list of endemic species of HawaiÃ\x8aÂ»i Note that, simply because of the relatively small area involved, many Hawaiian species are considered threatened even when at their normal population levels. Mammals. Hawaiian hoary bat (Lasiurus cinereus semotus) - endangered; Synemporion keana - extinct; Hawaiian monk seal (Neomonachus schauinslandi ...')]
+3. lnk2data_(scores|input_text): [(0.7026280760765076, 'hawaiians'), (0.7117476463317871, 'hawaiian'), (0.7120687365531921, 'pearl hawaii'), (0.713847815990448, 'big island of hawaii'), (0.714634120464325, 'annexation of hawaii'), (0.7248695492744446, 'kingdom of hawaii'), (0.730174720287323, 'state of hawaii'), (0.7335676550865173, 'endangered species'), (0.7354969382286072, 'island of hawaii'), (0.8003644347190857, 'hawaii')]
+
+============================================
+
+1. data_input_text: how soon can you eat potato after digging up
+2. lbl2data_(scores|input_text): [(1, 'Depending on the variety planted, you are generally looking at anywhere from 2-4 months from planting to harvest. If you wish, you can harvest baby potatoes as soon as 2-3 weeks after flowering has finished, perfect as a delectable side dish for a delicious dinner. These tiny new potatoes are sweet and tender as the sugar has not yet been converted into starch.')]
+3. lnk2data_(scores|input_text): [(0.6235109567642212, 'seed potatoes'), (0.6239063143730164, 'brown potatoes'), (0.6307352185249329, 'boiled potato'), (0.6355751156806946, 'new potatoes'), (0.6363339424133301, 'potato day'), (0.6484068036079407, 'boiled potatoes'), (0.6594148874282837, 'new potato'), (0.662646472454071, 'bake potatoes'), (0.6927544474601746, 'potatoes'), (0.7072944641113281, 'potato')]
+
+============================================
+
+1. data_input_text: benefits of keto salts
+2. lbl2data_(scores|input_text): [(1, 'With Keto OS, through an innovative combination of engineered ketone mineral salts, the body gets the same high-energy fuel in a tasty, convenient drink.* In fact, the body gets all the nutrition it needs to help keep it in the best possible shape. Ingredients. MCT Powder; Beta hydroxybutyrate; Natural flavor; Malic acid; Stevia')]
+3. lnk2data_(scores|input_text): [(0.6675089001655579, 'ketogenic diets'), (0.6682695746421814, 'ketoacidosis'), (0.6892760396003723, 'keto flu'), (0.6975536942481995, 'salts'), (0.7058801054954529, 'keto stick'), (0.7272632122039795, 'keto diets'), (0.7337214946746826, 'keto supplements'), (0.7427620887756348, 'keto diet'), (0.7519721984863281, 'keto supplement'), (0.7850208878517151, 'keto')]
+
+============================================
+
+1. data_input_text: types of wrist brace
+2. lbl2data_(scores|input_text): [(1, 'Types of Wrist Support Braces. Thumb Spica Wrist Support Braces immobilize the thumb area. They abduct or move away the thumb from the wrist and allow the other fingers to move freely.'), (1, 'The Smart Glove Wrist Support is a flexible and comfortable wrist brace intended to ease the pain of Arthritis, Carpal Tunnel Syndrome, cramping, fatigue, Repetitive Stress Injury (RSI), and Tendonitis. Developed by an orthopedic hand surgeon, it is ideal for use with a laptop, keyboard, and mouse.')]
+3. lnk2data_(scores|input_text): [(0.6853589415550232, 'knee brace'), (0.6858005523681641, 'dental braces'), (0.6875734925270081, 'teeth braces'), (0.6958381533622742, 'neck brace'), (0.7066066861152649, 'elbow braces'), (0.7069001197814941, 'neck braces'), (0.7085227966308594, 'wrist'), (0.7093650698661804, 'brace'), (0.7252883315086365, 'ankle brace'), (0.7404072880744934, 'hand brace')]
+
+============================================
+
+1. data_input_text: can a correlational study use regression analysis
+2. lbl2data_(scores|input_text): [(1, 'It is important to recognize that regression analysis is fundamentally different from. ascertaining the correlations among different variables. Correlation determines the. strength of the relationship between variables, while regression attempts to describe that. relationship between these variables in more detail.')]
+3. lnk2data_(scores|input_text): [(0.6675582528114319, 'correlation research'), (0.6799587607383728, 'regression models'), (0.6880246996879578, 'hierarchical regression analysis'), (0.6918454766273499, 'regression modeling'), (0.7045825719833374, 'regression model'), (0.7164288759231567, 'regression testing'), (0.7422235608100891, 'regression'), (0.7658950090408325, 'correlation analysis'), (0.8093218207359314, 'correlational analysis'), (0.8180552124977112, 'regression analysis')]
+
+============================================
+
+1. data_input_text: what is the monthly cost of hulu
+2. lbl2data_(scores|input_text): [(1, 'About Hulu. About Hulu. Hulu is a premium streaming television destination that offers hundreds of thousands of hours of the best of current season programming, premium original content, films and full seasons of hit series to subscribers with limited commercials for $7.99 per month and commercial free for $11.99 per month.')]
+3. lnk2data_(scores|input_text): [(0.6358475089073181, 'monthly income'), (0.639510989189148, 'monthly cable cost'), (0.6516258120536804, 'monthly salary'), (0.6651687622070312, 'monthly membership cost'), (0.675090491771698, 'monthly fee'), (0.7040403485298157, 'hulu plus'), (0.7074852585792542, 'hulu tv'), (0.7112293243408203, 'monthly'), (0.7254836559295654, 'monthly cost'), (0.7832901477813721, 'hulu')]
+
+============================================
+
+1. data_input_text: what time period does mindhunter take place
+2. lbl2data_(scores|input_text): [(1, 'Mindhunter takes place in the 70s, a quintessential time for the evolution of both serial killers and the FBI agents who pioneered a way to study and stop these prolific killers. The agents, Holden Ford (Jonathan Groff) and Bill Tench (Holt McCallany) work on a new branch of the FBI, the behavioral science unit.')]
+3. lnk2data_(scores|input_text): [(0.5697166323661804, 'time'), (0.5714755654335022, 'time frame'), (0.5747953057289124, 'time difference'), (0.5861679911613464, 'mindy'), (0.5873876810073853, 'period of time'), (0.5884037017822266, 'time interval'), (0.6010763645172119, 'spyhunter'), (0.6074767112731934, 'headhunter'), (0.6254348158836365, 'shadowhunters'), (0.6376330256462097, 'time period')]
+
+============================================
+
+1. data_input_text: calculate total days between two dates
+2. lbl2data_(scores|input_text): [(1, 'For example, suppose you have the start date is in cell B1 and End Date is in cell B2 (as shown below): The following formula will give you the total number of days between the two dates: =DAYS(B2,B1) Note that you can also manually specify the dates in the Days function by putting it in double quotes. Just make sure these dates in double quotes is in an accepted date format in Excel.')]
+3. lnk2data_(scores|input_text): [(0.6588572263717651, 'best by date'), (0.6589112877845764, 'first date'), (0.6594430804252625, 'save the dates'), (0.6620678901672363, 'date format'), (0.6639322638511658, 'pay date'), (0.6643900275230408, 'relative dates'), (0.6701619029045105, 'use by date'), (0.6776106953620911, 'used by date'), (0.712320864200592, 'date'), (0.7388845086097717, 'dates')]
+
+============================================
+
+1. data_input_text: what do hand therapists do
+2. lbl2data_(scores|input_text): [(1, 'What is hand therapy? Hand therapy is the art and science of evaluating and treating injuries and conditions of the upper extremity (shoulder, arm, elbow, forearm, wrist and hand). Hand therapy uses a number of therapeutic interventions to help return a person to their highest level of function.')]
+3. lnk2data_(scores|input_text): [(0.6821892857551575, 'marriage and family therapist'), (0.6853739023208618, 'play therapist'), (0.6969918012619019, 'speech and language therapist'), (0.7037142515182495, 'physical therapists'), (0.7103057503700256, 'sex therapist'), (0.7180970907211304, 'therapist'), (0.7227792739868164, 'speech therapist'), (0.7570133209228516, 'therapists'), (0.8388184309005737, 'certified hand therapist'), (0.9023153781890869, 'hand therapist')]
+
+============================================
+
+1. data_input_text: what type of cells undergo photosynthesis and cellular respiration plant or animal
+2. lbl2data_(scores|input_text): [(1, 'The energy currency of these cells is ATP, and one way to view the outcome of cellular respiration is as a production process for ATP. The graphic below can serve as a reminder of some of the processes involved in cellular respiration.')]
+3. lnk2data_(scores|input_text): [(0.6752396821975708, 'photovoltaic cells'), (0.6809268593788147, 'aerobic respiration'), (0.6862532496452332, 'photosynthetic cells'), (0.696873128414154, 'respirations'), (0.7099046111106873, 'respiration'), (0.7292860150337219, 'aerobic cellular respiration'), (0.7320311069488525, 'anaerobic cellular respiration'), (0.7414186596870422, 'aerobic cell respiration'), (0.7583710551261902, 'cellular respiration'), (0.7769790291786194, 'cell respiration')]
+
+============================================
+
+1. data_input_text: what is the prentice-hall corporation system, inc.
+2. lbl2data_(scores|input_text): [(1, 'The Prentice-Hall Corporation System, Inc. provides legal office services. The company was incorporated in 1946 and is based in Wilmington, Delaware. Key Executives for The Prentice-Hall Corporation System, Inc.')]
+3. lnk2data_(scores|input_text): [(0.6282455921173096, 'rand corporation'), (0.6331377625465393, 'audit systems inc'), (0.6379230618476868, 'carnegie corporation'), (0.6394231915473938, 'westminster system'), (0.6436302065849304, 'millennium, inc.'), (0.645791232585907, 'corporation'), (0.6519882678985596, 'radish communications systems, inc.'), (0.6566817164421082, 'corp.'), (0.6582638025283813, 'adobe systems inc.'), (0.703933835029602, 'prentice')]
+
+============================================
+
+1. data_input_text: crew fort worth application
+2. lbl2data_(scores|input_text): [(1, 'Welcome to CREW Fort Worth. CREW Fort Worth is a non-profit organization of commercial real estate professionals affiliated nationally through membership in the CREW Network, providing opportunities for networking, education, leadership development and civic/philanthropic involvement.')]
+3. lnk2data_(scores|input_text): [(0.631223201751709, 'fort worth star telegram'), (0.6757196187973022, 'ft. worth, texas'), (0.6757802963256836, 'dallas fort worth'), (0.6801323890686035, 'dallas/fort worth'), (0.6826993823051453, 'ft worth, tx'), (0.7029445767402649, 'ft worth'), (0.7035932540893555, 'ft. worth'), (0.716556966304779, 'fort worth, texas'), (0.7250170111656189, 'fort worth, tx'), (0.7610061168670654, 'fort worth')]
+
+============================================
+
+1. data_input_text: minimum age to play ncaa sports
+2. lbl2data_(scores|input_text): [(1, 'The NCAA does not impose an age limit on playing college football. There is, however, a four-year limit on the number of years a student can play football. Continue Reading.')]
+3. lnk2data_(scores|input_text): [(0.6759359836578369, 'ncaa championship'), (0.6765909194946289, 'ncaa football season'), (0.6773900985717773, "men's ncaa championships"), (0.6795272827148438, 'minimum age requirement'), (0.6922121047973633, "ncaa men's basketball championship"), (0.6962681412696838, 'minimum age'), (0.7004535794258118, 'ncaa basketball game'), (0.7178979516029358, 'ncaa baseball'), (0.7195320725440979, 'ncaa basketball'), (0.7315308451652527, 'ncaa')]
+
+============================================
+
+1. data_input_text: turo meaning
+2. lbl2data_(scores|input_text): [(1, 'turo. first-person singular present indicative of turare; Anagrams . urto, urtÃ\x83Â²')]
+3. lnk2data_(scores|input_text): [(0.6865630149841309, 'cupro'), (0.6889126300811768, 'vpro'), (0.6936381459236145, 'tut'), (0.6997618675231934, 'isro'), (0.700754702091217, 'andro'), (0.7026212215423584, 'turi'), (0.7090020775794983, 'tyro'), (0.7114999890327454, 'tuco'), (0.7128209471702576, 'tula'), (0.9479672312736511, 'turo')]
+
+============================================
+
+1. data_input_text: highest wind gust
+2. lbl2data_(scores|input_text): [(1, 'Strongest Wind Gust The highest recorded wind gust recorded in the Australian region is 408 km/h at Barrow Island (data courtesy of Chevron) during cyclone Olivia on 10 April 1996. This is a world record for the highest wind gust ever recorded eclipsing the previous record - 372 km/h at Mt Washington Observatory NH, USA on 12 April 1934. A wind gust of 267 km/h was also recorded at Varanus Island during Olivia. The strongest wind gust recorded on the Australian mainland is 267 km/h. The gust was recorded during cyclone Vance at 11:50 am (WST) 22 March 1999 at Learmonth Meteorological Office, 35 km south of Exmouth.')]
+3. lnk2data_(scores|input_text): [(0.6669523119926453, 'wind flow'), (0.6683259010314941, 'wind knocked out'), (0.6734917759895325, 'highest tides'), (0.6762792468070984, 'the wind rises'), (0.678531289100647, 'strong winds'), (0.7043961882591248, 'wind speeds'), (0.709640622138977, 'winds'), (0.7155316472053528, 'wind speed'), (0.7431622743606567, 'wind'), (0.8966978192329407, 'wind gust')]
+
+============================================
+
+1. data_input_text: when is the rainy season in costa rica
+2. lbl2data_(scores|input_text): [(1, 'The rainy season in Costa Rica really refers to September through mid-November, and yes, you will see downpours, sometimes for days straight. Mid-June through mid-august is sometimes referred to as the little summer.')]
+3. lnk2data_(scores|input_text): [(0.6698769330978394, 'villa rica'), (0.6974411010742188, 'costa rican flag'), (0.713230550289154, 'costa rican forest'), (0.7240859270095825, 'bank of costa rica'), (0.7248070240020752, 'banco de costa rica'), (0.724978506565094, 'rainy season'), (0.7427319884300232, 'costa ricans'), (0.7500389814376831, 'costa rican'), (0.767108678817749, 'san jose, costa rica'), (0.8295033574104309, 'costa rica')]
+
+============================================
+
+1. data_input_text: when was the total stations first used in surveying
+2. lbl2data_(scores|input_text): [(1, 'Total stations are one of the most common surveying tools used today. They comprise of an electronic theodolite and an electronic distance metre/measurement (EDM) component. Robotic total stations are also available which allow for single-person operation by controlling the instrument using a remote control. History. Electronic distance measurement equipment was initially developed around 1940, and was commercially available in the 1960s. The first total station (electronic theodolite and EDM) was developed in the late 1970s. General Information. Total stations have the ability to record measurements and angles to data recorders or cards which can be processed using computer software upon return from the survey. For optimal accuracy, they are used with a prism which reflects light waves back to the measurement device to determine a measurement. In circumstances where accuracy is not required to be at a maximum, most total stations can be used in reflectorless mode whereby they can obtain a distance measurement to a feature without ...')]
+3. lnk2data_(scores|input_text): [(0.5620012879371643, 'heritage land surveying'), (0.5713560581207275, 'land surveyor'), (0.5722402334213257, 'land surveys'), (0.5837117433547974, 'land survey'), (0.5839981436729431, 'national council of examiners for engineering and surveying'), (0.5874894857406616, 'survey'), (0.6045749187469482, 'surveyors'), (0.606148362159729, 'surveyor'), (0.6894150972366333, 'surveying'), (0.6897962093353271, 'total station')]
+
+============================================
+
+1. data_input_text: how much does a pharmacy tech make?
+2. lbl2data_(scores|input_text): [(1, 'How much does a Pharmacy Technician make? The national average salary for a Pharmacy Technician is $24,365 in United States. Filter by location to see Pharmacy Technician salaries in your area. Salary estimates are based on 16,812 salaries submitted anonymously to Glassdoor by Pharmacy Technician employees. Salaries for Related Job Titles')]
+3. lnk2data_(scores|input_text): [(0.7434741258621216, 'pharmacy tech analyst'), (0.7518602013587952, 'hospital pharmacy tech'), (0.7604357004165649, 'certified pharmacy technician'), (0.7642990350723267, 'pharm tech'), (0.7845492362976074, 'pharmaceutical tech'), (0.7995195388793945, 'pharmacy tech certification'), (0.8132295608520508, 'pharmacy technician'), (0.8156123757362366, 'pharmacy technicians'), (0.8600438833236694, 'pharmacy techs'), (0.8648572564125061, 'pharmacy tech')]
+
+============================================
+
+1. data_input_text: blisovi dangerous side effects
+2. lbl2data_(scores|input_text): [(1, 'Blisovi Fe 1.5/30 (28) oral Side Effects Nausea, vomiting, headache, bloating, breast tenderness, swelling of the ankles/feet (fluid retention), or weight change may occur. Vaginal bleeding between periods (spotting) or missed/irregular periods may occur, especially during the first few months of use.')]
+3. lnk2data_(scores|input_text): [(0.5540715456008911, 'bloating'), (0.5598662495613098, 'linus clovis'), (0.567211925983429, 'sexual side effects'), (0.5680845379829407, 'bds'), (0.5841505527496338, 'adverse effects'), (0.5846521258354187, 'trovi'), (0.5998367071151733, 'ladispoli'), (0.6089252829551697, 'negative side effects'), (0.6237165331840515, 'side effect'), (0.6391381025314331, 'side effects')]
+
+============================================
+
+1. data_input_text: which amendment prohibited states from violating citizens' civil rights?
+2. lbl2data_(scores|input_text): [(1, 'The Fourteenth Amendment (Amendment XIV) to the United States Constitution was adopted on July 9, 1868, as one of the Reconstruction Amendments. The amendment addresses citizenship rights and equal protection of the laws, and was proposed in response to issues related to former slaves following the American Civil War.')]
+3. lnk2data_(scores|input_text): [(0.6977385878562927, 'constitution of the united states'), (0.6980372667312622, 'civil rights laws'), (0.6994791626930237, 'equal rights amendment'), (0.7000365257263184, 'civil rights'), (0.7120413780212402, 'states constitution'), (0.7224067449569702, 'u.s. amendment'), (0.7286414504051208, 'united states citizens'), (0.7323251962661743, 'states rights'), (0.7506870627403259, 'united states civil rights act'), (0.7592607140541077, "states' rights")]
+
+============================================
+
+1. data_input_text: usb host controller functions
+2. lbl2data_(scores|input_text): [(1, 'USB Host Controller. A USB Host Controller is the hardware either on the computer motherboard or PCI card. It provides an interface for transferring streams of data between the host computer and the USB devices. The host computer may have one or multiple USB host controllers with different types of interface. USB Host Controller Interface')]
+3. lnk2data_(scores|input_text): [(0.6805363297462463, 'usb drives'), (0.6822707056999207, 'usb drive'), (0.6921718716621399, 'usb ports'), (0.6928010582923889, 'usb cable'), (0.6953102946281433, 'usb port'), (0.7131034731864929, 'usb driver'), (0.7262658476829529, 'usb'), (0.7620501518249512, 'usb host diagnostics'), (0.8327160477638245, 'host controller'), (0.9473496079444885, 'usb host controller')]
+
+============================================
+
+1. data_input_text: what is the advantage of sexual reproduction
+2. lbl2data_(scores|input_text): [(1, 'Genetic recombination is another advantage of sexual reproduction. According to Antonovics & Kelly (1988) genetic recombination helps to separate beneficial mutations from harmful mutations. An organism can be subjected to many changes due to mutation.'), (1, 'One of the most important advantages of sexual reproduction is that it results in genetic variation among offsprings. This is a result of meiosis, which is the halving of the number of chromosomes and fertilization, whereby the male and female sex cells fuse and the restoration of the original number of chromosomes.')]
+3. lnk2data_(scores|input_text): [(0.646405041217804, 'sexual intercourse'), (0.650290846824646, 'plant reproduction'), (0.6519944667816162, 'sexual desire'), (0.6545217037200928, 'human reproduction'), (0.656303882598877, 'vegetative reproduction'), (0.6825163960456848, 'sexual characteristics'), (0.6846275329589844, 'sexual arousal'), (0.7200168967247009, 'asexual reproduction'), (0.7319112420082092, 'reproduction'), (0.8469488024711609, 'sexual reproduction')]
+
+============================================
+
+1. data_input_text: netgear help desk number
+2. lbl2data_(scores|input_text): [(1, 'Alllll NETGEAR tech support number (18442349752) NETGEAR router number 1-844-234-9752 Netgear router help desk number Big netgear tech support phone number =1-844-234-9752= NETGEAR Router customer service number NETGEAR router support number')]
+3. lnk2data_(scores|input_text): [(0.6097733974456787, 'service desk'), (0.6294994950294495, 'headgear'), (0.6302307844161987, 'switchgear'), (0.6475162506103516, 'netgear r6300'), (0.6613386869430542, 'help desk'), (0.6638370752334595, 'netgear arlo'), (0.6680216789245605, 'netgear prosafe'), (0.6777639985084534, 'netgear n600'), (0.7217962741851807, 'netgear ac1900'), (0.7779690623283386, 'netgear')]
+
+============================================
+
+1. data_input_text: what is an unlocked cell phone
+2. lbl2data_(scores|input_text): [(1, 'Unlocked cell phone means you can use them with different networks. Normally, some mobiles are locked by particular providers, so you cannot switch over from another network. In this situation you must unlock your cell phone. You can easily unlock your cell phone by using an unlock code.')]
+3. lnk2data_(scores|input_text): [(0.6622668504714966, 'cellphones'), (0.6745622754096985, 'cell phone number'), (0.679250955581665, 'phones'), (0.6924495100975037, 'cellular phone'), (0.7040055990219116, 'mobile phone'), (0.7077016234397888, 'mobile phones'), (0.7125206589698792, 'locked phone'), (0.7226868271827698, 'pocket cell phone'), (0.7563554644584656, 'cell phones'), (0.7571181058883667, 'cell phone')]
+
+============================================
+
+1. data_input_text: how much is it to attend harvard university for a year
+2. lbl2data_(scores|input_text): [(1, 'Typically Harvard University Undergrad tuition is approximately $36,000 per year. Room and Board are roughly $11,000. (Which comes out to $47,000 per year). Harvard does not tÃ¢Â\x80Â¦raditionally give out Merit Based Scholarships, but if you qualify for Financial Aid, some or all of those costs may be covered.')]
+3. lnk2data_(scores|input_text): [(0.6985084414482117, 'harvard book prize'), (0.6994750499725342, 'harvard referencing'), (0.7103381752967834, 'harvard management company'), (0.7216356992721558, 'harvard university press'), (0.7244454026222229, 'harvard business school'), (0.7330790162086487, 'john harvard'), (0.7443593144416809, 'harvard law school'), (0.8019652962684631, 'harvard college'), (0.8091025948524475, 'harvard'), (0.8459939360618591, 'harvard university')]
+
+============================================
+
+1. data_input_text: how to edit facebook page name
+2. lbl2data_(scores|input_text): [(1, 'However, if you have more than 200 fans, there are a few more steps you need to take in order to change the name of your Facebook Page. Step 1: Go in to edit settings and from there, under Page Info, Ã¢Â\x80Â\x9cclick editÃ¢Â\x80Â\x9d next to name. Step 2: When you click edit, youÃ¢Â\x80Â\x99ll see something that says, Ã¢Â\x80Â\x9cRequest ChangeÃ¢Â\x80Â\x9d as you can see pictured in step #2 above.'), (1, 'Step 3: When you click that little box at the bottom that says, Ã¢Â\x80Â\x9cI understand the formatting guidelines for my PageÃ¢Â\x80Â\x99s new name,Ã¢Â\x80Â\x9d youÃ¢Â\x80Â\x99ll then go to a page where youÃ¢Â\x80Â\x99ll enter information about your current Page name and what you want it changed to.')]
+3. lnk2data_(scores|input_text): [(0.5901967883110046, 'title page'), (0.5902935266494751, 'main page'), (0.5928189158439636, 'editing'), (0.5955893397331238, 'splash page'), (0.6075031757354736, 'business facebook account'), (0.612886905670166, 'cover page photo'), (0.6212501525878906, 'photo edit software'), (0.6331036686897278, 'page'), (0.647850751876831, 'facebook live'), (0.7131687998771667, 'facebook')]
+
+============================================
+
+1. data_input_text: difference between coating and laminating
+2. lbl2data_(scores|input_text): [(1, 'Lamination and UV coating are both used to add scuff resistance and shine to labels. UV coating is a liquid plastic applied to the surface of the label and cured under ultra violet (UV) light. Most playing cards are coated with a UV coating for protection and durability. Lamination is a layer of actual plastic film that is glued to the surface of the label. This is used in many restaurant menus.')]
+3. lnk2data_(scores|input_text): [(0.6730510592460632, 'laminate veneers'), (0.6759374737739563, 'laminate material'), (0.6799315810203552, 'floor laminate'), (0.6840123534202576, 'paint coating'), (0.6917117834091187, 'laminate flooring'), (0.6966370940208435, 'coating'), (0.6973979473114014, 'laminated flooring'), (0.6995267271995544, 'resin laminating'), (0.7244314551353455, 'lamination'), (0.7399575114250183, 'laminate')]
+
+============================================
+
+1. data_input_text: why do we need a written constitution
+2. lbl2data_(scores|input_text): [(1, 'Written Constitution means a formal document which defines constitutional settlement nature. There are the rules that preside over the rights of people or citizens and over the political systems. There were created to put limits to the federal government powers.')]
+3. lnk2data_(scores|input_text): [(0.6877502202987671, 'american constitution'), (0.6915305852890015, 'states constitution'), (0.6956731677055359, 'state constitution'), (0.7016315460205078, 'state constitutions'), (0.7055278420448303, 'u.s. constitution'), (0.720488965511322, 'constitution of the united states'), (0.7330302000045776, 'united states constitution'), (0.7387407422065735, 'us constitution'), (0.7465169429779053, 'constitutions'), (0.7650021314620972, 'constitution')]
+
+============================================
+
+1. data_input_text: define retrogressed
+2. lbl2data_(scores|input_text): [(1, 'verb (used without object) 1. to go backward into an earlier and usually worse condition: to retrogress to infantilism. 2. to move backward.')]
+3. lnk2data_(scores|input_text): [(0.5793876647949219, 'egret'), (0.5823062062263489, 'retrograde amnesia'), (0.5856413841247559, 'egrets'), (0.5916560292243958, 'retroversion'), (0.5921648144721985, 'egress window'), (0.5926125645637512, 'microaggression'), (0.6005417108535767, 'egress windows'), (0.6260073781013489, 'tigress'), (0.6467331647872925, 'progreso'), (0.6787227392196655, 'egress')]
+
+============================================
+
+1. data_input_text: what is the best medication for hemorrhoids
+2. lbl2data_(scores|input_text): [(1, 'Proctocort is the other most popular type of prescription hemorrhoid medication. Available in cream form, it provides relief to the most common - and most aggravating - symptoms of hemorrhoids. Some of these symptoms include itching, swelling and general irritation.'), (1, 'Perhaps the most commonly prescribed kinds of prescription hemorrhoid medication is Anusol HC. This medication comes in two different forms: as a cream and as a suppository. The kind that your doctor prescribes is generally completely up to your own personal preference, although you may opt for the suppositories if other kinds of creams have done little to treat your hemorrhoids.')]
+3. lnk2data_(scores|input_text): [(0.6083528399467468, 'hemorrhage'), (0.6109177470207214, 'hemorrhaging'), (0.6452732086181641, 'hemorrhoid band procedure'), (0.6586539149284363, 'hemorrhoidectomy'), (0.6881030797958374, 'external hemorrhoids'), (0.696826696395874, 'internal hemorrhoids'), (0.7125537991523743, 'first degree hemorrhoids'), (0.7458637356758118, 'hemorrhoid surgery'), (0.7741623520851135, 'hemorrhoid'), (0.8121106028556824, 'hemorrhoids')]
+
+============================================
+
+1. data_input_text: what is the default username password for phpmyadmin
+2. lbl2data_(scores|input_text): [(1, 'The default user for the phpMyAdmin application is root and the password is the same that you set during the installation. If you are using the Virtual Appliance or the AMI, you can enable phpMyAdmin following this guide and the default password is bitnami.')]
+3. lnk2data_(scores|input_text): [(0.5690430998802185, 'service passwords'), (0.5780479907989502, 'password safe'), (0.5887450575828552, 'password reset'), (0.5902213454246521, 'user name'), (0.5999659895896912, 'php developer'), (0.63485187292099, 'passwords'), (0.6350961327552795, 'username'), (0.6454504132270813, 'password'), (0.6488394141197205, 'php'), (0.6515395641326904, 'php gettext')]
+
+============================================
+
+1. data_input_text: which dynasty in china had a collapse of dynasty
+2. lbl2data_(scores|input_text): [(1, 'After the outbreak of this rebellion, there were also revolts by the Muslims and Miao people of China against the Qing dynasty, most notably in the Dungan Revolt (1862Ã¢Â\x80Â\x9377) in the northwest and the Panthay Rebellion (1856Ã¢Â\x80Â\x931873) in Yunnan.')]
+3. lnk2data_(scores|input_text): [(0.7140489816665649, 'zhou dynasty'), (0.7151793241500854, 'ching dynasty'), (0.7203109264373779, 'ming dynasty'), (0.7288116812705994, "people's republic of china"), (0.7353817820549011, 'republic of china'), (0.7366682887077332, 'dynasty'), (0.7407616376876831, 'qing dynasty'), (0.7419986128807068, 'china'), (0.7450990676879883, 'shang dynasty'), (0.8221092820167542, 'chinese dynasty')]
+
+============================================
+
+1. data_input_text: strategery definition
+2. lbl2data_(scores|input_text): [(1, 'Strategy is an action that managers take to attain one or more of the organizationÃ¢Â\x80Â\x99s goals. Strategy can also be defined as Ã¢Â\x80Â\x9cA general direction set for the company and its various components to achieve a desired state in the future. Strategy results from the detailed strategic planning processÃ¢Â\x80Â\x9d.')]
+3. lnk2data_(scores|input_text): [(0.6096991300582886, 'inspiratory stridor'), (0.6104059815406799, 'definition'), (0.6114423274993896, 'the stig'), (0.625586748123169, 'edward stratemeyer'), (0.6279398202896118, 'mariska hargitay'), (0.6317440271377563, 'strat'), (0.6322261691093445, 'stichery wichery'), (0.6358125805854797, 'buggery'), (0.6505301594734192, 'sty'), (0.722104012966156, 'strategist')]
+
+============================================
+
+1. data_input_text: average gas prices in ga
+2. lbl2data_(scores|input_text): [(1, 'Atlanta, GA Lowest Regular Gas Prices Summary. There are 120 Regular gas price reports in the past 5 days in Atlanta, GA. The average Regular gas price in Atlanta, GA is $2.37, which is $0.04 lower than U.S. national average Regular gas price $2.41. The lowest Regular gas price is $1.88 of Shell located at 4301 N Peachtree Rd, Atlanta, GA 30341.')]
+3. lnk2data_(scores|input_text): [(0.6951565146446228, 'macon, ga'), (0.6995906829833984, 'forsyth county, ga'), (0.7015289068222046, 'madison, ga'), (0.7033484578132629, 'ga taxes'), (0.7046763300895691, 'athens, ga'), (0.7046902775764465, 'georgia'), (0.7135507464408875, 'gas price'), (0.7311987280845642, 'ga state'), (0.749361515045166, 'gas prices'), (0.7934611439704895, 'ga')]
+
+============================================
+
+1. data_input_text: how many calories do strawberry jello have
+2. lbl2data_(scores|input_text): [(1, 'Calories, Fat, Protein, Fiber, & Carbs In Sugar Free Jello Gelatin. Calories In Fat Free Sugar Free Jello Pumpkin Cheesecake Dip Calories: 74, Fat: 0g, Carbs: 11g, Protein: 5g, Fiber: 1g. Calories In Cinnamon Applesauce Strawberry Sugar Free Jello Calories: 25, Fat: 0g, Carbs: 7g, Protein: 1g, Fiber: 1g.')]
+3. lnk2data_(scores|input_text): [(0.6046798825263977, 'strawberry pop-tart'), (0.6064565181732178, 'strawberry allergy'), (0.6092925071716309, 'strawberry wine'), (0.6095148921012878, 'strawberries'), (0.6118084192276001, 'strawberry moon'), (0.6399255394935608, 'jello pudding'), (0.6677252054214478, 'jello shots'), (0.6768685579299927, 'strawberry'), (0.6862621903419495, 'calories'), (0.708294689655304, 'jello')]
+
+============================================
+
+1. data_input_text: where is the graphic card located in the cpu
+2. lbl2data_(scores|input_text): [(1, 'Single Add-on Cards. When a discrete graphics card is installed, it is typically located in the expansion slot closest to the CPU. Its location relates to the high-speed connection that motherboard manufacturers want between the CPU and the graphics card.')]
+3. lnk2data_(scores|input_text): [(0.5817540287971497, 'sd card'), (0.5840491652488708, 'network data card'), (0.5910624861717224, 'cpu speed'), (0.6070442795753479, 'card'), (0.6095795631408691, 'memory card'), (0.6723166108131409, 'cpus'), (0.6805357336997986, 'graphics cards'), (0.7084807753562927, 'graphics card'), (0.7125760316848755, 'cpu'), (0.7349096536636353, 'graphic card')]
+
+============================================
+
+1. data_input_text: what are the gif
+2. lbl2data_(scores|input_text): [(1, "GIFs are suitable for sharp-edged line art (such as logos) with a limited number of colors. This takes advantage of the format's lossless compression, which favors flat areas of uniform color with well defined edges. GIFs may be used to store low-color sprite data for games. GIFs can be used for small animations and low-resolution video clips.")]
+3. lnk2data_(scores|input_text): [(0.7306369543075562, 'gist'), (0.7317978143692017, 'cdf'), (0.738691508769989, 'mif'), (0.7387966513633728, 'gi'), (0.7433852553367615, 'gib'), (0.7724342942237854, 'jif'), (0.7748340964317322, 'gaf'), (0.8368708491325378, 'animated gif'), (0.854671061038971, 'gif file'), (0.9557267427444458, 'gif')]
+
+============================================
+
+1. data_input_text: what is a spoiled brat
+2. lbl2data_(scores|input_text): [(1, 'Spoiled child. A spoiled child, spoiled brat, or simply a brat is a derogatory term aimed at children who exhibit behavioral problems from being overindulged by their parents. Children and teens who are perceived as spoiled may be described as overindulged, grandiose, narcissistic or egocentric-regressed. Perception is important to take into account, because when the child has a neurological condition such as autism, ADHD or intellectual disability, observers may judge them as spoiled without underst')]
+3. lnk2data_(scores|input_text): [(0.6197561025619507, 'shawntae da brat harris'), (0.6199393272399902, 'bratwurst sausage'), (0.6250076293945312, 'spoiler'), (0.6575730443000793, 'poker brat'), (0.6585347652435303, 'bratwurst'), (0.6919379830360413, 'beer brats'), (0.7115898728370667, 'bratt'), (0.7156444787979126, 'brat diet'), (0.7583288550376892, 'brats'), (0.815168023109436, 'brat')]
+
+============================================
+
+1. data_input_text: mastercard stock prices
+2. lbl2data_(scores|input_text): [(1, "Result: At the same time as RBC changes its rating, per se, the analyst is increasing its price target on Mastercard stock -- all the way to $180. One stock that's better than Mastercard The upshot of all this is that while RBC isn't convinced Mastercard stock will beat all comers in 2018 as it did in 2017, the analyst still likes Mastercard quite a lot -- and predicts the stock will go up about 15% this year.")]
+3. lnk2data_(scores|input_text): [(0.6294050216674805, 'masteron'), (0.6347917914390564, 'barclaycard arrival world mastercard'), (0.6367500424385071, 'stock price'), (0.6476256251335144, 'stock prices'), (0.6518139839172363, 'master plan'), (0.6544634699821472, 'mastercard securecode'), (0.7313035130500793, 'sears mastercard'), (0.7384902834892273, 'us mastercard'), (0.7786118388175964, 'world mastercard'), (0.8257054686546326, 'mastercard')]
+
+============================================
+
+1. data_input_text: when to stop turning eggs in incubator
+2. lbl2data_(scores|input_text): [(1, 'But first (as ever!), there are a few things you need to check. The most obvious thing to know is how long the eggs are going to be in the incubator. Keeping track of the days is essential as you will have to remember when you should stop turning the eggs, raise humidity, and so on. Guinea eggs hatch after 26-28 days in the incubator.'), (1, 'Stop turning guinea eggs on day 23. When hand turning, you should be sure to turn the eggs an odd number of times each day once they are in the incubator - 3, 5, or 7 times per 24-hour period. Turning an odd number of times per day will prevent the same side of the egg from being downwards all night every night.')]
+3. lnk2data_(scores|input_text): [(0.6069840788841248, 'egg'), (0.614691436290741, 'incubation'), (0.6172305345535278, 'incubation time'), (0.6193836331367493, 'eggs'), (0.6268323063850403, 'incubating'), (0.647871732711792, 'infant incubators'), (0.6597667336463928, 'incubators'), (0.6951090097427368, 'incubator'), (0.7104059457778931, 'egg incubation'), (0.774743378162384, 'egg incubator')]
+
+============================================
+
+1. data_input_text: what uses real time os
+2. lbl2data_(scores|input_text): [(1, 'Real Time Operating System (RTOS) On hearing this term many of the programmers and computer enthusiasts think differently. It differs from the general purpose OS, RTOS is a real time OS working with real time constraints as power, time and efficient usage of memory. Most of the embedded systems are bound to real time constraints and it is achieved using real time system.')]
+3. lnk2data_(scores|input_text): [(0.6183033585548401, 'z/os'), (0.6256125569343567, 'longhorn os'), (0.6263095140457153, 'real-time processing'), (0.644611656665802, 'os x'), (0.6495035886764526, 'apple os'), (0.6543799042701721, 'cloud os'), (0.6551409363746643, 'mac os'), (0.7062938213348389, 'windows os'), (0.723078191280365, 'os'), (0.7555701732635498, 'real time')]
+
+============================================
+
+1. data_input_text: where did an important battle for the tennessee campaign happen
+2. lbl2data_(scores|input_text): [(1, 'Battles For Chattanooga: Background. After the Confederate victory at Chickamauga in northwest Georgia in September 1863, the Union army retreated to the vital railroad junction of Chattanooga, Tennessee.')]
+3. lnk2data_(scores|input_text): [(0.6863799095153809, 'tennessee department of military'), (0.6889122128486633, 'jackson, tennessee'), (0.6930623650550842, 'tennessee state fair'), (0.694203794002533, 'memphis, tennessee'), (0.6997159719467163, 'tn'), (0.7019602656364441, 'knoxville, tennessee'), (0.703313410282135, 'army of tennessee battle flag'), (0.7089481949806213, 'nashville, tennessee'), (0.7130380868911743, 'state of tennessee'), (0.7524528503417969, 'tennessee')]
+
+============================================
+
+1. data_input_text: price, ut
+2. lbl2data_(scores|input_text): [(1, 'Price sits close to the northern section of the San Rafael Swell, which is home to vast deserts, yawning canyons, and fascinating rock formations. The area is known for its coal mining, as well as its recreational opportunities. Price is a great jumping-off point for visits to Goblin Valley State Park and the Cleveland-Lloyd Dinosaur Quarry.')]
+3. lnk2data_(scores|input_text): [(0.672907829284668, 'utd'), (0.6733140349388123, 'utah'), (0.6773884892463684, 'ut austin'), (0.6781779527664185, 'salt lake city, ut'), (0.6794086694717407, 'ute'), (0.6820028424263, 'price county'), (0.6826204061508179, 'cost price'), (0.7145267128944397, 'prices'), (0.7628023028373718, 'price'), (0.797171950340271, 'ut')]
+
+============================================
+
+1. data_input_text: symptoms of hypocalcemia
+2. lbl2data_(scores|input_text): [(1, "Only the ionized calcium is physiologically active. Normal blood calcium level is between 8.5 to 10.5 mg/dL (2.12 to 2.62 mmol/L) and that of ionized calcium is 4.65 to 5.25 mg/dL (1.16 to 1.31 mmol/L). Common causes of hypocalcemia include hypoparathyroidism, vitamin D deficiency, and chronic kidney disease. Symptoms of hypocalcemia include neuromuscular irritability (including tetany as manifested by Chvostek's sign or Trousseau's sign, bronchospasm), electrocardiographic changes, and seizures.")]
+3. lnk2data_(scores|input_text): [(0.6179291009902954, 'hypocapnia'), (0.6182267665863037, 'symptom'), (0.6234138607978821, 'dolce'), (0.6299493312835693, 'hyponatremia'), (0.6418405771255493, 'hypovolemic hyponatremia'), (0.6565055251121521, 'hypophosphatemia'), (0.671972393989563, 'hypoglycemia'), (0.6734429597854614, 'hypochloremia'), (0.6933457851409912, 'hypothermia'), (0.8947388529777527, 'hypocalcemia')]
+
+============================================
+
+1. data_input_text: private club definition
+2. lbl2data_(scores|input_text): [(1, 'Private club means an organization, whether incorporated or not, that (i) is the owner, lessee, or occupant of a building or portion thereof used exclusively for club purposes, including club or member sponsored events; (ii) is operated solely for recreational, fraternal, social, patriotic, political, benevolent, or athletic purposes, and only ...')]
+3. lnk2data_(scores|input_text): [(0.6959536671638489, 'country club'), (0.6997966766357422, 'private flight'), (0.702248752117157, 'private companies'), (0.7180283069610596, 'private school'), (0.7248213887214661, 'clubs'), (0.7270026206970215, 'private key'), (0.7556352615356445, 'private college'), (0.7587435245513916, 'club'), (0.7803435325622559, 'private'), (0.8191116452217102, 'private residence club')]
+
+============================================
+
+1. data_input_text: why did franklin d roosevelt launch a new programs during his first hundred days in office
+2. lbl2data_(scores|input_text): [(1, "Answers. During the first hundred days of Franklin D. Roosevelt's presidency, President Franklin D. Rooseveltplanned to put an end to the Great Depression that was caused by the massive sell of stocks by the Americans.")]
+3. lnk2data_(scores|input_text): [(0.6498803496360779, 'eleanor roosevelt'), (0.686276912689209, 'theodore roosevelt'), (0.6881517767906189, 'teddy roosevelt'), (0.7022467851638794, 'roosevelt'), (0.7229688167572021, 'franklin delano roosevelt'), (0.7277469038963318, 'franklin roosevelt'), (0.7280107140541077, 'president roosevelt'), (0.7485974431037903, 'president franklin roosevelt'), (0.768711507320404, 'franklin d. roosevelt'), (0.7728058695793152, 'president franklin d. roosevelt')]
+
+============================================
+
+1. data_input_text: when is the baltimore orioles home opener
+2. lbl2data_(scores|input_text): [(1, 'Latest Photos. Baltimore Orioles Home OpenerToronto Blue Jays v Baltimore OriolesFans pass through metal detectors upon entering the stadium prior to the Toronto Blue Jays and Baltimore Orioles home opener at Oriole Park at Camden Yards on April 10, 2015 in Baltimore, Maryland.')]
+3. lnk2data_(scores|input_text): [(0.6292184591293335, 'maryland'), (0.6345348358154297, 'baltimore city'), (0.637383222579956, 'baltimore airport'), (0.65513014793396, 'battle of baltimore'), (0.6603384613990784, 'baltimore county'), (0.670082151889801, 'baltimore ravens'), (0.6879101395606995, 'baltimore'), (0.7080682516098022, 'baltimore, maryland'), (0.7279769778251648, 'orioles'), (0.799636960029602, 'baltimore orioles')]
+
+============================================
+
+1. data_input_text: which type of tissue has abundant nonliving extracellular matrix
+2. lbl2data_(scores|input_text): [(1, 'Connective tissue is living cells that have an abundant non-living extracellular matrix.')]
+3. lnk2data_(scores|input_text): [(0.6182840466499329, 'cellular matrix'), (0.625208854675293, 'dense regular connective tissue'), (0.6252401471138, 'squamous epithelial tissue'), (0.6357147693634033, 'dense tissue'), (0.6528435945510864, 'extracellular water'), (0.6551647186279297, 'interstitial tissue'), (0.6579390168190002, 'extracellular fluids'), (0.6736754179000854, 'extracellular fluid'), (0.676830530166626, 'extracellular fvd'), (0.810766339302063, 'extracellular matrix')]
+
+============================================
+
+1. data_input_text: petrol price in pakistan
+2. lbl2data_(scores|input_text): [(1, 'Due to the early major fluctuation in international oil market effects directly to the petroleum products prices in Pakistan as well and the average price of petrol in Pakistan is 72.68 Pakistan rupee while the price of petrol in India is 62.24 Indian rupees per litre.')]
+3. lnk2data_(scores|input_text): [(0.6361517310142517, 'east pakistan'), (0.6442590355873108, 'fuel price'), (0.6506770849227905, 'gasoline prices'), (0.6716766953468323, 'petrol'), (0.6859363317489624, 'pakistani people'), (0.6901248097419739, 'pakistani city'), (0.7285420298576355, 'petrol price'), (0.7314034700393677, 'pakistanis'), (0.7473198175430298, 'pakistani'), (0.7954849600791931, 'pakistan')]
+
+============================================
+
+1. data_input_text: what does fermentation mean
+2. lbl2data_(scores|input_text): [(1, 'What Does Fermented Mean. Fermentation is the processes by which we use selected yeasts and/or bacteria to break down nutrients in something to convert it to something else. In many cases that pre-digested food is easier for you to digest. Wine is fermented with yeast. The yeast eat the sugar in the grapes, and give off CO2 and ethanol.')]
+3. lnk2data_(scores|input_text): [(0.7118452787399292, 'lactic-acid fermentation'), (0.7131115794181824, 'fermented food'), (0.7228779792785645, 'fermented foods'), (0.7438797354698181, 'facultative fermentation'), (0.7456615567207336, 'primary fermentation'), (0.7580692768096924, 'fermentation lock'), (0.7766571044921875, 'fermentation test'), (0.7919068932533264, 'alcoholic fermentation'), (0.8463693261146545, 'fermentation process'), (0.9147214293479919, 'fermentation')]
+
+============================================
+
+1. data_input_text: when do female dogs first go into heat
+2. lbl2data_(scores|input_text): [(1, 'When will my dog come into heat? What age will my dog come into her first heat? First heat can vary greatly dog to dog. The youngest is about six months of age though sometimes a female will come into season younger. First heat can start as late as 12 or even 14 months of age or later in rare cases. Again, it can vary dog to dog. How often will my dog come into heat? Again, this varies dog-to-dog Ã¢Â\x80Â\x93 average is every six months but it could be more or less often.')]
+3. lnk2data_(scores|input_text): [(0.6607110500335693, 'heat'), (0.663118302822113, 'girl dog'), (0.6647225618362427, 'hot dogs'), (0.6669197678565979, 'female puppies'), (0.6913110017776489, 'female pug dogs'), (0.6927183270454407, 'male dogs'), (0.6949060559272766, 'dogs'), (0.7034488320350647, 'girl dogs'), (0.7459850907325745, 'female dog'), (0.7845140099525452, 'female dogs')]
+
+============================================
+
+1. data_input_text: how much do target cashiers make
+2. lbl2data_(scores|input_text): [(1, 'How much do Target employees make an hour? A: As of December, 2014, different hourly rates for Target employees include cashiers at $8.65, team leaders at $15.35 and sales floor team members at $8.88. These numbers are only averages, as the actual pay-per-hour is dependent on a number of different variables, including location and experience. Continue Reading.')]
+3. lnk2data_(scores|input_text): [(0.6577520370483398, "cashier's checks"), (0.6595455408096313, 'target'), (0.6672970652580261, 'price target'), (0.670221209526062, 'target costing'), (0.6758812069892883, 'cashier check'), (0.6854298710823059, 'target price'), (0.6859498620033264, "cashier's check"), (0.7130696773529053, 'cashiers cheque'), (0.7491714954376221, 'cashier'), (0.8023239374160767, 'cashiers')]
+
+============================================
+
+1. data_input_text: do you weigh more before or after a workout
+2. lbl2data_(scores|input_text): [(1, "Exercise may cause temporary weight gain due to your muscles' response to strenuous activity. Strength training, for example, tears muscle fiber and can cause your muscles to retain water. Cardiovascular exercise also triggers your muscles to store more glycogen, the form of carbohydrates that fuels aerobic activity.")]
+3. lnk2data_(scores|input_text): [(0.6447199583053589, 'gold standard pre workout'), (0.6594775319099426, 'weights'), (0.6636500358581543, 'pre workout meal'), (0.6697231531143188, 'exercise workout'), (0.6706382632255554, 'morning workout'), (0.6715530157089233, 'pre workout drink'), (0.7012212872505188, 'weigh'), (0.7091926336288452, 'workouts'), (0.7225630283355713, 'pre workout'), (0.7467929124832153, 'workout')]
+
+============================================
+
+1. data_input_text: how much pounds do most cats get up to
+2. lbl2data_(scores|input_text): [(1, "So, now lets put that in perspective for the weight and length for felines: A female is usually between 9-12 pounds, and a male generally weighs in at 13-18 pounds. So, an 18 pound big Maine Coon cat weights about twice as much as his domestic counterpart! That's 100% more! Add that fluffy, shaggy coat, and you are looking at quite a specimen! You may think that such a hefty pet would have a rough or wild temperment.")]
+3. lnk2data_(scores|input_text): [(0.6635384559631348, 'cat sitting'), (0.6742953658103943, 'indoor cats'), (0.675056517124176, 'big cats'), (0.6781100630760193, 'pounds'), (0.6807843446731567, 'house cats'), (0.693756639957428, 'cat'), (0.6942499279975891, 'cat breeds'), (0.7000758051872253, 'like cats and dogs'), (0.7013621926307678, 'cat breed'), (0.7535297870635986, 'cats')]
+
+============================================
+
+1. data_input_text: define unadjusted trial balance
+2. lbl2data_(scores|input_text): [(1, 'What is an unadjusted trial balance. The unadjusted trial balance is the listing of general ledger account balances at the end of a reporting period, before any adjusting entries are made to the balances to create financial statements. The unadjusted trial balance is used as the starting point for analyzing account balances and making adjusting entries.')]
+3. lnk2data_(scores|input_text): [(0.6337286829948425, 'trial judge'), (0.6384254097938538, 'trial and error'), (0.6519447565078735, 'trial courts'), (0.6565467715263367, 'trial'), (0.6766289472579956, 'right to trial by jury'), (0.6773964762687683, 'trial by jury'), (0.7265065908432007, 'trial balance sheet'), (0.7617025971412659, 'adjusted trial balance'), (0.8044089674949646, 'trial balance'), (0.9738342761993408, 'unadjusted trial balance')]
+
+============================================
+

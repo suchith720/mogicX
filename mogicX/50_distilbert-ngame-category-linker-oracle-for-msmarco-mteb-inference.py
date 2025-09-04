@@ -6,6 +6,9 @@ __all__ = []
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
 os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9,10,11'
+os.environ["NCCL_DEBUG"] = "NONE"
+os.environ["ROCM_DISABLE_WARNINGS"] = "1"
+os.environ["MIOPEN_LOG_LEVEL"] = "0"
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -19,22 +22,20 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-06'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-001'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-002'
 
     input_args = parse_args()
 
-    if input_args.exact:
-        config_file = 'configs/data-ngame-category-linker_lbl_ce-negatives-topk-05_exact.json'
-    else:
-        config_file = 'configs/data-ngame-category-linker.json'
+    input_args.only_test, input_args.do_test_inference = True, True
+    config_file = f'configs/{input_args.dataset}-data-ngame-category-linker.json'
     
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
 
-    do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
+    do_inference = check_inference_mode(input_args)
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
@@ -45,7 +46,7 @@ if __name__ == '__main__':
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=1600,
+        per_device_eval_batch_size=1600, # 800,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
@@ -86,7 +87,7 @@ if __name__ == '__main__':
     )
 
     def model_fn(mname):
-        model = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=True, use_encoder_parallel=True)
+        model = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=False, use_encoder_parallel=True)
         return model
     
     def init_fn(model): 

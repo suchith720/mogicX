@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '4,5,6,7,8,9'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -38,6 +38,7 @@ if __name__ == '__main__':
             input_args.only_test, use_oracle=input_args.use_oracle, use_text_mode=input_args.text_mode)
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
 
+    n_meta = 2 
     block_args = {
         'pkl_file': pkl_file,
         'config': config_file,
@@ -48,12 +49,16 @@ if __name__ == '__main__':
         'main_oversample': True,
         'meta_oversample': {f'{meta_name}_meta':False, 'neg_meta':True},
         'n_slbl_samples': 1,
-        'n_sdata_meta_samples': {f'{meta_name}_meta':5, 'neg_meta':1},
+        'n_sdata_meta_samples': {f'{meta_name}_meta':max(1, n_meta), 'neg_meta':1},
         'return_scores': True,
         'train_meta_topk': {f'{meta_name}_meta':5},
-        'test_meta_topk': {f'{meta_name}_meta':5},
+        'test_meta_topk': {f'{meta_name}_meta':n_meta},
     }
     block = build_block(**block_args)
+
+    # debug
+    breakpoint()
+    # debug
 
     # Metadata clustering
 
@@ -82,7 +87,7 @@ if __name__ == '__main__':
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=800,
+        per_device_eval_batch_size=2000, # 800,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",

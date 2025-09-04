@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '6,7,8,9,10,11'
+os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -19,18 +19,18 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-06'
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 7
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/49_oak-oracle-distilbert-for-msmarco-from-scratch-with-all-category-metadata-001'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/48_oak-distilbert-for-msmarco-from-scratch-with-category-metadata-008'
     
     input_args = parse_args()
 
     # Load data
     mname = 'distilbert-base-uncased'
-    meta_name = 'cat'
+    meta_name = 'lnk'
 
     if input_args.exact:
-        config_file = '/data/share/from_deepak/XC/configs/data_lbl_ngame-gpt-all-category_ce-negatives-topk-05-linker_exact.json'
+        config_file = '/data/datasets/msmarco/XC/configs/data_lbl_ngame-gpt-category_ce-negatives-topk-05-linker_exact.json'
     else:
-        config_file = '/data/share/from_deepak/XC/configs/data_lbl_ngame-gpt-all-category_ce-negatives-topk-05-linker.json'
+        config_file = '/data/datasets/msmarco/XC/configs/data_lbl_ngame-gpt-category_ce-negatives-topk-05-linker.json'
 
     config_key, fname = get_config_key(config_file)
 
@@ -82,7 +82,7 @@ if __name__ == '__main__':
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=1600, # 800,
+        per_device_eval_batch_size=1600,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
@@ -164,20 +164,24 @@ if __name__ == '__main__':
         
                                        use_query_loss=False,
                                        
-                                       use_encoder_parallel=True, normalize=False, use_layer_norm=False)
+                                       use_encoder_parallel=True, normalize=False, use_layer_norm=True)
         return model
     
     def init_fn(model):
         model.init_retrieval_head()
-        model.init_cross_head()
+        # model.init_cross_head()
+        model.encoder.cross_head.init_zeros()
         model.init_meta_embeddings()
 
         model.encoder.set_pretrained_meta_embeddings(meta_repr)
         model.encoder.freeze_pretrained_meta_embeddings()
 
         model.encoder.set_metadata_mapping(metadata_idx2cluster)
+        model.freeze_memory()
 
     model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
+    model.encoder.dr_head.activation = torch.nn.Identity()
+    model.encoder.dr_fused_head.activation = torch.nn.Identity()
 
     metric = PrecReclMrr(block.test.dset.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, rep_pk=[1, 3, 5, 10], 
                          rep_rk=[10, 100, 200], mk=[5, 10, 20])
@@ -192,3 +196,4 @@ if __name__ == '__main__':
     )
 
     main(learn, input_args, n_lbl=block.test.dset.n_lbl)
+

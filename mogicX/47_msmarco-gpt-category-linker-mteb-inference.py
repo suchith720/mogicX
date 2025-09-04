@@ -12,6 +12,8 @@ import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.spars
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT009
 
+from xcai.sdata import SXCDataset, SMainXCDataset
+
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 5
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-linker-01'
 
@@ -21,23 +23,32 @@ if __name__ == '__main__':
 
     input_args = parse_args()
 
-    config_file = '/data/datasets/msmarco/XC/configs/data_gpt-category.json'
-    # config_file = 'configs/data_all-gpt-category.json'
-    config_key, fname = get_config_key(config_file)
-
     mname = 'sentence-transformers/msmarco-distilbert-cos-v5'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    config_file = f'/data/datasets/{input_args.dataset}/XC/configs/data.json'
+    config_key, fname = get_config_key(config_file)
+
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
 
-    do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
+    do_inference = check_inference_mode(input_args)
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test, 
             n_slbl_samples=1, main_oversample=False)
 
-    if do_inference: train_dset, test_dset = block.train.dset, block.test.dset
-    else: train_dset, test_dset = block.train.dset.get_valid_dset(), block.test.dset.get_valid_dset()
+    # category information
+    meta_info_file = "outputs/msmarco_category-gpt.joblib"
+    if os.path.exists(meta_info_file):
+        meta_info = joblib.load(meta_info_file)
+    else:
+        fname = '/data/datasets/msmarco/XC/raw_data/category-gpt.raw.csv'
+        meta_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
+                tokenization_column="input_text", use_tokenizer=True, tokenizer="sentence-transformers/msmarco-distilbert-dot-v5")
+        joblib.dump(meta_info, meta_info_file)
+
+    mteb_dset = SXCDataset(SMainXCDataset(data_info=block.test.dset.data.data_info, lbl_info=meta_info))
+    # category information
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -86,19 +97,15 @@ if __name__ == '__main__':
     def init_fn(model): 
         model.init_dr_head()
 
-    metric = PrecReclMrr(test_dset.data.n_lbl, test_dset.data.data_lbl_filterer, prop=train_dset.data.data_lbl, 
-            pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
-
     model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
     
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=train_dset,
-        eval_dataset=test_dset,
+        train_dataset=mteb_dset,
+        eval_dataset=mteb_dset,
         data_collator=block.collator,
-        compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=test_dset.data.n_lbl, eval_k=10, train_k=10)
+    main(learn, input_args, n_lbl=mteb_dset.n_lbl, eval_k=10, train_k=10)
     

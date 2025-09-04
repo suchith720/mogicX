@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3'
+os.environ['HIP_VISIBLE_DEVICES'] = '10,11,12,13'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -23,10 +23,15 @@ if __name__ == '__main__':
 
     input_args = parse_args()
 
+    # if input_args.exact:
+    #     config_file = '/data/datasets/msmarco/XC/configs/data-category_lbl_ce-negatives-topk-05_exact.json'
+    # else:
+    #     config_file = '/data/datasets/msmarco/XC/configs/data-category.json'
+
     if input_args.exact:
-        config_file = '/data/datasets/msmarco/XC/configs/data-category_lbl_ce-negatives-topk-05_exact.json'
+        config_file = 'configs/data-ngame-category-linker_lbl_ce-negatives-topk-05_exact.json'
     else:
-        config_file = '/data/datasets/msmarco/XC/configs/data-category.json'
+        config_file = 'configs/data-ngame-category-linker.json'
     
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
@@ -45,7 +50,7 @@ if __name__ == '__main__':
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=800,
+        per_device_eval_batch_size=2000, # 800,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",

@@ -5,12 +5,12 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3'
+os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9,10,11'
 os.environ["NCCL_DEBUG"] = "NONE"
 os.environ["ROCM_DISABLE_WARNINGS"] = "1"
 os.environ["MIOPEN_LOG_LEVEL"] = "0"
 
-import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
+import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
 from transformers import DistilBertConfig
 
@@ -18,57 +18,51 @@ from xcai.basics import *
 from xcai.models.PPP0XX import DBT023
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
-os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
+os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-07'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
+    output_dir = '/data/outputs/mogicX/44_distilbert-category-oracle-for-msmarco-004'
 
     input_args = parse_args()
 
-    input_args.normalize, input_args.use_ln = False, True
-    output_dir = '/data/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-010'
-
-    if input_args.exact: 
-        raise ValueError("Arguement 'exact' is not allowed.")
+    input_args.only_test, input_args.do_test_inference = True, True
+    config_file = f'configs/{input_args.dataset}-data-ngame-category-linker.json'
     
-    if not input_args.only_test:
-        raise ValueError("Arguement 'only_test' required.")
-    
-    config_file = f'/data/datasets/{input_args.dataset}/XC/configs/data.json'
-    config_key = 'data'
-    
+    config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_data_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
 
-    do_inference = check_inference_mode(input_args)
+    do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
-                        only_test=input_args.only_test, n_slbl_samples=1)
+                        only_test=input_args.only_test, main_oversample=True, meta_oversample=True, return_scores=True, 
+                        n_slbl_samples=1, n_sdata_meta_samples=1)
 
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=1600,
+        per_device_eval_batch_size=2000, # 800,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
         eval_strategy="steps",
-        eval_steps=500,
-        save_steps=500,
+        eval_steps=1000,
+        save_steps=1000,
         save_total_limit=5,
-        num_train_epochs=300,
+        num_train_epochs=50,
         predict_with_representation=True,
         representation_search_type='BRUTEFORCE',
         search_normalize=False, 
 
         adam_epsilon=1e-6,
-        warmup_steps=100,
+        warmup_steps=1000,
         weight_decay=0.01,
-        learning_rate=2e-5,
+        learning_rate=6e-5,
         label_names=['plbl2data_idx', 'plbl2data_data2ptr'],
     
         group_by_cluster=True,
@@ -93,7 +87,7 @@ if __name__ == '__main__':
     )
 
     def model_fn(mname):
-        model = DBT023.from_pretrained(mname, normalize=input_args.normalize, use_layer_norm=input_args.use_ln, use_encoder_parallel=True)
+        model = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=True, use_encoder_parallel=True)
         return model
     
     def init_fn(model): 
@@ -110,7 +104,7 @@ if __name__ == '__main__':
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=block.train.dset if block.train else block.test.dset,
+        train_dataset=None if block.train is None else block.train.dset,
         eval_dataset=block.test.dset,
         data_collator=block.collator,
         compute_metrics=metric,

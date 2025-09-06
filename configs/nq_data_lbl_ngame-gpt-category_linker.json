@@ -1,20 +1,15 @@
 {
-    "data-ngame-category-linker": {
+    "nq_data_lbl_ngame-gpt-category_linker": {
         "path": {
-            "train": {
-                "data_lbl": "/data/datasets/msmarco/XC//trn_X_Y.npz",
-                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/train_ngame-gpt-category-linker.raw.csv",
-                "lbl_info": "/data/datasets/msmarco/XC//raw_data/label.raw.txt",
-                "neg_meta": {
-                    "prefix": "neg",
-                    "data_meta": "/data/datasets/msmarco/XC/ce-negatives-topk-05_trn_X_Y.npz",
-                    "meta_info": "/data/datasets/msmarco/XC//raw_data/ce-scores.raw.txt"
-                }
-            },
             "test": {
-                "data_lbl": "/data/datasets/msmarco/XC//tst_X_Y.npz",
-                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/test_ngame-gpt-category-linker.raw.csv",
-                "lbl_info": "/data/datasets/msmarco/XC//raw_data/label.raw.txt"
+                "data_lbl": "/data/datasets/nq/XC//tst_X_Y_linker.npz",
+                "data_info": "/data/datasets/nq/XC//raw_data/test.raw.csv",
+                "lbl_info": "/data/datasets/nq/XC//raw_data/label_linker.raw.csv",
+                "lnk_meta": {
+                    "prefix": "lnk",
+                    "data_meta": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/predictions/test_predictions_nq.npz",
+                    "meta_info": "/data/datasets/msmarco/XC/raw_data/category-gpt.raw.csv"
+                }
             }
         },
         "parameters": {
@@ -38,6 +33,7 @@
             ],
             "pad_token": 0,
             "oversample": false,
+            "keep_attention_mask": true,
             "sampling_features": [
                 [
                     "lbl2data",
@@ -63,8 +59,8 @@
             "tokenizer": "distilbert-base-uncased",
             "tokenization_column": "input_text",
             "main_max_data_sequence_length": 300,
-            "main_max_lbl_sequence_length": 300,
-            "meta_max_sequence_length": 300,
+            "main_max_lbl_sequence_length": 512,
+            "meta_max_sequence_length": 32,
             "padding": false,
             "return_tensors": null,
             "sep": "->",
@@ -78,6 +74,7 @@
             "inp": "data",
             "targ": "lbl2data",
             "ptr": "lbl2data_data2ptr",
+            "enable_delayed_indexing": false,
             "n_lbl_samples": null,
             "data_info_keys": null,
             "lbl_info_keys": null,
@@ -88,7 +85,9 @@
             "meta_info_keys": null,
             "n_sdata_meta_samples": 1,
             "n_slbl_meta_samples": 1,
-            "meta_oversample": false
+            "meta_oversample": false,
+            "use_meta_distribution": false,
+            "use_main_distribution": false
         }
     }
 }

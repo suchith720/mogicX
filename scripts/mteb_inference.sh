@@ -63,11 +63,28 @@ datasets="nq fiqa hotpotqa fever dbpedia quora trec-covid climate-fever scifact 
 # 	python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --only_test --do_test_inference --dataset $dataset >> $output_file
 # done
 
-output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-002.txt
+# output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-002.txt
+# for dataset in $datasets
+# do
+# 	echo $dataset
+# 	echo $dataset : >> $output_file
+# 	python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --only_test --do_test_inference --dataset $dataset >> $output_file
+# done
+
+# output_file=outputs/44_distilbert-category-oracle-for-msmarco-004.txt
+# for dataset in $datasets
+# do
+# 	echo $dataset
+# 	echo $dataset : >> $output_file
+# 	python mogicX/44_distilbert-category-oracle-for-msmarco-mteb-inference.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --only_test --do_test_inference --dataset $dataset >> $output_file
+# done
+
+datasets="msmarco"
+
+output_file=outputs/48_oak-distilbert-for-msmarco-from-scratch-with-category-metadata-001.txt
 for dataset in $datasets
 do
 	echo $dataset
 	echo $dataset : >> $output_file
-	python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --only_test --do_test_inference --dataset $dataset >> $output_file
+	python mogicX/48_oak-distilbert-for-msmarco-from-scratch-with-category-metadata-mteb-inference.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --only_test --do_test_inference --dataset $dataset >> $output_file
 done
-

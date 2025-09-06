@@ -121,7 +121,7 @@ if __name__ == '__main__':
                                        data_aug_meta_prefix=f'{meta_name}2data', lbl2data_aug_meta_prefix=None,
                                        neg2data_aug_meta_prefix=None,
                                        
-                                       num_metadata=block.train.dset.meta[f'{meta_name}_meta'].n_meta, resize_length=5000,
+                                       num_metadata=block.train.dset.meta[f'{meta_name}_meta'].n_meta,
                                        
                                        calib_margin=0.05, calib_num_negatives=10, calib_tau=0.1, calib_apply_softmax=False, 
                                        calib_loss_weight=0.1, use_calib_loss=True,

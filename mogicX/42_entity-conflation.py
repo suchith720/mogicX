@@ -133,8 +133,17 @@ def get_valid_components(components:Dict, valid_cluster_idxs:Set):
     
 
 # %% ../nbs/42_entity-conflation.ipynb 30
-def get_conflated_info(components:Dict, lbl_ids2txt:Dict):
-    return [" || ".join([lbl_ids2txt[o] for o in components[i]]) for i in sorted(components)]
+def _conflate_info_txt(txts:List, type:Optional[str]='max'):
+    if type == "max":
+        idx = int(np.argmax([len(o) for o in txts]))
+        return txts[idx]
+    elif type == "concat":
+        return " || ".join(txts)
+    else:
+        raise ValueError(f"Invalid type: {type}")
+    
+def get_conflated_info(components:Dict, lbl_ids2txt:Dict, type:Optional[str]="max"):
+    return [_conflate_info_txt([lbl_ids2txt[o] for o in components[i]]) for i in sorted(components)]
         
 
 # %% ../nbs/42_entity-conflation.ipynb 31
@@ -165,14 +174,14 @@ def cluster_length_stats(components):
         print(pd.DataFrame(lengths).describe().T)
         
 
-# %% ../nbs/42_entity-conflation.ipynb 42
+# %% ../nbs/42_entity-conflation.ipynb 44
 def get_conflated_path(fname):
     file_dir = os.path.dirname(fname)
     file_name, file_type = os.path.basename(fname).split('.', maxsplit=1)
     return f'{file_dir}/{file_name}_conflated.{file_type}'
     
 
-# %% ../nbs/42_entity-conflation.ipynb 43
+# %% ../nbs/42_entity-conflation.ipynb 45
 def save_conflated_data(lbl_txt:List, lbl_file:str, trn_lbl:sp.csr_matrix, trn_file:str, 
                         tst_lbl:sp.csr_matrix, tst_file:str):
     lbl_file = get_conflated_path(lbl_file)
@@ -184,11 +193,12 @@ def save_conflated_data(lbl_txt:List, lbl_file:str, trn_lbl:sp.csr_matrix, trn_f
     sp.save_npz(tst_file, tst_lbl)
     
 
-# %% ../nbs/42_entity-conflation.ipynb 46
+# %% ../nbs/42_entity-conflation.ipynb 48
 def main(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, embed_file:Optional[str]=None, 
          topk:Optional[int]=3, batch_size:Optional[int]=1024, min_thresh:Optional[int]=2, 
          max_thresh:Optional[int]=100, score_thresh:Optional[float]=25, freq_thresh:Optional[float]=50, 
-         diff_thresh:Optional[float]=0.1, print_stats:Optional[bool]=False, encoding:Optional[str]='latin-1'):
+         diff_thresh:Optional[float]=0.1, print_stats:Optional[bool]=False, type:Optional[str]="max",
+         encoding:Optional[str]='latin-1'):
     
     pred_lbl, trn_lbl, tst_lbl, (lbl_ids, lbl_txt), lbl_repr = load_data(pred_file, trn_file, tst_file, 
                                                                          lbl_file, embed_file, encoding=encoding)
@@ -203,7 +213,7 @@ def main(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, embed_file:Opt
     
     valid_components, lbl_ids2cluster_map = get_valid_components(components, valid_cluster_idxs)
     if print_stats: cluster_length_stats(valid_components)
-    conflated_lbl_txt = get_conflated_info(valid_components, lbl_ids2txt)
+    conflated_lbl_txt = get_conflated_info(valid_components, lbl_ids2txt, type)
     lbl_ids2cluster = get_id_to_cluster_idx_mapping(lbl_ids2cluster_map, lbl_ids)
 
     conflated_trn_lbl = get_conflated_matrix(trn_lbl, lbl_ids2cluster)
@@ -212,7 +222,7 @@ def main(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, embed_file:Opt
     save_conflated_data(conflated_lbl_txt, lbl_file, conflated_trn_lbl, trn_file, conflated_tst_lbl, tst_file)
     
 
-# %% ../nbs/42_entity-conflation.ipynb 48
+# %% ../nbs/42_entity-conflation.ipynb 50
 def parse_args():
     parser = argparse.ArgumentParser()
 
@@ -230,6 +240,7 @@ def parse_args():
     parser.add_argument('--score_thresh', type=float, default=25)
     parser.add_argument('--freq_thresh', type=float, default=50)
     parser.add_argument('--diff_thresh', type=float, default=0.1)
+    parser.add_argument('--type', type=str, default='max')
 
     parser.add_argument('--print_stats', action='store_true')
     parser.add_argument('--encoding', type=str, default='latin-1')
@@ -237,12 +248,12 @@ def parse_args():
     return parser.parse_args()
     
 
-# %% ../nbs/42_entity-conflation.ipynb 49
+# %% ../nbs/42_entity-conflation.ipynb 51
 if __name__ == '__main__':
     args = parse_args()
     
     main(args.pred_file, args.trn_file, args.tst_file, args.lbl_file, args.embed_file, topk=args.topk, 
          batch_size=args.batch_size, min_thresh=args.min_thresh, max_thresh=args.max_thresh, 
          score_thresh=args.score_thresh, freq_thresh=args.freq_thresh, diff_thresh=args.diff_thresh, 
-         print_stats=args.print_stats, encoding=args.encoding)
+         print_stats=args.print_stats, type=args.type, encoding=args.encoding)
 

@@ -51,7 +51,8 @@
 # 	cp /data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/predictions/train-label_predictions_$dataset.npz /home/aiscuser/scratch1/datasets/$dataset/XC/entity-gpt_ngame_trn-lbl_X_Y_kaggle.npz
 # done
 
-datasets="nq fiqa hotpotqa fever dbpedia quora trec-covid climate-fever scifact scidocs arguana nfcorpus"
+# datasets="nq fiqa hotpotqa fever dbpedia quora trec-covid climate-fever scifact scidocs arguana nfcorpus"
+datasets="scidocs arguana nfcorpus"
 for dataset in $datasets
 do
 	echo $dataset : 

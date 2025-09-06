@@ -27,7 +27,7 @@ def parse_args():
 if __name__ == '__main__':
     input_args = parse_args()
 
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/47_msmarco-gpt-category-linker-001'
+    output_dir = '/data/outputs/mogicX/47_msmarco-gpt-category-linker-001'
     os.makedirs(f'{output_dir}/raw_data', exist_ok=True)
 
     cat_ids, cat_txt = load_raw_file('/data/datasets/msmarco/XC/raw_data/category-gpt.raw.csv')
@@ -40,6 +40,9 @@ if __name__ == '__main__':
     
     tst_ids, tst_txt = load_raw_file(f'/data/datasets/{input_args.dataset}/XC/raw_data/test.raw.csv')
     tst_cat = retain_topk(sp.load_npz(f'{output_dir}/predictions/test_predictions_{input_args.dataset}.npz'), k=5)
+
+    # tst_cat = Filter.threshold(tst_cat, t=0.2)
+    # tst_cat = Filter.difference(tst_cat, t=0.1)
 
     tst_cat_txt = get_data_category(tst_cat, tst_txt, cat_txt)
     fname = f'{output_dir}/raw_data/test_ngame-gpt-category-linker_{input_args.dataset}.raw.csv'
@@ -54,7 +57,9 @@ if __name__ == '__main__':
 
     early_fusion_config['data-ngame-category-linker']['path'].pop('train', None)
     early_fusion_config['data-ngame-category-linker']['path']['test'] = config['data']['path']['test']
-    early_fusion_config['data-ngame-category-linker']['path']['test']['data_info'] = fname  
+    early_fusion_config['data-ngame-category-linker']['path']['test']['data_info'] = fname
+
+    early_fusion_config['data-ngame-category-linker']['parameters']['main_max_lbl_sequence_length'] = 512
     
     config_key = f'{input_args.dataset}-data-ngame-category-linker'
     with open(f'configs/{config_key}.json', 'w') as file:

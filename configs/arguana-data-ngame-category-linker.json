@@ -3,7 +3,7 @@
         "path": {
             "test": {
                 "data_lbl": "/data/datasets/arguana/XC/tst_X_Y.npz",
-                "data_info": "/home/aiscuser/scratch1/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/test_ngame-gpt-category-linker_arguana.raw.csv",
+                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/test_ngame-gpt-category-linker_arguana.raw.csv",
                 "lbl_info": "/data/datasets/arguana/XC/raw_data/label.raw.csv"
             }
         },
@@ -53,7 +53,7 @@
             "tokenizer": "distilbert-base-uncased",
             "tokenization_column": "input_text",
             "main_max_data_sequence_length": 300,
-            "main_max_lbl_sequence_length": 300,
+            "main_max_lbl_sequence_length": 512,
             "meta_max_sequence_length": 300,
             "padding": false,
             "return_tensors": null,

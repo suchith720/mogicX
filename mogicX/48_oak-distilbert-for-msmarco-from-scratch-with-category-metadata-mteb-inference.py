@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '4,5,6,7,8,9'
+os.environ['CUDA_VISIBLE_DEVICES'] = '6,7,8,9,10,11'
 os.environ["NCCL_DEBUG"] = "NONE"
 os.environ["ROCM_DISABLE_WARNINGS"] = "1"
 os.environ["MIOPEN_LOG_LEVEL"] = "0"
@@ -30,9 +30,7 @@ if __name__ == '__main__':
     mname = 'distilbert-base-uncased'
     meta_name = 'lnk'
 
-    config_file = '/data/datasets/msmarco/XC/configs/data_lbl_ngame-gpt-category_ce-negatives-topk-05-linker.json'
-    # config_file = f'configs/{input_args.dataset}_data_lbl_ngame-gpt-category_linker.json'
-
+    config_file = f'configs/{input_args.dataset}_data_lbl_ngame-gpt-category.json'
     config_key, fname = get_config_key(config_file)
 
     pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, input_args.exact, 

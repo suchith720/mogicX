@@ -17,7 +17,7 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-linker-01'
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 20
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/47_msmarco-gpt-category-linker-001'
+    output_dir = '/data/outputs/mogicX/47_msmarco-gpt-category-linker-001'
 
     input_args = parse_args()
 

@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9,10,11'
+os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3,4,5'
 os.environ["NCCL_DEBUG"] = "NONE"
 os.environ["ROCM_DISABLE_WARNINGS"] = "1"
 os.environ["MIOPEN_LOG_LEVEL"] = "0"

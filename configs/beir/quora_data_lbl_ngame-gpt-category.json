@@ -1,13 +1,13 @@
 {
-    "scidocs_data_lbl_ngame-gpt-category_linker": {
+    "quora_data_lbl_ngame-gpt-category": {
         "path": {
             "test": {
-                "data_lbl": "/data/datasets/scidocs/XC//tst_X_Y_linker.npz",
-                "data_info": "/data/datasets/scidocs/XC//raw_data/test.raw.csv",
-                "lbl_info": "/data/datasets/scidocs/XC//raw_data/label_linker.raw.csv",
+                "data_lbl": "/data/datasets/quora/XC//tst_X_Y.npz",
+                "data_info": "/data/datasets/quora/XC//raw_data/test.raw.csv",
+                "lbl_info": "/data/datasets/quora/XC//raw_data/label.raw.csv",
                 "lnk_meta": {
                     "prefix": "lnk",
-                    "data_meta": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/predictions/test_predictions_scidocs.npz",
+                    "data_meta": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/predictions/test_predictions_quora.npz",
                     "meta_info": "/data/datasets/msmarco/XC/raw_data/category-gpt.raw.csv"
                 }
             }

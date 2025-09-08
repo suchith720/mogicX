@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9'
+os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3,4,5'
 
 # os.environ["NCCL_DEBUG"] = "NONE"
 # os.environ["ROCM_DISABLE_WARNINGS"] = "1"
@@ -21,47 +21,13 @@ from xcai.models.PPP0XX import DBT023
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--build_block', action='store_true')
-    parser.add_argument('--use_pretrained', action='store_true')
-    
-    parser.add_argument('--do_train_inference', action='store_true')
-    parser.add_argument('--do_test_inference', action='store_true')
-    
-    parser.add_argument('--save_train_prediction', action='store_true')
-    parser.add_argument('--save_test_prediction', action='store_true')
-    parser.add_argument('--save_label_prediction', action='store_true')
-    
-    parser.add_argument('--save_representation', action='store_true')
-    
-    parser.add_argument('--use_sxc_sampler', action='store_true')
-    parser.add_argument('--only_test', action='store_true')
-
-    parser.add_argument('--pickle_dir', type=str, required=True)
-    
-    parser.add_argument('--prediction_suffix', type=str, default='')
-
-    parser.add_argument('--exact', action='store_true')
-    parser.add_argument('--dataset', type=str)
-
-    parser.add_argument('--use_normalized', action='store_true')
-    parser.add_argument('--expt_no', type=int, required=True)
-    
-    return parser.parse_args()
-
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
 
     input_args = parse_args()
 
-    if input_args.use_normalized: 
-        # output_dir = '/home/aiscuser/scratch1/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-002'
-        output_dir = '/data/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-002'
-    else: 
-        output_dir = f'/home/aiscuser/scratch1/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-{input_args.expt_no:03d}'
-        # output_dir = f'/data/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-{input_args.expt_no:03d}'
-
+    input_args.normalize, input_args.use_ln = False, False
+    output_dir = '/data/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-011'
     print("Model directory:", output_dir)
 
     if input_args.exact: 
@@ -70,15 +36,17 @@ if __name__ == '__main__':
     if not input_args.only_test:
         raise ValueError("Arguement 'only_test' required.")
     
-    config_file = '/data/datasets/msmarco/XC/configs/data.json'
-    config_key = 'data'
-    
-    mname = 'distilbert-base-uncased'
+    # config_file = '/data/datasets/msmarco/XC/configs/data.json'
+    config_file = 'configs/msmarco_lbl-lbl.json'
+    config_key, fname = get_config_key(config_file)
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, 'msmarco_data_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    # mname = 'distilbert-base-uncased'
+    mname = 'sentence-transformers/msmarco-distilbert-dot-v5'
+
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
 
-    do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
+    do_inference = check_inference_mode(input_args)
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
@@ -99,7 +67,8 @@ if __name__ == '__main__':
         num_train_epochs=300,
         predict_with_representation=True,
         representation_search_type='BRUTEFORCE',
-        search_normalize=input_args.use_normalized,
+        search_normalize=input_args.normalize,
+
         adam_epsilon=1e-6,
         warmup_steps=100,
         weight_decay=0.01,
@@ -128,7 +97,7 @@ if __name__ == '__main__':
     )
 
     def model_fn(mname):
-        model = DBT023.from_pretrained(mname, normalize=input_args.use_normalized, use_layer_norm=True, use_encoder_parallel=True)
+        model = DBT023.from_pretrained(mname, normalize=input_args.normalize, use_layer_norm=input_args.use_ln, use_encoder_parallel=True)
         return model
     
     def init_fn(model): 
@@ -145,7 +114,7 @@ if __name__ == '__main__':
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=block.train.dset if block.train else block.test.dset,
+        train_dataset=block.train.dset if block.train else None,
         eval_dataset=block.test.dset,
         data_collator=block.collator,
         compute_metrics=metric,

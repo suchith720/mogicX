@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3'
+os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9,10,11'
 os.environ["NCCL_DEBUG"] = "NONE"
 os.environ["ROCM_DISABLE_WARNINGS"] = "1"
 os.environ["MIOPEN_LOG_LEVEL"] = "0"
@@ -25,8 +25,8 @@ if __name__ == '__main__':
 
     input_args = parse_args()
 
-    input_args.normalize, input_args.use_ln = False, True
-    output_dir = '/data/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-010'
+    input_args.normalize, input_args.use_ln = False, False
+    output_dir = '/data/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-008'
 
     if input_args.exact: 
         raise ValueError("Arguement 'exact' is not allowed.")
@@ -37,7 +37,8 @@ if __name__ == '__main__':
     config_file = f'/data/datasets/{input_args.dataset}/XC/configs/data.json'
     config_key = 'data'
     
-    mname = 'distilbert-base-uncased'
+    # mname = 'distilbert-base-uncased'
+    mname = 'sentence-transformers/msmarco-distilbert-dot-v5'
 
     pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_data_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)

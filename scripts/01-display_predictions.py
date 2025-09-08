@@ -7,7 +7,7 @@ from xcai.basics import *
 from xcai.analysis import *
 
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/47_msmarco-gpt-category-linker-001'
+    output_dir = '/data/outputs/mogicX/47_msmarco-gpt-category-linker-001'
     # output_dir = '/data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/'
 
     input_args = parse_args()

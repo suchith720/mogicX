@@ -39,29 +39,29 @@ if __name__ == '__main__':
     # save_raw_file(f'{output_dir}/raw_data/train_ngame-gpt-category-linker_{input_args.dataset}.raw.csv', trn_ids, trn_cat_txt)
     
     tst_ids, tst_txt = load_raw_file(f'/data/datasets/{input_args.dataset}/XC/raw_data/test.raw.csv')
-    tst_cat = retain_topk(sp.load_npz(f'{output_dir}/predictions/test_predictions_{input_args.dataset}.npz'), k=5)
+    tst_cat = retain_topk(sp.load_npz(f'{output_dir}/predictions/test_predictions_{input_args.dataset}.npz'), k=3)
 
-    # tst_cat = Filter.threshold(tst_cat, t=0.2)
-    # tst_cat = Filter.difference(tst_cat, t=0.1)
+    tst_cat = Filter.threshold(tst_cat, t=0.2)
+    tst_cat = Filter.difference(tst_cat, t=0.1)
 
     tst_cat_txt = get_data_category(tst_cat, tst_txt, cat_txt)
     fname = f'{output_dir}/raw_data/test_ngame-gpt-category-linker_{input_args.dataset}.raw.csv'
     save_raw_file(fname, tst_ids, tst_cat_txt)
 
-    with open('configs/data-ngame-category-linker.json') as file:
-        early_fusion_config = json.load(file)
-    
-    config_file = f'/data/datasets/{input_args.dataset}/XC/configs/data.json'
-    with open(config_file) as file:
-        config = json.load(file)
+    # with open('configs/data-ngame-category-linker.json') as file:
+    #     early_fusion_config = json.load(file)
+    # 
+    # config_file = f'/data/datasets/{input_args.dataset}/XC/configs/data.json'
+    # with open(config_file) as file:
+    #     config = json.load(file)
 
-    early_fusion_config['data-ngame-category-linker']['path'].pop('train', None)
-    early_fusion_config['data-ngame-category-linker']['path']['test'] = config['data']['path']['test']
-    early_fusion_config['data-ngame-category-linker']['path']['test']['data_info'] = fname
+    # early_fusion_config['data-ngame-category-linker']['path'].pop('train', None)
+    # early_fusion_config['data-ngame-category-linker']['path']['test'] = config['data']['path']['test']
+    # early_fusion_config['data-ngame-category-linker']['path']['test']['data_info'] = fname
 
-    early_fusion_config['data-ngame-category-linker']['parameters']['main_max_lbl_sequence_length'] = 512
-    
-    config_key = f'{input_args.dataset}-data-ngame-category-linker'
-    with open(f'configs/{config_key}.json', 'w') as file:
-        json.dump({config_key: early_fusion_config['data-ngame-category-linker']}, file, indent=4)
+    # early_fusion_config['data-ngame-category-linker']['parameters']['main_max_lbl_sequence_length'] = 512
+    # 
+    # config_key = f'{input_args.dataset}-data-ngame-category-linker'
+    # with open(f'configs/{config_key}.json', 'w') as file:
+    #     json.dump({config_key: early_fusion_config['data-ngame-category-linker']}, file, indent=4)
 

@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '10,11,12,13'
+os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -19,7 +19,7 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-07'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/44_distilbert-category-oracle-for-msmarco-004'
+    output_dir = '/data/outputs/mogicX/44_distilbert-category-oracle-for-msmarco-004'
 
     input_args = parse_args()
 
@@ -28,10 +28,12 @@ if __name__ == '__main__':
     # else:
     #     config_file = '/data/datasets/msmarco/XC/configs/data-category.json'
 
-    if input_args.exact:
-        config_file = 'configs/data-ngame-category-linker_lbl_ce-negatives-topk-05_exact.json'
-    else:
-        config_file = 'configs/data-ngame-category-linker.json'
+    # if input_args.exact:
+    #     config_file = 'configs/data-ngame-category-linker_lbl_ce-negatives-topk-05_exact.json'
+    # else:
+    #     config_file = 'configs/data-ngame-category-linker.json'
+    
+    config_file = 'configs/msmarco_data-gpt-category-linker.json'
     
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'

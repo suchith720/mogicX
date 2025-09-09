@@ -19,14 +19,17 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-06'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-002'
+    output_dir = '/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-002'
 
     input_args = parse_args()
 
-    if input_args.exact:
-        config_file = 'configs/data-ngame-category-linker_lbl_ce-negatives-topk-05_exact.json'
-    else:
-        config_file = 'configs/data-ngame-category-linker.json'
+    # if input_args.exact:
+    #     config_file = 'configs/data-ngame-category-linker_lbl_ce-negatives-topk-05_exact.json'
+    # else:
+    #     config_file = 'configs/data-ngame-category-linker.json'
+
+    # config_file = 'configs/msmarco_data-gpt-category-linker.json'
+    config_file = '/data/datasets/msmarco/XC/configs/data-category.json'
     
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'

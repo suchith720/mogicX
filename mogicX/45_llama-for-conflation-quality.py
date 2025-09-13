@@ -103,11 +103,11 @@ if __name__ == '__main__':
     )
 
     ids, txts = load_raw_file(args.input_file)
-    generations = evaluate_clusters_in_batch(txts, batch_size=128, max_new_tokens=512)
+    generations = evaluate_clusters_in_batch(txts)
     
     # for i,o in zip(ids, generations): o['identifier'] = i
 
-    save_raw_file(args.output_file, ids[:1000], generations[:1000])
+    save_raw_file(args.output_file, ids, generations)
     
     # with open(args.output_file, 'w') as file:
     #     json.dump(generations, file)

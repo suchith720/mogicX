@@ -27,10 +27,10 @@ def show_conflated_labels(idxs:List, components:Dict, lbl_ids2txt:Dict, fname:Op
         
 
 # %% ../nbs/42_entity-conflation.ipynb 9
-def load_data(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, embed_file:Optional[str]=None,
+def load_data(pred_file:str, trn_file:str, tst_file:str, lbl_info_file:str, embed_file:Optional[str]=None,
               encoding:Optional[str]='utf-8'):
     pred_lbl, trn_lbl, tst_lbl = sp.load_npz(pred_file), sp.load_npz(trn_file), sp.load_npz(tst_file)
-    lbl_ids, lbl_txt = load_raw_file(lbl_file, encoding=encoding)
+    lbl_ids, lbl_txt = load_raw_file(lbl_info_file, encoding=encoding)
     lbl_repr = None if embed_file is None else torch.load(embed_file)
     return pred_lbl, trn_lbl, tst_lbl, (lbl_ids, lbl_txt), lbl_repr
     
@@ -41,8 +41,13 @@ class Filter:
     @staticmethod
     def by_length(components:Dict, min_thresh:Optional[int]=1, max_thresh:Optional[int]=100):
         cluster_len = np.array([len(components[idx]) for idx in sorted(components)])
-        mask = np.logical_and(np.where(cluster_len >= min_thresh, 1, 0), np.where(cluster_len <= max_thresh, 1, 0))
-        return set(np.where(mask)[0])
+
+        mask = None if min_thresh is None else np.where(cluster_len >= min_thresh, 1, 0)
+        if max_mask is not None:
+            max_mask = np.where(cluster_len <= max_thresh, 1, 0)
+            mask = max_mask if mask is None else np.logical_and(mask, max_mask)
+
+        return set() if mask is None else set(np.where(mask)[0]) 
 
     @staticmethod
     def topk(data_lbl:sp.csr_matrix, k:Optional[int]=3):
@@ -155,6 +160,8 @@ def get_id_to_cluster_idx_mapping(lbl_ids2cluster_map:Dict, lbl_ids:List):
 def get_conflated_matrix(data_lbl:sp.csr_matrix, lbl_ids2cluster:Dict, n_clusters:Optional[Tuple]=None):
     indices = [lbl_ids2cluster[idx] for idx in data_lbl.indices]
     data = len(indices) * [1]
+
+    assert indices.max() < n_clusters
     
     matrix = (
         sp.csr_matrix((data, indices, data_lbl.indptr), dtype=np.float32) 
@@ -175,52 +182,75 @@ def cluster_length_stats(components):
         
 
 # %% ../nbs/42_entity-conflation.ipynb 44
-def get_conflated_path(fname):
-    file_dir = os.path.dirname(fname)
+def get_conflated_path(fname:str, output_dir:Optional[str]=None):
+    file_dir = os.path.dirname(fname) if output_dir is None else output_dir
+    os.makedirs(file_dir, exist_ok=True)
+
     file_name, file_type = os.path.basename(fname).split('.', maxsplit=1)
     return f'{file_dir}/{file_name}_conflated.{file_type}'
     
 
 # %% ../nbs/42_entity-conflation.ipynb 45
-def save_conflated_data(lbl_txt:List, lbl_file:str, trn_lbl:sp.csr_matrix, trn_file:str, 
-                        tst_lbl:sp.csr_matrix, tst_file:str):
-    lbl_file = get_conflated_path(lbl_file)
-    trn_file = get_conflated_path(trn_file)
-    tst_file = get_conflated_path(tst_file)
+def save_conflated_data(lbl_txt:List, lbl_file:str, trn_lbl:sp.csr_matrix, trn_file:str, tst_lbl:sp.csr_matrix, tst_file:str, 
+        output_dir:Optional[str]=None):
+    lbl_file = get_conflated_path(lbl_file, output_dir if output_dir is None else f"{output_dir}/raw_data")
+    trn_file = get_conflated_path(trn_file, output_dir)
+    tst_file = get_conflated_path(tst_file, output_dir)
 
     save_raw_file(lbl_file, range(len(lbl_txt)), lbl_txt)
     sp.save_npz(trn_file, trn_lbl)
     sp.save_npz(tst_file, tst_lbl)
     
+def prune_pred_lbl(pred_lbl:sp.csr_matrix, topk:Optional[int]=None, diff_thresh:Optional[float]=None, pred_score_thresh:Optional[float]=None):
+    # Pick top-k predictions
+    data_lbl = pred_lbl if topk is None else Filter.topk(pred_lbl, k=topk) 
+
+    # Difference based thresholding
+    if diff_thresh is not None: data_lbl = Filter.difference(data_lbl, t=diff_thresh)
+
+    # Score thresholding
+    if pred_score_thresh is not None: data_lbl = Filter.threshold(data_lbl, t=pred_score_thresh)
+
+    return data_lbl
+
+def prune_clusters(components:Dict, min_size_thresh:Optional[int]=None, max_size_thresh:Optional[int]=None):
+    valid_cluster_idxs = Filter.by_length(components, min_thresh=min_size_thresh, max_thresh=max_size_thresh)
+    valid_components, lbl_ids2cluster_map = get_valid_components(components, valid_cluster_idxs)
+    return valid_components, lbl_ids2cluster_map
 
 # %% ../nbs/42_entity-conflation.ipynb 48
-def main(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, embed_file:Optional[str]=None, 
-         topk:Optional[int]=3, batch_size:Optional[int]=1024, min_thresh:Optional[int]=2, 
-         max_thresh:Optional[int]=100, score_thresh:Optional[float]=25, freq_thresh:Optional[float]=50, 
-         diff_thresh:Optional[float]=0.1, print_stats:Optional[bool]=False, type:Optional[str]="max",
-         encoding:Optional[str]='latin-1'):
+def main(pred_file:str, trn_file:str, tst_file:str, lbl_info_file:str, embed_file:Optional[str]=None, output_dir:Optional[str]=None,
+        topk:Optional[int]=None, diff_thresh:Optional[float]=None, pred_score_thresh:Optional[float]=None, batch_size:Optional[int]=1024, 
+        sim_score_thresh:Optional[float]=25, freq_thresh:Optional[float]=50, min_size_thresh:Optional[int]=None, max_size_thresh:Optional[int]=None, 
+        print_stats:Optional[bool]=False, type:Optional[str]="max", encoding:Optional[str]='latin-1'):
     breakpoint()
-    
-    pred_lbl, trn_lbl, tst_lbl, (lbl_ids, lbl_txt), lbl_repr = load_data(pred_file, trn_file, tst_file, 
-                                                                         lbl_file, embed_file, encoding=encoding)
-    lbl_ids2txt = {k:v for k,v in zip(lbl_ids, lbl_txt)}
+    # Load data
+    pred_lbl, trn_lbl, tst_lbl, lbl_info, lbl_repr = load_data(pred_file, trn_file, tst_file, lbl_info_file, embed_file, encoding=encoding)
+    lbl_ids, lbl_txt = lbl_info
 
-    data_lbl = Filter.topk(pred_lbl, k=topk)
-    data_lbl = Filter.difference(data_lbl, t=diff_thresh)
-    components = get_components(data_lbl, lbl_ids, lbl_repr=lbl_repr, score_thresh=score_thresh, 
+    # Prune predictions
+    data_lbl = prune_pred_lbl(pred_lbl, topk, diff_thresh, pred_score_thresh)
+
+    # Get connected components
+    components = get_components(data_lbl, lbl_ids, lbl_repr=lbl_repr, score_thresh=sim_score_thresh, 
                                 freq_thresh=freq_thresh, batch_size=batch_size)
 
-    valid_cluster_idxs = Filter.by_length(components, min_thresh=min_thresh, max_thresh=max_thresh)
-    
-    valid_components, lbl_ids2cluster_map = get_valid_components(components, valid_cluster_idxs)
-    if print_stats: cluster_length_stats(valid_components)
-    conflated_lbl_txt = get_conflated_info(valid_components, lbl_ids2txt, type)
-    lbl_ids2cluster = get_id_to_cluster_idx_mapping(lbl_ids2cluster_map, lbl_ids)
+    # Prune clusters
+    components, lbl_ids2cluster_map = prune_clusters(components, min_size_thresh, max_size_thresh)
 
+    # Statistics
+    if print_stats: cluster_length_stats(components)
+
+    # Conflate label text
+    lbl_ids2txt = {k:v for k,v in zip(lbl_ids, lbl_txt)}
+    conflated_lbl_txt = get_conflated_info(components, lbl_ids2txt, type)
+
+    # Conflate matrix
+    lbl_ids2cluster = get_id_to_cluster_idx_mapping(lbl_ids2cluster_map, lbl_ids)
     conflated_trn_lbl = get_conflated_matrix(trn_lbl, lbl_ids2cluster)
     conflated_tst_lbl = get_conflated_matrix(tst_lbl, lbl_ids2cluster, n_clusters=conflated_trn_lbl.shape[1])
     
-    save_conflated_data(conflated_lbl_txt, lbl_file, conflated_trn_lbl, trn_file, conflated_tst_lbl, tst_file)
+    save_conflated_data(conflated_lbl_txt, lbl_file, conflated_trn_lbl, trn_file, conflated_tst_lbl, tst_file, output_dir=output_dir)
     
 
 # %% ../nbs/42_entity-conflation.ipynb 50
@@ -228,19 +258,23 @@ def parse_args():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--pred_file', type=str, required=True)
-    parser.add_argument('--lbl_file', type=str, required=True)
     parser.add_argument('--trn_file', type=str, required=True)
     parser.add_argument('--tst_file', type=str, required=True)
+    parser.add_argument('--lbl_info_file', type=str, required=True)
     parser.add_argument('--embed_file', type=str, default=None)
+    parser.add_argument('--output_dir', type=str, default=None)
 
-    parser.add_argument('--topk', type=int, default=3)
+    parser.add_argument('--topk', type=int, default=None)
+    parser.add_argument('--diff_thresh', type=float, default=None)
+    parser.add_argument('--pred_score_thresh', type=float, default=None)
     parser.add_argument('--batch_size', type=int, default=1024)
     
-    parser.add_argument('--min_thresh', type=int, default=2)
-    parser.add_argument('--max_thresh', type=int, default=100)
-    parser.add_argument('--score_thresh', type=float, default=25)
+    parser.add_argument('--sim_score_thresh', type=float, default=25)
     parser.add_argument('--freq_thresh', type=float, default=50)
-    parser.add_argument('--diff_thresh', type=float, default=0.1)
+
+    parser.add_argument('--min_size_thresh', type=int, default=None)
+    parser.add_argument('--max_size_thresh', type=int, default=None)
+
     parser.add_argument('--type', type=str, default='max')
 
     parser.add_argument('--print_stats', action='store_true')
@@ -253,8 +287,9 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
     
-    main(args.pred_file, args.trn_file, args.tst_file, args.lbl_file, args.embed_file, topk=args.topk, 
-         batch_size=args.batch_size, min_thresh=args.min_thresh, max_thresh=args.max_thresh, 
-         score_thresh=args.score_thresh, freq_thresh=args.freq_thresh, diff_thresh=args.diff_thresh, 
-         print_stats=args.print_stats, type=args.type, encoding=args.encoding)
+    main(args.pred_file, args.trn_file, args.tst_file, args.lbl_info_file, args.embed_file, output_dir=args.output_dir,
+            topk=args.topk, diff_thresh=args.diff_thresh, pred_score_thresh=args.pred_score_thresh,  
+            batch_size=args.batch_size, sim_score_thresh=args.sim_score_thresh, freq_thresh=args.freq_thresh, 
+            min_size_thresh=args.min_size_thresh, max_size_thresh=args.max_size_thresh, print_stats=args.print_stats, 
+            type=args.type, encoding=args.encoding)
 

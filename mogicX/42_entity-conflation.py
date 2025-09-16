@@ -199,6 +199,7 @@ def main(pred_file:str, trn_file:str, tst_file:str, lbl_file:str, embed_file:Opt
          max_thresh:Optional[int]=100, score_thresh:Optional[float]=25, freq_thresh:Optional[float]=50, 
          diff_thresh:Optional[float]=0.1, print_stats:Optional[bool]=False, type:Optional[str]="max",
          encoding:Optional[str]='latin-1'):
+    breakpoint()
     
     pred_lbl, trn_lbl, tst_lbl, (lbl_ids, lbl_txt), lbl_repr = load_data(pred_file, trn_file, tst_file, 
                                                                          lbl_file, embed_file, encoding=encoding)

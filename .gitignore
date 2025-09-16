@@ -153,4 +153,4 @@ checklink/cookies.txt
 .quarto
 
 # Output file
-outputs/msmarco_category-gpt.joblib
+outputs/*.joblib

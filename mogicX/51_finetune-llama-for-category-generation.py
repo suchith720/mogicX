@@ -4,10 +4,16 @@
 __all__ = ['PROMPT_TEMPLATE', 'make_prompt', 'load_data']
 
 # %% ../nbs/51_finetune-llama-for-category-generation.ipynb 1
-import torch, pandas as pd, json, numpy as np
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3,4,5'
+os.environ['WANDB_PROJECT'] = 'mogicX_01-category-01'
+
+import torch, pandas as pd, json, numpy as np, joblib
 from torch.utils.data import Dataset, DataLoader
 
+from tqdm.auto import tqdm
 from peft import LoraConfig, get_peft_model
+from transformers.tokenization_utils_base import BatchEncoding
 from transformers import AutoTokenizer, LlamaForCausalLM, Trainer, TrainingArguments
 
 # %% ../nbs/51_finetune-llama-for-category-generation.ipynb 4
@@ -25,27 +31,12 @@ Guidelines for categories:
    - Use plural nouns or topic phrases
    - Reflect standard groupings (topics, time periods, locations, types)
    - No long sentences; keep them as labels or tags
-3. Use existing Wikipedia-style categories (choose the most plausible if unsure).
-4. Do not include the "Category:" prefix. Output plain names only.
+3. Do not include the "Category:" prefix. Output plain names only.
 
 Scoring:
 Assign each category a relevance score from {{1, 2, 3, 4, 5}}
 5 = most relevant
 1 = irrelevant
-
-Input notes:
-If multiple questions exist, they will be separated by " || "
-
-Output format:
-Return the result strictly and only in **valid JSON** with this structure:
-
-{{
-    "Category Name 1":score,
-    "Category Name 2":score,
-    "Category Name 3":score,
-    "Category Name 4":score,
-    "Category Name 5":score
-}}
 
 Rules:
 - Do not output anything outside the `{{}}` block.
@@ -58,67 +49,12 @@ import json
 content = json.loads(output)
 ```
 
-Example 1
-Passage:
-Definition: Acre. An acre is a measure of land area in Imperial units or U.S. customary units. It is equal to 43 560 square feet, 4840 square yards, or 160 square rods. The precise meaning of this depends on the exact definition adopted for a foot: the international acre is 4 046.856 422 4 m (for the UK, see).
-
-Questions:
-convert acres to sq. ft.
-
-Expected output:
-{{
-    'Units of area':5,
-    'Imperial units':4,
-    'Customary units in the United States':4,
-    'Agricultural terminology':3,
-    'Land measurement systems':3
-}}
-
-Example 2
-Passage:
-When will my dog come into heat? What age will my dog come into her first heat? First heat can vary greatly dog to dog. The youngest is about six months of age though sometimes a female will come into season younger. First heat can start as late as 12 or even 14 months of age or later in rare cases. Again, it can vary dog to dog. How often will my dog come into heat? Again, this varies dog-to-dog average is every six months but it could be more or less often.
-
-Questions:
-when do female dogs first go into heat
-
-Expected output:
-{{
-    'Dog breeding':5,
-    'Animal reproduction':5,
-    'Dogs as pets':4,
-    'Mammal physiology':3,
-    'Veterinary medicine topics':3    
-}}
-
-Example 3
-Passage:
-Cottonmouth and copperhead bites are immediately painful and signs and symptoms such as those listed below, usually begin immediately: 1  body as a whole swelling. 2  respiratory difficulty breathing. 3  skin discoloration of skin.  gastrointestinal nausea, 1  vomiting. heart and blood vessels weak pulse.
-
-Questions:
-copperhead snake bite effects
-
-Expected output:
-{{
-    'Snakebites':5,
-    'Toxicology':4,
-    'Venomous snakes of North America':4,
-    'Copperheads (genus)':4,
-    'Emergency medicine cases':4,
-    'Cottonmouths (Agkistrodon piscivorus)':3,
-    'Toxicology incidents in the United States':3
-}}
-
 Now you are given with this passage:
 Passage: 
 "{passage}"
 
 Questions: 
 "{questions}"
-
-Do not output anything outside the `{{}}` block.
-Do not include the "Category:" prefix in the category names. Use plain names only.
-Each category must look like a valid Wikipedia-style label, not a free-text explanation.
-Remember to provide ONLY the categories in the correct format and no other explanation.
 <|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
 # %% ../nbs/51_finetune-llama-for-category-generation.ipynb 7
@@ -127,7 +63,7 @@ def make_prompt(passage, questions):
     
 
 # %% ../nbs/51_finetune-llama-for-category-generation.ipynb 17
-def load_data(input_file, category_file):
+def create_data(input_file, category_file):
     df = pd.read_csv(input_file, sep='\t', header=None, names=['identifier', 'passage', 'questions'])
     
     with open(category_file) as file:
@@ -137,4 +73,162 @@ def load_data(input_file, category_file):
     
     idx = np.where(~df['categories'].isna())[0]
     return df.iloc[idx]
+
+def load_data(input_file, category_file, data_file):
+    if os.path.exists(data_file):
+        df = pd.read_csv(data_file)
+    else:
+        df = create_data(input_file, category_file)
+        df.to_csv(data_file, index=False)
+    return df
+
+def tokenize_data(df, tokz, bsz=1024, max_passage_chars=650, max_question_chars=100, max_length=512):
+    data = BatchEncoding() 
+
+    for idx in tqdm(range(0, df.shape[0], bsz)):
+        passage, questions = df["passage"][idx:idx+bsz], df["questions"][idx:idx+bsz]
+        passage = [o[:max_passage_chars] if isinstance(o, str) else o for o in passage]
+        questions = [o[:max_question_chars] if isinstance(o, str) else o for o in questions]
+
+        prompts = [make_prompt(p, q) for p,q in zip(passage, questions)]
+        labels = df['categories'][idx:idx+bsz].tolist()
+        inputs = [p+l+tokz.eos_token+'<|end_of_text|>'+tokz.eos_token for p,l in zip(prompts, labels)]
+
+        inputs = tokz(inputs, max_length=max_length, truncation=True, padding="max_length", return_tensors="pt")
+        prompts = tokz(prompts)
+        prompt_len = [len(o) for o in prompts['input_ids']]
+
+        assert len(prompt_len) == inputs['input_ids'].shape[0]
+        assert max(prompt_len) <= max_length
+
+        labels = inputs['input_ids'].clone()
+        for i,l in enumerate(prompt_len): labels[i, :l] = -100
+        labels[labels == tokz.pad_token_id] = -100
+        inputs['labels'] = labels
+
+        for k in inputs:
+            o = data.setdefault(k, [])
+            o.append(inputs[k])
+
+    for k in data: data[k] = torch.vstack(data[k])
+
+    return data
+
+def train_test_split(data, pct=0.9):
+    n_data = data['labels'].shape[0]
+    idx = torch.randperm(n_data)
+    n_trn = int(pct * n_data)
+
+    trn_data = {k:data[k][idx[:n_trn]] for k in data}
+    tst_data = {k:data[k][idx[n_trn:]] for k in data}
+
+    return trn_data, tst_data 
+
+class CategoryDataset(Dataset):
+    def __init__(self, data):
+        self.data = data
+
+    def __len__(self):
+        return len(self.data['input_ids'])
+
+    def __getitem__(self, idx):
+        return {k: self.data[k][idx] for k in self.data}
+
+
+if __name__ == "__main__":
+    TYPE = "train"
+
+    input_file = "/data/share/to_deepak/msmarco/label_train_exact.raw.txt"
+    category_file = "/data/share/from_deepak/msmarco_category_oracle/all_categories.json"
+    data_file = "/data/share/from_deepak/msmarco_category_oracle/llama_train.csv"
+
+    mname = "meta-llama/Llama-3.1-8B"
     
+    tokz = AutoTokenizer.from_pretrained(mname)
+    tokz.add_special_tokens({"pad_token": "<|reserved_special_token_241|>"})
+    
+    if TYPE == "tokenize":
+        bsz = 1024
+
+        df = load_data(input_file, category_file, data_file)
+
+        data = tokenize_data(df, tokz, bsz=1024, max_passage_chars=450, max_question_chars=80, max_length=512)
+
+        fname = "outputs/51_finetune-llama-for-category-generation.joblib"
+        joblib.dump(data, fname)
+
+    elif TYPE == "train":
+        output_dir = "/home/aiscuser/scratch1/outputs/mogicX/51_finetune-llama-for-category-generation"
+
+        fname = "outputs/51_finetune-llama-for-category-generation.joblib"
+        data = joblib.load(fname)
+
+        train_data, valid_data = train_test_split(data)
+        train_dataset = CategoryDataset(train_data)
+        valid_dataset = CategoryDataset(valid_data)
+
+        model = LlamaForCausalLM.from_pretrained(mname, torch_dtype=torch.float16, device_map="auto")
+
+        lora_config = LoraConfig(
+		    r=8,
+		    lora_alpha=32,
+		    target_modules=["q_proj", "v_proj", "v_proj", "o_proj"],
+		    lora_dropout=0.05,
+		    bias="none",
+		    task_type="CAUSAL_LM"
+		)
+
+        model = get_peft_model(model, lora_config)
+
+        args = TrainingArguments(
+		    output_dir=output_dir,
+			per_device_train_batch_size=16,   # safe on A100 40GB with LoRA
+    		gradient_accumulation_steps=4,   # effective batch = 6*6*4 = 144
+    		learning_rate=2e-4,              # LoRA: usually 1e-4 to 2e-4
+    		num_train_epochs=3,
+    		warmup_ratio=0.03,               # or fixed steps
+    		logging_steps=10,
+            save_strategy="steps",
+            eval_strategy="steps",
+            eval_steps=2000,
+            save_steps=2000,
+            save_total_limit=5,
+    		fp16=False,                      # Use bf16 on A100
+    		bf16=True,
+    		optim="paged_adamw_32bit",       # memory-efficient optimizer
+    		lr_scheduler_type="cosine",
+            label_names=["labels"],
+		)
+
+        trainer = Trainer(
+		    model=model,
+		    args=args,
+		    train_dataset=train_dataset,
+            eval_dataset=valid_dataset,
+		)
+
+        trainer.train()
+
+        model.save_pretrained(os.path.join(args.output_dir, "final_peft-adapters"))
+        tokz.save_pretrained(f'{args.output_dir}/tokenizer/')
+
+    elif TYPE == "test":
+        model = LlamaForCausalLM.from_pretrained(mname, torch_dtype=torch.float16, device_map="auto")
+
+        fname = "outputs/51_finetune-llama-for-category-generation.joblib"
+        data = joblib.dump(fname)
+
+        inputs = {k:data[k][:10] for k in data}
+
+        with torch.no_grad():
+            output_ids = model.generate(
+                    **inputs,
+                    max_new_tokens=64,
+                    temperature=0.7,
+                    top_p=0.9,
+                    do_sample=True) 
+
+        output_text = tokz.decode(output_ids[0])
+
+        print(output_text)
+        

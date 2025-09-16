@@ -154,3 +154,4 @@ checklink/cookies.txt
 
 # Output file
 outputs/*.joblib
+outputs/47_msmarco-gpt-category-linker-001

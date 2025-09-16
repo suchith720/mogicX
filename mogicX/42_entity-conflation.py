@@ -43,7 +43,7 @@ class Filter:
         cluster_len = np.array([len(components[idx]) for idx in sorted(components)])
 
         mask = None if min_thresh is None else np.where(cluster_len >= min_thresh, 1, 0)
-        if max_mask is not None:
+        if max_thresh is not None:
             max_mask = np.where(cluster_len <= max_thresh, 1, 0)
             mask = max_mask if mask is None else np.logical_and(mask, max_mask)
 
@@ -148,7 +148,7 @@ def _conflate_info_txt(txts:List, type:Optional[str]='max'):
         raise ValueError(f"Invalid type: {type}")
     
 def get_conflated_info(components:Dict, lbl_ids2txt:Dict, type:Optional[str]="max"):
-    return [_conflate_info_txt([lbl_ids2txt[o] for o in components[i]]) for i in sorted(components)]
+    return [_conflate_info_txt([lbl_ids2txt[o] for o in components[i]], type) for i in sorted(components)]
         
 
 # %% ../nbs/42_entity-conflation.ipynb 31
@@ -161,7 +161,8 @@ def get_conflated_matrix(data_lbl:sp.csr_matrix, lbl_ids2cluster:Dict, n_cluster
     indices = [lbl_ids2cluster[idx] for idx in data_lbl.indices]
     data = len(indices) * [1]
 
-    assert indices.max() < n_clusters
+    if n_clusters is not None:
+        assert max(indices) < n_clusters
     
     matrix = (
         sp.csr_matrix((data, indices, data_lbl.indptr), dtype=np.float32) 
@@ -223,7 +224,6 @@ def main(pred_file:str, trn_file:str, tst_file:str, lbl_info_file:str, embed_fil
         topk:Optional[int]=None, diff_thresh:Optional[float]=None, pred_score_thresh:Optional[float]=None, batch_size:Optional[int]=1024, 
         sim_score_thresh:Optional[float]=25, freq_thresh:Optional[float]=50, min_size_thresh:Optional[int]=None, max_size_thresh:Optional[int]=None, 
         print_stats:Optional[bool]=False, type:Optional[str]="max", encoding:Optional[str]='latin-1'):
-    breakpoint()
     # Load data
     pred_lbl, trn_lbl, tst_lbl, lbl_info, lbl_repr = load_data(pred_file, trn_file, tst_file, lbl_info_file, embed_file, encoding=encoding)
     lbl_ids, lbl_txt = lbl_info
@@ -250,7 +250,7 @@ def main(pred_file:str, trn_file:str, tst_file:str, lbl_info_file:str, embed_fil
     conflated_trn_lbl = get_conflated_matrix(trn_lbl, lbl_ids2cluster)
     conflated_tst_lbl = get_conflated_matrix(tst_lbl, lbl_ids2cluster, n_clusters=conflated_trn_lbl.shape[1])
     
-    save_conflated_data(conflated_lbl_txt, lbl_file, conflated_trn_lbl, trn_file, conflated_tst_lbl, tst_file, output_dir=output_dir)
+    save_conflated_data(conflated_lbl_txt, lbl_info_file, conflated_trn_lbl, trn_file, conflated_tst_lbl, tst_file, output_dir=output_dir)
     
 
 # %% ../nbs/42_entity-conflation.ipynb 50

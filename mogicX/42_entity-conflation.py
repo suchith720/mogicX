@@ -13,6 +13,7 @@ from termcolor import colored, COLORS
 from scipy.sparse.csgraph import connected_components
 from typing import List, Optional, Dict, Set, Tuple
 
+from sugar.statistics_utils import matrix_stats
 from sugar.core import load_raw_file, save_raw_file
 from xclib.utils.sparse import retain_topk
 
@@ -142,6 +143,9 @@ def _conflate_info_txt(txts:List, type:Optional[str]='max'):
     if type == "max":
         idx = int(np.argmax([len(o) for o in txts]))
         return txts[idx]
+    elif type == "mid":
+        idx = int(np.argsort([len(o) for o in txts])[(len(txts)-1)//2])
+        return txts[idx]
     elif type == "concat":
         return " || ".join(txts)
     else:
@@ -180,7 +184,12 @@ def cluster_length_stats(components):
     print(f'Number of clusters: {len(lengths)}', end='\n\n')
     with pd.option_context('display.precision', 3):
         print(pd.DataFrame(lengths).describe().T)
-        
+
+def _matrix_stats(mat, label='matrix'):
+    print(label)
+    stats = matrix_stats(mat)
+    with pd.option_context('display.precision', 3, "display.max_columns", None):
+        print(pd.DataFrame([stats]))
 
 # %% ../nbs/42_entity-conflation.ipynb 44
 def get_conflated_path(fname:str, output_dir:Optional[str]=None):
@@ -249,6 +258,11 @@ def main(pred_file:str, trn_file:str, tst_file:str, lbl_info_file:str, embed_fil
     lbl_ids2cluster = get_id_to_cluster_idx_mapping(lbl_ids2cluster_map, lbl_ids)
     conflated_trn_lbl = get_conflated_matrix(trn_lbl, lbl_ids2cluster)
     conflated_tst_lbl = get_conflated_matrix(tst_lbl, lbl_ids2cluster, n_clusters=conflated_trn_lbl.shape[1])
+
+    # Statistics
+    if print_stats:
+        _matrix_stats(conflated_trn_lbl, 'conflated_trn_lbl')
+        _matrix_stats(conflated_tst_lbl, 'conflated_tst_lbl')
     
     save_conflated_data(conflated_lbl_txt, lbl_info_file, conflated_trn_lbl, trn_file, conflated_tst_lbl, tst_file, output_dir=output_dir)
     

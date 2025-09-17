@@ -17,6 +17,8 @@ from sugar.statistics_utils import matrix_stats
 from sugar.core import load_raw_file, save_raw_file
 from xclib.utils.sparse import retain_topk
 
+from xcai.clustering.cluster import BalancedClusters, get_cluster_size
+
 # %% ../nbs/42_entity-conflation.ipynb 5
 def show_conflated_labels(idxs:List, components:Dict, lbl_ids2txt:Dict, fname:Optional[str]=None):
     file = fname if fname is None else open(fname, 'w')
@@ -48,11 +50,24 @@ class Filter:
             max_mask = np.where(cluster_len <= max_thresh, 1, 0)
             mask = max_mask if mask is None else np.logical_and(mask, max_mask)
 
-        return set() if mask is None else set(np.where(mask)[0]) 
+        return set(range(len(components))) if mask is None else set(np.where(mask)[0]) 
 
     @staticmethod
     def topk(data_lbl:sp.csr_matrix, k:Optional[int]=3):
         return retain_topk(data_lbl, k=k)
+
+    @staticmethod
+    def lbl_freq_threhold(data_lbl:sp.csr_matrix, k:Optional[int]=300):
+        lbl_freq = data_lbl.getnnz(axis=0)
+        idx = np.where(lbl_freq > k)[0]
+
+        data_lbl = data_lbl.tocsc()
+        for i in idx:
+            p,q = data_lbl.indptr[i], data_lbl.indptr[i+1]
+            data_lbl.data[p:q] = 0
+        data_lbl.eliminate_zeros()
+
+        return data_lbl.tocsr()
 
     @staticmethod
     def threshold(data_lbl:sp.csr_matrix, t:int):
@@ -120,7 +135,7 @@ def get_components(data_lbl:sp.csr_matrix, lbl_ids:List, lbl_repr:Optional[torch
     
 
 # %% ../nbs/42_entity-conflation.ipynb 29
-def get_valid_components(components:Dict, valid_cluster_idxs:Set):
+def get_valid_components(components:Dict, valid_cluster_idxs:Set, include_invalid:Optional[bool]=True):
     valid_components, lbl_ids2cluster = dict(), dict()
 
     curr_cluster_idx = 0
@@ -130,10 +145,11 @@ def get_valid_components(components:Dict, valid_cluster_idxs:Set):
             for o in cluster: lbl_ids2cluster[o] = curr_cluster_idx
             curr_cluster_idx += 1
         else:
-            for o in cluster:
-                valid_components[curr_cluster_idx] = [o]
-                lbl_ids2cluster[o] = curr_cluster_idx
-                curr_cluster_idx += 1
+            if include_invalid:
+                for o in cluster:
+                    valid_components[curr_cluster_idx] = [o]
+                    lbl_ids2cluster[o] = curr_cluster_idx
+                    curr_cluster_idx += 1
                 
     return valid_components, lbl_ids2cluster
     
@@ -150,20 +166,54 @@ def _conflate_info_txt(txts:List, type:Optional[str]='max'):
         return " || ".join(txts)
     else:
         raise ValueError(f"Invalid type: {type}")
+
+def _conflate_info(txts:List, reps:List, type:Optional[str]='max'):
+    if type == "max":
+        idx = int(np.argmax([len(o) for o in txts]))
+        return txts[idx], reps[idx]
+    elif type == "mid":
+        idx = int(np.argsort([len(o) for o in txts])[(len(txts)-1)//2])
+        return txts[idx], reps[idx]
+    elif type == "concat":
+        return " || ".join(txts), torch.vstack(reps).mean(dim=0)
+    else:
+        raise ValueError(f"Invalid type: {type}")
     
-def get_conflated_info(components:Dict, lbl_ids2txt:Dict, type:Optional[str]="max"):
-    return [_conflate_info_txt([lbl_ids2txt[o] for o in components[i]], type) for i in sorted(components)]
+def get_conflated_info(components:Dict, lbl_ids2txt:Dict, lbl_embed:Optional[torch.Tensor]=None, lbl_ids2idx:Optional[Dict]=None, 
+        type:Optional[str]="max"):
+    lbl_txt, lbl_repr = list(), list()
+
+    for i in tqdm(sorted(components), total=len(components)):
+        cluster_txt = [lbl_ids2txt[o] for o in components[i]]
+        if lbl_embed is not None:
+            cluster_rep = [lbl_embed[lbl_ids2idx[o]] for o in components[i]]
+            txt, rep = _conflate_info(cluster_txt, cluster_rep, type)
+            lbl_repr.append(rep)
+        else:
+            txt = _conflate_info_txt(cluster_txt, type)
+        lbl_txt.append(txt) 
+
+    # lbl_txt = [_conflate_info_txt([lbl_ids2txt[o] for o in comonents[i]], type) for i in sorted(components)]
+    return lbl_txt, torch.vstack(lbl_repr) if len(lbl_repr) else None
         
 
 # %% ../nbs/42_entity-conflation.ipynb 31
 def get_id_to_cluster_idx_mapping(lbl_ids2cluster_map:Dict, lbl_ids:List):
-    return np.array([lbl_ids2cluster_map[o] for o in lbl_ids])
+    return np.array([lbl_ids2cluster_map.get(o, -1) for o in lbl_ids])
     
 
 # %% ../nbs/42_entity-conflation.ipynb 32
 def get_conflated_matrix(data_lbl:sp.csr_matrix, lbl_ids2cluster:Dict, n_clusters:Optional[Tuple]=None):
-    indices = [lbl_ids2cluster[idx] for idx in data_lbl.indices]
-    data = len(indices) * [1]
+    indices, data = list(), list()
+    for idx in data_lbl.indices:
+        i = lbl_ids2cluster[idx]
+
+        if i == -1: 
+            indices.append(0)
+            data.append(0)
+        else:
+            indices.append(i)
+            data.append(1)
 
     if n_clusters is not None:
         assert max(indices) < n_clusters
@@ -173,6 +223,7 @@ def get_conflated_matrix(data_lbl:sp.csr_matrix, lbl_ids2cluster:Dict, n_cluster
         if n_clusters is None else 
         sp.csr_matrix((data, indices, data_lbl.indptr), shape=(data_lbl.shape[0], n_clusters), dtype=np.float32)
     )
+    matrix.eliminate_zeros()
     matrix.sum_duplicates()
     return matrix
     
@@ -190,6 +241,11 @@ def _matrix_stats(mat, label='matrix'):
     stats = matrix_stats(mat)
     with pd.option_context('display.precision', 3, "display.max_columns", None):
         print(pd.DataFrame([stats]))
+
+    print('- label frequency: ')
+    lbl_freq = mat.getnnz(axis=0)
+    with pd.option_context('display.precision', 3):
+        print(pd.DataFrame(lbl_freq).describe().T)
 
 # %% ../nbs/42_entity-conflation.ipynb 44
 def get_conflated_path(fname:str, output_dir:Optional[str]=None):
@@ -211,9 +267,13 @@ def save_conflated_data(lbl_txt:List, lbl_file:str, trn_lbl:sp.csr_matrix, trn_f
     sp.save_npz(trn_file, trn_lbl)
     sp.save_npz(tst_file, tst_lbl)
     
-def prune_pred_lbl(pred_lbl:sp.csr_matrix, topk:Optional[int]=None, diff_thresh:Optional[float]=None, pred_score_thresh:Optional[float]=None):
+def prune_pred_lbl(pred_lbl:sp.csr_matrix, topk:Optional[int]=None, pred_lbl_freq:Optional[int]=None, diff_thresh:Optional[float]=None, 
+        pred_score_thresh:Optional[float]=None):
     # Pick top-k predictions
     data_lbl = pred_lbl if topk is None else Filter.topk(pred_lbl, k=topk) 
+
+    # Label frequency based thresholding
+    if pred_lbl_freq is not None: data_lbl = Filter.lbl_freq_threhold(data_lbl, pred_lbl_freq)
 
     # Difference based thresholding
     if diff_thresh is not None: data_lbl = Filter.difference(data_lbl, t=diff_thresh)
@@ -223,48 +283,91 @@ def prune_pred_lbl(pred_lbl:sp.csr_matrix, topk:Optional[int]=None, diff_thresh:
 
     return data_lbl
 
-def prune_clusters(components:Dict, min_size_thresh:Optional[int]=None, max_size_thresh:Optional[int]=None):
+def prune_clusters(components:Dict, min_size_thresh:Optional[int]=None, max_size_thresh:Optional[int]=None, include_invalid:Optional[bool]=True):
     valid_cluster_idxs = Filter.by_length(components, min_thresh=min_size_thresh, max_thresh=max_size_thresh)
-    valid_components, lbl_ids2cluster_map = get_valid_components(components, valid_cluster_idxs)
+    valid_components, lbl_ids2cluster_map = get_valid_components(components, valid_cluster_idxs, include_invalid)
     return valid_components, lbl_ids2cluster_map
+
+
+def prune_labels(lbl_txt:List, trn_lbl:sp.csr_matrix, tst_lbl:sp.csr_matrix, lbl_repr:Optional[torch.Tensor]=None, 
+        lbl_freq_thresh:Optional[int]=300, lbl_cluster_sz:Optional[int]=2):
+    assert lbl_repr.shape[0] == len(lbl_txt)
+
+    def _map_matrix(mat, mapping):
+        mat.indices[:] = [mapping.get(i, i) for i in mat.indices]
+        mat.sum_duplicates()
+        mat.eliminate_zeros()
+
+    def _valid_info(txt, trn, tst, idx):
+        txt = [txt[i] for i in idx]
+        trn = trn[:, idx].tocsr()
+        tst = tst[:, idx].tocsr()
+        return txt, trn, tst
+
+    if lbl_freq_thresh is not None:
+        idx = np.where(trn_lbl.getnnz(axis=0) < lbl_freq_thresh)[0]
+        lbl_txt, trn_lbl, tst_lbl = _valid_info(lbl_txt, trn_lbl, tst_lbl, idx)
+        if lbl_repr is not None: lbl_repr = lbl_repr[idx]
+
+    if lbl_repr is not None and lbl_cluster_sz is not None:
+        idx = np.where(trn_lbl.getnnz(axis=0) == 1)[0]
+        
+        clusters = BalancedClusters.proc(lbl_repr[idx].half(), min_cluster_sz=lbl_cluster_sz)
+        lbl_mapping = {idx[o]:idx[cluster[0]] for cluster in clusters for o in cluster}
+
+        _map_matrix(trn_lbl, lbl_mapping)
+        _map_matrix(tst_lbl, lbl_mapping)
+
+        idx = np.where(trn_lbl.getnnz(axis=0) > 0)[0]
+        lbl_txt, trn_lbl, tst_lbl = _valid_info(lbl_txt, trn_lbl, tst_lbl, idx)
+
+    return lbl_txt, trn_lbl, tst_lbl
+
 
 # %% ../nbs/42_entity-conflation.ipynb 48
 def main(pred_file:str, trn_file:str, tst_file:str, lbl_info_file:str, embed_file:Optional[str]=None, output_dir:Optional[str]=None,
-        topk:Optional[int]=None, diff_thresh:Optional[float]=None, pred_score_thresh:Optional[float]=None, batch_size:Optional[int]=1024, 
-        sim_score_thresh:Optional[float]=25, freq_thresh:Optional[float]=50, min_size_thresh:Optional[int]=None, max_size_thresh:Optional[int]=None, 
-        print_stats:Optional[bool]=False, type:Optional[str]="max", encoding:Optional[str]='latin-1'):
+        topk:Optional[int]=None, pred_lbl_freq:Optional[int]=None, diff_thresh:Optional[float]=None, pred_score_thresh:Optional[float]=None, 
+        batch_size:Optional[int]=1024, sim_score_thresh:Optional[float]=25, freq_thresh:Optional[float]=50, min_size_thresh:Optional[int]=None, 
+        max_size_thresh:Optional[int]=None, conflated_lbl_freq:Optional[int]=None, lbl_cluster_sz:Optional[int]=None, print_stats:Optional[bool]=False, 
+        type:Optional[str]="max", encoding:Optional[str]='latin-1', include_invalid:Optional[bool]=True, dont_save:Optional[bool]=False):
     # Load data
     pred_lbl, trn_lbl, tst_lbl, lbl_info, lbl_repr = load_data(pred_file, trn_file, tst_file, lbl_info_file, embed_file, encoding=encoding)
     lbl_ids, lbl_txt = lbl_info
 
     # Prune predictions
-    data_lbl = prune_pred_lbl(pred_lbl, topk, diff_thresh, pred_score_thresh)
+    data_lbl = prune_pred_lbl(pred_lbl, topk, pred_lbl_freq, diff_thresh, pred_score_thresh)
 
     # Get connected components
     components = get_components(data_lbl, lbl_ids, lbl_repr=lbl_repr, score_thresh=sim_score_thresh, 
                                 freq_thresh=freq_thresh, batch_size=batch_size)
 
     # Prune clusters
-    components, lbl_ids2cluster_map = prune_clusters(components, min_size_thresh, max_size_thresh)
+    components, lbl_ids2cluster_map = prune_clusters(components, min_size_thresh, max_size_thresh, include_invalid=include_invalid)
 
     # Statistics
     if print_stats: cluster_length_stats(components)
 
     # Conflate label text
-    lbl_ids2txt = {k:v for k,v in zip(lbl_ids, lbl_txt)}
-    conflated_lbl_txt = get_conflated_info(components, lbl_ids2txt, type)
+    assert lbl_repr.shape[0] == len(lbl_ids)
+    lbl_ids2txt, lbl_ids2idx = {k:v for k,v in zip(lbl_ids, lbl_txt)}, {k:i for i,k in enumerate(lbl_ids)}
+    conflated_lbl_txt, conflated_lbl_repr = get_conflated_info(components, lbl_ids2txt, lbl_embed=lbl_repr, lbl_ids2idx=lbl_ids2idx, type=type)
 
     # Conflate matrix
     lbl_ids2cluster = get_id_to_cluster_idx_mapping(lbl_ids2cluster_map, lbl_ids)
     conflated_trn_lbl = get_conflated_matrix(trn_lbl, lbl_ids2cluster)
     conflated_tst_lbl = get_conflated_matrix(tst_lbl, lbl_ids2cluster, n_clusters=conflated_trn_lbl.shape[1])
 
+    # Prune labels
+    lbl_txt, trn_lbl, tst_lbl = prune_labels(conflated_lbl_txt, conflated_trn_lbl, conflated_tst_lbl, conflated_lbl_repr, 
+            lbl_freq_thresh=conflated_lbl_freq, lbl_cluster_sz=lbl_cluster_sz)
+
     # Statistics
     if print_stats:
-        _matrix_stats(conflated_trn_lbl, 'conflated_trn_lbl')
-        _matrix_stats(conflated_tst_lbl, 'conflated_tst_lbl')
-    
-    save_conflated_data(conflated_lbl_txt, lbl_info_file, conflated_trn_lbl, trn_file, conflated_tst_lbl, tst_file, output_dir=output_dir)
+        _matrix_stats(trn_lbl, 'conflated_trn_lbl')
+        _matrix_stats(tst_lbl, 'conflated_tst_lbl')
+
+    if not dont_save:
+        save_conflated_data(lbl_txt, lbl_info_file, trn_lbl, trn_file, tst_lbl, tst_file, output_dir=output_dir)
     
 
 # %% ../nbs/42_entity-conflation.ipynb 50
@@ -279,6 +382,7 @@ def parse_args():
     parser.add_argument('--output_dir', type=str, default=None)
 
     parser.add_argument('--topk', type=int, default=None)
+    parser.add_argument('--pred_lbl_freq', type=int, default=None)
     parser.add_argument('--diff_thresh', type=float, default=None)
     parser.add_argument('--pred_score_thresh', type=float, default=None)
     parser.add_argument('--batch_size', type=int, default=1024)
@@ -288,11 +392,15 @@ def parse_args():
 
     parser.add_argument('--min_size_thresh', type=int, default=None)
     parser.add_argument('--max_size_thresh', type=int, default=None)
+    parser.add_argument('--conflated_lbl_freq', type=int, default=None)
+    parser.add_argument('--lbl_cluster_sz', type=int, default=None)
 
     parser.add_argument('--type', type=str, default='max')
 
     parser.add_argument('--print_stats', action='store_true')
     parser.add_argument('--encoding', type=str, default='latin-1')
+    parser.add_argument('--exclude_invalid', action='store_true')
+    parser.add_argument('--dont_save', action='store_true')
     
     return parser.parse_args()
     
@@ -300,10 +408,11 @@ def parse_args():
 # %% ../nbs/42_entity-conflation.ipynb 51
 if __name__ == '__main__':
     args = parse_args()
-    
+
     main(args.pred_file, args.trn_file, args.tst_file, args.lbl_info_file, args.embed_file, output_dir=args.output_dir,
-            topk=args.topk, diff_thresh=args.diff_thresh, pred_score_thresh=args.pred_score_thresh,  
+            topk=args.topk, pred_lbl_freq=args.pred_lbl_freq, diff_thresh=args.diff_thresh, pred_score_thresh=args.pred_score_thresh,  
             batch_size=args.batch_size, sim_score_thresh=args.sim_score_thresh, freq_thresh=args.freq_thresh, 
-            min_size_thresh=args.min_size_thresh, max_size_thresh=args.max_size_thresh, print_stats=args.print_stats, 
-            type=args.type, encoding=args.encoding)
+            min_size_thresh=args.min_size_thresh, max_size_thresh=args.max_size_thresh, conflated_lbl_freq=args.conflated_lbl_freq, 
+            lbl_cluster_sz=args.lbl_cluster_sz, print_stats=args.print_stats, type=args.type, encoding=args.encoding, 
+            include_invalid=not args.exclude_invalid, dont_save=args.dont_save)
 

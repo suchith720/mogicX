@@ -18,6 +18,8 @@ then
 	mkdir -p $output_dir
 	n=$(ls $output_dir | wc -l); ((n++)); n=$(printf "%03d" $n)
 	output_dir=$output_dir/conflation_$n
+
+	echo $output_dir
 	
 	python mogicX/42_entity-conflation.py --pred_file $pred_file \
 		--lbl_info_file $lbl_file \
@@ -25,36 +27,58 @@ then
 		--tst_file $tst_file \
 		--embed_file $embed_file \
 		--output_dir $output_dir \
-		--topk 10 \
-		# --pred_score_thresh 0.2 \
-		# --diff_thresh 0.1 \
+		--topk 5 \
+		--pred_lbl_freq 100 \
 		--batch_size 1024 \
-		--freq_thresh 25 \
-		--sim_score_thresh 25 \
-		# --min_size_thresh 2 \
-		# --max_size_thresh 100 \
+		--freq_thresh 50 \
+		--sim_score_thresh 50 \
+		--max_size_thresh 100 \
+		--conflated_lbl_freq 500 \
+		--lbl_cluster_sz 2 \
 		--type concat \
-		--print_stats
+		--print_stats \
+		--dont_save \
+		--exclude_invalid
 	
-	lbl_file=$output_dir/raw_data/category-gpt_conflated.raw.csv
-	grep ' || ' $lbl_file >> $output_dir/conflations.txt
+	if [ -d $output_dir ]
+	then
+		lbl_file=$output_dir/raw_data/category-gpt_conflated.raw.csv
+		grep ' || ' $lbl_file >> $output_dir/conflations.txt
+	fi
 
 elif [ $TYPE == "final" ]
 then
+	# python mogicX/42_entity-conflation.py --pred_file $pred_file \
+	# 	--lbl_info_file $lbl_file \
+	# 	--trn_file $trn_file \
+	# 	--tst_file $tst_file \
+	# 	--embed_file $embed_file \
+	# 	--topk 3 \
+	# 	--pred_score_thresh 0.2 \
+	# 	--diff_thresh 0.1 \
+	# 	--batch_size 1024 \
+	# 	--freq_thresh 25 \
+	# 	--sim_score_thresh 25 \
+	# 	--min_size_thresh 2 \
+	# 	--max_size_thresh 100 \
+	# 	--type mid \
+	# 	--print_stats
+
 	python mogicX/42_entity-conflation.py --pred_file $pred_file \
 		--lbl_info_file $lbl_file \
 		--trn_file $trn_file \
 		--tst_file $tst_file \
 		--embed_file $embed_file \
-		--topk 3 \
-		--pred_score_thresh 0.2 \
-		--diff_thresh 0.1 \
+		--output_dir $output_dir \
+		--topk 5 \
+		--pred_lbl_freq 100 \
 		--batch_size 1024 \
-		--freq_thresh 25 \
-		--sim_score_thresh 25 \
-		--min_size_thresh 2 \
+		--freq_thresh 50 \
+		--sim_score_thresh 50 \
 		--max_size_thresh 100 \
 		--type mid \
-		--print_stats
+		--print_stats \
+		--exclude_invalid
+
 fi
 

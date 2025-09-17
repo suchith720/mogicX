@@ -10,8 +10,8 @@ lbl_file="/data/datasets/msmarco/XC/raw_data/category-gpt.raw.csv"
 pred_file=$output_dir/predictions/train_predictions.npz
 embed_file=$output_dir/predictions/label_repr.pth
 
-TYPE="experiment"
-NUMBER=001
+TYPE="final"
+NUMBER=002
 
 if [ $TYPE == "experiment" ]
 then
@@ -43,7 +43,7 @@ then
 	
 	if [ -d $output_dir ]
 	then
-		lbl_file=$output_dir/raw_data/category-gpt_conflated.raw.csv
+		lbl_file=$output_dir/raw_data/category-gpt_conflated-001.raw.csv
 		grep ' || ' $lbl_file >> $output_dir/conflations.txt
 	fi
 

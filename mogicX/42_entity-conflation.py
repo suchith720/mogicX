@@ -248,20 +248,21 @@ def _matrix_stats(mat, label='matrix'):
         print(pd.DataFrame(lbl_freq).describe().T)
 
 # %% ../nbs/42_entity-conflation.ipynb 44
-def get_conflated_path(fname:str, output_dir:Optional[str]=None):
+def get_conflated_path(fname:str, output_dir:Optional[str]=None, output_prefix:Optional[str]=''):
     file_dir = os.path.dirname(fname) if output_dir is None else output_dir
     os.makedirs(file_dir, exist_ok=True)
 
+    if len(output_prefix): output_prefix = '-' + output_prefix
     file_name, file_type = os.path.basename(fname).split('.', maxsplit=1)
-    return f'{file_dir}/{file_name}_conflated.{file_type}'
+    return f'{file_dir}/{file_name}_conflated{output_prefix}.{file_type}'
     
 
 # %% ../nbs/42_entity-conflation.ipynb 45
 def save_conflated_data(lbl_txt:List, lbl_file:str, trn_lbl:sp.csr_matrix, trn_file:str, tst_lbl:sp.csr_matrix, tst_file:str, 
-        output_dir:Optional[str]=None):
-    lbl_file = get_conflated_path(lbl_file, output_dir if output_dir is None else f"{output_dir}/raw_data")
-    trn_file = get_conflated_path(trn_file, output_dir)
-    tst_file = get_conflated_path(tst_file, output_dir)
+        output_dir:Optional[str]=None, output_prefix:Optional[str]=''):
+    lbl_file = get_conflated_path(lbl_file, output_dir if output_dir is None else f"{output_dir}/raw_data", output_prefix)
+    trn_file = get_conflated_path(trn_file, output_dir, output_prefix)
+    tst_file = get_conflated_path(tst_file, output_dir, output_prefix)
 
     save_raw_file(lbl_file, range(len(lbl_txt)), lbl_txt)
     sp.save_npz(trn_file, trn_lbl)
@@ -329,7 +330,8 @@ def main(pred_file:str, trn_file:str, tst_file:str, lbl_info_file:str, embed_fil
         topk:Optional[int]=None, pred_lbl_freq:Optional[int]=None, diff_thresh:Optional[float]=None, pred_score_thresh:Optional[float]=None, 
         batch_size:Optional[int]=1024, sim_score_thresh:Optional[float]=25, freq_thresh:Optional[float]=50, min_size_thresh:Optional[int]=None, 
         max_size_thresh:Optional[int]=None, conflated_lbl_freq:Optional[int]=None, lbl_cluster_sz:Optional[int]=None, print_stats:Optional[bool]=False, 
-        type:Optional[str]="max", encoding:Optional[str]='latin-1', include_invalid:Optional[bool]=True, dont_save:Optional[bool]=False):
+        type:Optional[str]="max", encoding:Optional[str]='latin-1', include_invalid:Optional[bool]=True, dont_save:Optional[bool]=False, 
+        output_prefix:Optional[str]=''):
     # Load data
     pred_lbl, trn_lbl, tst_lbl, lbl_info, lbl_repr = load_data(pred_file, trn_file, tst_file, lbl_info_file, embed_file, encoding=encoding)
     lbl_ids, lbl_txt = lbl_info
@@ -367,7 +369,7 @@ def main(pred_file:str, trn_file:str, tst_file:str, lbl_info_file:str, embed_fil
         _matrix_stats(tst_lbl, 'conflated_tst_lbl')
 
     if not dont_save:
-        save_conflated_data(lbl_txt, lbl_info_file, trn_lbl, trn_file, tst_lbl, tst_file, output_dir=output_dir)
+        save_conflated_data(lbl_txt, lbl_info_file, trn_lbl, trn_file, tst_lbl, tst_file, output_dir=output_dir, output_prefix=output_prefix)
     
 
 # %% ../nbs/42_entity-conflation.ipynb 50
@@ -401,6 +403,7 @@ def parse_args():
     parser.add_argument('--encoding', type=str, default='latin-1')
     parser.add_argument('--exclude_invalid', action='store_true')
     parser.add_argument('--dont_save', action='store_true')
+    parser.add_argument('--output_prefix', type=str, default='')
     
     return parser.parse_args()
     
@@ -414,5 +417,5 @@ if __name__ == '__main__':
             batch_size=args.batch_size, sim_score_thresh=args.sim_score_thresh, freq_thresh=args.freq_thresh, 
             min_size_thresh=args.min_size_thresh, max_size_thresh=args.max_size_thresh, conflated_lbl_freq=args.conflated_lbl_freq, 
             lbl_cluster_sz=args.lbl_cluster_sz, print_stats=args.print_stats, type=args.type, encoding=args.encoding, 
-            include_invalid=not args.exclude_invalid, dont_save=args.dont_save)
+            include_invalid=not args.exclude_invalid, dont_save=args.dont_save, output_prefix=args.output_prefix)
 

@@ -5,12 +5,18 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '0,1,2,3,4,5'
-os.environ["NCCL_DEBUG"] = "NONE"
-os.environ["ROCM_DISABLE_WARNINGS"] = "1"
-os.environ["MIOPEN_LOG_LEVEL"] = "0"
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
+# os.environ["NCCL_DEBUG"] = "NONE"
+# os.environ["ROCM_DISABLE_WARNINGS"] = "1"
+# os.environ["MIOPEN_LOG_LEVEL"] = "0"
 
-import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
+os.environ["NCCL_DEBUG"] = "NONE"
+os.environ["CUDNN_LOGINFO_DBG"] = "0"
+os.environ["CUDNN_LOGDEST_DBG"] = "NULL"
+os.environ["CUDNN_LOGERROR_DBG"] = "0"
+os.environ["CUDNN_LOGWARN_DBG"] = "0"
+
+import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
 from transformers import DistilBertConfig
 
@@ -20,15 +26,24 @@ from xcai.models.PPP0XX import DBT023
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-06'
 
+def additional_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--expt_no', type=int, required=True)
+    return parser.parse_known_args()[0]
+
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
     output_dir = '/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-002'
 
-    input_args = parse_args()
+    meta_info_numbers = {1: '', 2: '_conflated', 3: '_conflated-001', 4: '_conflated-002'}
 
+    input_args = parse_args()
+    input_args.use_sxc_sampler = True
+    input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
     input_args.only_test, input_args.do_test_inference = True, True
-    config_file = f'configs/{input_args.dataset}-data-ngame-category-linker.json'
-    
+    extra_args = additional_args()
+
+    config_file = f'configs/beir/{input_args.dataset}_data-ngame-category-linker{meta_info_numbers[extra_args.expt_no]}.json'
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
 
@@ -46,7 +61,7 @@ if __name__ == '__main__':
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=1600, # 800,
+        per_device_eval_batch_size=800,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",

@@ -22,8 +22,8 @@ def get_data_category(data_cat:sp.csr_matrix, data_txt:List, cat_txt:List):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str)
-    parser.add_argument('--expt_no', type=str)
+    parser.add_argument('--dataset', type=str, required=True)
+    parser.add_argument('--expt_no', type=int, required=True)
     parser.add_argument('--abs_thresh', type=float, default=None)
     parser.add_argument('--diff_thresh', type=float, default=None)
     parser.add_argument('--type', type=str, default="raw")
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     def apply_threshold(mat, args):
         if input_args.abs_thresh is not None: 
             mat = Filter.threshold(mat, t=args.abs_thresh)
-        if input_args.diff_thresh: 
+        if input_args.diff_thresh is not None: 
             mat = Filter.difference(mat, t=args.diff_thresh)
         return mat
 
@@ -53,16 +53,17 @@ if __name__ == '__main__':
         if input_args.dataset == "msmarco":
             trn_ids, trn_txt = load_raw_file(f'/data/datasets/{input_args.dataset}/XC/raw_data/train.raw.txt')
             trn_cat = retain_topk(sp.load_npz(f'{output_dir}/predictions/train_predictions.npz'), k=5)
-            trn_cat = apply_threshold(tst_cat, input_args)
+            trn_cat = apply_threshold(trn_cat, input_args)
 
             trn_cat_txt = get_data_category(trn_cat, trn_txt, cat_txt)
             save_raw_file(f'{output_dir}/raw_data/train_ngame-gpt-category-linker_{input_args.dataset}.raw.csv', trn_ids, trn_cat_txt)
         
         # Test dataset
-        tst_ids, tst_txt = load_raw_file(f'/data/datasets/{input_args.dataset}/XC/raw_data/test.raw.csv')
         if input_args.dataset == "msmarco":
+            tst_ids, tst_txt = load_raw_file(f'/data/datasets/{input_args.dataset}/XC/raw_data/test.raw.txt')
             tst_cat = retain_topk(sp.load_npz(f'{output_dir}/predictions/test_predictions.npz'), k=5)
         else:
+            tst_ids, tst_txt = load_raw_file(f'/data/datasets/{input_args.dataset}/XC/raw_data/test.raw.csv')
             tst_cat = retain_topk(sp.load_npz(f'{output_dir}/predictions/test_predictions_{input_args.dataset}.npz'), k=5)
         tst_cat = apply_threshold(tst_cat, input_args)
 

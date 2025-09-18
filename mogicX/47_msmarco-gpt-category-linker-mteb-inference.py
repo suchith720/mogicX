@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 3
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '4,5'
+os.environ['CUDA_VISIBLE_DEVICES'] = '4,5'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
@@ -52,7 +52,7 @@ if __name__ == '__main__':
     if os.path.exists(meta_info_file):
         meta_info = joblib.load(meta_info_file)
     else:
-        fname = f'/data/datasets/msmarco/XC/raw_data/category-gpt_{meta_info_numbers[extra_args.expt_no]}.raw.csv'
+        fname = f'/data/datasets/msmarco/XC/raw_data/category-gpt{meta_info_numbers[extra_args.expt_no]}.raw.csv'
         meta_info = Info.from_txt(fname, max_sequence_length=64, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
                 tokenization_column="input_text", use_tokenizer=True, tokenizer="sentence-transformers/msmarco-distilbert-dot-v5")
         joblib.dump(meta_info, meta_info_file)

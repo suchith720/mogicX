@@ -1,20 +1,14 @@
 {
-    "msmarco_data-ngame-category-linker": {
+    "data": {
         "path": {
             "train": {
-                "data_lbl": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//trn_X_Y.npz",
-                "data_info": "/home/aiscuser/b-sprabhu/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/train_ngame-gpt-category-linker.raw.csv",
-                "lbl_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/label.raw.txt",
-                "neg_meta": {
-                    "prefix": "neg",
-                    "data_meta": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC/ce-negatives-topk-05_trn_X_Y.npz",
-                    "meta_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/ce-scores.raw.txt"
-                }
+                "data_lbl": "/home/aiscuser/b-sprabhu/datasets//msmarco/XC/trn_X_Y.npz",
+                "data_info": "/home/aiscuser/b-sprabhu/datasets//msmarco/XC/raw_data/train.raw.txt",
+                "lbl_info": "/home/aiscuser/b-sprabhu/datasets//msmarco/XC/raw_data/label.raw.txt"
             },
             "test": {
-                "data_lbl": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//tst_X_Y.npz",
-                "data_info": "/home/aiscuser/b-sprabhu/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/test_ngame-gpt-category-linker.raw.csv",
-                "lbl_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/label.raw.txt"
+                "data_lbl": "/home/aiscuser/b-sprabhu/datasets//msmarco/XC/tst_X_Y.npz",
+                "data_info": "/home/aiscuser/b-sprabhu/datasets//msmarco/XC/raw_data/test.raw.txt"
             }
         },
         "parameters": {
@@ -62,9 +56,9 @@
             "use_tokenizer": true,
             "tokenizer": "distilbert-base-uncased",
             "tokenization_column": "input_text",
-            "main_max_data_sequence_length": 300,
+            "main_max_data_sequence_length": 32,
             "main_max_lbl_sequence_length": 300,
-            "meta_max_sequence_length": 300,
+            "meta_max_sequence_length": 32,
             "padding": false,
             "return_tensors": null,
             "sep": "->",
@@ -88,7 +82,9 @@
             "meta_info_keys": null,
             "n_sdata_meta_samples": 1,
             "n_slbl_meta_samples": 1,
-            "meta_oversample": false
+            "meta_oversample": false,
+            "use_meta_distribution": false,
+            "use_main_distribution": false
         }
     }
 }

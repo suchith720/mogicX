@@ -1,20 +1,30 @@
 {
-    "msmarco_data-ngame-category-linker": {
+    "data_lbl_ngame-gpt-category_ce-negatives-topk-05-linker_exact": {
         "path": {
             "train": {
-                "data_lbl": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//trn_X_Y.npz",
-                "data_info": "/home/aiscuser/b-sprabhu/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/train_ngame-gpt-category-linker.raw.csv",
-                "lbl_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/label.raw.txt",
+                "data_lbl": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//trn_X_Y_ce-exact.npz",
+                "data_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/train.raw.txt",
+                "lbl_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/label_exact.raw.txt",
                 "neg_meta": {
                     "prefix": "neg",
                     "data_meta": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC/ce-negatives-topk-05_trn_X_Y.npz",
                     "meta_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/ce-scores.raw.txt"
+                },
+                "lnk_meta": {
+                    "prefix": "lnk",
+                    "data_meta": "/home/aiscuser/b-sprabhu/outputs/mogicX/47_msmarco-gpt-category-linker-001/predictions/train_predictions.npz",
+                    "meta_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC/raw_data/category-gpt.raw.csv"
                 }
             },
             "test": {
-                "data_lbl": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//tst_X_Y.npz",
-                "data_info": "/home/aiscuser/b-sprabhu/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/test_ngame-gpt-category-linker.raw.csv",
-                "lbl_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/label.raw.txt"
+                "data_lbl": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//tst_X_Y_exact.npz",
+                "data_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/test.raw.txt",
+                "lbl_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/label_exact.raw.txt",
+                "lnk_meta": {
+                    "prefix": "lnk",
+                    "data_meta": "/home/aiscuser/b-sprabhu/outputs/mogicX/47_msmarco-gpt-category-linker-001/predictions/test_predictions.npz",
+                    "meta_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC/raw_data/category-gpt.raw.csv"
+                }
             }
         },
         "parameters": {
@@ -62,9 +72,9 @@
             "use_tokenizer": true,
             "tokenizer": "distilbert-base-uncased",
             "tokenization_column": "input_text",
-            "main_max_data_sequence_length": 300,
+            "main_max_data_sequence_length": 32,
             "main_max_lbl_sequence_length": 300,
-            "meta_max_sequence_length": 300,
+	    "meta_max_sequence_length": {"lnk_meta": 32, "neg_meta": 300},
             "padding": false,
             "return_tensors": null,
             "sep": "->",
@@ -86,9 +96,9 @@
             "n_data_meta_samples": null,
             "n_lbl_meta_samples": null,
             "meta_info_keys": null,
-            "n_sdata_meta_samples": 1,
+	    "n_sdata_meta_samples": {"lnk_meta": 5, "neg_meta": 1},
             "n_slbl_meta_samples": 1,
-            "meta_oversample": false
+	    "meta_oversample": {"lnk_meta": false, "neg_meta": true}
         }
     }
 }

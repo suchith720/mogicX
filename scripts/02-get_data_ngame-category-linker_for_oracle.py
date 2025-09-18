@@ -1,5 +1,3 @@
-from sugar.core import *
-
 import scipy.sparse as sp, os, argparse, json
 
 from typing import List
@@ -8,6 +6,8 @@ from tqdm.auto import tqdm
 from xclib.utils.sparse import retain_topk
 
 from xcai.main import *
+from sugar.core import *
+
 
 def get_data_category(data_cat:sp.csr_matrix, data_txt:List, cat_txt:List):
     assert data_cat.shape[0] == len(data_txt), f'{data_cat.shape[0]} != {len(data_txt)}'
@@ -19,49 +19,77 @@ def get_data_category(data_cat:sp.csr_matrix, data_txt:List, cat_txt:List):
         data_cat_txt.append(txt + " <CATEGORIES> " + " || ".join(cats))
     return data_cat_txt
 
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str)
+    parser.add_argument('--expt_no', type=str)
+    parser.add_argument('--abs_thresh', type=float, default=None)
+    parser.add_argument('--diff_thresh', type=float, default=None)
+    parser.add_argument('--type', type=str, default="raw")
     return parser.parse_known_args()[0]
+
 
 if __name__ == '__main__':
     input_args = parse_args()
 
-    output_dir = '/data/outputs/mogicX/47_msmarco-gpt-category-linker-001'
+    output_dir = f'/data/outputs/mogicX/47_msmarco-gpt-category-linker-{input_args.expt_no:03d}'
     os.makedirs(f'{output_dir}/raw_data', exist_ok=True)
 
-    cat_ids, cat_txt = load_raw_file('/data/datasets/msmarco/XC/raw_data/category-gpt.raw.csv')
-    
-    # trn_ids, trn_txt = load_raw_file(f'/data/datasets/{input_args.dataset}/XC/raw_data/train.raw.txt')
-    # trn_cat = retain_topk(sp.load_npz(f'{output_dir}/predictions/train_predictions_{input_args.dataset}.npz'), k=5)
+    meta_info_numbers = {1: '', 2: '_conflated', 3: '_conflated-001', 4: '_conflated-002'}
 
-    # trn_cat_txt = get_data_category(trn_cat, trn_txt, cat_txt)
-    # save_raw_file(f'{output_dir}/raw_data/train_ngame-gpt-category-linker_{input_args.dataset}.raw.csv', trn_ids, trn_cat_txt)
-    
-    tst_ids, tst_txt = load_raw_file(f'/data/datasets/{input_args.dataset}/XC/raw_data/test.raw.csv')
-    tst_cat = retain_topk(sp.load_npz(f'{output_dir}/predictions/test_predictions_{input_args.dataset}.npz'), k=3)
+    def apply_threshold(mat, args):
+        if input_args.abs_thresh is not None: 
+            mat = Filter.threshold(mat, t=args.abs_thresh)
+        if input_args.diff_thresh: 
+            mat = Filter.difference(mat, t=args.diff_thresh)
+        return mat
 
-    tst_cat = Filter.threshold(tst_cat, t=0.2)
-    tst_cat = Filter.difference(tst_cat, t=0.1)
+    if input_args.type == "raw":
+        # Load metadata
+        cat_ids, cat_txt = load_raw_file(f'/data/datasets/msmarco/XC/raw_data/category-gpt{meta_info_numbers[input_args.expt_no]}.raw.csv')
+        
+        # Train dataset
+        if input_args.dataset == "msmarco":
+            trn_ids, trn_txt = load_raw_file(f'/data/datasets/{input_args.dataset}/XC/raw_data/train.raw.txt')
+            trn_cat = retain_topk(sp.load_npz(f'{output_dir}/predictions/train_predictions.npz'), k=5)
+            trn_cat = apply_threshold(tst_cat, input_args)
 
-    tst_cat_txt = get_data_category(tst_cat, tst_txt, cat_txt)
-    fname = f'{output_dir}/raw_data/test_ngame-gpt-category-linker_{input_args.dataset}.raw.csv'
-    save_raw_file(fname, tst_ids, tst_cat_txt)
+            trn_cat_txt = get_data_category(trn_cat, trn_txt, cat_txt)
+            save_raw_file(f'{output_dir}/raw_data/train_ngame-gpt-category-linker_{input_args.dataset}.raw.csv', trn_ids, trn_cat_txt)
+        
+        # Test dataset
+        tst_ids, tst_txt = load_raw_file(f'/data/datasets/{input_args.dataset}/XC/raw_data/test.raw.csv')
+        if input_args.dataset == "msmarco":
+            tst_cat = retain_topk(sp.load_npz(f'{output_dir}/predictions/test_predictions.npz'), k=5)
+        else:
+            tst_cat = retain_topk(sp.load_npz(f'{output_dir}/predictions/test_predictions_{input_args.dataset}.npz'), k=5)
+        tst_cat = apply_threshold(tst_cat, input_args)
 
-    # with open('configs/data-ngame-category-linker.json') as file:
-    #     early_fusion_config = json.load(file)
-    # 
-    # config_file = f'/data/datasets/{input_args.dataset}/XC/configs/data.json'
-    # with open(config_file) as file:
-    #     config = json.load(file)
+        tst_cat_txt = get_data_category(tst_cat, tst_txt, cat_txt)
+        fname = f'{output_dir}/raw_data/test_ngame-gpt-category-linker_{input_args.dataset}.raw.csv'
+        save_raw_file(fname, tst_ids, tst_cat_txt)
 
-    # early_fusion_config['data-ngame-category-linker']['path'].pop('train', None)
-    # early_fusion_config['data-ngame-category-linker']['path']['test'] = config['data']['path']['test']
-    # early_fusion_config['data-ngame-category-linker']['path']['test']['data_info'] = fname
+    elif input_args.type == "config":
 
-    # early_fusion_config['data-ngame-category-linker']['parameters']['main_max_lbl_sequence_length'] = 512
-    # 
-    # config_key = f'{input_args.dataset}-data-ngame-category-linker'
-    # with open(f'configs/{config_key}.json', 'w') as file:
-    #     json.dump({config_key: early_fusion_config['data-ngame-category-linker']}, file, indent=4)
+        with open('configs/msmarco_data-ngame-category-linker.json') as file:
+            early_fusion_config = json.load(file)
+        
+        config_file = f'/data/datasets/{input_args.dataset}/XC/configs/data.json'
+        with open(config_file) as file:
+            config = json.load(file)
+
+        fname = f'{output_dir}/raw_data/test_ngame-gpt-category-linker_{input_args.dataset}.raw.csv'
+
+        config_key = f"{input_args.dataset}_data-ngame-category-linker{meta_info_numbers[input_args.expt_no]}"
+        early_fusion_config[config_key] = early_fusion_config.pop('msmarco_data-ngame-category-linker')
+
+        early_fusion_config[config_key]['path'].pop('train', None)
+        early_fusion_config[config_key]['path']['test'] = config['data']['path']['test']
+        early_fusion_config[config_key]['path']['test']['data_info'] = fname
+
+        early_fusion_config[config_key]['parameters']['main_max_lbl_sequence_length'] = 512
+        
+        with open(f'configs/beir/{config_key}.json', 'w') as file:
+            json.dump(early_fusion_config, file, indent=4)
 

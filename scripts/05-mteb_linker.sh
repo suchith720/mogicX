@@ -51,11 +51,16 @@
 # 	cp /data/outputs/mogicX/01-msmarco-gpt-entity-linker-001/predictions/train-label_predictions_$dataset.npz /home/aiscuser/scratch1/datasets/$dataset/XC/entity-gpt_ngame_trn-lbl_X_Y_kaggle.npz
 # done
 
-# datasets="nq fiqa hotpotqa fever dbpedia quora trec-covid climate-fever scifact scidocs arguana nfcorpus"
-datasets="scidocs arguana nfcorpus"
+if [ $# -lt 1 ]
+then
+	echo "bash scripts/05-mteb_linker.sh <expt_no>" 
+	exit 1
+fi
+
+datasets="nq fiqa hotpotqa fever dbpedia quora trec-covid climate-fever scifact scidocs arguana nfcorpus"
 for dataset in $datasets
 do
 	echo $dataset : 
-	python  mogicX/47_msmarco-gpt-category-linker-mteb-inference.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ \
-		--only_test --do_test_inference --save_test_prediction --dataset $dataset --prediction_suffix $dataset 
+	python  mogicX/47_msmarco-gpt-category-linker-mteb-inference.py --only_test --do_test_inference --save_test_prediction --dataset $dataset \
+		--prediction_suffix $dataset --expt_no $1
 done

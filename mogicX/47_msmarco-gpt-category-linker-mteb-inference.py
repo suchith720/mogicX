@@ -17,11 +17,19 @@ from xcai.sdata import SXCDataset, SMainXCDataset
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 5
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-linker-01'
 
+def additional_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--expt_no', type=int, required=True)
+    return parser.parse_known_args()[0]
+    
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 20
 if __name__ == '__main__':
-    output_dir = '/data/outputs/mogicX/47_msmarco-gpt-category-linker-001'
+    extra_args = additional_args()
+    output_dir = f'/data/outputs/mogicX/47_msmarco-gpt-category-linker-{extra_args.expt_no:03d}'
 
     input_args = parse_args()
+    input_args.use_sxc_sampler = True
+    input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
 
     mname = 'sentence-transformers/msmarco-distilbert-cos-v5'
 
@@ -38,12 +46,14 @@ if __name__ == '__main__':
             n_slbl_samples=1, main_oversample=False)
 
     # category information
-    meta_info_file = "outputs/msmarco_category-gpt.joblib"
+    meta_info_numbers = {1: '', 2: '_conflated', 3: '_conflated-001', 4: '_conflated-002'}
+
+    meta_info_file = f"outputs/msmarco_category-gpt{meta_info_numbers[extra_args.expt_no]}.joblib"
     if os.path.exists(meta_info_file):
         meta_info = joblib.load(meta_info_file)
     else:
-        fname = '/data/datasets/msmarco/XC/raw_data/category-gpt.raw.csv'
-        meta_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
+        fname = f'/data/datasets/msmarco/XC/raw_data/category-gpt_{meta_info_numbers[extra_args.expt_no]}.raw.csv'
+        meta_info = Info.from_txt(fname, max_sequence_length=64, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
                 tokenization_column="input_text", use_tokenizer=True, tokenizer="sentence-transformers/msmarco-distilbert-dot-v5")
         joblib.dump(meta_info, meta_info_file)
 

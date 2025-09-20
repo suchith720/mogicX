@@ -5,49 +5,38 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-# os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
-# os.environ["NCCL_DEBUG"] = "NONE"
-# os.environ["ROCM_DISABLE_WARNINGS"] = "1"
-# os.environ["MIOPEN_LOG_LEVEL"] = "0"
+os.environ['CUDA_VISIBLE_DEVICES'] = '4,5'
 
-os.environ["NCCL_DEBUG"] = "NONE"
-os.environ["CUDNN_LOGINFO_DBG"] = "0"
-os.environ["CUDNN_LOGDEST_DBG"] = "NULL"
-os.environ["CUDNN_LOGERROR_DBG"] = "0"
-os.environ["CUDNN_LOGWARN_DBG"] = "0"
-
-import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
+import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
 from transformers import DistilBertConfig
 
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT023
+from xcai.models.distillation import TCH001, DTL003, DTLConfig
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
-os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-06'
-
-def additional_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--expt_no', type=int, required=True)
-    return parser.parse_known_args()[0]
+os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    output_dir = '/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-002'
-
-    meta_info_numbers = {1: '', 2: '_conflated', 3: '_conflated-001', 4: '_conflated-002'}
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/53_mogic_distilbert-ngame-category-linker-oracle-for-msmarco-002'
+    teacher_file = '/data/outputs/mogicX/44_distilbert-category-oracle-for-msmarco-004/teacher/'
+    neg2lbl_idx_file = '/data/datasets/msmarco/XC/mappings/neg2lbl_idx.pth'
 
     input_args = parse_args()
     input_args.use_sxc_sampler = True
     input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
-    input_args.only_test, input_args.do_test_inference = True, True
-    extra_args = additional_args()
 
-    config_file = f'configs/beir/{input_args.dataset}_data-ngame-category-linker{meta_info_numbers[extra_args.expt_no]}.json'
+    if input_args.exact:
+        config_file = 'configs/msmarco_data-ngame-category-linker_lbl_ce-negatives-topk-05_exact.json'
+    else:
+        config_file = 'configs/msmarco_data-ngame-category-linker.json'
+
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
 
     do_inference = check_inference_mode(input_args)
@@ -60,14 +49,14 @@ if __name__ == '__main__':
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
-        per_device_train_batch_size=128,
+        per_device_train_batch_size=32,
         per_device_eval_batch_size=800,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
         eval_strategy="steps",
-        eval_steps=1000,
-        save_steps=1000,
+        eval_steps=5000,
+        save_steps=5000,
         save_total_limit=5,
         num_train_epochs=50,
         predict_with_representation=True,
@@ -78,8 +67,9 @@ if __name__ == '__main__':
         warmup_steps=1000,
         weight_decay=0.01,
         learning_rate=6e-5,
-        label_names=['plbl2data_idx', 'plbl2data_data2ptr'],
-    
+        label_names=['plbl2data_idx', 'plbl2data_data2ptr', 'data_input_ids', 'data_attention_mask', 'lbl2data_input_ids', 
+            'lbl2data_attention_mask', 'lbl2data_scores', 'neg2data_input_ids', 'neg2data_attention_mask', 'neg2data_scores'],
+
         group_by_cluster=True,
         num_clustering_warmup_epochs=10,
         num_cluster_update_epochs=5,
@@ -100,13 +90,35 @@ if __name__ == '__main__':
         use_cpu_for_searching=True,
         use_cpu_for_clustering=True,
     )
+        
+    config = DTLConfig(
+        teacher_data_student_label_loss_weight=0.1,
+        student_data_teacher_label_loss_weight=0.1,
+        data_mse_loss_weight=0.1,
+        label_mse_loss_weight=0.1,
+        teacher_data_repr_name='data_repr',
+        student_data_repr_name='data_repr',
+        teacher_lbl2data_repr_name='lbl2data_repr',
+        student_lbl2data_repr_name='lbl2data_repr',
+        teacher_neg2data_repr_name='neg2data_repr',
+        student_neg2data_repr_name='neg2data_repr',
+    )
 
     def model_fn(mname):
-        model = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=False, use_encoder_parallel=True)
+        m_teacher = TCH001.from_pretrained(teacher_file, normalize=False, n_neg=None if block.train is None else block.train.dset.meta['neg_meta'].n_meta)
+        m_student = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=False, use_encoder_parallel=True)
+
+        if do_inference and not input_args.use_pretrained:
+            model = DTL003.from_pretrained(mname, m_student=m_student, m_teacher=m_teacher)
+        else:
+            model = DTL003(config, m_student=m_student, m_teacher=m_teacher)
         return model
     
     def init_fn(model): 
-        model.init_dr_head()
+        model.m_student.init_dr_head()
+        model.m_teacher.freeze_embeddings()
+        neg2lbl_idx = torch.load(neg2lbl_idx_file)
+        model.m_teacher.set_neg2lbl_idx_mapping(neg2lbl_idx)
 
     metric = PrecReclMrr(block.test.dset.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, rep_pk=[1, 3, 5, 10], 
                          rep_rk=[10, 100, 200], mk=[5, 10, 20])
@@ -115,7 +127,7 @@ if __name__ == '__main__':
 
     model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, 
                        use_pretrained=input_args.use_pretrained)
-    
+
     learn = XCLearner(
         model=model,
         args=args,
@@ -124,6 +136,6 @@ if __name__ == '__main__':
         data_collator=block.collator,
         compute_metrics=metric,
     )
-    
-    main(learn, input_args, n_lbl=block.test.dset.n_lbl)
+
+    main(learn, input_args, n_lbl=block.test.dset.n_lbl, eval_k=10, train_k=10)
     

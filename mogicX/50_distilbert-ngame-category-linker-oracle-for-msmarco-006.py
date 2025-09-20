@@ -9,32 +9,27 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
-from transformers import DistilBertConfig
-
 from xcai.basics import *
-from xcai.models.PPP0XX import DBT023
+from xcai.models.BBB0XX import BRT023
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-004'
+    output_dir = '/data/outputs/mogicX/50_bert-ngame-category-linker-oracle-for-msmarco-006'
 
     input_args = parse_args()
 
-    input_args.use_sxc_sampler = True
-    input_args.pickle_dir = "/home/aiscuser/scratch1/datasets/processed/"
-
     if input_args.exact:
-        config_file = 'configs/msmarco/data-ngame-category-linker-conflated-002_lbl_ce-negatives-topk-05_exact.json'
+        config_file = 'configs/msmarco_data-ngame-category-linker_lbl_ce-negatives-topk-05_exact.json'
     else:
-        config_file = 'configs/beir/msmarco_data-ngame-category-linker_conflated-002.json'
+        config_file = 'configs/msmarco_data-ngame-category-linker.json'
 
     config_key, fname = get_config_key(config_file)
-    mname = 'distilbert-base-uncased'
+    mname = 'google-bert/bert-large-uncased'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_{fname}_bert-large-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
 
     do_inference = check_inference_mode(input_args)
@@ -53,8 +48,8 @@ if __name__ == '__main__':
         representation_accumulation_steps=10,
         save_strategy="steps",
         eval_strategy="steps",
-        eval_steps=1000,
-        save_steps=1000,
+        eval_steps=5000,
+        save_steps=5000,
         save_total_limit=5,
         num_train_epochs=50,
         predict_with_representation=True,
@@ -89,7 +84,7 @@ if __name__ == '__main__':
     )
 
     def model_fn(mname):
-        model = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=False, use_encoder_parallel=True)
+        model = BRT023.from_pretrained(mname, normalize=False, use_layer_norm=False, use_encoder_parallel=True)
         return model
     
     def init_fn(model): 

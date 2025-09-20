@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '1,2'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -15,7 +15,7 @@ from xcai.basics import *
 from xcai.models.PPP0XX import DBT023
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
-os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-06'
+os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':

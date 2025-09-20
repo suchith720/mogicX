@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/38_oak-distilbert-for-msmarco-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -31,9 +31,9 @@ if __name__ == '__main__':
     meta_name = 'lnk'
 
     if input_args.exact:
-        config_file = '/data/datasets/msmarco/XC/configs/data_lbl_ngame-gpt-category_ce-negatives-topk-05-linker_exact.json'
+        config_file = 'configs/msmarco/data_lbl_ngame-gpt-category_ce-negatives-topk-05-linker_exact.json'
     else:
-        config_file = '/data/datasets/msmarco/XC/configs/data_lbl_ngame-gpt-category_ce-negatives-topk-05-linker.json'
+        config_file = 'configs/msmarco/data_lbl_ngame-gpt-category_ce-negatives-topk-05-linker.json'
 
     config_key, fname = get_config_key(config_file)
 
@@ -198,3 +198,4 @@ if __name__ == '__main__':
     )
 
     main(learn, input_args, n_lbl=block.test.dset.n_lbl, eval_k=10, train_k=10)
+

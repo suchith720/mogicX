@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '4,5'
+os.environ['CUDA_VISIBLE_DEVICES'] = '1,2,4,5'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -91,7 +91,7 @@ if __name__ == '__main__':
     )
         
     config = DTLConfig(
-        teacher_data_student_label_loss_weight=1.0,
+        teacher_data_student_label_loss_weight=0.1,
         student_data_teacher_label_loss_weight=0.0,
         data_mse_loss_weight=0.1,
         label_mse_loss_weight=0.0,

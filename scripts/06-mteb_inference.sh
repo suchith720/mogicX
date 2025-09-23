@@ -103,10 +103,19 @@ datasets="nq fiqa hotpotqa fever dbpedia quora trec-covid climate-fever scifact 
 # 	python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --only_test --do_test_inference --dataset $dataset --expt_no 2 >> $output_file
 # done
 
-output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-002_conflated-001.txt
+# output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-002_conflated-001.txt
+# for dataset in $datasets
+# do
+# 	echo $dataset
+# 	echo $dataset : >> $output_file
+# 	CUDA_VISIBLE_DEVICES=0,1 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --only_test --do_test_inference --dataset $dataset --expt_no 3 >> $output_file
+# done
+
+output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-003.txt
 for dataset in $datasets
 do
 	echo $dataset
 	echo $dataset : >> $output_file
-	CUDA_VISIBLE_DEVICES=0,1 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --only_test --do_test_inference --dataset $dataset --expt_no 3 >> $output_file
+	CUDA_VISIBLE_DEVICES=0,1 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --only_test --do_test_inference --dataset $dataset --expt_no 2 >> $output_file
 done
+

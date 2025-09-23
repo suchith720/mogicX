@@ -5,16 +5,20 @@ __all__ = ['PROMPT_TEMPLATE', 'make_prompt', 'load_data']
 
 # %% ../nbs/51_finetune-llama-for-category-generation.ipynb 1
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3,4,5'
+# os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3,4,5'
 os.environ['WANDB_PROJECT'] = 'mogicX_01-category-01'
 
-import torch, pandas as pd, json, numpy as np, joblib
+import torch, pandas as pd, json, numpy as np, joblib, math, argparse
 from torch.utils.data import Dataset, DataLoader
 
 from tqdm.auto import tqdm
-from peft import LoraConfig, get_peft_model
+from peft import PeftModel, LoraConfig, get_peft_model
+
+from transformers import BitsAndBytesConfig
 from transformers.tokenization_utils_base import BatchEncoding
 from transformers import AutoTokenizer, LlamaForCausalLM, Trainer, TrainingArguments
+
+from sugar.core import *
 
 # %% ../nbs/51_finetune-llama-for-category-generation.ipynb 4
 PROMPT_TEMPLATE = """<|begin_of_text|><|start_header_id|>system<|end_header_id|>
@@ -63,18 +67,22 @@ def make_prompt(passage, questions):
     
 
 # %% ../nbs/51_finetune-llama-for-category-generation.ipynb 17
-def create_data(input_file, category_file):
+def create_data(input_file, category_file=None):
     df = pd.read_csv(input_file, sep='\t', header=None, names=['identifier', 'passage', 'questions'])
     
-    with open(category_file) as file:
-        categories = json.load(file)
-    categories = [json.dumps(categories[idx]) if idx in categories else None  for idx in map(str, df['identifier'])]
-    df['categories'] = categories
-    
-    idx = np.where(~df['categories'].isna())[0]
-    return df.iloc[idx]
+    if category_file is not None:
+        with open(category_file) as file:
+            categories = json.load(file)
+        categories = [json.dumps(categories[idx]) if idx in categories else None  for idx in map(str, df['identifier'])]
+        df['categories'] = categories
+        
+        idx = np.where(~df['categories'].isna())[0]
+        return df.iloc[idx]
 
-def load_data(input_file, category_file, data_file):
+    return df
+
+
+def load_data(input_file, data_file, category_file=None):
     if os.path.exists(data_file):
         df = pd.read_csv(data_file)
     else:
@@ -82,7 +90,8 @@ def load_data(input_file, category_file, data_file):
         df.to_csv(data_file, index=False)
     return df
 
-def tokenize_data(df, tokz, bsz=1024, max_passage_chars=650, max_question_chars=100, max_length=512):
+
+def tokenize_train_data(df, tokz, bsz=1024, max_passage_chars=650, max_question_chars=100, max_length=512):
     data = BatchEncoding() 
 
     for idx in tqdm(range(0, df.shape[0], bsz)):
@@ -114,6 +123,28 @@ def tokenize_data(df, tokz, bsz=1024, max_passage_chars=650, max_question_chars=
 
     return data
 
+
+def tokenize_test_data(df, tokz, bsz=1024, max_passage_chars=650, max_question_chars=100, max_length=512):
+    data = BatchEncoding() 
+
+    for idx in tqdm(range(0, df.shape[0], bsz)):
+        passage, questions = df["passage"][idx:idx+bsz], df["questions"][idx:idx+bsz]
+        passage = [o[:max_passage_chars] if isinstance(o, str) else o for o in passage]
+        questions = [o[:max_question_chars] if isinstance(o, str) else o for o in questions]
+
+        prompts = [make_prompt(p, q) for p,q in zip(passage, questions)]
+
+        inputs = tokz(prompts, max_length=max_length, truncation=True, padding="max_length", return_tensors="pt")
+
+        for k in inputs:
+            o = data.setdefault(k, [])
+            o.append(inputs[k])
+
+    for k in data: data[k] = torch.vstack(data[k])
+
+    return data
+
+
 def train_test_split(data, pct=0.9):
     n_data = data['labels'].shape[0]
     idx = torch.randperm(n_data)
@@ -123,6 +154,7 @@ def train_test_split(data, pct=0.9):
     tst_data = {k:data[k][idx[n_trn:]] for k in data}
 
     return trn_data, tst_data 
+
 
 class CategoryDataset(Dataset):
     def __init__(self, data):
@@ -135,32 +167,44 @@ class CategoryDataset(Dataset):
         return {k: self.data[k][idx] for k in self.data}
 
 
-if __name__ == "__main__":
-    TYPE = "train"
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--index', type=int, default=None)
+    parser.add_argument('--parts', type=int, default=None)
+    parser.add_argument('--type', type=str, default="infer")
+    parser.add_argument('--bit', type=int, default=16)
+    return parser.parse_known_args()[0]
 
-    input_file = "/data/share/to_deepak/msmarco/label_train_exact.raw.txt"
-    category_file = "/data/share/from_deepak/msmarco_category_oracle/all_categories.json"
-    data_file = "/data/share/from_deepak/msmarco_category_oracle/llama_train.csv"
+
+if __name__ == "__main__":
+    args = parse_args()
+
+    # TYPE = "infer"
+    TYPE = args.type
 
     mname = "meta-llama/Llama-3.1-8B"
     
     tokz = AutoTokenizer.from_pretrained(mname)
     tokz.add_special_tokens({"pad_token": "<|reserved_special_token_241|>"})
     
-    if TYPE == "tokenize":
+    if TYPE == "tokenize_train":
+        input_file = "/data/share/to_deepak/msmarco/label_train_exact.raw.txt"
+        category_file = "/data/share/from_deepak/msmarco_category_oracle/all_categories.json"
+        data_file = "/data/share/from_deepak/msmarco_category_oracle/llama_train.csv"
+
         bsz = 1024
 
-        df = load_data(input_file, category_file, data_file)
+        df = load_data(input_file, data_file, category_file)
 
-        data = tokenize_data(df, tokz, bsz=1024, max_passage_chars=450, max_question_chars=80, max_length=512)
+        data = tokenize_train_data(df, tokz, bsz=1024, max_passage_chars=450, max_question_chars=80, max_length=512)
 
-        fname = "outputs/51_finetune-llama-for-category-generation.joblib"
+        fname = "outputs/51_finetune-llama-for-category-generation-train-data.joblib"
         joblib.dump(data, fname)
 
     elif TYPE == "train":
         output_dir = "/home/aiscuser/scratch1/outputs/mogicX/51_finetune-llama-for-category-generation"
 
-        fname = "outputs/51_finetune-llama-for-category-generation.joblib"
+        fname = "outputs/51_finetune-llama-for-category-generation-train-data.joblib"
         data = joblib.load(fname)
 
         train_data, valid_data = train_test_split(data)
@@ -211,6 +255,104 @@ if __name__ == "__main__":
 
         model.save_pretrained(os.path.join(args.output_dir, "final_peft-adapters"))
         tokz.save_pretrained(f'{args.output_dir}/tokenizer/')
+
+    elif TYPE == "tokenize_test":
+        input_file = "/data/share/to_deepak/msmarco/ce-scores_train.raw.txt"
+        data_file = "/data/share/from_deepak/msmarco_category_oracle/llama_inference.csv"
+
+        bsz = 1024
+
+        df = load_data(input_file, data_file)
+
+        data = tokenize_test_data(df, tokz, bsz=1024, max_passage_chars=450, max_question_chars=80, max_length=512)
+        data['identifier'] = df['identifier'].tolist()
+
+        fname = "outputs/51_finetune-llama-for-category-generation-inference-data.joblib"
+        joblib.dump(data, fname)
+
+    elif TYPE == 'infer':
+        output_dir = "/home/aiscuser/scratch1/outputs/mogicX/51_finetune-llama-for-category-generation"
+
+        fname = "outputs/51_finetune-llama-for-category-generation-inference-data.joblib"
+        data = joblib.load(fname)
+
+        save_dir = "outputs/51_finetune-llama-for-category-generation"
+        os.makedirs(save_dir, exist_ok=True)
+
+        # Select the part
+        if args.parts is not None and args.index is not None:
+            assert args.index < args.parts
+
+            n_data = len(data["input_ids"])
+            n_data_per_part = math.ceil(n_data / args.parts)
+
+            i, j = args.index * n_data_per_part, (args.index + 1) * n_data_per_part
+            for k in data: data[k] = data[k][i:j]
+
+        # Load model
+        if args.bit == 16:
+            kwargs = {'torch_dtype': torch.float16}
+        elif args.bit == 8:
+            kwargs = {'load_in_8bit': True}
+        elif args.bit == 4:
+            bnb_config = BitsAndBytesConfig(
+                load_in_4bit=True,
+                bnb_4bit_use_double_quant=True,
+                bnb_4bit_quant_type="nf4",   # or "fp4"
+                bnb_4bit_compute_dtype="float16"  # could also try "bfloat16" on supported GPUs
+            )
+            kwargs = {'quantization_config': bnb_config}
+
+        base_model = LlamaForCausalLM.from_pretrained(mname, device_map="auto", **kwargs)
+        model = PeftModel.from_pretrained(base_model, os.path.join(output_dir, "final_peft-adapters"))
+
+        # Inference loop
+        bsz, max_new_tokens = 128, 128
+        num_accumulation_step = 50_000
+        
+        n_file, all_ids, all_outputs = 0, [], []
+        for steps, i in enumerate(tqdm(range(0, len(data["input_ids"]), bsz))):
+            batch_input_ids = data["input_ids"][i:i+bsz].to(model.device)
+            batch_attention_mask = data["attention_mask"][i:i+bsz].to(model.device)
+            batch_ids = data['identifier'][i:i+bsz]
+        
+            outputs = model.generate(
+                input_ids=batch_input_ids,
+                attention_mask=batch_attention_mask,
+                max_new_tokens=max_new_tokens,
+                do_sample=False
+            )
+        
+            all_ids.extend(batch_ids)
+            all_outputs.append(outputs[:, -max_new_tokens:])
+
+            if num_accumulation_step is not None and (steps + 1) % num_accumulation_step == 0:
+                outputs = torch.vstack(all_outputs)
+                all_texts = tokz.batch_decode(outputs, skip_special_tokens=True)
+
+                output_file = f"{save_dir}/category-{args.index:03d}-{n_file}.csv"
+                save_raw_file(output_file, all_ids, all_texts)
+                n_file += 1
+
+                all_ids.clear(); all_outputs.clear()
+
+        if len(all_outputs):
+            outputs = torch.vstack(all_outputs)
+            all_texts = tokz.batch_decode(outputs, skip_special_tokens=True)
+
+            output_file = f"{save_dir}/category-{args.index:03d}-{n_file}.csv"
+            save_raw_file(output_file, all_ids, all_texts)
+            n_file += 1
+            
+        # Combine generations
+        keys, values = [], []
+        for i in range(n_file):
+            output_file = f"{save_dir}/category-{args.index:03d}-{i}.csv"
+            k, v = load_raw_file(output_file)
+            keys.extend(k); values.extend(v)
+
+        final_output_file = f"{save_dir}/category-{args.index:03d}.csv"
+        save_raw_file(final_output_file, keys, values) 
 
     elif TYPE == "test":
         model = LlamaForCausalLM.from_pretrained(mname, torch_dtype=torch.float16, device_map="auto")

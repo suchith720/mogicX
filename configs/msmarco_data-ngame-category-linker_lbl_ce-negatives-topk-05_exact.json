@@ -2,19 +2,19 @@
     "msmarco_data-ngame-category-linker_lbl_ce-negatives-topk-05_exact": {
         "path": {
             "train": {
-                "data_lbl": "/data/datasets/msmarco/XC//trn_X_Y_ce-exact.npz",
-                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/train_ngame-gpt-category-linker.raw.csv",
-                "lbl_info": "/data/datasets/msmarco/XC//raw_data/label_exact.raw.txt",
+                "data_lbl": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//trn_X_Y_ce-exact.npz",
+                "data_info": "/home/aiscuser/b-sprabhu/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/train_ngame-gpt-category-linker.raw.csv",
+                "lbl_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/label_exact.raw.txt",
                 "neg_meta": {
                     "prefix": "neg",
-                    "data_meta": "/data/datasets/msmarco/XC/ce-negatives-topk-05_trn_X_Y.npz",
-                    "meta_info": "/data/datasets/msmarco/XC//raw_data/ce-scores.raw.txt"
+                    "data_meta": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC/ce-negatives-topk-05_trn_X_Y.npz",
+                    "meta_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/ce-scores.raw.txt"
                 }
             },
             "test": {
-                "data_lbl": "/data/datasets/msmarco/XC//tst_X_Y_exact.npz",
-                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/test_ngame-gpt-category-linker.raw.csv",
-                "lbl_info": "/data/datasets/msmarco/XC//raw_data/label_exact.raw.txt"
+                "data_lbl": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//tst_X_Y_exact.npz",
+                "data_info": "/home/aiscuser/b-sprabhu/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/test_ngame-gpt-category-linker.raw.csv",
+                "lbl_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/label_exact.raw.txt"
             }
         },
         "parameters": {

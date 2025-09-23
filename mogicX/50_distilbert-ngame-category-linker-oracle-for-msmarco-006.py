@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
+os.environ['CUDA_VISIBLE_DEVICES'] = '4,5'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -17,9 +17,12 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    output_dir = '/data/outputs/mogicX/50_bert-ngame-category-linker-oracle-for-msmarco-006'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/50_bert-ngame-category-linker-oracle-for-msmarco-006'
 
     input_args = parse_args()
+
+    input_args.use_sxc_sampler = True
+    input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/' 
 
     if input_args.exact:
         config_file = 'configs/msmarco_data-ngame-category-linker_lbl_ce-negatives-topk-05_exact.json'
@@ -37,12 +40,12 @@ if __name__ == '__main__':
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
                         only_test=input_args.only_test, main_oversample=True, meta_oversample=True, return_scores=True, 
-                        n_slbl_samples=1, n_sdata_meta_samples=1)
+                        n_slbl_samples=1, n_sdata_meta_samples=1, tokenizer=mname)
 
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
-        per_device_train_batch_size=128,
+        per_device_train_batch_size=32,
         per_device_eval_batch_size=800,
         representation_num_beams=200,
         representation_accumulation_steps=10,
@@ -59,7 +62,7 @@ if __name__ == '__main__':
         adam_epsilon=1e-6,
         warmup_steps=1000,
         weight_decay=0.01,
-        learning_rate=6e-5,
+        learning_rate=2e-6,
         label_names=['plbl2data_idx', 'plbl2data_data2ptr'],
     
         group_by_cluster=True,
@@ -107,5 +110,5 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=block.test.dset.n_lbl)
+    main(learn, input_args, n_lbl=block.test.dset.n_lbl, eval_k=10, train_k=10)
     

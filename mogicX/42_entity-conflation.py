@@ -234,18 +234,18 @@ def cluster_length_stats(components):
     lengths = np.array([len(o) for o in components.values() if len(o) > 1])
     print(f'Number of clusters: {len(lengths)}', end='\n\n')
     with pd.option_context('display.precision', 3):
-        print(pd.DataFrame(lengths).describe().T)
+        print(pd.DataFrame(lengths).describe().T.to_dict())
 
 def _matrix_stats(mat, label='matrix'):
     print(label)
     stats = matrix_stats(mat)
     with pd.option_context('display.precision', 3, "display.max_columns", None):
-        print(pd.DataFrame([stats]))
+        print(pd.DataFrame([stats]).to_dict())
 
     print('- label frequency: ')
     lbl_freq = mat.getnnz(axis=0)
     with pd.option_context('display.precision', 3):
-        print(pd.DataFrame(lbl_freq).describe().T)
+        print(pd.DataFrame(lbl_freq).describe().T.to_dict())
 
 # %% ../nbs/42_entity-conflation.ipynb 44
 def get_conflated_path(fname:str, output_dir:Optional[str]=None, output_prefix:Optional[str]=''):

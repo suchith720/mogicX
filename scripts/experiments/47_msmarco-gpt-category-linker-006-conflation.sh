@@ -1,0 +1,72 @@
+#!/bin/bash
+
+mname=47_msmarco-gpt-category-linker-006
+output_dir=/data/outputs/mogicX/$mname
+
+trn_file="/data/datasets/msmarco/XC/category-gpt-linker_trn_X_Y_conflated-001.npz"
+tst_file="/data/datasets/msmarco/XC/category-gpt-linker_tst_X_Y_conflated-001.npz"
+lbl_file="/data/datasets/msmarco/XC/raw_data/category-gpt-linker_conflated-001.raw.csv"
+
+# pred_file=$output_dir/predictions/test_predictions.npz
+pred_file=$output_dir/predictions/train_predictions.npz
+embed_file=$output_dir/predictions/label_repr.pth
+
+TYPE="final"
+NUMBER=001
+
+if [ $TYPE == "experiment" ]
+then
+	output_dir=outputs/$mname
+	mkdir -p $output_dir
+	n=$(ls $output_dir | wc -l); ((n++)); n=$(printf "%03d" $n)
+	output_dir=$output_dir/conflation_$n
+
+	echo $output_dir
+	
+	python mogicX/42_entity-conflation.py --pred_file $pred_file \
+		--lbl_info_file $lbl_file \
+		--trn_file $trn_file \
+		--tst_file $tst_file \
+		--embed_file $embed_file \
+		--output_dir $output_dir \
+		--topk 3 \
+		--pred_score_thresh 0.2 \
+		--diff_thresh 0.2 \
+		--batch_size 1024 \
+		--freq_thresh 25 \
+		--sim_score_thresh 25 \
+		--min_size_thresh 2 \
+		--max_size_thresh 100 \
+		--type concat \
+		--print_stats
+	
+	if [ -d $output_dir ]
+	then
+		fname=$(basename $lbl_file)
+		lbl_file=$output_dir/raw_data/$fname
+		grep ' || ' $lbl_file >> $output_dir/conflations.txt
+		echo $output_dir/conflations.txt
+	fi
+
+elif [ $TYPE == "final" ]
+then
+	if [ $NUMBER == "001" ]
+	then
+		python mogicX/42_entity-conflation.py --pred_file $pred_file \
+			--lbl_info_file $lbl_file \
+			--trn_file $trn_file \
+			--tst_file $tst_file \
+			--embed_file $embed_file \
+			--topk 3 \
+			--pred_score_thresh 0.2 \
+			--diff_thresh 0.2 \
+			--batch_size 1024 \
+			--freq_thresh 25 \
+			--sim_score_thresh 25 \
+			--min_size_thresh 2 \
+			--max_size_thresh 100 \
+			--type mid \
+			--output_prefix 001 \
+			--print_stats
+	fi
+fi

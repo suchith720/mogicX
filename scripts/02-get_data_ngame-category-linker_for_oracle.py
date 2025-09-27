@@ -33,10 +33,25 @@ def parse_args():
 if __name__ == '__main__':
     input_args = parse_args()
 
-    output_dir = f'/data/outputs/mogicX/47_msmarco-gpt-category-linker-{input_args.expt_no:03d}'
+    TYPE = "dataset"
+
+    output_dir = (
+        f'/data/outputs/mogicX/47_msmarco-gpt-category-linker-{input_args.expt_no:03d}' 
+        if TYPE == 'prediction' else 
+        f'/data/datasets/{input_args.dataset}/XC/'
+    )
     os.makedirs(f'{output_dir}/raw_data', exist_ok=True)
 
-    meta_info_numbers = {1: '', 2: '_conflated', 3: '_conflated-001', 4: '_conflated-002'}
+    prefix = 'category-gpt'
+    meta_info_numbers = {
+        0: f'{prefix}-linker',
+        1: f'{prefix}', 
+        2: f'{prefix}_conflated', 
+        3: f'{prefix}_conflated-001', 
+        4: f'{prefix}_conflated-002', 
+        7: f'{prefix}-linker_conflated-001_conflated-001', 
+        8: f'{prefix}-linker_conflated-001_conflated-001', 
+    }
 
     def apply_threshold(mat, args):
         if input_args.abs_thresh is not None: 
@@ -47,28 +62,47 @@ if __name__ == '__main__':
 
     if input_args.type == "raw":
         # Load metadata
-        cat_ids, cat_txt = load_raw_file(f'/data/datasets/msmarco/XC/raw_data/category-gpt{meta_info_numbers[input_args.expt_no]}.raw.csv')
+        cat_ids, cat_txt = load_raw_file(f'/data/datasets/msmarco/XC/raw_data/{meta_info_numbers[input_args.expt_no]}.raw.csv')
         
         # Train dataset
         if input_args.dataset == "msmarco":
             trn_ids, trn_txt = load_raw_file(f'/data/datasets/{input_args.dataset}/XC/raw_data/train.raw.txt')
-            trn_cat = retain_topk(sp.load_npz(f'{output_dir}/predictions/train_predictions.npz'), k=5)
+            fname = (
+                f'{output_dir}/predictions/train_predictions.npz' 
+                if TYPE == 'prediction' else 
+                f'{output_dir}/{meta_info_numbers[input_args.expt_no]}_trn_X_Y.npz'
+            )
+            trn_cat = retain_topk(sp.load_npz(fname), k=5)
             trn_cat = apply_threshold(trn_cat, input_args)
 
             trn_cat_txt = get_data_category(trn_cat, trn_txt, cat_txt)
-            save_raw_file(f'{output_dir}/raw_data/train_ngame-gpt-category-linker_{input_args.dataset}.raw.csv', trn_ids, trn_cat_txt)
+            fname = (
+                f'{output_dir}/raw_data/train_{meta_info_numbers[input_args.expt_no]}_{input_args.dataset}.raw.csv'
+                if TYPE == 'prediction' else
+                f'{output_dir}/raw_data/train_{meta_info_numbers[input_args.expt_no]}.raw.csv'
+            )
+            save_raw_file(fname, trn_ids, trn_cat_txt)
         
         # Test dataset
+        fname = (
+            f'{output_dir}/predictions/test_predictions_{input_args.dataset}.npz'
+            if TYPE == 'prediction' else 
+            f'{output_dir}/{meta_info_numbers[input_args.expt_no]}_tst_X_Y.npz'
+        )
         if input_args.dataset == "msmarco":
             tst_ids, tst_txt = load_raw_file(f'/data/datasets/{input_args.dataset}/XC/raw_data/test.raw.txt')
-            tst_cat = retain_topk(sp.load_npz(f'{output_dir}/predictions/test_predictions.npz'), k=5)
+            tst_cat = retain_topk(sp.load_npz(fname), k=5)
         else:
             tst_ids, tst_txt = load_raw_file(f'/data/datasets/{input_args.dataset}/XC/raw_data/test.raw.csv')
-            tst_cat = retain_topk(sp.load_npz(f'{output_dir}/predictions/test_predictions_{input_args.dataset}.npz'), k=5)
+            tst_cat = retain_topk(sp.load_npz(fname), k=5)
         tst_cat = apply_threshold(tst_cat, input_args)
 
         tst_cat_txt = get_data_category(tst_cat, tst_txt, cat_txt)
-        fname = f'{output_dir}/raw_data/test_ngame-gpt-category-linker_{input_args.dataset}.raw.csv'
+        fname = (
+            f'{output_dir}/raw_data/test_{meta_info_numbers[input_args.expt_no]}_{input_args.dataset}.raw.csv'
+            if TYPE == 'prediction' else
+            f'{output_dir}/raw_data/test_{meta_info_numbers[input_args.expt_no]}.raw.csv'
+        )
         save_raw_file(fname, tst_ids, tst_cat_txt)
 
     elif input_args.type == "config":
@@ -80,15 +114,14 @@ if __name__ == '__main__':
         with open(config_file) as file:
             config = json.load(file)
 
-        fname = f'{output_dir}/raw_data/test_ngame-gpt-category-linker_{input_args.dataset}.raw.csv'
+        fname = f'{output_dir}/raw_data/test_{meta_info_numbers[input_args.expt_no]}_{input_args.dataset}.raw.csv'
 
-        config_key = f"{input_args.dataset}_data-ngame-category-linker{meta_info_numbers[input_args.expt_no]}"
+        config_key = f"{input_args.dataset}_data-{meta_info_numbers[input_args.expt_no]}"
+
         early_fusion_config[config_key] = early_fusion_config.pop('msmarco_data-ngame-category-linker')
-
         early_fusion_config[config_key]['path'].pop('train', None)
         early_fusion_config[config_key]['path']['test'] = config['data']['path']['test']
         early_fusion_config[config_key]['path']['test']['data_info'] = fname
-
         early_fusion_config[config_key]['parameters']['main_max_lbl_sequence_length'] = 512
         
         with open(f'configs/beir/{config_key}.json', 'w') as file:

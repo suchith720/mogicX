@@ -8,7 +8,7 @@ if [ $TYPE == "001" ]
 then
 	if [ $# -lt 1 ]
 	then
-		echo bash scripts/04-create_mteb_data-ngame-category-linker_config.sh "<expt_no>"
+		echo bash scripts/04-create_mteb_early-fusion_config.sh "<expt_no>"
 		exit 1
 	fi
 

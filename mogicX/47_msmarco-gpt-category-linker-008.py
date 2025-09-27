@@ -5,38 +5,31 @@ __all__ = []
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 3
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '4,5'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT009
 
-from xcai.sdata import SXCDataset, SMainXCDataset
-
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 5
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-linker-01'
 
-def additional_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--expt_no', type=int, required=True)
-    return parser.parse_known_args()[0]
-    
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 20
 if __name__ == '__main__':
-    extra_args = additional_args()
-    output_dir = f'/data/outputs/mogicX/47_msmarco-gpt-category-linker-{extra_args.expt_no:03d}'
+    output_dir = '/data/outputs/mogicX/47_msmarco-gpt-category-linker-008'
 
     input_args = parse_args()
+
     input_args.use_sxc_sampler = True
     input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
 
-    mname = 'sentence-transformers/msmarco-distilbert-cos-v5'
-
-    config_file = f'/data/datasets/{input_args.dataset}/XC/configs/data.json'
+    config_file = '/data/datasets/msmarco/XC/configs/data_gpt-category-linker_conflated-001_conflated-001.json'
     config_key, fname = get_config_key(config_file)
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    mname = 'sentence-transformers/msmarco-distilbert-cos-v5'
+
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
 
     do_inference = check_inference_mode(input_args)
@@ -45,21 +38,16 @@ if __name__ == '__main__':
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test, 
             n_slbl_samples=1, main_oversample=False)
 
-    # category information
-    meta_info_numbers = {1: '', 2: '_conflated', 3: '_conflated-001', 4: '_conflated-002', 7: '-linker_conflated-001_conflated-001', 
-            8: '-linker_conflated-001_conflated-001'}
+    if do_inference: 
+        train_dset, test_dset = block.train.dset, block.test.dset
+    else: 
+        train_dset = block.train.dset.get_valid_dset()
+        test_dset = block.test.dset.get_valid_dset()
 
-    meta_info_file = f"outputs/msmarco_category-gpt{meta_info_numbers[extra_args.expt_no]}.joblib"
-    if os.path.exists(meta_info_file):
-        meta_info = joblib.load(meta_info_file)
-    else:
-        fname = f'/data/datasets/msmarco/XC/raw_data/category-gpt{meta_info_numbers[extra_args.expt_no]}.raw.csv'
-        meta_info = Info.from_txt(fname, max_sequence_length=64, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
-                tokenization_column="input_text", use_tokenizer=True, tokenizer="sentence-transformers/msmarco-distilbert-dot-v5")
-        joblib.dump(meta_info, meta_info_file)
-
-    mteb_dset = SXCDataset(SMainXCDataset(data_info=block.test.dset.data.data_info, lbl_info=meta_info))
-    # category information
+        n_data = len(train_dset)
+        n_trn = int(0.5 * n_data)
+        idx = np.random.permutation(n_data)[:n_trn]
+        train_dset = train_dset._getitems(idx)
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -70,8 +58,8 @@ if __name__ == '__main__':
         representation_accumulation_steps=10,
         save_strategy="steps",
         eval_strategy="steps",
-        eval_steps=1000,
-        save_steps=1000,
+        eval_steps=5000,
+        save_steps=5000,
         save_total_limit=5,
         num_train_epochs=300,
         predict_with_representation=True,
@@ -108,15 +96,19 @@ if __name__ == '__main__':
     def init_fn(model): 
         model.init_dr_head()
 
+    metric = PrecReclMrr(test_dset.data.n_lbl, test_dset.data.data_lbl_filterer, prop=train_dset.data.data_lbl, 
+            pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
+
     model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
     
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=mteb_dset,
-        eval_dataset=mteb_dset,
+        train_dataset=train_dset,
+        eval_dataset=test_dset,
         data_collator=block.collator,
+        compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=mteb_dset.n_lbl, eval_k=10, train_k=10)
+    main(learn, input_args, n_lbl=test_dset.data.n_lbl, eval_k=10, train_k=10)
     

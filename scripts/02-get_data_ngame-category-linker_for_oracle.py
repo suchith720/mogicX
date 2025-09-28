@@ -33,7 +33,7 @@ def parse_args():
 if __name__ == '__main__':
     input_args = parse_args()
 
-    TYPE = "dataset"
+    TYPE = "prediction"
 
     output_dir = (
         f'/data/outputs/mogicX/47_msmarco-gpt-category-linker-{input_args.expt_no:03d}' 
@@ -51,6 +51,7 @@ if __name__ == '__main__':
         4: f'{prefix}_conflated-002', 
         7: f'{prefix}-linker_conflated-001_conflated-001', 
         8: f'{prefix}-linker_conflated-001_conflated-001', 
+        9: f'{prefix}-linker_conflated-001_conflated-001', 
     }
 
     def apply_threshold(mat, args):
@@ -85,7 +86,11 @@ if __name__ == '__main__':
         
         # Test dataset
         fname = (
-            f'{output_dir}/predictions/test_predictions_{input_args.dataset}.npz'
+            (
+                f'{output_dir}/predictions/test_predictions.npz' 
+                if input_args.dataset == "msmarco" else 
+                f'{output_dir}/predictions/test_predictions_{input_args.dataset}.npz'
+            )
             if TYPE == 'prediction' else 
             f'{output_dir}/{meta_info_numbers[input_args.expt_no]}_tst_X_Y.npz'
         )
@@ -116,7 +121,7 @@ if __name__ == '__main__':
 
         fname = f'{output_dir}/raw_data/test_{meta_info_numbers[input_args.expt_no]}_{input_args.dataset}.raw.csv'
 
-        config_key = f"{input_args.dataset}_data-{meta_info_numbers[input_args.expt_no]}"
+        config_key = f"{input_args.dataset}_data-{meta_info_numbers[input_args.expt_no]}_{input_args.expt_no:03d}"
 
         early_fusion_config[config_key] = early_fusion_config.pop('msmarco_data-ngame-category-linker')
         early_fusion_config[config_key]['path'].pop('train', None)

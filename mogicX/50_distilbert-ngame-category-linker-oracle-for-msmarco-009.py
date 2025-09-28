@@ -5,47 +5,35 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ["NCCL_DEBUG"] = "NONE"
-os.environ["CUDNN_LOGINFO_DBG"] = "0"
-os.environ["CUDNN_LOGDEST_DBG"] = "NULL"
-os.environ["CUDNN_LOGERROR_DBG"] = "0"
-os.environ["CUDNN_LOGWARN_DBG"] = "0"
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 
-import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
+import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
+
+from transformers import DistilBertConfig
 
 from xcai.basics import *
-from xcai.models.BBB0XX import BRT023
+from xcai.models.PPP0XX import DBT023
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
 
-def additional_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--expt_no', type=int, required=True)
-    return parser.parse_known_args()[0]
-
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    extra_args = additional_args()
-    model_names = {5: 'google-bert/bert-base-uncased', 6: 'google-bert/bert-large-uncased'}
-
-    # output_dir = f'/home/aiscuser/scratch1/outputs/mogicX/50_bert-ngame-category-linker-oracle-for-msmarco-{extra_args.expt_no:03d}'
-    output_dir = f'/data/outputs/mogicX/50_bert-ngame-category-linker-oracle-for-msmarco-{extra_args.expt_no:03d}'
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-009'
 
     input_args = parse_args()
-
-    input_args.only_test = True
-    input_args.do_test_inference = True
-
     input_args.use_sxc_sampler = True
-    input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/' 
+    input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
 
-    config_file = f'configs/beir/{input_args.dataset}-data-ngame-category-linker.json'
+    if input_args.exact:
+        config_file = 'configs/msmarco_data-gpt-category-linker-ngame-linker_lbl_ce-negatives-topk-05-conflated-001-conflated-001-009_exact.json'
+    else:
+        config_file = 'configs/beir/msmarco_data-gpt-category-linker-ngame-linker_conflated-001_conflated-001_009.json'
+
     config_key, fname = get_config_key(config_file)
-    mname = model_names[extra_args.expt_no] 
+    mname = 'distilbert-base-uncased'
 
-    file_mname = mname.split('/')[1]
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_{fname}_{file_mname}', input_args.use_sxc_sampler, 
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
 
     do_inference = check_inference_mode(input_args)
@@ -53,12 +41,12 @@ if __name__ == '__main__':
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
                         only_test=input_args.only_test, main_oversample=True, meta_oversample=True, return_scores=True, 
-                        n_slbl_samples=1, n_sdata_meta_samples=1, tokenizer=mname)
+                        n_slbl_samples=1, n_sdata_meta_samples=1)
 
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
-        per_device_train_batch_size=64,
+        per_device_train_batch_size=128,
         per_device_eval_batch_size=800,
         representation_num_beams=200,
         representation_accumulation_steps=10,
@@ -100,7 +88,7 @@ if __name__ == '__main__':
     )
 
     def model_fn(mname):
-        model = BRT023.from_pretrained(mname, normalize=False, use_layer_norm=False, use_encoder_parallel=True)
+        model = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=False, use_encoder_parallel=True)
         return model
     
     def init_fn(model): 

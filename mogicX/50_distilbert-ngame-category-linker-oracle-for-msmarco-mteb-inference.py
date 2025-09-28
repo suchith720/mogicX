@@ -9,7 +9,6 @@ import os
 # os.environ["NCCL_DEBUG"] = "NONE"
 # os.environ["ROCM_DISABLE_WARNINGS"] = "1"
 # os.environ["MIOPEN_LOG_LEVEL"] = "0"
-
 os.environ["NCCL_DEBUG"] = "NONE"
 os.environ["CUDNN_LOGINFO_DBG"] = "0"
 os.environ["CUDNN_LOGDEST_DBG"] = "NULL"
@@ -33,21 +32,30 @@ def additional_args():
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    # output_dir = '/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-002'
+    output_numbers = {2: '003', 4: '004', 5: '002', 7: '007', 8: '008', 9: '009'}
+    meta_info_numbers = {
+        1: 'data-ngame-category-linker', 
+        2: 'data-ngame-category-linker_conflated', 
+        3: 'data-ngame-category-linker_conflated-001', 
+        4: 'data-ngame-category-linker_conflated-002', 
+        5: 'data-ngame-category-linker-combined',
 
-    output_numbers = {2: '003', 4: '004', 5: '002'}
-    meta_info_numbers = {1: '', 2: '_conflated', 3: '_conflated-001', 4: '_conflated-002', 5: '-combined'}
+        7: 'data-gpt-category-linker-ngame-linker_conflated-001_conflated-001',
+        8: 'data-gpt-category-linker-ngame-linker_conflated-001_conflated-001_008',
+        9: 'data-gpt-category-linker-ngame-linker_conflated-001_conflated-001_009',
+    }
 
     input_args = parse_args()
-    input_args.use_sxc_sampler = True
     input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
-    input_args.only_test, input_args.do_test_inference = True, True
+    input_args.only_test = True
+    input_args.use_sxc_sampler = True
+    input_args.do_test_inference = True
+
     extra_args = additional_args()
 
-    # output_dir = f'/home/aiscuser/scratch1/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-{output_numbers[extra_args.expt_no]}'
     output_dir = f'/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-{output_numbers[extra_args.expt_no]}'
 
-    config_file = f'configs/beir/{input_args.dataset}_data-ngame-category-linker{meta_info_numbers[extra_args.expt_no]}.json'
+    config_file = f'configs/beir/{input_args.dataset}_{meta_info_numbers[extra_args.expt_no]}.json'
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
 

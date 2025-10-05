@@ -2,19 +2,19 @@
     "msmarco_data-ngame-category-linker": {
         "path": {
             "train": {
-                "data_lbl": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//trn_X_Y.npz",
+                "data_lbl": "/home/aiscuser/b-sprabhu/datasets/beir/msmarco/XC//trn_X_Y.npz",
                 "data_info": "/home/aiscuser/b-sprabhu/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/train_ngame-gpt-category-linker.raw.csv",
-                "lbl_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/label.raw.txt",
+                "lbl_info": "/home/aiscuser/b-sprabhu/datasets/beir/msmarco/XC//raw_data/label.raw.txt",
                 "neg_meta": {
                     "prefix": "neg",
-                    "data_meta": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC/ce-negatives-topk-05_trn_X_Y.npz",
-                    "meta_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/ce-scores.raw.txt"
+                    "data_meta": "/home/aiscuser/b-sprabhu/datasets/beir/msmarco/XC/ce-negatives-topk-05_trn_X_Y.npz",
+                    "meta_info": "/home/aiscuser/b-sprabhu/datasets/beir/msmarco/XC//raw_data/ce-scores.raw.txt"
                 }
             },
             "test": {
-                "data_lbl": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//tst_X_Y.npz",
+                "data_lbl": "/home/aiscuser/b-sprabhu/datasets/beir/msmarco/XC//tst_X_Y.npz",
                 "data_info": "/home/aiscuser/b-sprabhu/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/test_ngame-gpt-category-linker.raw.csv",
-                "lbl_info": "/home/aiscuser/b-sprabhu/datasets/msmarco/XC//raw_data/label.raw.txt"
+                "lbl_info": "/home/aiscuser/b-sprabhu/datasets/beir/msmarco/XC//raw_data/label.raw.txt"
             }
         },
         "parameters": {

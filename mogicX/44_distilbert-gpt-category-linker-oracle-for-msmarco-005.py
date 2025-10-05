@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '4,5'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -19,7 +19,7 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    output_dir = '/data/outputs/mogicX/44_distilbert-gpt-category-linker-oracle-for-msmarco-005'
+    output_dir = '/home/aiscuser/b-sprabhu/outputs/mogicX/44_distilbert-gpt-category-linker-oracle-for-msmarco-005'
 
     input_args = parse_args()
 
@@ -27,9 +27,9 @@ if __name__ == '__main__':
     input_args.pickle_dir = "/home/aiscuser/scratch1/datasets/processed/"
 
     if input_args.exact:
-        config_file = '/data/datasets/msmarco/XC/configs/data-gpt-category-linker_lbl_ce-negatives-topk-05_exact.json'
+        config_file = 'configs/msmarco_data-gpt-category-linker_lbl_ce-negatives-topk-05_exact.json'
     else:
-        config_file = '/data/datasets/msmarco/XC/configs/data-gpt-category-linker.json'
+        config_file = 'configs/msmarco_data-gpt-category-linker.json'
     
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
@@ -44,11 +44,18 @@ if __name__ == '__main__':
                         only_test=input_args.only_test, main_oversample=True, meta_oversample=True, return_scores=True, 
                         n_slbl_samples=1, n_sdata_meta_samples=1)
 
+    # Iterative inference experiment
+    # fname = '/home/aiscuser/b-sprabhu/share/from_deepak/iterative/44_distilbert-gpt-category-linker-oracle-for-msmarco-005/iter_1/raw_data/test_category-gpt-linker.raw.csv'
+    # data_info = Info.from_txt(fname, max_sequence_length=300, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"], 
+    #                         tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
+    # block.test.dset.data.data_info = data_info
+    # experiment
+
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=800,
+        per_device_eval_batch_size=1600,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",

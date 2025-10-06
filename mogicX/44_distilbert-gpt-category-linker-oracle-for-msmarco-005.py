@@ -30,7 +30,7 @@ if __name__ == '__main__':
         config_file = 'configs/msmarco_data-gpt-category-linker_lbl_ce-negatives-topk-05_exact.json'
     else:
         config_file = 'configs/msmarco_data-gpt-category-linker.json'
-    
+
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
 
@@ -45,10 +45,11 @@ if __name__ == '__main__':
                         n_slbl_samples=1, n_sdata_meta_samples=1)
 
     # Iterative inference experiment
-    # fname = '/home/aiscuser/b-sprabhu/share/from_deepak/iterative/44_distilbert-gpt-category-linker-oracle-for-msmarco-005/iter_1/raw_data/test_category-gpt-linker.raw.csv'
-    # data_info = Info.from_txt(fname, max_sequence_length=300, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"], 
-    #                         tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
-    # block.test.dset.data.data_info = data_info
+    # fname = '/home/aiscuser/b-sprabhu/share/from_deepak/iterative/44_distilbert-gpt-category-linker-oracle-for-msmarco-005/iter_4/raw_data/test_category-gpt-linker.raw.csv'
+    fname = '/home/aiscuser/b-sprabhu/datasets/beir/msmarco/XC/raw_data/test.raw.txt'
+    data_info = Info.from_txt(fname, max_sequence_length=300, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"], 
+                            tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
+    block.test.dset.data.data_info = data_info
     # experiment
 
     args = XCLearningArguments(

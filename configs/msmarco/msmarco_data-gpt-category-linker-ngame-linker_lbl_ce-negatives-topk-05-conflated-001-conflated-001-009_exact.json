@@ -1,10 +1,20 @@
 {
-    "msmarco_data-gpt-category-linker-ngame-linker_conflated-001_conflated-001": {
+    "msmarco_data-gpt-category-linker-ngame-linker_lbl_ce-negatives-topk-05-conflated-001-conflated-001-009_exact": {
         "path": {
+            "train": {
+                "data_lbl": "/data/datasets/beir/msmarco/XC//trn_X_Y_ce-exact.npz",
+                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-009/raw_data/train_category-gpt-linker_conflated-001_conflated-001_msmarco.raw.csv",
+                "lbl_info": "/data/datasets/beir/msmarco/XC//raw_data/label_exact.raw.txt",
+                "neg_meta": {
+                    "prefix": "neg",
+                    "data_meta": "/data/datasets/beir/msmarco/XC/ce-negatives-topk-05_trn_X_Y.npz",
+                    "meta_info": "/data/datasets/beir/msmarco/XC//raw_data/ce-scores.raw.txt"
+                }
+            },
             "test": {
-                "data_lbl": "/data/datasets//msmarco/XC/tst_X_Y.npz",
-                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-007/raw_data/test_gpt-category-linker-ngame-linker_msmarco.raw.csv",
-                "lbl_info": "/data/datasets//msmarco/XC/raw_data/label.raw.txt"
+                "data_lbl": "/data/datasets/beir/msmarco/XC//tst_X_Y_exact.npz",
+                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-009/raw_data/test_category-gpt-linker_conflated-001_conflated-001_msmarco.raw.csv",
+                "lbl_info": "/data/datasets/beir/msmarco/XC//raw_data/label_exact.raw.txt"
             }
         },
         "parameters": {
@@ -53,7 +63,7 @@
             "tokenizer": "distilbert-base-uncased",
             "tokenization_column": "input_text",
             "main_max_data_sequence_length": 300,
-            "main_max_lbl_sequence_length": 512,
+            "main_max_lbl_sequence_length": 300,
             "meta_max_sequence_length": 300,
             "padding": false,
             "return_tensors": null,

@@ -1,6 +1,10 @@
 #!/bin/bash
 
-datasets="msmarco nq fiqa hotpotqa fever dbpedia quora trec-covid climate-fever scifact scidocs arguana nfcorpus"
+datasets="msmarco arguana climate-fever dbpedia fever fiqa hotpotqa nfcorpus nq quora scidocs scifact touche2020 trec-covid cqadupstack/android \
+        cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers cqadupstack/stats \
+        cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
+
+datasets="msmarco nq" 
 
 TYPE=001
 
@@ -8,15 +12,15 @@ if [ $TYPE == "001" ]
 then
 	if [ $# -lt 1 ]
 	then
-		echo bash scripts/04-create_mteb_early-fusion_config.sh "<expt_no>"
+		echo bash scripts/04-create_beir_early-fusion_setup.sh "<expt_no>"
 		exit 1
 	fi
 
 	for dataset in $datasets
 	do
-		echo $dataset : 
-		python scripts/02-get_data_ngame-category-linker_for_oracle.py --dataset $dataset --expt_no $1 --type raw
-		python scripts/02-get_data_ngame-category-linker_for_oracle.py --dataset $dataset --expt_no $1 --type config
+		echo $dataset
+		python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --type raw
+		python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --type config
 	done
 
 elif [ $TYPE == "002" ]

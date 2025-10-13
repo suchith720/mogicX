@@ -2,14 +2,14 @@
     "msmarco_data-gpt-category-linker": {
         "path": {
             "train": {
-                "data_lbl": "/home/aiscuser/b-sprabhu/datasets/beir/msmarco/XC//trn_X_Y.npz",
-                "data_info": "/home/aiscuser/b-sprabhu/datasets/beir/msmarco/XC//raw_data/train_category-gpt-linker.raw.csv",
-                "lbl_info": "/home/aiscuser/b-sprabhu/datasets/beir/msmarco/XC//raw_data/label.raw.txt"
+                "data_lbl": "/data/datasets/beir/msmarco/XC//trn_X_Y.npz",
+                "data_info": "/data/datasets/beir/msmarco/XC//raw_data/train_category-gpt-linker.raw.csv",
+                "lbl_info": "/data/datasets/beir/msmarco/XC//raw_data/label.raw.txt"
             },
             "test": {
-                "data_lbl": "/home/aiscuser/b-sprabhu/datasets/beir/msmarco/XC//tst_X_Y.npz",
-                "data_info": "/home/aiscuser/b-sprabhu/datasets/beir/msmarco/XC//raw_data/test_category-gpt-linker.raw.csv",
-                "lbl_info": "/home/aiscuser/b-sprabhu/datasets/beir/msmarco/XC//raw_data/label.raw.txt"
+                "data_lbl": "/data/datasets/beir/msmarco/XC//tst_X_Y.npz",
+                "data_info": "/data/datasets/beir/msmarco/XC//raw_data/test_category-gpt-linker.raw.csv",
+                "lbl_info": "/data/datasets/beir/msmarco/XC//raw_data/label.raw.txt"
             }
         },
         "parameters": {
@@ -63,7 +63,9 @@
             "padding": false,
             "return_tensors": null,
             "sep": "->",
-            "prompt_func": null,
+            "data_prompt_func": null,
+            "lbl_prompt_func": null,
+            "meta_prompt_func": null,
             "pad_side": "right",
             "drop": true,
             "ret_t": true,

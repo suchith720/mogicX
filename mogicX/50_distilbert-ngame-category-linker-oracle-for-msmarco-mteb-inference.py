@@ -5,10 +5,12 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
+
 # os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 # os.environ["NCCL_DEBUG"] = "NONE"
 # os.environ["ROCM_DISABLE_WARNINGS"] = "1"
 # os.environ["MIOPEN_LOG_LEVEL"] = "0"
+
 os.environ["NCCL_DEBUG"] = "NONE"
 os.environ["CUDNN_LOGINFO_DBG"] = "0"
 os.environ["CUDNN_LOGDEST_DBG"] = "NULL"
@@ -16,8 +18,6 @@ os.environ["CUDNN_LOGERROR_DBG"] = "0"
 os.environ["CUDNN_LOGWARN_DBG"] = "0"
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
-
-from transformers import DistilBertConfig
 
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT023
@@ -33,16 +33,15 @@ def additional_args():
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
     output_numbers = {2: '003', 4: '004', 5: '002', 7: '007', 8: '008', 9: '009'}
-    meta_info_numbers = {
+    meta_info = {
         1: 'data-ngame-category-linker', 
         2: 'data-ngame-category-linker_conflated', 
         3: 'data-ngame-category-linker_conflated-001', 
         4: 'data-ngame-category-linker_conflated-002', 
         5: 'data-ngame-category-linker-combined',
-
-        7: 'data-gpt-category-linker-ngame-linker_conflated-001_conflated-001',
-        8: 'data-gpt-category-linker-ngame-linker_conflated-001_conflated-001_008',
-        9: 'data-gpt-category-linker-ngame-linker_conflated-001_conflated-001_009',
+        7: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-007',
+        8: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-008',
+        9: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-009',
     }
 
     input_args = parse_args()
@@ -54,8 +53,7 @@ if __name__ == '__main__':
     extra_args = additional_args()
 
     output_dir = f'/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-{output_numbers[extra_args.expt_no]}'
-
-    config_file = f'configs/beir/{input_args.dataset}_{meta_info_numbers[extra_args.expt_no]}.json'
+    config_file = f'configs/beir/{input_args.dataset}/{input_args.dataset.replace("/", "-")}_{meta_info[extra_args.expt_no]}.json'
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
 
@@ -138,4 +136,4 @@ if __name__ == '__main__':
     )
     
     main(learn, input_args, n_lbl=block.test.dset.n_lbl)
-    
+

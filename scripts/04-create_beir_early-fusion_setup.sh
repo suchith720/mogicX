@@ -4,8 +4,6 @@ datasets="msmarco arguana climate-fever dbpedia fever fiqa hotpotqa nfcorpus nq 
         cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers cqadupstack/stats \
         cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
 
-datasets="msmarco nq" 
-
 TYPE=001
 
 if [ $TYPE == "001" ]

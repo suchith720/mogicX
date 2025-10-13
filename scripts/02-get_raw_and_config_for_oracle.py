@@ -83,9 +83,9 @@ if __name__ == '__main__':
 
             trn_cat_txt = get_data_category(trn_cat, trn_txt, cat_txt)
             fname = (
-                f'{output_dir}/raw_data/train_{meta_info[input_args.expt_no]}_{input_args.dataset}.raw.csv'
+                f'{output_dir}/raw_data/train_{output_info[input_args.expt_no]}_{input_args.dataset}.raw.csv'
                 if TYPE == 'prediction' else
-                f'{output_dir}/raw_data/train_{meta_info[input_args.expt_no]}.raw.csv'
+                f'{output_dir}/raw_data/train_{output_info[input_args.expt_no]}.raw.csv'
             )
             save_raw_file(fname, trn_ids, trn_cat_txt)
         
@@ -94,7 +94,7 @@ if __name__ == '__main__':
             (
                 f'{output_dir}/predictions/test_predictions.npz' 
                 if input_args.dataset == "msmarco" else 
-                f'{output_dir}/predictions/test_predictions_{input_args.dataset}.npz'
+                f'{output_dir}/predictions/test_predictions_{input_args.dataset.replace("/","-")}.npz'
             )
             if TYPE == 'prediction' else 
             f'{output_dir}/{meta_info[input_args.expt_no]}_tst_X_Y.npz'

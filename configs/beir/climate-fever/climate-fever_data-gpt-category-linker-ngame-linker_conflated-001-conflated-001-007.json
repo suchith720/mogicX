@@ -1,14 +1,10 @@
 {
-    "msmarco_data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-007": {
+    "climate-fever_data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-007": {
         "path": {
-            "train": {
-                "data_lbl": "/data/datasets/beir/msmarco/XC/trn_X_Y.npz",
-                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-007/raw_data/train_gpt-category-linker-ngame-linker_conflated-001-conflated-001-007_msmarco.raw.csv",
-                "lbl_info": "/data/datasets/beir/msmarco/XC/raw_data/label.raw.txt"
-            },
             "test": {
-                "data_lbl": "/data/datasets/beir/msmarco/XC/tst_X_Y.npz",
-                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-007/raw_data/test_gpt-category-linker-ngame-linker_conflated-001-conflated-001-007_msmarco.raw.csv"
+                "data_lbl": "/data/datasets/beir/climate-fever/XC/tst_X_Y.npz",
+                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-007/raw_data/test_gpt-category-linker-ngame-linker_conflated-001-conflated-001-007_climate-fever.raw.csv",
+                "lbl_info": "/data/datasets/beir/climate-fever/XC/raw_data/label.raw.csv"
             }
         },
         "parameters": {

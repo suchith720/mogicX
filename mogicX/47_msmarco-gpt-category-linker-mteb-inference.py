@@ -4,15 +4,11 @@
 __all__ = []
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 3
-import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '4,5'
-
-import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
+import os, torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT009
-
-from xcai.sdata import SXCDataset, SMainXCDataset
+from xcai.sdata import identity_collate_fn, SXCDataset, SMainXCDataset
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 5
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-linker-01'
@@ -28,38 +24,42 @@ if __name__ == '__main__':
     output_dir = f'/data/outputs/mogicX/47_msmarco-gpt-category-linker-{extra_args.expt_no:03d}'
 
     input_args = parse_args()
+    input_args.only_test = True
     input_args.use_sxc_sampler = True
+    input_args.do_test_inference = True
+    input_args.save_test_prediction = True
     input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
 
     mname = 'sentence-transformers/msmarco-distilbert-cos-v5'
 
-    config_file = f'/data/datasets/{input_args.dataset}/XC/configs/data.json'
-    config_key, fname = get_config_key(config_file)
-
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
-                            input_args.exact, input_args.only_test)
-
     do_inference = check_inference_mode(input_args)
 
-    os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
-    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test, 
-            n_slbl_samples=1, main_oversample=False)
+    ## load data
+    expt_info = {
+        1: '', 
+        2: '_conflated', 
+        3: '_conflated-001', 
+        4: '_conflated-002', 
+        7: '-linker_conflated-001_conflated-001', 
+        8: '-linker_conflated-001_conflated-001',
+        9: '-linker_conflated-001_conflated-001',
+    }
 
-    # category information
-    meta_info_numbers = {1: '', 2: '_conflated', 3: '_conflated-001', 4: '_conflated-002', 7: '-linker_conflated-001_conflated-001', 
-            8: '-linker_conflated-001_conflated-001'}
+    fname = f'/data/datasets/beir/{input_args.dataset}/XC/raw_data/test.raw.csv'
+    data_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
+                              tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
 
-    meta_info_file = f"outputs/msmarco_category-gpt{meta_info_numbers[extra_args.expt_no]}.joblib"
+    meta_info_file = f"outputs/msmarco_category-gpt{expt_info[extra_args.expt_no]}.joblib"
     if os.path.exists(meta_info_file):
         meta_info = joblib.load(meta_info_file)
     else:
-        fname = f'/data/datasets/msmarco/XC/raw_data/category-gpt{meta_info_numbers[extra_args.expt_no]}.raw.csv'
+        fname = f'/data/datasets/beir/msmarco/XC/raw_data/category-gpt{expt_info[extra_args.expt_no]}.raw.csv'
         meta_info = Info.from_txt(fname, max_sequence_length=64, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
-                tokenization_column="input_text", use_tokenizer=True, tokenizer="sentence-transformers/msmarco-distilbert-dot-v5")
+                                  tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
         joblib.dump(meta_info, meta_info_file)
 
-    mteb_dset = SXCDataset(SMainXCDataset(data_info=block.test.dset.data.data_info, lbl_info=meta_info))
-    # category information
+    mteb_dset = SXCDataset(SMainXCDataset(data_info=data_info, lbl_info=meta_info))
+    ## load data 
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -115,7 +115,7 @@ if __name__ == '__main__':
         args=args,
         train_dataset=mteb_dset,
         eval_dataset=mteb_dset,
-        data_collator=block.collator,
+        data_collator=identity_collate_fn,
     )
     
     main(learn, input_args, n_lbl=mteb_dset.n_lbl, eval_k=10, train_k=10)

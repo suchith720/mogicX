@@ -64,7 +64,7 @@ then
 	exit 1
 fi
 
-datasets="arguana climate-fever dbpedia fever fiqa hotpotqa nfcorpus nq quora scidocs scifact touche2020 trec-covid cqadupstack/android \
+datasets="arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq quora scidocs scifact webis-touche2020 trec-covid cqadupstack/android \
         cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers cqadupstack/stats \
         cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
 

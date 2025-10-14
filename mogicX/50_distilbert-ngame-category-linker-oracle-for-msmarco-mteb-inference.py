@@ -57,7 +57,7 @@ if __name__ == '__main__':
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset.replace("/", "-")}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
 
     do_inference = check_inference_mode(input_args)

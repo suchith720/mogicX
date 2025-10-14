@@ -1,6 +1,6 @@
 #!/bin/bash
 
-datasets="nq fiqa hotpotqa fever dbpedia quora trec-covid climate-fever scifact scidocs arguana nfcorpus"
+# datasets="nq fiqa hotpotqa fever dbpedia quora trec-covid climate-fever scifact scidocs arguana nfcorpus"
 
 # output_file=outputs/33_ngame-mteb-inference-001.txt
 # for dataset in $datasets
@@ -126,10 +126,16 @@ datasets="nq fiqa hotpotqa fever dbpedia quora trec-covid climate-fever scifact 
 # 	CUDA_VISIBLE_DEVICES=0,1 python mogicX/50_bert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset --expt_no 5 >> $output_file
 # done
 
+datasets="arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq quora scidocs scifact webis-touche2020 trec-covid cqadupstack/android \
+        cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers cqadupstack/stats \
+        cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
+
+datasets="dbpedia-entity webis-touche2020"
+
 output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-007.txt
 for dataset in $datasets
 do
-	echo $dataset: >> $output_file
+	echo $dataset : >> $output_file
 	CUDA_VISIBLE_DEVICES=0,1 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset --expt_no 7 >> $output_file
 done
 

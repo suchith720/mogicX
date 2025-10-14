@@ -1,10 +1,10 @@
 {
-    "touche2020_data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-007": {
+    "dbpedia-entity_data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-007": {
         "path": {
             "test": {
-                "data_lbl": "/data/datasets/beir/touche2020/XC/tst_X_Y.npz",
-                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-007/raw_data/test_gpt-category-linker-ngame-linker_conflated-001-conflated-001-007_touche2020.raw.csv",
-                "lbl_info": "/data/datasets/beir/touche2020/XC/raw_data/label.raw.csv"
+                "data_lbl": "/data/datasets/beir/dbpedia-entity/XC/tst_X_Y.npz",
+                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-007/raw_data/test_gpt-category-linker-ngame-linker_conflated-001-conflated-001-007_dbpedia-entity.raw.csv",
+                "lbl_info": "/data/datasets/beir/dbpedia-entity/XC/raw_data/label.raw.csv"
             }
         },
         "parameters": {

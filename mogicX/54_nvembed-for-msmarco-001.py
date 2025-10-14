@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '3,4,5'
+os.environ['CUDA_VISIBLE_DEVICES'] = '2,3,4,5'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     config_key, fname = get_config_key(config_file)
     mname = 'nvidia/NV-Embed-v2'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_{fname}_{mname.split("/")}', input_args.use_sxc_sampler, 
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_{fname}_{mname.split("/")[1]}', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
 
     do_inference = check_inference_mode(input_args)

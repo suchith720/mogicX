@@ -5,8 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '2'
-# os.environ['CUDA_VISIBLE_DEVICES'] = '2,3,4,5'
+os.environ['CUDA_VISIBLE_DEVICES'] = '2,3,4,5'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 

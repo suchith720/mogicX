@@ -126,16 +126,20 @@
 # 	CUDA_VISIBLE_DEVICES=0,1 python mogicX/50_bert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset --expt_no 5 >> $output_file
 # done
 
+if [ $# -lt 1 ]
+then
+	echo "bash scripts/06-mteb_inference.sh <expt_no>" 
+	exit 1
+fi
+
 datasets="arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq quora scidocs scifact webis-touche2020 trec-covid cqadupstack/android \
         cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers cqadupstack/stats \
         cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
 
-datasets="dbpedia-entity webis-touche2020"
-
-output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-007.txt
+output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-$(printf "%03d" $1).txt
 for dataset in $datasets
 do
 	echo $dataset : >> $output_file
-	CUDA_VISIBLE_DEVICES=0,1 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset --expt_no 7 >> $output_file
+	CUDA_VISIBLE_DEVICES=0,1 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset --expt_no $1 >> $output_file
 done
 

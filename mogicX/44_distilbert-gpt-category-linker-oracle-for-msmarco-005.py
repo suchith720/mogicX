@@ -9,8 +9,6 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '2,3,4,5'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
-from transformers import DistilBertConfig
-
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT023
 

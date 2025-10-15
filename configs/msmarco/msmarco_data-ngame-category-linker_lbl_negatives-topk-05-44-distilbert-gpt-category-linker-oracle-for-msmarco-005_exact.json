@@ -1,13 +1,13 @@
 {
-    "msmarco_data-ngame-category-linker_lbl_ce-negatives-topk-05_exact": {
+    "msmarco_data-ngame-category-linker_lbl_negatives-topk-05-44-distilbert-gpt-category-linker-oracle-for-msmarco-005_exact": {
         "path": {
             "train": {
-                "data_lbl": "/data/datasets/beir/msmarco/XC//trn_X_Y_ce-exact.npz",
+                "data_lbl": "/data/outputs/mogicX/44_distilbert-gpt-category-linker-oracle-for-msmarco-005/matrices/trn_lbl_exact.npz",
                 "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/train_ngame-gpt-category-linker.raw.csv",
                 "lbl_info": "/data/datasets/beir/msmarco/XC//raw_data/label_exact.raw.txt",
                 "neg_meta": {
                     "prefix": "neg",
-                    "data_meta": "/data/datasets/beir/msmarco/XC/ce-negatives-topk-05_trn_X_Y.npz",
+                    "data_meta": "/data/outputs/mogicX/44_distilbert-gpt-category-linker-oracle-for-msmarco-005/matrices/trn_meta_exact.npz",
                     "meta_info": "/data/datasets/beir/msmarco/XC//raw_data/ce-scores.raw.txt"
                 }
             },

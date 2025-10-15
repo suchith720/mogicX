@@ -5,63 +5,34 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '4,5'
 
-# os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
-# os.environ["NCCL_DEBUG"] = "NONE"
-# os.environ["ROCM_DISABLE_WARNINGS"] = "1"
-# os.environ["MIOPEN_LOG_LEVEL"] = "0"
-
-os.environ["NCCL_DEBUG"] = "NONE"
-os.environ["CUDNN_LOGINFO_DBG"] = "0"
-os.environ["CUDNN_LOGDEST_DBG"] = "NULL"
-os.environ["CUDNN_LOGERROR_DBG"] = "0"
-os.environ["CUDNN_LOGWARN_DBG"] = "0"
-
-import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
+import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT023
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
-os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-06'
-
-def additional_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--expt_no', type=int, required=True)
-    return parser.parse_known_args()[0]
+os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    output_numbers = {2: '003', 4: '004', 5: '002', 7: '007', 8: '008', 9: '009'}
-    meta_info = {
-        1: 'data-ngame-category-linker', 
-        2: 'data-ngame-category-linker_conflated', 
-        3: 'data-ngame-category-linker_conflated-001', 
-        4: 'data-ngame-category-linker_conflated-002', 
-        5: 'data-ngame-category-linker-combined',
-        7: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-007',
-
-        # 8: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-008',
-        # 9: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-009',
-
-        8: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-007',
-        9: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-007',
-    }
+    output_dir = "/home/aiscuser/scratch1/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-011"
 
     input_args = parse_args()
-    input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
-    input_args.only_test = True
+
     input_args.use_sxc_sampler = True
-    input_args.do_test_inference = True
+    input_args.pickle_dir = "/home/aiscuser/scratch1/datasets/processed/" 
 
-    extra_args = additional_args()
+    if input_args.exact:
+        config_file = 'configs/msmarco/msmarco_data-ngame-category-linker_lbl_negatives-topk-05-44-distilbert-category-oracle-for-msmarco-004_exact.json'
+    else:
+        config_file = 'configs/msmarco/msmarco_data-ngame-category-linker.json'
 
-    output_dir = f'/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-{output_numbers[extra_args.expt_no]}'
-    config_file = f'configs/beir/{input_args.dataset}/{input_args.dataset.replace("/", "-")}_{meta_info[extra_args.expt_no]}.json'
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset.replace("/", "-")}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
 
     do_inference = check_inference_mode(input_args)
@@ -75,7 +46,7 @@ if __name__ == '__main__':
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=800,
+        per_device_eval_batch_size=1600,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
@@ -140,4 +111,4 @@ if __name__ == '__main__':
     )
     
     main(learn, input_args, n_lbl=block.test.dset.n_lbl)
-
+    

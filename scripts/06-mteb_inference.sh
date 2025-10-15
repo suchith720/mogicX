@@ -136,7 +136,7 @@ datasets="arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq q
         cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers cqadupstack/stats \
         cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
 
-output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-$(printf "%03d" $1).txt
+output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-$(printf "%03d" $1)'-007'.txt
 for dataset in $datasets
 do
 	echo $dataset : >> $output_file

@@ -33,13 +33,13 @@ def additional_args():
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
     # 0 -> cross inferences; for combining two different experiments.
-    output_numbers = {0: '002', 2: '003', 4: '004', 5: '002', 7: '007', 8: '008', 9: '009'}
+    output_numbers = {0: '002', 2: '002', 3: '003', 4: '004', 5: '002', 7: '007', 8: '008', 9: '009', 10: '010', 11: '011'}
 
     meta_info = {
         0: 'data-gpt-category-ngame-linker_conflated',
+        2: 'data-gpt-category-ngame-linker',
+        3: 'data-gpt-category-ngame-linker_conflated',
 
-        2: 'data-gpt-category-ngame-linker_conflated',
-        3: 'data-ngame-category-linker_conflated-001', 
         4: 'data-ngame-category-linker_conflated-002', 
         5: 'data-ngame-category-linker-combined',
 
@@ -47,13 +47,15 @@ if __name__ == '__main__':
         8: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-008',
         9: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-009',
 
+        10: 'data-gpt-category-ngame-linker',
+        11: 'data-gpt-category-ngame-linker',
     }
 
     input_args = parse_args()
-    input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
     input_args.only_test = True
     input_args.use_sxc_sampler = True
     input_args.do_test_inference = True
+    input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
 
     extra_args = additional_args()
 

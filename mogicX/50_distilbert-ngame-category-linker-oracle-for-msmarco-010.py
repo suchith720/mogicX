@@ -27,9 +27,9 @@ if __name__ == '__main__':
     input_args.pickle_dir = "/home/aiscuser/scratch1/datasets/processed/" 
 
     if input_args.exact:
-        config_file = 'configs/msmarco/msmarco_data-ngame-category-linker_lbl_negatives-topk-05-44-distilbert-gpt-category-linker-oracle-for-msmarco-005_exact.json'
+        config_file = 'configs/msmarco/msmarco_data-gpt-category-ngame-linker_lbl_negatives-topk-05-44-distilbert-gpt-category-linker-oracle-for-msmarco-005_exact.json'
     else:
-        config_file = 'configs/msmarco/msmarco_data-ngame-category-linker.json'
+        config_file = 'configs/msmarco/msmarco_data-gpt-category-ngame-linker.json'
 
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'

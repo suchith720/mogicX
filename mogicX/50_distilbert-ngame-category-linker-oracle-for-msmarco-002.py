@@ -26,15 +26,16 @@ if __name__ == '__main__':
     input_args.use_sxc_sampler = True
     input_args.pickle_dir = "/home/aiscuser/scratch1/datasets/processed/" 
 
-    # if input_args.exact:
-    #     config_file = 'configs/msmarco/msmarco_data-gpt-category-ngame-linker_lbl_ce-negatives-topk-05_exact.json'
-    # else:
-    #     config_file = 'configs/msmarco/msmarco_data-gpt-category-ngame-linker.json'
-
     if input_args.exact:
-        config_file = 'configs/msmarco/data-gpt-category-ngame-linker-conflated_lbl_ce-negatives-topk-05_exact.json'
+        config_file = 'configs/msmarco/msmarco_data-gpt-category-ngame-linker_lbl_ce-negatives-topk-05_exact.json'
     else:
-        config_file = 'configs/beir/msmarco/msmarco_data-gpt-category-ngame-linker_conflated.json'
+        config_file = 'configs/msmarco/msmarco_data-gpt-category-ngame-linker.json'
+
+    ## Zeroshot inference with conflated categories
+    # if input_args.exact:
+    #     config_file = 'configs/msmarco/data-gpt-category-ngame-linker-conflated_lbl_ce-negatives-topk-05_exact.json'
+    # else:
+    #     config_file = 'configs/beir/msmarco/msmarco_data-gpt-category-ngame-linker_conflated.json'
 
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'

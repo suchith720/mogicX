@@ -145,6 +145,6 @@ output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-$(pri
 for dataset in $datasets
 do
 	echo $dataset : >> $output_file
-	CUDA_VISIBLE_DEVICES=2,3 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset --expt_no $1 >> $output_file
+	CUDA_VISIBLE_DEVICES=0,1 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset --expt_no $1 >> $output_file
 done
 

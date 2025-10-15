@@ -17,6 +17,7 @@ do
 	# rm -rf beir/$dset/$dset'_data-gpt-category-linker-ngame-linker_conflated-001_conflated-001.json'
 	# rm -rf beir/$dset/$dset'_data-gpt-category-linker-ngame-linker_conflated-001_conflated-001_008.json'
 	# rm -rf beir/$dset/$dset'_data-gpt-category-linker-ngame-linker_conflated-001_conflated-001_009.json'
+	# rm -rf beir/$dset/$dset'_data-ngame-category-linker_conflated.json'
 
-	rm -rf beir/$dset/$dset'_data-ngame-category-linker_conflated.json'
+	rm -rf beir/$dset/$dset'-data-ngame-category-linker.json'
 done

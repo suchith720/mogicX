@@ -1,10 +1,10 @@
 {
-    "hotpotqa-data-ngame-category-linker": {
+    "nq_data-gpt-category-ngame-linker": {
         "path": {
             "test": {
-                "data_lbl": "/data/datasets/hotpotqa/XC/tst_X_Y.npz",
-                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/test_ngame-gpt-category-linker_hotpotqa.raw.csv",
-                "lbl_info": "/data/datasets/hotpotqa/XC/raw_data/label.raw.csv"
+                "data_lbl": "/data/datasets/beir/nq/XC/tst_X_Y.npz",
+                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/test_gpt-category-ngame-linker_nq.raw.csv",
+                "lbl_info": "/data/datasets/beir/nq/XC/raw_data/label.raw.csv"
             }
         },
         "parameters": {
@@ -28,6 +28,7 @@
             ],
             "pad_token": 0,
             "oversample": false,
+            "keep_attention_mask": true,
             "sampling_features": [
                 [
                     "lbl2data",
@@ -54,11 +55,13 @@
             "tokenization_column": "input_text",
             "main_max_data_sequence_length": 300,
             "main_max_lbl_sequence_length": 512,
-            "meta_max_sequence_length": 300,
+            "meta_max_sequence_length": 32,
             "padding": false,
             "return_tensors": null,
             "sep": "->",
-            "prompt_func": null,
+            "data_prompt_func": null,
+            "lbl_prompt_func": null,
+            "meta_prompt_func": null,
             "pad_side": "right",
             "drop": true,
             "ret_t": true,
@@ -68,6 +71,7 @@
             "inp": "data",
             "targ": "lbl2data",
             "ptr": "lbl2data_data2ptr",
+            "enable_delayed_indexing": false,
             "n_lbl_samples": null,
             "data_info_keys": null,
             "lbl_info_keys": null,
@@ -78,7 +82,9 @@
             "meta_info_keys": null,
             "n_sdata_meta_samples": 1,
             "n_slbl_meta_samples": 1,
-            "meta_oversample": false
+            "meta_oversample": false,
+            "use_meta_distribution": false,
+            "use_main_distribution": false
         }
     }
 }

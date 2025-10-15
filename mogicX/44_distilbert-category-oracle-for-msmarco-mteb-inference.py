@@ -25,7 +25,7 @@ from xcai.basics import *
 from xcai.models.PPP0XX import DBT023
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
-os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-07'
+os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
@@ -38,11 +38,11 @@ if __name__ == '__main__':
     input_args.do_test_inference = True
     input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
 
+    config_file = '/data/datasets/beir/msmarco/XC/configs/data-category.json'
     config_file = f'/data/share/from_deepak/datasets/{input_args.dataset}/configs/data-gpt-category-linker.json'
 
     config_key, fname = get_config_key(config_file)
-    # mname = 'distilbert-base-uncased'
-    mname = 'sentence-transformers/msmarco-distilbert-dot-v5'
+    mname = 'distilbert-base-uncased'
 
     pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
@@ -99,8 +99,7 @@ if __name__ == '__main__':
     )
 
     def model_fn(mname):
-        # model = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=True, use_encoder_parallel=True)
-        model = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=False, use_encoder_parallel=True)
+        model = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=True, use_encoder_parallel=True)
         return model
     
     def init_fn(model): 

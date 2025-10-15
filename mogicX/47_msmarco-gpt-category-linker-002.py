@@ -17,14 +17,14 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-linker-01'
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 20
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/47_msmarco-gpt-category-linker-002'
+    output_dir = '/data/outputs/mogicX/47_msmarco-gpt-category-linker-002'
 
     input_args = parse_args()
 
     input_args.use_sxc_sampler = True
     input_args.pickle_dir = "/home/aiscuser/scratch1/datasets/processed/"
 
-    config_file = '/data/datasets/msmarco/XC/configs/data_gpt-category-conflated.json'
+    config_file = '/data/datasets/beir/msmarco/XC/configs/data_gpt-category-conflated.json'
     config_key, fname = get_config_key(config_file)
 
     mname = 'sentence-transformers/msmarco-distilbert-cos-v5'

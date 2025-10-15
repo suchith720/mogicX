@@ -60,7 +60,7 @@
 
 if [ $# -lt 1 ]
 then
-	echo "bash scripts/05-mteb_linker.sh <expt_no>" 
+	echo "bash scripts/05-beir_linker.sh <expt_no>" 
 	exit 1
 fi
 

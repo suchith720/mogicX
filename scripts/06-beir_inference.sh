@@ -128,7 +128,7 @@
 
 if [ $# -lt 1 ]
 then
-	echo "bash scripts/06-mteb_inference.sh <expt_no>" 
+	echo "bash scripts/06-beir_inference.sh <expt_no>" 
 	exit 1
 fi
 

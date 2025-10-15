@@ -44,12 +44,16 @@ if __name__ == '__main__':
     input_args = parse_args()
 
     meta_info = {
+        2: f'category-gpt_conflated', 
+
         7: f'category-gpt-linker_conflated-001_conflated-001', 
         8: f'category-gpt-linker_conflated-001_conflated-001', 
         9: f'category-gpt-linker_conflated-001_conflated-001', 
     }
 
     output_info = {
+        2: f'gpt-category-ngame-linker_conflated',
+
         7: f'gpt-category-linker-ngame-linker_conflated-001-conflated-001-007',
         8: f'gpt-category-linker-ngame-linker_conflated-001-conflated-001-008',
         9: f'gpt-category-linker-ngame-linker_conflated-001-conflated-001-009',

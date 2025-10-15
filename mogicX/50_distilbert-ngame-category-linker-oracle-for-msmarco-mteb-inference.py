@@ -35,17 +35,16 @@ if __name__ == '__main__':
     output_numbers = {2: '003', 4: '004', 5: '002', 7: '007', 8: '008', 9: '009'}
     meta_info = {
         1: 'data-ngame-category-linker', 
-        2: 'data-ngame-category-linker_conflated', 
+
+        2: 'data-gpt-category-ngame-linker_conflated',
         3: 'data-ngame-category-linker_conflated-001', 
         4: 'data-ngame-category-linker_conflated-002', 
         5: 'data-ngame-category-linker-combined',
+
         7: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-007',
+        8: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-008',
+        9: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-009',
 
-        # 8: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-008',
-        # 9: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-009',
-
-        8: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-007',
-        9: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-007',
     }
 
     input_args = parse_args()

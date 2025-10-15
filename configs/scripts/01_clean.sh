@@ -13,8 +13,10 @@ datasets="msmarco arguana climate-fever dbpedia fever fiqa hotpotqa nfcorpus nq 
 
 for dset in $datasets
 do
-	rm -rf beir/$dset/$dset'_data-category-gpt-linker_conflated-001_conflated-001.json'
-	rm -rf beir/$dset/$dset'_data-gpt-category-linker-ngame-linker_conflated-001_conflated-001.json'
-	rm -rf beir/$dset/$dset'_data-gpt-category-linker-ngame-linker_conflated-001_conflated-001_008.json'
-	rm -rf beir/$dset/$dset'_data-gpt-category-linker-ngame-linker_conflated-001_conflated-001_009.json'
+	# rm -rf beir/$dset/$dset'_data-category-gpt-linker_conflated-001_conflated-001.json'
+	# rm -rf beir/$dset/$dset'_data-gpt-category-linker-ngame-linker_conflated-001_conflated-001.json'
+	# rm -rf beir/$dset/$dset'_data-gpt-category-linker-ngame-linker_conflated-001_conflated-001_008.json'
+	# rm -rf beir/$dset/$dset'_data-gpt-category-linker-ngame-linker_conflated-001_conflated-001_009.json'
+
+	rm -rf beir/$dset/$dset'_data-ngame-category-linker_conflated.json'
 done

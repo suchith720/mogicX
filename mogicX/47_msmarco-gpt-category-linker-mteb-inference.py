@@ -37,9 +37,11 @@ if __name__ == '__main__':
     ## load data
     expt_info = {
         1: '', 
+
         2: '_conflated', 
         3: '_conflated-001', 
         4: '_conflated-002', 
+
         7: '-linker_conflated-001_conflated-001', 
         8: '-linker_conflated-001_conflated-001',
         9: '-linker_conflated-001_conflated-001',

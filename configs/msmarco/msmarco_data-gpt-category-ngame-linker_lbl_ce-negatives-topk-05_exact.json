@@ -1,5 +1,5 @@
 {
-    "msmarco_data-ngame-category-linker_lbl_ce-negatives-topk-05_exact": {
+    "msmarco_data-gpt-category-ngame-linker_lbl_ce-negatives-topk-05_exact": {
         "path": {
             "train": {
                 "data_lbl": "/data/datasets/beir/msmarco/XC//trn_X_Y_ce-exact.npz",

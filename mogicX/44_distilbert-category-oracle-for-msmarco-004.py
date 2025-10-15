@@ -9,8 +9,6 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
-from transformers import DistilBertConfig
-
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT023
 
@@ -27,16 +25,9 @@ if __name__ == '__main__':
     input_args.pickle_dir = "/home/aiscuser/scratch1/datasets/processed/"
 
     if input_args.exact:
-        config_file = '/data/datasets/msmarco/XC/configs/data-category_lbl_ce-negatives-topk-05_exact.json'
+        config_file = '/data/datasets/beir/msmarco/XC/configs/data-category_lbl_ce-negatives-topk-05_exact.json'
     else:
-        config_file = '/data/datasets/msmarco/XC/configs/data-category.json'
-    
-    # if input_args.exact:
-    #     config_file = 'configs/data-ngame-category-linker_lbl_ce-negatives-topk-05_exact.json'
-    # else:
-    #     config_file = 'configs/data-ngame-category-linker.json'
-    
-    # config_file = 'configs/msmarco_data-gpt-category-linker.json'
+        config_file = '/data/datasets/beir/msmarco/XC/configs/data-category.json'
     
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
@@ -119,5 +110,5 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=block.test.dset.n_lbl, eval_k=10, train_k=10, save_teacher=True)
+    main(learn, input_args, n_lbl=block.test.dset.n_lbl, eval_k=10, train_k=10, save_teacher=True, metadata_name="neg")
     

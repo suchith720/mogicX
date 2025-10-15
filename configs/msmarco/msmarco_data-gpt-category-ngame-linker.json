@@ -1,5 +1,5 @@
 {
-    "msmarco_data-ngame-category-linker": {
+    "msmarco_data-gpt-category-ngame-linker": {
         "path": {
             "train": {
                 "data_lbl": "/data/datasets/beir/msmarco/XC/trn_X_Y.npz",

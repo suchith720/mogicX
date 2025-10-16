@@ -4,18 +4,24 @@
 __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
-import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3,4,5'
+import os, torch, json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse, math
 
-import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
-
-from transformers import DistilBertConfig
+from transformers import AutoTokenizer
 
 from xcai.basics import *
 from xcai.models.nvembed.NVM0XX import NVM009
+from xcai.sdata import SMainXCDataset, SXCDataset, identity_collate_fn 
+
+from sugar.core import load_raw_file
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
+
+def additional_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--idx', type=int, required=True)
+    parser.add_argument('--parts', type=int, required=True)
+    return parser.parse_known_args()[0]
 
 def get_instruction(fname, dset):
     with open(instruct_file) as file:
@@ -27,33 +33,37 @@ if __name__ == '__main__':
     output_dir = '/home/aiscuser/scratch1/outputs/mogicX/54_nvembed-for-msmarco-001'
 
     input_args = parse_args()
-
-    input_args.use_sxc_sampler = True
-    input_args.pickle_dir = "/home/aiscuser/scratch1/datasets/processed/"
-
-    config_file = '/data/datasets/beir/msmarco/XC/configs/data.json'
-    config_key, fname = get_config_key(config_file)
-    mname = 'nvidia/NV-Embed-v2'
-
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'msmarco_{fname}_{mname.split("/")[1]}', input_args.use_sxc_sampler, 
-                            input_args.exact, input_args.only_test)
+    extra_args = additional_args()
 
     do_inference = check_inference_mode(input_args)
 
+    mname = 'nvidia/NV-Embed-v2'
     instruct_file = "/home/aiscuser/scratch1/xcai/xcai/models/nvembed/instructions.json"
     data_prompt_func = lambda x: "Instruct: " + get_instruction(instruct_file, "MSMARCO")["query"] + f"\nQuery: {x}"
 
-    os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
-    block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
-                        only_test=input_args.only_test, main_oversample=True, meta_oversample=True, return_scores=True, 
-                        n_slbl_samples=1, n_sdata_meta_samples=1, tokenizer=mname, data_prompt_func=data_prompt_func, 
-                        main_max_data_sequence_length=64, meta_max_sequence_length=64)
+    lbl_info_file = "/data/datasets/beir/msmarco/XC/raw_data/label.raw.txt"
+    lbl_ids, lbl_txt = load_raw_file(lbl_info_file)
+
+    num_lbls = len(lbl_ids)
+    bsize = math.ceil(num_lbls / extra_args.parts)
+    start_idx, end_idx = extra_args.idx*bsize, (extra_args.idx + 1)*bsize
+
+    lbl_ids, lbl_txt = lbl_ids[start_idx:end_idx], lbl_txt[start_idx:end_idx]
+    lbl_txt = [data_prompt_func(o) for o in lbl_txt]
+
+    tokz = AutoTokenizer.from_pretrained(mname)
+    lbl_toks = tokz(lbl_txt, padding=True, return_tensors='pt', truncation=True, max_length=300)
+
+    lbl_info = {'input_text': lbl_txt, 'identifier': lbl_ids}
+    lbl_info.update(lbl_toks)
+
+    dataset = SXCDataset(SMainXCDataset(data_info=lbl_info))
 
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=1,
+        per_device_eval_batch_size=64,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
@@ -100,22 +110,19 @@ if __name__ == '__main__':
     def init_fn(model): 
         pass
     
-    metric = PrecReclMrr(block.test.dset.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, rep_pk=[1, 3, 5, 10], 
-                         rep_rk=[10, 100, 200], mk=[5, 10, 20])
-
-    bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
-
     model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
     
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=None if block.train is None else block.train.dset,
-        eval_dataset=block.test.dset,
-        data_collator=block.collator,
-        compute_metrics=metric,
+        eval_dataset=dataset,
+        data_collator=identity_collate_fn,
     )
 
-    main(learn, input_args, n_lbl=block.test.dset.n_lbl, eval_k=10, train_k=10)
-    
-    
+    lbl_rep = learn._get_data_representation(dataset)
+    lbl_rep = lbl_rep.to(torch.float16)
+
+    save_dir = f"{args.output_dir}/predictions/"
+    os.makedirs(save_dir, exist_ok=True)
+    torch.save(lbl_rep, f"{save_dir}/lbl_repr_{extra_args.idx:03d}.pth")
+

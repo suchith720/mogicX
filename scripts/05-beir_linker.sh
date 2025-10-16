@@ -68,10 +68,17 @@ datasets="arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq q
         cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers cqadupstack/stats \
         cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
 
+# for dataset in $datasets
+# do
+# 	echo $dataset
+# 	suffix=$(echo $dataset | sed 's/\//-/g')
+# 	CUDA_VISIBLE_DEVICES=2,3 python mogicX/47_msmarco-gpt-category-linker-mteb-inference.py --dataset $dataset --prediction_suffix $suffix --expt_no $1
+# done
+
 for dataset in $datasets
 do
 	echo $dataset
 	suffix=$(echo $dataset | sed 's/\//-/g')
-	CUDA_VISIBLE_DEVICES=0,1 python mogicX/47_msmarco-gpt-category-linker-mteb-inference.py --dataset $dataset --prediction_suffix $suffix --expt_no $1
+	CUDA_VISIBLE_DEVICES=2,3 python mogicX/47_msmarco-gpt-category-linker-mteb-inference.py --dataset $dataset --prediction_suffix $suffix --expt_no $1 --meta_type wiki
 done
 

@@ -52,7 +52,7 @@ if __name__ == '__main__':
     data_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
                               tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
 
-    if meta_type is not None and meta_type == "wiki":
+    if extra_args.meta_type is not None and extra_args.meta_type == "wiki":
         save_dir_name = 'wiki_entities'
         meta_info_file = "outputs/wiki-entities.joblib"
 

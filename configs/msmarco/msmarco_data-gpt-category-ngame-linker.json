@@ -3,12 +3,12 @@
         "path": {
             "train": {
                 "data_lbl": "/data/datasets/beir/msmarco/XC/trn_X_Y.npz",
-                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/train_ngame-gpt-category-linker.raw.csv",
+                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/train_gpt-category-ngame-linker_msmarco.raw.csv",
                 "lbl_info": "/data/datasets/beir/msmarco/XC/raw_data/label.raw.txt"
             },
             "test": {
                 "data_lbl": "/data/datasets/beir/msmarco/XC/tst_X_Y.npz",
-                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/test_ngame-gpt-category-linker.raw.csv"
+                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/test_gpt-category-ngame-linker_msmarco.raw.csv"
             }
         },
         "parameters": {

@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     if input_args.exact:
         config_file = 'configs/msmarco/msmarco_data-ngame-category-linker_lbl_negatives-topk-05-44-distilbert-category-oracle-for-msmarco-004_exact.json'
     else:
-        config_file = 'configs/msmarco/msmarco_data-ngame-category-linker.json'
+        config_file = 'configs/msmarco/msmarco_data-gpt-category-ngame-linker.json'
 
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'

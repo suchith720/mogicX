@@ -52,7 +52,6 @@ if __name__ == '__main__':
     }
 
     input_args = parse_args()
-    input_args.only_test = True
     input_args.use_sxc_sampler = True
     input_args.do_test_inference = True
     input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'

@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -19,7 +19,7 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    output_dir = "/home/aiscuser/scratch1/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-010"
+    output_dir = "/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-010"
 
     input_args = parse_args()
 

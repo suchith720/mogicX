@@ -16,6 +16,7 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-linker-01'
 def additional_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--expt_no', type=int, required=True)
+    parser.add_argument('--meta_type', type=str, default=None)
     return parser.parse_known_args()[0]
     
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 20
@@ -51,14 +52,28 @@ if __name__ == '__main__':
     data_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
                               tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
 
-    meta_info_file = f"outputs/msmarco_category-gpt{expt_info[extra_args.expt_no]}.joblib"
-    if os.path.exists(meta_info_file):
-        meta_info = joblib.load(meta_info_file)
+    if meta_type is not None and meta_type == "wiki":
+        save_dir_name = 'wiki_entities'
+        meta_info_file = "outputs/wiki-entities.joblib"
+
+        if os.path.exists(meta_info_file):
+            meta_info = joblib.load(meta_info_file)
+        else:
+            fname = '/data/datasets/beir/msmarco/XC/raw_data/wiki-entity_ngame.raw.csv'
+            meta_info = Info.from_txt(fname, max_sequence_length=64, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
+                                      tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
+            joblib.dump(meta_info, meta_info_file)
     else:
-        fname = f'/data/datasets/beir/msmarco/XC/raw_data/category-gpt{expt_info[extra_args.expt_no]}.raw.csv'
-        meta_info = Info.from_txt(fname, max_sequence_length=64, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
-                                  tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
-        joblib.dump(meta_info, meta_info_file)
+        save_dir_name = None
+        meta_info_file = f"outputs/msmarco_category-gpt{expt_info[extra_args.expt_no]}.joblib"
+
+        if os.path.exists(meta_info_file):
+            meta_info = joblib.load(meta_info_file)
+        else:
+            fname = f'/data/datasets/beir/msmarco/XC/raw_data/category-gpt{expt_info[extra_args.expt_no]}.raw.csv'
+            meta_info = Info.from_txt(fname, max_sequence_length=64, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
+                                      tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
+            joblib.dump(meta_info, meta_info_file)
 
     mteb_dset = SXCDataset(SMainXCDataset(data_info=data_info, lbl_info=meta_info))
     ## load data 
@@ -120,5 +135,5 @@ if __name__ == '__main__':
         data_collator=identity_collate_fn,
     )
     
-    main(learn, input_args, n_lbl=mteb_dset.n_lbl, eval_k=10, train_k=10)
+    main(learn, input_args, n_lbl=mteb_dset.n_lbl, eval_k=10, train_k=10, save_dir_name=save_dir_name)
     

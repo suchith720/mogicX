@@ -63,7 +63,7 @@ if __name__ == '__main__':
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=64,
+        per_device_eval_batch_size=32,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",

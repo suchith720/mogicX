@@ -4,6 +4,8 @@ datasets="arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq q
 	cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers \
 	cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
 
+datasets="climate-fever"
+
 output_file=outputs/33_distilbert-beir-inference-001.txt
 for dataset in $datasets
 do

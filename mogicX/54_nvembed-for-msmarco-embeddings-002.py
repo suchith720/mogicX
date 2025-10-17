@@ -17,40 +17,22 @@ from sugar.core import load_raw_file
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
 
-def additional_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--idx', type=int, required=True)
-    parser.add_argument('--parts', type=int, required=True)
-    return parser.parse_known_args()[0]
-
 def get_instruction(fname, dset):
     with open(instruct_file) as file:
         instructions = json.load(file)
     return instructions[dset]
 
-# %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
-if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/54_nvembed-for-msmarco-001'
 
-    input_args = parse_args()
-    extra_args = additional_args()
-
-    do_inference = check_inference_mode(input_args)
-
-    mname = 'nvidia/NV-Embed-v2'
-    instruct_file = "/home/aiscuser/scratch1/xcai/xcai/models/nvembed/instructions.json"
-    data_prompt_func = lambda x: "Instruct: " + get_instruction(instruct_file, "MSMARCO")["query"] + f"\nQuery: {x}"
-
-    lbl_info_file = "/data/datasets/beir/msmarco/XC/raw_data/label.raw.txt"
+def tokenized_labels(lbl_info_file:str, idx:int, parts:int):
     lbl_ids, lbl_txt = load_raw_file(lbl_info_file)
 
     num_lbls = len(lbl_ids)
-    bsize = math.ceil(num_lbls / extra_args.parts)
-    start_idx, end_idx = extra_args.idx*bsize, (extra_args.idx + 1)*bsize
+    bsize = math.ceil(num_lbls / parts)
+    start_idx, end_idx = idx*bsize, (idx + 1)*bsize
 
     lbl_ids, lbl_txt = lbl_ids[start_idx:end_idx], lbl_txt[start_idx:end_idx]
-    lbl_txt = [data_prompt_func(o) for o in lbl_txt]
 
+    mname = 'nvidia/NV-Embed-v2'
     tokz = AutoTokenizer.from_pretrained(mname)
     lbl_toks = tokz(lbl_txt, padding=True, return_tensors='pt', truncation=True, max_length=300)
 
@@ -58,6 +40,64 @@ if __name__ == '__main__':
     lbl_info.update(lbl_toks)
 
     dataset = SXCDataset(SMainXCDataset(data_info=lbl_info))
+    return dataset
+
+
+def tokenized_query(qry_info_file:str, idx:int, parts:int):
+    qry_ids, qry_txt = load_raw_file(qry_info_file)
+
+    num_qrys = len(qry_ids)
+    bsize = math.ceil(num_qrys / parts)
+    start_idx, end_idx = idx*bsize, (idx + 1)*bsize
+
+    mname = 'nvidia/NV-Embed-v2'
+    instruct_file = "/home/aiscuser/scratch1/xcai/xcai/models/nvembed/instructions.json"
+    data_prompt_func = lambda x: "Instruct: " + get_instruction(instruct_file, "MSMARCO")["query"] + f"\nQuery: {x}"
+
+    qry_ids, qry_txt = qry_ids[start_idx:end_idx], qry_txt[start_idx:end_idx]
+    qry_txt = [data_prompt_func(o) for o in qry_txt]
+
+    mname = 'nvidia/NV-Embed-v2'
+    tokz = AutoTokenizer.from_pretrained(mname)
+    qry_toks = tokz(qry_txt, padding=True, return_tensors='pt', truncation=True, max_length=300)
+
+    qry_info = {'input_text': qry_txt, 'identifier': qry_ids}
+    qry_info.update(qry_toks)
+
+    dataset = SXCDataset(SMainXCDataset(data_info=qry_info))
+    return dataset
+
+
+def additional_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--idx', type=int, required=True)
+    parser.add_argument('--parts', type=int, required=True)
+
+    parser.add_argument('--get_lbl_repr', action='store_true')
+    parser.add_argument('--get_qry_repr', action='store_true')
+
+    return parser.parse_known_args()[0]
+
+
+# %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
+if __name__ == '__main__':
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/54_nvembed-for-msmarco-001'
+    # output_dir = '/data/outputs/mogicX/54_nvembed-for-msmarco-001'
+
+    input_args = parse_args()
+    extra_args = additional_args()
+
+    mname = 'nvidia/NV-Embed-v2'
+
+    do_inference = check_inference_mode(input_args)
+
+    if extra_args.get_lbl_repr:
+        lbl_info_file = "/data/datasets/beir/msmarco/XC/raw_data/label.raw.txt"
+        dataset = tokenized_labels(lbl_info_file, extra_args.idx, extra_args.parts)
+
+    if extra_args.get_qry_repr:
+        qry_info_file = "/data/datasets/beir/msmarco/XC/raw_data/test.raw.txt"
+        dataset = tokenized_labels(qry_info_file, extra_args.idx, extra_args.parts)
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -119,10 +159,18 @@ if __name__ == '__main__':
         data_collator=identity_collate_fn,
     )
 
-    lbl_rep = learn._get_data_representation(dataset)
-    lbl_rep = lbl_rep.to(torch.float16)
+    if extra_args.get_lbl_repr:
+        lbl_rep = learn._get_data_representation(dataset)
+        lbl_rep = lbl_rep.to(torch.float16)
 
-    save_dir = f"{args.output_dir}/predictions/"
-    os.makedirs(save_dir, exist_ok=True)
-    torch.save(lbl_rep, f"{save_dir}/lbl_repr_{extra_args.idx:03d}.pth")
+        save_dir = f"{args.output_dir}/predictions/"
+        os.makedirs(save_dir, exist_ok=True)
+        torch.save(lbl_rep, f"{save_dir}/lbl_repr_{extra_args.idx:03d}.pth")
 
+    if extra_args.get_qry_repr:
+        qry_rep = learn._get_data_representation(dataset)
+        qry_rep = qry_rep.to(torch.float16)
+
+        save_dir = f"{args.output_dir}/predictions/"
+        os.makedirs(save_dir, exist_ok=True)
+        torch.save(qry_rep, f"{save_dir}/qry_repr_{extra_args.idx:03d}.pth")

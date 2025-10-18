@@ -64,21 +64,23 @@ then
 	exit 1
 fi
 
-datasets="arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq quora scidocs scifact webis-touche2020 trec-covid cqadupstack/android \
-        cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers cqadupstack/stats \
-        cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
-
-# for dataset in $datasets
-# do
-# 	echo $dataset
-# 	suffix=$(echo $dataset | sed 's/\//-/g')
-# 	CUDA_VISIBLE_DEVICES=2,3 python mogicX/47_msmarco-gpt-category-linker-mteb-inference.py --dataset $dataset --prediction_suffix $suffix --expt_no $1
-# done
+datasets="arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq quora scidocs scifact webis-touche2020 trec-covid \
+	cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers \
+	cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
 
 for dataset in $datasets
 do
 	echo $dataset
 	suffix=$(echo $dataset | sed 's/\//-/g')
-	CUDA_VISIBLE_DEVICES=2,3 python mogicX/47_msmarco-gpt-category-linker-mteb-inference.py --dataset $dataset --prediction_suffix $suffix --expt_no $1 --meta_type wiki
+
+	if [ $dataset == "msmarco" ]
+	then
+		CUDA_VISIBLE_DEVICES=0,1,2,3 python mogicX/47_msmarco-gpt-category-linker-mteb-inference.py --dataset $dataset --expt_no $1 \
+			--do_train_inference
+	else
+		CUDA_VISIBLE_DEVICES=0,1,2,3 python mogicX/47_msmarco-gpt-category-linker-mteb-inference.py --dataset $dataset --prediction_suffix $suffix \
+			--expt_no $1 --do_train_inference
+	fi
+
 done
 

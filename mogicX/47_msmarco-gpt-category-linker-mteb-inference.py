@@ -25,17 +25,17 @@ if __name__ == '__main__':
     output_dir = f'/data/outputs/mogicX/47_msmarco-gpt-category-linker-{extra_args.expt_no:03d}'
 
     input_args = parse_args()
-    input_args.only_test = True
     input_args.use_sxc_sampler = True
     input_args.do_test_inference = True
     input_args.save_test_prediction = True
+    input_args.save_train_prediction = True
     input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
 
     mname = 'sentence-transformers/msmarco-distilbert-cos-v5'
 
     do_inference = check_inference_mode(input_args)
 
-    ## load data
+    # load data
     expt_info = {
         1: '', 
 
@@ -48,10 +48,19 @@ if __name__ == '__main__':
         9: '-linker_conflated-001_conflated-001',
     }
 
-    fname = f'/data/datasets/beir/{input_args.dataset}/XC/raw_data/test.raw.csv'
-    data_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
+    ## test data 
+    raw_dir = f'/data/datasets/beir/{input_args.dataset}/XC/raw_data/'
+    fname = f'{raw_dir}/test.raw.txt' if input_args.dataset == "msmarco" else f'{raw_dir}/test.raw.csv'
+    test_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
                               tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
 
+    ## train data
+    if input_args.do_train_inference:
+        fname = f'{raw_dir}/train.raw.txt' if input_args.dataset == "msmarco" else f'{raw_dir}/train.raw.csv'
+        train_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
+                                   tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
+
+    ## metadata
     if extra_args.meta_type is not None and extra_args.meta_type == "wiki":
         save_dir_name = 'wiki_entities'
         meta_info_file = "outputs/wiki-entities.joblib"
@@ -75,8 +84,9 @@ if __name__ == '__main__':
                                       tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
             joblib.dump(meta_info, meta_info_file)
 
-    mteb_dset = SXCDataset(SMainXCDataset(data_info=data_info, lbl_info=meta_info))
-    ## load data 
+    test_dset = SXCDataset(SMainXCDataset(data_info=test_info, lbl_info=meta_info))
+    train_dset = SXCDataset(SMainXCDataset(data_info=train_info, lbl_info=meta_info)) if input_args.do_train_inference else None
+    # load data 
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -130,8 +140,8 @@ if __name__ == '__main__':
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=mteb_dset,
-        eval_dataset=mteb_dset,
+        train_dataset=train_dset,
+        eval_dataset=test_dset,
         data_collator=identity_collate_fn,
     )
     

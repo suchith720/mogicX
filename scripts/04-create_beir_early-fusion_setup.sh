@@ -17,8 +17,14 @@ then
 	for dataset in $datasets
 	do
 		echo $dataset
-		python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --type raw
-		python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --type config
+
+		# python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task raw 
+		# python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task config
+
+		python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task raw --type prediction \
+			--save_dir_name wiki_entities
+		python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task config --type prediction \
+			--save_dir_name wiki_entities
 	done
 
 elif [ $TYPE == "002" ]

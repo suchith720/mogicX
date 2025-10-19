@@ -145,5 +145,5 @@ if __name__ == '__main__':
         data_collator=identity_collate_fn,
     )
     
-    main(learn, input_args, n_lbl=mteb_dset.n_lbl, eval_k=10, train_k=10, save_dir_name=save_dir_name)
+    main(learn, input_args, n_lbl=test_dset.n_lbl, eval_k=10, train_k=10, save_dir_name=save_dir_name)
     

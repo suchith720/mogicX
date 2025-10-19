@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     meta_info = {
         0: 'data-gpt-category-ngame-linker_conflated',
-        0: 'data-gpt-category-ngame-linker-conflated-wiki-entity',
+        # 0: 'data-gpt-category-ngame-linker-conflated-wiki-entity',
 
         2: 'data-gpt-category-ngame-linker',
         3: 'data-gpt-category-ngame-linker_conflated',
@@ -143,5 +143,5 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=block.test.dset.n_lbl, save_dir_name="wiki_entities")
+    main(learn, input_args, n_lbl=block.test.dset.n_lbl)
 

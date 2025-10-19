@@ -31,26 +31,33 @@ def apply_threshold(mat:sp.csr_matrix, abs_thresh:Optional[int]=None, diff_thres
 
 
 def get_combined_raw_file(output_dir:str, type:str, dataset:str, expt_no:int, meta_info:Dict, output_info:Dict, save_dir_name:Optional[str]=None, 
-                          abs_thresh:Optional[int]=None, diff_thresh:Optional[int]=None):
+                          abs_thresh:Optional[int]=None, diff_thresh:Optional[int]=None, save_train_raw:Optional[bool]=False):
     meta_ids, meta_txt = load_raw_file(f'/data/datasets/beir/msmarco/XC/raw_data/{meta_info[expt_no]}.raw.csv')
     save_dir_name = "predictions" if save_dir_name is None else save_dir_name
 
     # Train dataset
-    if dataset == "msmarco":
-        trn_ids, trn_txt = load_raw_file(f'/data/datasets/beir/{dataset}/XC/raw_data/train.raw.txt')
+    if save_train_raw: 
         fname = (
-            f'{output_dir}/{save_dir_name}/train_predictions.npz' 
+            (
+                f'{output_dir}/{save_dir_name}/train_predictions.npz' 
+                if dataset == "msmarco" else 
+                f'{output_dir}/{save_dir_name}/train_predictions_{dataset.replace("/","-")}.npz'
+            )
             if type == 'prediction' else 
             f'{output_dir}/{meta_info[expt_no]}_trn_X_Y.npz'
         )
+        if dataset == "msmarco":
+            trn_ids, trn_txt = load_raw_file(f'/data/datasets/beir/{dataset}/XC/raw_data/train.raw.txt')
+        else:
+            trn_ids, trn_txt = load_raw_file(f'/data/datasets/beir/{dataset}/XC/raw_data/train.raw.csv')
 
         if os.path.exists(fname):
             trn_meta = retain_topk(sp.load_npz(fname), k=5)
-            trn_meta = apply_threshold(trn_cat, abs_thresh=abs_thresh, diff_thresh=diff_thresh)
+            trn_meta = apply_threshold(trn_meta, abs_thresh=abs_thresh, diff_thresh=diff_thresh)
 
             trn_meta_txt = get_data_metadata(trn_meta, trn_txt, meta_txt)
             fname = (
-                f'{output_dir}/raw_data/train_{output_info[expt_no]}_{dataset}.raw.csv'
+                f'{output_dir}/raw_data/train_{output_info[expt_no]}_{dataset.replace("/", "-")}.raw.csv'
                 if type == 'prediction' else
                 f'{output_dir}/raw_data/train_{output_info[expt_no]}.raw.csv'
             )
@@ -90,14 +97,15 @@ def get_config_file(output_dir:str, dataset:str, expt_no:int, output_info:Dict):
     config_key = f"{dataset.replace('/', '-')}_data-{output_info[expt_no]}"
     config[config_key] = config.pop('data')
 
-    if input_args.dataset == "msmarco":
-        fname = f'{output_dir}/raw_data/train_{output_info[expt_no]}_{dataset.replace("/", "-")}.raw.csv'
-        if os.path.exists(fname): 
-            config[config_key]["path"]["train"]["data_info"] = fname
-        else:
-            config[config_key]["path"]["test"]["lbl_info"] = config[config_key]["path"]["train"]["lbl_info"]
-            del config[config_key]["path"]["train"]
+    # train config
+    fname = f'{output_dir}/raw_data/train_{output_info[expt_no]}_{dataset.replace("/", "-")}.raw.csv'
+    if os.path.exists(fname): 
+        config[config_key]["path"]["train"]["data_info"] = fname
+    else:
+        config[config_key]["path"]["test"]["lbl_info"] = config[config_key]["path"]["train"]["lbl_info"]
+        del config[config_key]["path"]["train"]
 
+    # test config
     fname = f'{output_dir}/raw_data/test_{output_info[expt_no]}_{dataset.replace("/", "-")}.raw.csv'
     config[config_key]["path"]["test"]["data_info"] = fname
 
@@ -118,6 +126,7 @@ def parse_args():
     parser.add_argument('--save_dir_name', type=str, default=None)
     parser.add_argument('--abs_thresh', type=float, default=None)
     parser.add_argument('--diff_thresh', type=float, default=None)
+    parser.add_argument('--save_train_info', type=bool, default=False)
     return parser.parse_known_args()[0]
 
 
@@ -127,7 +136,7 @@ if __name__ == '__main__':
     META_INFO = {
         1: f'category-gpt', 
         2: f'category-gpt_conflated', 
-        2: f'wiki-entity_ngame', 
+        # 2: f'wiki-entity_ngame', 
 
         7: f'category-gpt-linker_conflated-001_conflated-001', 
         8: f'category-gpt-linker_conflated-001_conflated-001', 
@@ -137,7 +146,7 @@ if __name__ == '__main__':
     OUTPUT_INFO = {
         1: f'gpt-category-ngame-linker', 
         2: f'gpt-category-ngame-linker_conflated',
-        2: f'gpt-category-ngame-linker-conflated-wiki-entity',
+        # 2: f'gpt-category-ngame-linker-conflated-wiki-entity',
 
         7: f'gpt-category-linker-ngame-linker_conflated-001-conflated-001-007',
         8: f'gpt-category-linker-ngame-linker_conflated-001-conflated-001-008',
@@ -155,7 +164,8 @@ if __name__ == '__main__':
 
     if input_args.task == "raw": 
         get_combined_raw_file(output_dir, input_args.type, input_args.dataset, expt_no=input_args.expt_no, meta_info=META_INFO, output_info=OUTPUT_INFO,
-                              save_dir_name=input_args.save_dir_name, abs_thresh=input_args.abs_thresh, diff_thresh=input_args.diff_thresh)
+                              save_dir_name=input_args.save_dir_name, abs_thresh=input_args.abs_thresh, diff_thresh=input_args.diff_thresh, 
+                              save_train_raw=input_args.save_train_info)
     elif input_args.task == "config":
         get_config_file(output_dir, input_args.dataset, expt_no=input_args.expt_no, output_info=OUTPUT_INFO)
 

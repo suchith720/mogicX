@@ -27,7 +27,8 @@ if __name__ == '__main__':
     input_args.use_sxc_sampler = True
     input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/' 
 
-    extra_args.output_dir = '/data/datasets/beir/all-beir/XC'
+    input_args.dataset = 'all-beir'
+    extra_args.output_dir = f'/data/datasets/beir/{input_args.dataset}/XC'
     extra_args.config_file = f'{extra_args.output_dir}/configs/data.json'
 
     TYPE = 'dataset'
@@ -50,7 +51,9 @@ if __name__ == '__main__':
         np.random.seed(100)
 
         idxs = np.random.permutation(block.test.dset.n_data)[:100]
+
         fname = os.path.basename(config_file[:-5])
+        os.makedirs(f'{output_dir}/examples', exist_ok=True)
         disp_block.dump_txt(f'{output_dir}/examples/{fname}.txt', idxs)
 
     elif TYPE == 'predictions':

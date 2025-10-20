@@ -18,7 +18,7 @@ from sugar.core import load_raw_file
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
 
 def get_instruction(fname, dset):
-    with open(instruct_file) as file:
+    with open(fname) as file:
         instructions = json.load(file)
     return instructions[dset]
 
@@ -156,7 +156,7 @@ if __name__ == '__main__':
     )
 
     def model_fn(mname):
-        model = NVM009.from_pretrained(mname, margin=0.3, tau=0.1, n_negatives=10, apply_softmax=True, use_encoder_parallel=True)
+        model = NVM009.from_pretrained(mname, margin=0.3, tau=0.1, n_negatives=10, normalize=False, apply_softmax=True, use_encoder_parallel=True)
         return model
 
     def init_fn(model): 

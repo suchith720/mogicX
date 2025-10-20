@@ -68,13 +68,21 @@ def tokenized_query(qry_info_file:str, idx:int, parts:int):
     return dataset
 
 
+def get_and_save_representation(dataset, fname:str):
+    rep = learn._get_data_representation(dataset)
+    rep = rep.to(torch.float16)
+    torch.save(rep, fname)
+
+
 def additional_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--idx', type=int, required=True)
     parser.add_argument('--parts', type=int, required=True)
 
     parser.add_argument('--get_lbl_repr', action='store_true')
-    parser.add_argument('--get_qry_repr', action='store_true')
+
+    parser.add_argument('--get_tst_repr', action='store_true')
+    parser.add_argument('--get_trn_repr', action='store_true')
 
     return parser.parse_known_args()[0]
 
@@ -95,8 +103,12 @@ if __name__ == '__main__':
         lbl_info_file = "/data/datasets/beir/msmarco/XC/raw_data/label.raw.txt"
         dataset = tokenized_labels(lbl_info_file, extra_args.idx, extra_args.parts)
 
-    if extra_args.get_qry_repr:
+    if extra_args.get_tst_repr:
         qry_info_file = "/data/datasets/beir/msmarco/XC/raw_data/test.raw.txt"
+        dataset = tokenized_labels(qry_info_file, extra_args.idx, extra_args.parts)
+
+    if extra_args.get_trn_repr:
+        qry_info_file = "/data/datasets/beir/msmarco/XC/raw_data/train.raw.txt"
         dataset = tokenized_labels(qry_info_file, extra_args.idx, extra_args.parts)
 
     args = XCLearningArguments(
@@ -159,18 +171,9 @@ if __name__ == '__main__':
         data_collator=identity_collate_fn,
     )
 
-    if extra_args.get_lbl_repr:
-        lbl_rep = learn._get_data_representation(dataset)
-        lbl_rep = lbl_rep.to(torch.float16)
+    save_dir = f"{args.output_dir}/predictions/"
+    os.makedirs(save_dir, exist_ok=True)
 
-        save_dir = f"{args.output_dir}/predictions/"
-        os.makedirs(save_dir, exist_ok=True)
-        torch.save(lbl_rep, f"{save_dir}/lbl_repr_{extra_args.idx:03d}.pth")
-
-    if extra_args.get_qry_repr:
-        qry_rep = learn._get_data_representation(dataset)
-        qry_rep = qry_rep.to(torch.float16)
-
-        save_dir = f"{args.output_dir}/predictions/"
-        os.makedirs(save_dir, exist_ok=True)
-        torch.save(qry_rep, f"{save_dir}/qry_repr_{extra_args.idx:03d}.pth")
+    if extra_args.get_lbl_repr: get_and_save_representation(dataset, f'{save_dir}/lbl_repr_{extra_args.idx:03d}.pth')
+    if extra_args.get_trn_repr: get_and_save_representation(dataset, f'{save_dir}/trn_repr_{extra_args.idx:03d}.pth')
+    if extra_args.get_tst_repr: get_and_save_representation(dataset, f'{save_dir}/tst_repr_{extra_args.idx:03d}.pth')

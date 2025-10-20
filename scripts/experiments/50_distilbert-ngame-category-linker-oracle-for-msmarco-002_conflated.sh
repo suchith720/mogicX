@@ -12,8 +12,9 @@ do
 	echo $dataset : >> $output_file
 	suffix=$(echo $dataset | sed 's/\//-/g')
 
-	CUDA_VISIBLE_DEVICES=0,1,2,3 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset --expt_no 0 \
-		--save_test_prediction --do_train_inference --save_train_prediction --prediction_suffix $suffix >> $output_file
+	CUDA_VISIBLE_DEVICES=0,1,2,3 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset \
+		--expt_no 0 --save_test_prediction --do_train_inference --save_train_prediction --prediction_suffix $suffix \
+		--save_dir_name predictions/47_msmarco-gpt-category-linker-002 >> $output_file
 
 	# if [ $dataset == "msmarco" ]
 	# then

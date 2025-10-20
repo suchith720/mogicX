@@ -143,5 +143,5 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=block.test.dset.n_lbl)
+    main(learn, input_args, n_lbl=block.test.dset.n_lbl, save_dir_name=input_args.save_dir_name)
 

@@ -126,7 +126,7 @@ def parse_args():
     parser.add_argument('--save_dir_name', type=str, default=None)
     parser.add_argument('--abs_thresh', type=float, default=None)
     parser.add_argument('--diff_thresh', type=float, default=None)
-    parser.add_argument('--save_train_info', type=bool, default=False)
+    parser.add_argument('--save_train_info', action='store_true') 
     return parser.parse_known_args()[0]
 
 

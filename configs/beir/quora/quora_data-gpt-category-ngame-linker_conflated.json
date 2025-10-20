@@ -3,7 +3,11 @@
         "path": {
             "test": {
                 "data_lbl": "/data/datasets/beir/quora/XC/tst_X_Y.npz",
-                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-002/raw_data/test_gpt-category-ngame-linker_conflated_quora.raw.csv",
+                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-002/raw_data/test_gpt-category-ngame-linker_conflated_quora.raw.csv"
+            },
+            "train": {
+                "data_lbl": "/data/datasets/beir/quora/XC/trn_X_Y.npz",
+                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-002/raw_data/train_gpt-category-ngame-linker_conflated_quora.raw.csv",
                 "lbl_info": "/data/datasets/beir/quora/XC/raw_data/label.raw.csv"
             }
         },

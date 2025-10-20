@@ -8,6 +8,6 @@ output_file=outputs/56_bm25-for-beir-inference-001.txt
 for dataset in $datasets
 do
 	echo $dataset
-	python mogicX/56_bm25-for-beir-inference-001.py --dataset $dataset >> $output_file
+	python mogicX/56_bm25-for-beir-inference-001.py --dataset $dataset --type bm25s >> $output_file
 done
 

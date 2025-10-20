@@ -105,11 +105,11 @@ if __name__ == '__main__':
 
     if extra_args.get_tst_repr:
         qry_info_file = "/data/datasets/beir/msmarco/XC/raw_data/test.raw.txt"
-        dataset = tokenized_labels(qry_info_file, extra_args.idx, extra_args.parts)
+        dataset = tokenized_query(qry_info_file, extra_args.idx, extra_args.parts)
 
     if extra_args.get_trn_repr:
         qry_info_file = "/data/datasets/beir/msmarco/XC/raw_data/train.raw.txt"
-        dataset = tokenized_labels(qry_info_file, extra_args.idx, extra_args.parts)
+        dataset = tokenized_query(qry_info_file, extra_args.idx, extra_args.parts)
 
     args = XCLearningArguments(
         output_dir=output_dir,

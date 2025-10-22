@@ -5,11 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-# os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
-
-# os.environ["NCCL_DEBUG"] = "NONE"
-# os.environ["ROCM_DISABLE_WARNINGS"] = "1"
-# os.environ["MIOPEN_LOG_LEVEL"] = "0"
+# os.environ['CUDA_VISIBLE_DEVICES'] = '2,3,4,5'
 
 os.environ["NCCL_DEBUG"] = "NONE"
 os.environ["CUDNN_LOGINFO_DBG"] = "0"
@@ -19,8 +15,6 @@ os.environ["CUDNN_LOGWARN_DBG"] = "0"
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
-from transformers import DistilBertConfig
-
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT023
 
@@ -29,19 +23,19 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    output_dir = '/data/outputs/mogicX/44_distilbert-category-oracle-for-msmarco-004'
+    output_dir = '/data/outputs/mogicX/44_distilbert-gpt-category-linker-oracle-for-msmarco-005'
 
     input_args = parse_args()
 
     input_args.only_test = True
     input_args.use_sxc_sampler = True
     input_args.do_test_inference = True
-    input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
+    input_args.pickle_dir = "/home/aiscuser/scratch1/datasets/processed/"
 
     if input_args.dataset == "msmarco":
-        config_file = '/data/datasets/beir/msmarco/XC/configs/data-category.json'
+        config_file = 'configs/msmarco/msmarco_data-gpt-category-linker.json'
     else:
-        config_file = f'/data/share/from_deepak/beir/{input_args.dataset}/configs/data-gpt-category.json'
+        config_file = f'/data/share/from_deepak/beir/{input_args.dataset}/configs/data-gpt-category-linker.json'
 
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
@@ -60,13 +54,13 @@ if __name__ == '__main__':
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=800,
+        per_device_eval_batch_size=1600,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
         eval_strategy="steps",
-        eval_steps=1000,
-        save_steps=1000,
+        eval_steps=5000,
+        save_steps=5000,
         save_total_limit=5,
         num_train_epochs=50,
         predict_with_representation=True,
@@ -101,7 +95,7 @@ if __name__ == '__main__':
     )
 
     def model_fn(mname):
-        model = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=True, use_encoder_parallel=True)
+        model = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=False, use_encoder_parallel=True)
         return model
     
     def init_fn(model): 
@@ -124,5 +118,5 @@ if __name__ == '__main__':
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=block.test.dset.n_lbl)
+    main(learn, input_args, n_lbl=block.test.dset.n_lbl, eval_k=10, train_k=10)
     

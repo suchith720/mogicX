@@ -21,6 +21,8 @@ then
 		python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task raw --save_train_info
 		python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task config --save_train_info
 
+		# python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task config 
+
 		# python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task raw --type prediction \
 		# 	--save_dir_name wiki_entities
 		# python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task config --type prediction \

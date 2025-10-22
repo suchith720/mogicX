@@ -38,6 +38,7 @@ if __name__ == '__main__':
     meta_info = {
         0: 'data-gpt-category-ngame-linker_conflated',
         # 0: 'data-gpt-category-ngame-linker-conflated-wiki-entity',
+        0: 'data-gpt-category-ngame-linker-conflated-wiki-entity-combined',
 
         2: 'data-gpt-category-ngame-linker',
         3: 'data-gpt-category-ngame-linker_conflated',
@@ -128,8 +129,6 @@ if __name__ == '__main__':
 
     metric = PrecReclMrr(block.test.dset.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, rep_pk=[1, 3, 5, 10], 
                          rep_rk=[10, 100, 200], mk=[5, 10, 20])
-
-    bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
     model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, 
                        use_pretrained=input_args.use_pretrained)

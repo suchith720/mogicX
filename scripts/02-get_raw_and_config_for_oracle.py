@@ -147,6 +147,7 @@ if __name__ == '__main__':
         1: f'gpt-category-ngame-linker', 
         2: f'gpt-category-ngame-linker_conflated',
         # 2: f'gpt-category-ngame-linker-conflated-wiki-entity',
+        2: f'gpt-category-ngame-linker-conflated-wiki-entity-combined',
 
         7: f'gpt-category-linker-ngame-linker_conflated-001-conflated-001-007',
         8: f'gpt-category-linker-ngame-linker_conflated-001-conflated-001-008',

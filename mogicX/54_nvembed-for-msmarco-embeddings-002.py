@@ -99,16 +99,18 @@ if __name__ == '__main__':
 
     do_inference = check_inference_mode(input_args)
 
+    data_dir = f"/data/datasets/beir/{input_args.dataset.replace('/', '-')}/XC/"
+
     if extra_args.get_lbl_repr:
-        lbl_info_file = "/data/datasets/beir/msmarco/XC/raw_data/label.raw.txt"
+        lbl_info_file = f"{data_dir}/raw_data/label.raw.txt" if input_args.dataset == "msmarco" else f"{data_dir}/raw_data/label.raw.csv"
         dataset = tokenized_labels(lbl_info_file, extra_args.idx, extra_args.parts)
 
     if extra_args.get_tst_repr:
-        qry_info_file = "/data/datasets/beir/msmarco/XC/raw_data/test.raw.txt"
+        qry_info_file = f"{data_dir}/raw_data/test.raw.txt" if input_args.dataset == "msmarco" else f"{data_dir}/raw_data/test.raw.csv" 
         dataset = tokenized_query(qry_info_file, extra_args.idx, extra_args.parts)
 
     if extra_args.get_trn_repr:
-        qry_info_file = "/data/datasets/beir/msmarco/XC/raw_data/train.raw.txt"
+        qry_info_file = f"{data_dir}/raw_data/train.raw.txt" if input_args.dataset == "msmarco" else f"{data_dir}/raw_data/train.raw.csv"
         dataset = tokenized_query(qry_info_file, extra_args.idx, extra_args.parts)
 
     args = XCLearningArguments(
@@ -171,9 +173,10 @@ if __name__ == '__main__':
         data_collator=identity_collate_fn,
     )
 
-    save_dir = f"{args.output_dir}/predictions/"
+    save_dir = f"{args.output_dir}/predictions/{input_args.dataset}"
     os.makedirs(save_dir, exist_ok=True)
 
     if extra_args.get_lbl_repr: get_and_save_representation(dataset, f'{save_dir}/lbl_repr_{extra_args.idx:03d}.pth')
     if extra_args.get_trn_repr: get_and_save_representation(dataset, f'{save_dir}/trn_repr_{extra_args.idx:03d}.pth')
     if extra_args.get_tst_repr: get_and_save_representation(dataset, f'{save_dir}/tst_repr_{extra_args.idx:03d}.pth')
+

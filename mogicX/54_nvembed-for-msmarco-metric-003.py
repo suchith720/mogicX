@@ -17,8 +17,8 @@ def additional_args():
     return parser.parse_known_args()[0]
 
 if __name__ == "__main__":
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/54_nvembed-for-msmarco-001/predictions'
     extra_args = additional_args()
+    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/54_nvembed-for-msmarco-001/predictions/msmarco/'
 
     if extra_args.combine_lbl_embed:
         lbl_repr = torch.vstack([torch.load(f'{output_dir}/lbl_repr_{idx:03d}.pth') for idx in range(extra_args.num_parts)])

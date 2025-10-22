@@ -1,9 +1,9 @@
 {
-    "msmarco_data-ngame-category-linker_lbl_negatives-topk-05-nvembed_exact": {
+    "msmarco_data-gpt-category-ngame-linker_lbl_negatives-topk-05-nvembed_exact": {
         "path": {
             "train": {
                 "data_lbl": "/data/outputs/mogicX/54_nvembed-for-msmarco-001/matrices/msmarco/trn_X_Y.npz",
-                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/train_ngame-gpt-category-linker.raw.csv",
+                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/train_gpt-category-ngame-linker_msmarco.raw.csv",
                 "lbl_info": "/data/datasets/beir/msmarco/XC//raw_data/label_exact.raw.txt",
                 "neg_meta": {
                     "prefix": "neg",
@@ -13,7 +13,7 @@
             },
             "test": {
                 "data_lbl": "/data/datasets/beir/msmarco/XC//tst_X_Y_exact.npz",
-                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/test_ngame-gpt-category-linker.raw.csv",
+                "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-001/raw_data/test_gpt-category-ngame-linker_msmarco.raw.csv",
                 "lbl_info": "/data/datasets/beir/msmarco/XC//raw_data/label_exact.raw.txt"
             }
         },

@@ -1,4 +1,4 @@
-import torch, scipy.sparse as sp
+import torch, scipy.sparse as sp, os
 
 from xcai.main import *
 from xcai.data import BaseXCDataset
@@ -13,6 +13,8 @@ if __name__ == '__main__':
     output_dir = f"/data/outputs/mogicX/54_nvembed-for-msmarco-001/predictions/{input_args.dataset}"
 
     if input_args.dataset == "msmarco":
+        print("Loading data ...")
+
         trn_repr = torch.load(f"{output_dir}/trn_repr.pth")
 
         lbl_repr = torch.load(f"{output_dir}/lbl_repr.pth")
@@ -33,15 +35,16 @@ if __name__ == '__main__':
     else:
         raise ValueError(f"Invalid dataset: {input_args.dataset}")
 
-    assert trn_mat.shape == (trn_repr.shape[0], lbl_repr.shape[0])
-    curr_trn_mat = BaseXCDataset.score_data_lbl(trn_mat, trn_repr, lbl_repr, batch_size=1024, normalize=input_args.normalize)
+    print("Scoring matrix ...")
 
-    assert neg_mat.shape == (trn_repr.shape[0], neg_repr.shape[0])
-    curr_neg_mat = BaseXCDataset.score_data_lbl(neg_mat, trn_repr, neg_repr, batch_size=1024, normalize=input_args.normalize)
-
-    save_dir = f"/data/datasets/beir/{input_args.dataset}/XC/matrices/"
+    save_dir = f"/data/outputs/mogicX/54_nvembed-for-msmarco-001/matrices/{input_args.dataset}"
     os.makedirs(save_dir, exist_ok=True)
 
-    sp.save_npz(curr_trn_mat, f"{save_dir}/trn_X_Y_normalize.npz" if input_args.normalize else f"{save_dir}/trn_X_Y.npz")
-    sp.save_npz(curr_neg_mat, f"{save_dir}/negatives_trn_X_Y_normalize.npz" if input_args.normalize else f"{save_dir}/negatives_trn_X_Y.npz")
+    assert trn_mat.shape == (trn_repr.shape[0], lbl_repr.shape[0])
+    curr_trn_mat = BaseXCDataset.score_data_lbl(trn_mat, trn_repr.float(), lbl_repr.float(), batch_size=1024, normalize=input_args.normalize)
+    sp.save_npz(f"{save_dir}/trn_X_Y_normalize.npz" if input_args.normalize else f"{save_dir}/trn_X_Y.npz", curr_trn_mat)
+
+    assert neg_mat.shape == (trn_repr.shape[0], neg_repr.shape[0])
+    curr_neg_mat = BaseXCDataset.score_data_lbl(neg_mat, trn_repr.float(), neg_repr.float(), batch_size=1024, normalize=input_args.normalize)
+    sp.save_npz(f"{save_dir}/negatives_trn_X_Y_normalize.npz" if input_args.normalize else f"{save_dir}/negatives_trn_X_Y.npz", curr_neg_mat)
 

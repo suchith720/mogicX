@@ -9,5 +9,5 @@ for dataset in $datasets
 do
 	echo $dataset
 	echo $dataset : >> $output_file
-	CUDA_VISIBLE_DEVICES=2,3 python mogicX/44_distilbert-gpt-category-linker-oracle-for-msmarco-beir-inference.py --dataset $dataset >> $output_file
+	CUDA_VISIBLE_DEVICES=0,1 python mogicX/44_distilbert-gpt-category-linker-oracle-for-msmarco-beir-inference.py --dataset $dataset >> $output_file
 done

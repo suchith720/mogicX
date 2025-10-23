@@ -102,5 +102,5 @@ cqadupstack/wordpress:
 Train shape: 144965 x 48605
 Test shape: 541 x 48605
 
-Total training points: 34115525
-Total labels: 33860495
+Total training points: 34,115,525
+Total labels: 33,860,495

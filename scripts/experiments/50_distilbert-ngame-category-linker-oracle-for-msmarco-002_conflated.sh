@@ -4,7 +4,9 @@ datasets="msmarco arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcor
 	cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers \
 	cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
 
-output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-002_conflated-wiki-entities-combined.txt
+output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-002_conflated.txt
+# output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-002_conflated-wiki-entities-combined.txt
+
 for dataset in $datasets
 do
 	echo $dataset
@@ -12,12 +14,12 @@ do
 	echo $dataset : >> $output_file
 	suffix=$(echo $dataset | sed 's/\//-/g')
 
-	CUDA_VISIBLE_DEVICES=4,5 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset \
-		--expt_no 0 >> $output_file
+	CUDA_VISIBLE_DEVICES=4,5,6,7 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset \
+		--expt_no 0 --save_test_prediction --do_train_inference --save_train_prediction --prediction_suffix $suffix \
+		--save_dir_name predictions/47_msmarco-gpt-category-linker-002 >> $output_file
 
-	# CUDA_VISIBLE_DEVICES=0,1,2,3 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset \
-	# 	--expt_no 0 --save_test_prediction --do_train_inference --save_train_prediction --prediction_suffix $suffix \
-	# 	--save_dir_name predictions/47_msmarco-gpt-category-linker-002 >> $output_file
+	# CUDA_VISIBLE_DEVICES=0,1,4,5 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset \
+	# 	--expt_no 0 >> $output_file
 
 	# if [ $dataset == "msmarco" ]
 	# then
@@ -27,6 +29,5 @@ do
 	# 	CUDA_VISIBLE_DEVICES=0,1,2,3 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset \
 	# 		--expt_no 0 --save_test_prediction --prediction_suffix $suffix --only_test >> $output_file
 	# fi
-
 done
 

@@ -73,18 +73,17 @@
 # 	python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --use_sxc_sampler --pickle_dir /home/aiscuser/scratch1/datasets/processed/ --only_test --do_test_inference --dataset $dataset >> $output_file
 # done
 
-datasets="arguana webis-touche2020 cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics \
-	cqadupstack/programmers cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress msmarco climate-fever \
-	dbpedia-entity fever fiqa hotpotqa nfcorpus nq quora scidocs scifact trec-covid"
-
-output_file=outputs/44_distilbert-category-oracle-for-msmarco-004.txt
-for dataset in $datasets
-do
-	echo $dataset
-	echo $dataset : >> $output_file
-	CUDA_VISIBLE_DEVICES=0,1 python mogicX/44_distilbert-category-oracle-for-msmarco-mteb-inference.py --dataset $dataset >> $output_file
-done
-exit 1
+# datasets="arguana webis-touche2020 cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics \
+# 	cqadupstack/programmers cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress msmarco climate-fever \
+# 	dbpedia-entity fever fiqa hotpotqa nfcorpus nq quora scidocs scifact trec-covid"
+# 
+# output_file=outputs/44_distilbert-category-oracle-for-msmarco-004.txt
+# for dataset in $datasets
+# do
+# 	echo $dataset
+# 	echo $dataset : >> $output_file
+# 	CUDA_VISIBLE_DEVICES=0,1 python mogicX/44_distilbert-category-oracle-for-msmarco-mteb-inference.py --dataset $dataset >> $output_file
+# done
 
 # output_file=outputs/48_oak-distilbert-for-msmarco-from-scratch-with-category-metadata-001.txt
 # for dataset in $datasets

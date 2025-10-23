@@ -38,7 +38,7 @@ if __name__ == '__main__':
     meta_info = {
         0: 'data-gpt-category-ngame-linker_conflated',
         # 0: 'data-gpt-category-ngame-linker-conflated-wiki-entity',
-        0: 'data-gpt-category-ngame-linker-conflated-wiki-entity-combined',
+        # 0: 'data-gpt-category-ngame-linker-conflated-wiki-entity-combined',
 
         2: 'data-gpt-category-ngame-linker',
         3: 'data-gpt-category-ngame-linker_conflated',
@@ -80,7 +80,7 @@ if __name__ == '__main__':
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=800,
+        per_device_eval_batch_size=1600,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",

@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '6,7'
+os.environ['CUDA_VISIBLE_DEVICES'] = '8,9'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -17,7 +17,7 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    output_dir = "/home/aiscuser/scratch1/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-012"
+    output_dir = "/home/aiscuser/scratch1/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-014"
 
     input_args = parse_args()
 
@@ -25,7 +25,7 @@ if __name__ == '__main__':
     input_args.pickle_dir = "/home/aiscuser/scratch1/datasets/processed/" 
 
     if input_args.exact:
-        config_file = 'configs/msmarco/msmarco_data-gpt-category-ngame-linker_lbl_negatives-topk-05-nvembed_exact.json'
+        config_file = 'configs/msmarco/msmarco_data-gpt-category-ngame-linker_lbl_negatives-topk-05-nvembed-normalize_exact.json'
     else:
         config_file = 'configs/msmarco/msmarco_data-gpt-category-ngame-linker.json'
 
@@ -51,8 +51,8 @@ if __name__ == '__main__':
         representation_accumulation_steps=10,
         save_strategy="steps",
         eval_strategy="steps",
-        eval_steps=5000,
-        save_steps=5000,
+        eval_steps=1000,
+        save_steps=1000,
         save_total_limit=5,
         num_train_epochs=50,
         predict_with_representation=True,
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     )
 
     def model_fn(mname):
-        model = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=False, use_encoder_parallel=True)
+        model = DBT023.from_pretrained(mname, normalize=True, use_layer_norm=True, use_encoder_parallel=True)
         return model
     
     def init_fn(model): 

@@ -9,6 +9,16 @@ from xcai.main import *
 from sugar.core import *
 from xclib.evaluation.xc_metrics import ndcg
 
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+h = logging.StreamHandler()
+h.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s - %(message)s")
+h.setFormatter(formatter)
+logger.addHandler(h)
 
 def bm25_rank_chunk(args):
     queries, corpus, n = args
@@ -56,7 +66,9 @@ def rank_bm25_inference(corpus:List, trn_txt:List, tst_txt:List, top_n:Optional[
     return trn_pred, tst_pred
 
 
-def bm25s_inference(corpus:List, trn_txt:List, tst_txt:List):
+def bm25s_chunk(args):
+    queries, corpus, k = args
+
     stemmer = Stemmer.Stemmer("english")
     tokenizer = bm25s.tokenization.Tokenizer(stemmer=stemmer, stopwords="en")
     corpus_tokens = tokenizer.tokenize(corpus, return_as="tuple")
@@ -64,14 +76,44 @@ def bm25s_inference(corpus:List, trn_txt:List, tst_txt:List):
     retriever = bm25s.BM25(backend="numba")
     retriever.index(corpus_tokens)
 
-    toks = tokenizer.tokenize(trn_txt)
-    indices, scores = retriever.retrieve(toks, k=200)
-    indptr = np.hstack([np.zeros(1, dtype=np.int64), np.full((len(trn_txt),), 200).cumsum()])
-    trn_pred = sp.csr_matrix((scores.flatten(), indices.flatten(), indptr), shape=(len(trn_txt), len(corpus)))
+    toks = tokenizer.tokenize(queries)
+    indices, scores = retriever.retrieve(toks, k=k)
+    indptr = np.hstack([np.zeros(1, dtype=np.int64), np.full((len(queries),), k).cumsum()])
+    pred = sp.csr_matrix((scores.flatten(), indices.flatten(), indptr), shape=(len(queries), len(corpus)), dtype=np.float32)
+
+    return pred
+
+
+def _bm25s_inference(corpus:List, queries:List, k:Optional[int]=10, num_processes:Optional[int]=10):
+    chunk_size = int(np.ceil(len(queries) / num_processes))
+    query_chunks = [queries[i:i+chunk_size] for i in range(0, len(queries), chunk_size)]
+
+    args = [(chunk, corpus, k) for chunk in query_chunks]
+
+    with mp.Pool(processes=num_processes) as pool:
+        results = pool.map(bm25s_chunk, args)
+
+    pred = sp.vstack([pred for pred in results])
+    assert pred.shape[0] == len(queries)
+    assert pred.shape[1] == len(corpus)
+    return pred
+
+
+def bm25s_inference(corpus:List, trn_txt:List, tst_txt:List, k:Optional[int]=10, num_processes:Optional[int]=10):
+    logger.info('Computing train-set predictions ...')
+    trn_pred = _bm25s_inference(corpus, trn_txt, k, num_processes)
+
+    logger.info('Computing test-set predictions ...')
+    stemmer = Stemmer.Stemmer("english")
+    tokenizer = bm25s.tokenization.Tokenizer(stemmer=stemmer, stopwords="en")
+    corpus_tokens = tokenizer.tokenize(corpus, return_as="tuple")
+
+    retriever = bm25s.BM25(backend="numba")
+    retriever.index(corpus_tokens)
 
     toks = tokenizer.tokenize(tst_txt)
-    indices, scores = retriever.retrieve(toks, k=200)
-    indptr = np.hstack([np.zeros(1, dtype=np.int64), np.full((len(tst_txt),), 200).cumsum()])
+    indices, scores = retriever.retrieve(toks, k=k)
+    indptr = np.hstack([np.zeros(1, dtype=np.int64), np.full((len(tst_txt),), k).cumsum()])
     tst_pred = sp.csr_matrix((scores.flatten(), indices.flatten(), indptr), shape=(len(tst_txt), len(corpus)))
 
     return trn_pred, tst_pred
@@ -89,6 +131,7 @@ if __name__ == "__main__":
 
     raw_dir = f'/data/datasets/beir/{input_args.dataset}/XC/raw_data/'
 
+    logger.info('Loading data ...')
     # load corpus
     fname = f'{raw_dir}/label.raw.txt' if input_args.dataset == "msmarco" else f'{raw_dir}/label.raw.csv'
     lbl_ids, corpus = load_raw_file(fname)
@@ -104,9 +147,9 @@ if __name__ == "__main__":
     tst_mat.data[:] = 1.0
     
     if extra_args.type == "rank_bm25":
-        trn_pred, tst_pred = rank_bm25_inference(corpus, trn_txt, tst_txt, top_n=top_n, num_processes=num_processes)
+        trn_pred, tst_pred = rank_bm25_inference(corpus, trn_txt, tst_txt, top_n=10, num_processes=10)
     elif extra_args.type == "bm25s":
-        trn_pred, tst_pred = bm25s_inference(corpus, trn_txt, tst_txt)
+        trn_pred, tst_pred = bm25s_inference(corpus, trn_txt, tst_txt, k=10, num_processes=10)
     else:
         raise ValueError(f'Invalid type: {extra_args.type}')
 

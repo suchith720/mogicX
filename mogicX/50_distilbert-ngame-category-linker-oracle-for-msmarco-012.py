@@ -5,7 +5,7 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '6,7'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
@@ -42,6 +42,17 @@ if __name__ == '__main__':
                         only_test=input_args.only_test, main_oversample=True, meta_oversample=True, return_scores=True, 
                         n_slbl_samples=1, n_sdata_meta_samples=1)
 
+    # normalize the scores
+    def normalize_(mat:sp.csr_matrix, mean:float, std:float):
+        mat.data[:] = (mat.data - mean)/std
+
+    data_lbl, data_meta = block.train.dset.data.data_lbl, block.train.dset.meta["neg_meta"].data_meta
+    mean, std = data_meta.data.mean(), data_meta.data.std()
+
+    normalize_(data_lbl, mean, std)
+    normalize_(data_meta, mean, std)
+    # normalize the scores
+
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
@@ -62,7 +73,7 @@ if __name__ == '__main__':
         adam_epsilon=1e-6,
         warmup_steps=1000,
         weight_decay=0.01,
-        learning_rate=6e-5,
+        learning_rate=1e-6,
         label_names=['plbl2data_idx', 'plbl2data_data2ptr'],
     
         group_by_cluster=True,

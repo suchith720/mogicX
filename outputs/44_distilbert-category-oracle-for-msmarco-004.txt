@@ -25,32 +25,6 @@ nfcorpus :
 
 
 arguana :
-webis-touche2020 :
-cqadupstack/android :
-cqadupstack/english :
-cqadupstack/gaming :
-cqadupstack/gis :
-cqadupstack/mathematica :
-cqadupstack/physics :
-cqadupstack/programmers :
-cqadupstack/stats :
-cqadupstack/tex :
-cqadupstack/unix :
-cqadupstack/webmasters :
-cqadupstack/wordpress :
-msmarco :
-climate-fever :
-dbpedia-entity :
-fever :
-fiqa :
-hotpotqa :
-nfcorpus :
-nq :
-quora :
-scidocs :
-scifact :
-trec-covid :
-arguana :
 {'test_P@1': 0.0007137758743754461, 'test_P@10': 0.06923625981441739, 'test_P@3': 0.11444206519152998, 'test_P@5': 0.10035688793718812, 'test_N@1': 0.0007137758657336235, 'test_N@10': 0.3291853070259094, 'test_N@3': 0.20248615741729736, 'test_N@5': 0.267821341753006, 'test_R@200': 0.9543183440399714, 'test_R@10': 0.6923625981441828, 'test_R@100': 0.9307637401855817, 'test_MRR@20': 0.22340911743063677, 'test_MRR@10': 0.2150136523798194, 'test_MRR@5': 0.18982869379014988, 'test_runtime': 7.6895, 'test_samples_per_second': 182.197, 'test_steps_per_second': 0.13}
 webis-touche2020 :
 {'test_P@1': 0.40816326530612246, 'test_P@10': 0.27959183673469384, 'test_P@3': 0.38775510204081626, 'test_P@5': 0.33877551020408164, 'test_N@1': 0.40816327929496765, 'test_N@10': 0.32919183373451233, 'test_N@3': 0.4000672399997711, 'test_N@5': 0.36270156502723694, 'test_R@200': 0.5726975883331691, 'test_R@10': 0.19457916704514427, 'test_R@100': 0.4793177900768151, 'test_MRR@20': 0.6003158406219631, 'test_MRR@10': 0.5971574344023323, 'test_MRR@5': 0.5785714285714285, 'test_runtime': 111.8926, 'test_samples_per_second': 0.438, 'test_steps_per_second': 0.009}
@@ -82,6 +56,8 @@ msmarco :
 climate-fever :
 {'test_P@1': 0.21889250814332248, 'test_P@10': 0.07654723127035767, 'test_P@3': 0.1409337676438663, 'test_P@5': 0.11074918566775205, 'test_N@1': 0.21889251470565796, 'test_N@10': 0.2443736344575882, 'test_N@3': 0.1937396079301834, 'test_N@5': 0.21176311373710632, 'test_R@200': 0.6253854505971762, 'test_R@10': 0.30089033659066144, 'test_R@100': 0.5547557003257323, 'test_MRR@20': 0.3308067835941193, 'test_MRR@10': 0.3229716664081485, 'test_MRR@5': 0.30775244299674265, 'test_runtime': 1759.2881, 'test_samples_per_second': 0.873, 'test_steps_per_second': 0.001}
 dbpedia-entity :
+
+
 arguana :
 {'test_P@1': 0.0007137758743754461, 'test_P@10': 0.06923625981441739, 'test_P@3': 0.11444206519152998, 'test_P@5': 0.10035688793718812, 'test_N@1': 0.0007137758657336235, 'test_N@10': 0.3291853070259094, 'test_N@3': 0.20248615741729736, 'test_N@5': 0.267821341753006, 'test_R@200': 0.9543183440399714, 'test_R@10': 0.6923625981441828, 'test_R@100': 0.9307637401855817, 'test_MRR@20': 0.22340911743063677, 'test_MRR@10': 0.2150136523798194, 'test_MRR@5': 0.18982869379014988, 'test_runtime': 7.4979, 'test_samples_per_second': 186.852, 'test_steps_per_second': 0.133}
 webis-touche2020 :

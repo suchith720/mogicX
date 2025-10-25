@@ -19,7 +19,8 @@ if __name__ == '__main__':
     input_args = parse_args()
 
     input_args.use_sxc_sampler = True
-    input_args.pickle_dir = "/home/aiscuser/scratch1/datasets/processed/"
+    # input_args.pickle_dir = "/home/aiscuser/scratch1/datasets/processed/"
+    input_args.pickle_dir = "/data/datasets/processed/mogicX/"
 
     if input_args.exact:
         config_file = '/data/datasets/beir/all-beir/XC/configs/data_msmarco-exact.json'
@@ -41,8 +42,8 @@ if __name__ == '__main__':
     args = XCLearningArguments(
         output_dir=output_dir,
         logging_first_step=True,
-        per_device_train_batch_size=300,
-        per_device_eval_batch_size=300,
+        per_device_train_batch_size=340,
+        per_device_eval_batch_size=340,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",

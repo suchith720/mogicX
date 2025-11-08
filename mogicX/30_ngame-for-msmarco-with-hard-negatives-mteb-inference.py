@@ -5,45 +5,45 @@ __all__ = []
 
 # %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9'
 os.environ["NCCL_DEBUG"] = "NONE"
-os.environ["ROCM_DISABLE_WARNINGS"] = "1"
-os.environ["MIOPEN_LOG_LEVEL"] = "0"
+os.environ["CUDNN_LOGINFO_DBG"] = "0"
+os.environ["CUDNN_LOGDEST_DBG"] = "NULL"
+os.environ["CUDNN_LOGERROR_DBG"] = "0"
+os.environ["CUDNN_LOGWARN_DBG"] = "0"
 
-import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
-
-from transformers import DistilBertConfig
+import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT024
+
+def additional_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--expt_no', type=int, required=True)
+    return parser.parse_known_args()[0]
 
 # %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 4
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
 # %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 6
 if __name__ == '__main__':
-    output_dir = '/home/aiscuser/scratch1/outputs/mogicX/30_ngame-for-msmarco-with-hard-negatives-003'
-
     input_args = parse_args()
-    
-    if input_args.exact: 
-        raise ValueError("Arguement 'exact' is not allowed.")
-    
-    if not input_args.only_test:
-        raise ValueError("Arguement 'only_test' required.")
-    
-    config_file = f'/data/datasets/{input_args.dataset}/XC/configs/data.json'
-    config_key = 'data'
-    
-    mname = 'distilbert-base-uncased'
-    # mname = '/home/aiscuser/scratch1/outputs/mogicX/30_ngame-for-msmarco-with-hard-negatives-003/checkpoint-59000/'
+    input_args.only_test = True
+    input_args.use_sxc_sampler = True
+    input_args.do_test_inference = True
+    input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_data_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    extra_args = additional_args()
+
+    output_dir = f'/data/outputs/mogicX/30_ngame-for-msmarco-with-hard-negatives-{extra_args.expt_no:03d}'
+    config_file = f'/data/datasets/beir/{input_args.dataset}/XC/configs/data.json'
+    config_key, fname = get_config_key(config_file)
+
+    # mname = 'distilbert-base-uncased'
+    mname = 'sentence-transformers/msmarco-distilbert-cos-v5'
+
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset.replace("/", "-")}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
-
-    do_inference = input_args.do_train_inference or input_args.do_test_inference or input_args.save_train_prediction or input_args.save_test_prediction or input_args.save_representation
-
-    os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
+    do_inference = check_inference_mode(input_args)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
                         only_test=input_args.only_test, n_slbl_samples=1)
 
@@ -51,13 +51,13 @@ if __name__ == '__main__':
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=800,
+        per_device_eval_batch_size=1600,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
         eval_strategy="steps",
-        eval_steps=500,
-        save_steps=500,
+        eval_steps=5000,
+        save_steps=5000,
         save_total_limit=5,
         num_train_epochs=300,
         predict_with_representation=True,
@@ -98,8 +98,6 @@ if __name__ == '__main__':
 
     metric = PrecReclMrr(block.test.dset.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, 
                          rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
-
-    bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
 
     model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, 
                        use_pretrained=input_args.use_pretrained)

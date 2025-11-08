@@ -5,11 +5,9 @@ __all__ = []
 
 # %% ../nbs/30_ngame-for-msmarco-with-hard-negatives.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '4,5'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
-
-from transformers import DistilBertConfig
 
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT024

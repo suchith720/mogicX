@@ -3,87 +3,104 @@ Train shape: 502939 x 8841823
 Test shape: 6980 x 8841823
 
 arguana:
+Train shape: 25844 x 8674
 Test shape: 1401 x 8674
 
 climate-fever:
+Train shape: 5416593 x 5416593
 Test shape: 1535 x 5416593
 
 dbpedia-entity:
+Train shape: 4635922 x 4635922
 Test shape: 400 x 4635922
 
 fever:
-Train shape: 109810 x 5416568
+Train shape: 6606245 x 5416568
 Test shape: 6666 x 5416568
 
 fiqa:
-Train shape: 5500 x 57638
+Train shape: 167944 x 57638
 Test shape: 648 x 57638
 
 hotpotqa:
-Train shape: 85000 x 5233329
+Train shape: 5318329 x 5233329
 Test shape: 7405 x 5233329
 
 nfcorpus:
-Train shape: 2590 x 3633
+Train shape: 13414 x 3633
 Test shape: 323 x 3633
 
 nq:
+Train shape: 7866640 x 2681468
 Test shape: 3452 x 2681468
 
-nq-train:
-Train shape: 132803 x 18060996
-
 quora:
+Train shape: 522931 x 522931
 Test shape: 10000 x 522931
 
 scidocs:
+Train shape: 74793 x 25657
 Test shape: 1000 x 25657
 
 scifact:
-Train shape: 809 x 5183
+Train shape: 16231 x 5183
 Test shape: 300 x 5183
 
 webis-touche2020:
+Train shape: 1115730 x 382545
 Test shape: 49 x 382545
 
 trec-covid:
+Train shape: 480036 x 171332
 Test shape: 50 x 171332
 
 cqadupstack/android:
+Train shape: 68528 x 22998
 Test shape: 699 x 22998
 
 cqadupstack/english:
+Train shape: 117012 x 40221
 Test shape: 1570 x 40221
 
 cqadupstack/gaming:
+Train shape: 133112 x 45301
 Test shape: 1595 x 45301
 
 cqadupstack/gis:
+Train shape: 111801 x 37637
 Test shape: 885 x 37637
 
 cqadupstack/mathematica:
+Train shape: 49620 x 16705
 Test shape: 804 x 16705
 
 cqadupstack/physics:
+Train shape: 112173 x 38316
 Test shape: 1039 x 38316
 
 cqadupstack/programmers:
+Train shape: 94981 x 32176
 Test shape: 876 x 32176
 
 cqadupstack/stats:
+Train shape: 125078 x 42269
 Test shape: 652 x 42269
 
 cqadupstack/tex:
+Train shape: 202458 x 68184
 Test shape: 2906 x 68184
 
 cqadupstack/unix:
+Train shape: 140506 x 47382
 Test shape: 1072 x 47382
 
 cqadupstack/webmasters:
+Train shape: 51700 x 17405
 Test shape: 506 x 17405
 
 cqadupstack/wordpress:
+Train shape: 144965 x 48605
 Test shape: 541 x 48605
 
-Total training points: 839451
-Total labels: 37619170
+Total training points: 34,115,525
+Total labels: 33,860,495

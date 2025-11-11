@@ -17,6 +17,8 @@ def additional_args():
 
     parser.add_argument('--iteration_num', type=int)
     parser.add_argument('--iteration_preds', action='store_true')
+
+    parser.add_argument('--use_train', action='store_true')
     return parser.parse_known_args()[0]
 
 if __name__ == '__main__':
@@ -31,10 +33,18 @@ if __name__ == '__main__':
     # extra_args.output_dir = f'/data/datasets/beir/{input_args.dataset}/XC'
     # extra_args.config_file = f'{extra_args.output_dir}/configs/data.json'
 
-    extra_args.output_dir = '/data/outputs/mogicX/44_distilbert-gpt-category-linker-oracle-for-msmarco-005/'
-    extra_args.config_file = 'configs/msmarco/msmarco_data-gpt-category-linker.json'
+    # extra_args.output_dir = '/data/outputs/mogicX/44_distilbert-gpt-category-linker-oracle-for-msmarco-005/'
+    # extra_args.config_file = 'configs/msmarco/msmarco_data-gpt-category-linker.json'
 
-    TYPE = 'iterative'
+    # input_args.dataset = 'msmarco'
+    # extra_args.output_dir = '/data/outputs/mogicX/47_msmarco-gpt-category-linker-007'
+    # extra_args.config_file = '/data/datasets/beir/msmarco/XC/configs/data_gpt-category-linker_conflated-001_conflated-001.json'
+
+    input_args.dataset = 'msmarco'
+    extra_args.output_dir = '/data/outputs/mogicX/47_msmarco-gpt-category-linker-009'
+    extra_args.config_file = '/data/datasets/beir/msmarco/XC/configs/data_gpt-category-linker_conflated-001_conflated-001.json'
+
+    TYPE = 'predictions'
 
     if TYPE == 'dataset':
         output_dir = extra_args.output_dir 
@@ -72,19 +82,27 @@ if __name__ == '__main__':
         block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test, 
                             n_slbl_samples=1, main_oversample=False, return_scores=True, use_tokenizer=not input_args.text_mode)
 
-        pred = sp.load_npz(f'{output_dir}/predictions/test_predictions.npz')
-
-        if extra_args.meta_name is None:
-            pred_block = get_pred_meta_dset(pred, block.test.dset, extra_args.meta_name, meta_prefix='pred')
+        if extra_args.use_train:
+            pred = sp.load_npz(f'{output_dir}/predictions/train_predictions.npz')
         else:
-            pred_block = get_pred_dset(pred, block.test.dset)
+            pred = sp.load_npz(f'{output_dir}/predictions/test_predictions.npz')
+
+        dset = block.train.dset if extra_args.use_train else block.test.dset 
+        if extra_args.meta_name is None:
+            pred_block = get_pred_dset(pred, dset)
+        else:
+            pred_block = get_pred_meta_dset(pred, dset, extra_args.meta_name, meta_prefix='pred')
 
         disp_block = TextDataset(pred_block, pattern='.*(_text|_scores)$', combine_info=True, sort_by='scores')
 
         np.random.seed(100)
         idxs = np.random.permutation(block.test.dset.n_data)[:100]
         fname = os.path.basename(output_dir[:-1] if output_dir[-1] == '/' else output_dir) 
-        disp_block.dump_txt(f'{output_dir}/examples.txt', idxs)
+
+        example_dir = f'{output_dir}/examples/'
+        os.makedirs(example_dir, exist_ok=True)
+        fname = f'{example_dir}/train_examples.txt' if extra_args.use_train else f'{example_dir}/test_examples.txt'
+        disp_block.dump_txt(fname, idxs)
 
     elif TYPE == 'iterative':
         input_args.text_mode = True

@@ -27,11 +27,14 @@ if __name__ == '__main__':
     input_args.use_sxc_sampler = True
     input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/' 
 
-    input_args.dataset = 'all-beir'
-    extra_args.output_dir = f'/data/datasets/beir/{input_args.dataset}/XC'
-    extra_args.config_file = f'{extra_args.output_dir}/configs/data.json'
+    # input_args.dataset = 'all-beir'
+    # extra_args.output_dir = f'/data/datasets/beir/{input_args.dataset}/XC'
+    # extra_args.config_file = f'{extra_args.output_dir}/configs/data.json'
 
-    TYPE = 'dataset'
+    extra_args.output_dir = '/data/outputs/mogicX/44_distilbert-gpt-category-linker-oracle-for-msmarco-005/'
+    extra_args.config_file = 'configs/msmarco/msmarco_data-gpt-category-linker.json'
+
+    TYPE = 'iterative'
 
     if TYPE == 'dataset':
         output_dir = extra_args.output_dir 
@@ -84,7 +87,7 @@ if __name__ == '__main__':
         disp_block.dump_txt(f'{output_dir}/examples.txt', idxs)
 
     elif TYPE == 'iterative':
-        input_args.text_mode = False
+        input_args.text_mode = True
         input_args.only_test = True
         output_dir = extra_args.output_dir 
 
@@ -105,8 +108,7 @@ if __name__ == '__main__':
 
         if extra_args.iteration_num > 0:
             fname = f'{iteration_dir}/iter_{extra_args.iteration_num}/raw_data/test_category-gpt-linker.raw.csv'
-            data_info = Info.from_txt(fname, max_sequence_length=300, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"], 
-                                      tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
+            data_info = Info.from_txt(fname, info_column_names=["identifier", "input_text"])
             block.test.dset.data.data_info = data_info
         # Iterative inference experiment
 

@@ -4,6 +4,10 @@ datasets="msmarco arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcor
 	cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers \
 	cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
 
+datasets="arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq quora scidocs scifact webis-touche2020 trec-covid \
+	cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers \
+	cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
+
 TYPE=001
 
 if [ $TYPE == "001" ]
@@ -18,8 +22,10 @@ then
 	do
 		echo $dataset
 
-		python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task raw --save_train_info
-		python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task config --save_train_info
+		python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task config --save_train_info --use_generated_queries
+
+		# python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task raw --save_train_info
+		# python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task config --save_train_info
 
 		# python scripts/02-get_raw_and_config_for_oracle.py --dataset $dataset --expt_no $1 --task config 
 

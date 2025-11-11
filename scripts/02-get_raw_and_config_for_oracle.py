@@ -89,21 +89,26 @@ def get_combined_raw_file(output_dir:str, type:str, dataset:str, expt_no:int, me
     save_raw_file(fname, tst_ids, tst_meta_txt)
 
 
-def get_config_file(output_dir:str, dataset:str, expt_no:int, output_info:Dict):
-    config_file = f'/data/datasets/beir/{dataset}/XC/configs/data.json'
+def get_config_file(output_dir:str, dataset:str, expt_no:int, output_info:Dict, use_generated_queries:Optional[bool]=False):
+    config_file = (
+        f'/data/datasets/beir/{dataset}/XC/configs/data_generated.json'
+        if use_generated_queries else
+        f'/data/datasets/beir/{dataset}/XC/configs/data.json'
+    )
     with open(config_file) as file:
         config = json.load(file)
 
     config_key = f"{dataset.replace('/', '-')}_data-{output_info[expt_no]}"
-    config[config_key] = config.pop('data')
+    config[config_key] = config.pop('data_generated' if use_generated_queries else 'data')
 
     # train config
     fname = f'{output_dir}/raw_data/train_{output_info[expt_no]}_{dataset.replace("/", "-")}.raw.csv'
-    if os.path.exists(fname): 
-        config[config_key]["path"]["train"]["data_info"] = fname
-    else:
-        config[config_key]["path"]["test"]["lbl_info"] = config[config_key]["path"]["train"]["lbl_info"]
-        del config[config_key]["path"]["train"]
+    if "train" in config[config_key]["path"]:
+        if os.path.exists(fname): 
+            config[config_key]["path"]["train"]["data_info"] = fname
+        else:
+            config[config_key]["path"]["test"]["lbl_info"] = config[config_key]["path"]["train"]["lbl_info"]
+            del config[config_key]["path"]["train"]
 
     # test config
     fname = f'{output_dir}/raw_data/test_{output_info[expt_no]}_{dataset.replace("/", "-")}.raw.csv'
@@ -127,6 +132,7 @@ def parse_args():
     parser.add_argument('--abs_thresh', type=float, default=None)
     parser.add_argument('--diff_thresh', type=float, default=None)
     parser.add_argument('--save_train_info', action='store_true') 
+    parser.add_argument('--use_generated_queries', action='store_true') 
     return parser.parse_known_args()[0]
 
 
@@ -147,7 +153,7 @@ if __name__ == '__main__':
         1: f'gpt-category-ngame-linker', 
         2: f'gpt-category-ngame-linker_conflated',
         # 2: f'gpt-category-ngame-linker-conflated-wiki-entity',
-        2: f'gpt-category-ngame-linker-conflated-wiki-entity-combined',
+        # 2: f'gpt-category-ngame-linker-conflated-wiki-entity-combined',
 
         7: f'gpt-category-linker-ngame-linker_conflated-001-conflated-001-007',
         8: f'gpt-category-linker-ngame-linker_conflated-001-conflated-001-008',
@@ -168,6 +174,6 @@ if __name__ == '__main__':
                               save_dir_name=input_args.save_dir_name, abs_thresh=input_args.abs_thresh, diff_thresh=input_args.diff_thresh, 
                               save_train_raw=input_args.save_train_info)
     elif input_args.task == "config":
-        get_config_file(output_dir, input_args.dataset, expt_no=input_args.expt_no, output_info=OUTPUT_INFO)
-
+        get_config_file(output_dir, input_args.dataset, expt_no=input_args.expt_no, output_info=OUTPUT_INFO, 
+                        use_generated_queries=input_args.use_generated_queries)
 

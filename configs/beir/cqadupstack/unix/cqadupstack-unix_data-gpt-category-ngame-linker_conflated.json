@@ -6,7 +6,7 @@
                 "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-002/raw_data/test_gpt-category-ngame-linker_conflated_cqadupstack-unix.raw.csv"
             },
             "train": {
-                "data_lbl": "/data/datasets/beir/cqadupstack/unix/XC/trn_X_Y.npz",
+                "data_lbl": "/data/datasets/beir/cqadupstack/unix/XC/trn_X_Y_generated.npz",
                 "data_info": "/data/outputs/mogicX/47_msmarco-gpt-category-linker-002/raw_data/train_gpt-category-ngame-linker_conflated_cqadupstack-unix.raw.csv",
                 "lbl_info": "/data/datasets/beir/cqadupstack/unix/XC/raw_data/label.raw.csv"
             }

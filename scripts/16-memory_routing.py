@@ -4,6 +4,16 @@ from tqdm.auto import tqdm
 from xcai.main import *
 
 import xclib.evaluation.xc_metrics as xm
+from xclib.utils.sparse import retain_topk
+
+DATASETS = ['msmarco', 'arguana', 'climate-fever', 'dbpedia-entity', 'fever', 'fiqa', 'hotpotqa', 'nfcorpus', 'nq', 'quora', 'scidocs', 
+        'scifact', 'webis-touche2020', 'trec-covid', 'cqadupstack/android', 'cqadupstack/english', 'cqadupstack/gaming', 'cqadupstack/gis', 
+        'cqadupstack/mathematica', 'cqadupstack/physics', 'cqadupstack/programmers', 'cqadupstack/stats', 'cqadupstack/tex', 'cqadupstack/unix', 
+        'cqadupstack/webmasters', 'cqadupstack/wordpress']
+
+COMBINE_DATASETS = ['cqadupstack/android', 'cqadupstack/english', 'cqadupstack/gaming', 'cqadupstack/gis', 'cqadupstack/mathematica', 
+        'cqadupstack/physics', 'cqadupstack/programmers', 'cqadupstack/stats', 'cqadupstack/tex', 'cqadupstack/unix', 'cqadupstack/webmasters', 
+        'cqadupstack/wordpress']
 
 
 def _ndcg(eval_flags, n, k=5):
@@ -34,50 +44,59 @@ def ndcg(X, true_labels, k=5, sorted=False, use_cython=False):
 if __name__ == "__main__":
     input_args = parse_args()
 
-    pred_dir_1 = "/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-002/predictions/"
-    pred_dir_2 = "/data/outputs/mogicX/33_distilbert-beir-inference-001/predictions/"
+    pred_dirs = [
+        "/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-002/predictions/47_msmarco-gpt-category-linker-002/",
+        "/data/outputs/mogicX/33_distilbert-beir-inference-001/predictions/",
+    ]
+    meta_dir = "/data/outputs/mogicX/47_msmarco-gpt-category-linker-002/predictions/"
 
-    datasets="msmarco arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq quora scidocs scifact webis-touche2020 trec-covid cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
-    datasets = datasets.split(' ')
 
-    metric_1, metric_2, metric_3 = dict(), dict(), dict()
-    for dataset in tqdm(datasets, total=len(datasets)):
-        data_lbl_file = f"/data/datasets/beir/{dataset}/XC/tst_X_Y.npz"
-        data_lbl = sp.load_npz(data_lbl_file)
+    metrics, dset_len, info = {}, [], []
+    corel = {i: dict() for i in range(1,4)}
+
+    for dataset in tqdm(DATASETS, total=len(DATASETS)):
+        data_lbl = sp.load_npz(f"/data/datasets/beir/{dataset}/XC/tst_X_Y.npz")
         data_lbl.data[:] = 1.0
 
-        pred_file_1 = f"{pred_dir_1}/test_predictions_{dataset.replace('/', '-')}.npz"
-        pred_lbl_1 = sp.load_npz(pred_file_1)
+        score_mat = []
+        for dirname in pred_dirs:
+            pred_lbl = sp.load_npz(f"{dirname}/test_predictions_{dataset.replace('/', '-')}.npz")
+            score_mat.append(ndcg(pred_lbl, data_lbl, k=10)[:, -1])
+            m = metrics.setdefault(dirname.split('/')[4], {})
+            m[dataset] = np.mean(score_mat[-1])
 
-        pred_file_2 = f"{pred_dir_2}/test_predictions_{dataset.replace('/', '-')}.npz"
-        pred_lbl_2 = sp.load_npz(pred_file_2)
+        m = metrics.setdefault('Maximum', {}) 
+        m[dataset] = np.mean(np.maximum(score_mat[0], score_mat[1]))
 
-        m1 = ndcg(pred_lbl_1, data_lbl, k=10)[:, -1]
-        m2 = ndcg(pred_lbl_2, data_lbl, k=10)[:, -1]
+        # score corelations
+        fname = "test_predictions.npz" if dataset == "msmarco" else f"test_predictions_{dataset.replace('/', '-')}.npz"
+        data_meta = sp.load_npz(f"{meta_dir}/{fname}")
+        data_meta = retain_topk(data_meta, k=3)
 
-        metric_1[dataset] = np.mean(m1)
-        metric_2[dataset] = np.mean(m2)
-        metric_3[dataset] = np.mean(np.maximum(m1, m2))
+        idx = score_mat[0] >= score_mat[1]
+        scores = np.sort(data_meta.data.reshape(-1, 3), axis=1)
+        info.append(np.hstack([score_mat[0].reshape(-1, 1), score_mat[1].reshape(-1, 1), idx.astype(np.float32).reshape(-1, 1), scores]))
 
-    combine_datasets = "cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
-    combine_datasets = combine_datasets.split(' ')
+        dset_len.append(len(idx))
 
-    metric_1['cqadupstack'] = np.mean([metric_1.pop(dataset) for dataset in combine_datasets])
-    metric_2['cqadupstack'] = np.mean([metric_2.pop(dataset) for dataset in combine_datasets])
-    metric_3['cqadupstack'] = np.mean([metric_3.pop(dataset) for dataset in combine_datasets])
+        for i,sc in enumerate(np.mean(scores[idx], axis=0) - np.mean(scores[~idx], axis=0)):
+            corel[3-i][dataset] = sc
 
-    print('50_distilbert-ngame-category-linker-oracle-for-msmarco-002')
-    print(metric_1)
-    print(f"Average: {np.mean(list(metric_1.values()))}")
-    print()
+    for v in metrics.values(): v['cqadupstack'] = np.mean([v.pop(dataset) for dataset in COMBINE_DATASETS])
 
-    print('33_distilbert-beir-inference-001')
-    print(metric_2)
-    print(f"Average: {np.mean(list(metric_2.values()))}")
-    print()
 
-    print('Maximum')
-    print(metric_3)
-    print(f"Average: {np.mean(list(metric_3.values()))}")
+    for k,v in metrics.items():
+        print(k, ':', v)
+        print(f"Average: {np.mean(list(v.values()))}")
+        print()
 
+    for k,v in corel.items():
+        print(f'Top-{k}', ':', v)
+        print()
+
+    info = np.vstack(info)
+    assert info.shape[0] == sum(dset_len)
+    save_dir = '/home/aiscuser/scratch1/tmp/'
+    np.save(f'{save_dir}/info.npy', info) 
+    np.save(f'{save_dir}/dset_len.npy', np.array(dset_len))
 

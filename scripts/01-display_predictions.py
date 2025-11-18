@@ -40,9 +40,15 @@ if __name__ == '__main__':
     # extra_args.output_dir = '/data/outputs/mogicX/47_msmarco-gpt-category-linker-007'
     # extra_args.config_file = '/data/datasets/beir/msmarco/XC/configs/data_gpt-category-linker_conflated-001_conflated-001.json'
 
+    # input_args.dataset = 'msmarco'
+    # extra_args.output_dir = '/data/outputs/mogicX/47_msmarco-gpt-category-linker-009'
+    # extra_args.config_file = '/data/datasets/beir/msmarco/XC/configs/data_gpt-category-linker_conflated-001_conflated-001.json'
+
     input_args.dataset = 'msmarco'
-    extra_args.output_dir = '/data/outputs/mogicX/47_msmarco-gpt-category-linker-009'
-    extra_args.config_file = '/data/datasets/beir/msmarco/XC/configs/data_gpt-category-linker_conflated-001_conflated-001.json'
+    extra_args.output_dir = f'/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-002'
+    extra_args.config_file = f'configs/beir/{input_args.dataset}/{input_args.dataset.replace("/", "-")}_data-gpt-category-ngame-linker_conflated.json'
+
+    assert input_args.dataset is not None
 
     TYPE = 'predictions'
 
@@ -101,7 +107,11 @@ if __name__ == '__main__':
 
         example_dir = f'{output_dir}/examples/'
         os.makedirs(example_dir, exist_ok=True)
-        fname = f'{example_dir}/train_examples.txt' if extra_args.use_train else f'{example_dir}/test_examples.txt'
+        fname = (
+            f'{example_dir}/{input_args.dataset}_train_examples.txt' 
+            if extra_args.use_train else 
+            f'{example_dir}/{input_args.dataset}_test_examples.txt'
+        )
         disp_block.dump_txt(fname, idxs)
 
     elif TYPE == 'iterative':

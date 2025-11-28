@@ -45,7 +45,7 @@ if __name__ == '__main__':
     # extra_args.config_file = '/data/datasets/beir/msmarco/XC/configs/data_gpt-category-linker_conflated-001_conflated-001.json'
 
     input_args.dataset = 'msmarco'
-    extra_args.output_dir = f'/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-002'
+    extra_args.output_dir ='/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-002/predictions/47_msmarco-gpt-category-linker-002/'
     extra_args.config_file = f'configs/beir/{input_args.dataset}/{input_args.dataset.replace("/", "-")}_data-gpt-category-ngame-linker_conflated.json'
 
     assert input_args.dataset is not None
@@ -81,7 +81,8 @@ if __name__ == '__main__':
         config_file = extra_args.config_file 
         config_key, fname = get_config_key(config_file)
 
-        pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
+        dataset = input_args.dataset.replace('/', '-')
+        pkl_file = get_pkl_file(input_args.pickle_dir, f'{dataset}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
                                 input_args.exact, input_args.only_test, use_text_mode=input_args.text_mode)
 
         os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
@@ -89,9 +90,9 @@ if __name__ == '__main__':
                             n_slbl_samples=1, main_oversample=False, return_scores=True, use_tokenizer=not input_args.text_mode)
 
         if extra_args.use_train:
-            pred = sp.load_npz(f'{output_dir}/predictions/train_predictions.npz')
+            pred = sp.load_npz(f'{output_dir}/predictions/train_predictions_{dataset}.npz')
         else:
-            pred = sp.load_npz(f'{output_dir}/predictions/test_predictions.npz')
+            pred = sp.load_npz(f'{output_dir}/predictions/test_predictions_{dataset}.npz')
 
         dset = block.train.dset if extra_args.use_train else block.test.dset 
         if extra_args.meta_name is None:
@@ -103,14 +104,13 @@ if __name__ == '__main__':
 
         np.random.seed(100)
         idxs = np.random.permutation(block.test.dset.n_data)[:100]
-        fname = os.path.basename(output_dir[:-1] if output_dir[-1] == '/' else output_dir) 
 
         example_dir = f'{output_dir}/examples/'
         os.makedirs(example_dir, exist_ok=True)
         fname = (
-            f'{example_dir}/{input_args.dataset}_train_examples.txt' 
+            f'{example_dir}/{dataset}_train_rnd.txt' 
             if extra_args.use_train else 
-            f'{example_dir}/{input_args.dataset}_test_examples.txt'
+            f'{example_dir}/{dataset}_test_rnd.txt'
         )
         disp_block.dump_txt(fname, idxs)
 

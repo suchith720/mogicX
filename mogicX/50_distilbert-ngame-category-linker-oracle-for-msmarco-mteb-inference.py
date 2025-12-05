@@ -33,7 +33,10 @@ def additional_args():
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
     # 0 -> cross inferences; for combining two different experiments.
-    output_numbers = {0: '002', 2: '002', 3: '003', 4: '004', 5: '002', 7: '007', 8: '008', 9: '009', 10: '010', 11: '011', 14: '014'}
+    output_numbers = { 
+        0: '002', 2: '002', 3: '003', 4: '004', 5: '002', 7: '007', 8: '008', 9: '009', 10: '010', 11: '011', 14: '014', 
+        15: '007', # ablation
+    }
 
     meta_info = {
         0: 'data-gpt-category-ngame-linker_conflated',
@@ -54,6 +57,9 @@ if __name__ == '__main__':
         11: 'data-gpt-category-ngame-linker',
 
         14: 'data-gpt-category-ngame-linker',
+
+        # ablation
+        15: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-007',
     }
 
     input_args = parse_args()

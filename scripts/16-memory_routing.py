@@ -73,14 +73,16 @@ if __name__ == "__main__":
         data_meta = sp.load_npz(f"{meta_dir}/{fname}")
         data_meta = retain_topk(data_meta, k=3)
 
-        idx = score_mat[0] >= score_mat[1]
+        idx1 = score_mat[0] > score_mat[1]
+        idx2 = score_mat[0] < score_mat[1]
         scores = np.sort(data_meta.data.reshape(-1, 3), axis=1)
-        info.append(np.hstack([score_mat[0].reshape(-1, 1), score_mat[1].reshape(-1, 1), idx.astype(np.float32).reshape(-1, 1), scores]))
+        info.append(np.hstack([score_mat[0].reshape(-1, 1), score_mat[1].reshape(-1, 1), idx1.astype(np.float32).reshape(-1, 1), 
+                    idx2.astype(np.float32).reshape(-1, 1), scores]))
 
-        dset_len.append(len(idx))
+        dset_len.append(len(idx1))
 
-        for i,sc in enumerate(np.mean(scores[idx], axis=0) - np.mean(scores[~idx], axis=0)):
-            corel[3-i][dataset] = sc
+        for i,sc in enumerate(np.mean(scores[idx1], axis=0) - np.mean(scores[idx2], axis=0)):
+            corel[3-i][dataset] = sc * 100
 
     for v in metrics.values(): v['cqadupstack'] = np.mean([v.pop(dataset) for dataset in COMBINE_DATASETS])
 
@@ -96,6 +98,7 @@ if __name__ == "__main__":
 
     info = np.vstack(info)
     assert info.shape[0] == sum(dset_len)
+
     save_dir = '/home/aiscuser/scratch1/tmp/'
     np.save(f'{save_dir}/info.npy', info) 
     np.save(f'{save_dir}/dset_len.npy', np.array(dset_len))

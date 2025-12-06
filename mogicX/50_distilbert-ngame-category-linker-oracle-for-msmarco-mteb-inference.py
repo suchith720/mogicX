@@ -35,7 +35,7 @@ if __name__ == '__main__':
     # 0 -> cross inferences; for combining two different experiments.
     output_numbers = { 
         0: '002', 2: '002', 3: '003', 4: '004', 5: '002', 7: '007', 8: '008', 9: '009', 10: '010', 11: '011', 14: '014', 
-        15: '007', # ablation
+        15: '008', # ablation
     }
 
     meta_info = {
@@ -88,7 +88,7 @@ if __name__ == '__main__':
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=1600,
+        per_device_eval_batch_size=800,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",

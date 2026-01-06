@@ -20,7 +20,7 @@ os.environ["CUDNN_LOGWARN_DBG"] = "0"
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
 from xcai.basics import *
-from xcai.models.PPP0XX import DBT023
+from xcai.models.PPP0XX import DBT023, DBTConfig
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-06'
@@ -32,10 +32,21 @@ def additional_args():
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    # 0 -> cross inferences; for combining two different experiments.
     output_numbers = { 
-        0: '002', 2: '002', 3: '003', 4: '004', 5: '002', 7: '007', 8: '008', 9: '009', 10: '010', 11: '011', 14: '014', 
-        15: '008', # ablation
+        0: '002', 
+        2: '002', 
+        3: '003', 
+        4: '004', 
+        5: '002', 
+        7: '007', 
+        8: '008', 
+        9: '009', 
+        10: '010', 
+        11: '011', 
+        14: '014', 
+
+        15: '008', 
+        16: '008', 
     }
 
     meta_info = {
@@ -55,11 +66,10 @@ if __name__ == '__main__':
 
         10: 'data-gpt-category-ngame-linker',
         11: 'data-gpt-category-ngame-linker',
-
         14: 'data-gpt-category-ngame-linker',
 
-        # ablation
         15: 'data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-007',
+        16: 'data-gpt-document-substring-sq-substring_gpt-category-linker-ngame-linker-007',
     }
 
     input_args = parse_args()
@@ -128,17 +138,28 @@ if __name__ == '__main__':
         use_cpu_for_clustering=True,
     )
 
-    def model_fn(mname):
-        model = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=False, use_encoder_parallel=True)
+    config = DBTConfig(
+        margin = 0.3,
+        num_negatives = 10,
+        tau = 0.1,
+        apply_softmax = True,
+        reduction = "mean",
+
+        normalize = False,
+        use_layer_norm = False,
+
+        use_encoder_parallel = True,
+        loss_function = "triplet"
+    )
+
+    def model_fn(mname, config):
+        model = DBT023.from_pretrained(mname, config=config)
         return model
     
-    def init_fn(model): 
-        model.init_dr_head()
-
     metric = PrecReclMrr(block.test.dset.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, rep_pk=[1, 3, 5, 10], 
                          rep_rk=[10, 100, 200], mk=[5, 10, 20])
 
-    model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, 
+    model = load_model(args.output_dir, model_fn, {"mname": mname, "config": config}, do_inference=do_inference, 
                        use_pretrained=input_args.use_pretrained)
     
     learn = XCLearner(

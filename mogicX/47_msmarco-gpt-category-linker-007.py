@@ -10,7 +10,7 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
 from xcai.basics import *
-from xcai.models.PPP0XX import DBT009
+from xcai.models.PPP0XX import DBT009, DBTConfig
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 5
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-linker-01'
@@ -24,7 +24,7 @@ if __name__ == '__main__':
     input_args.use_sxc_sampler = True
     input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
 
-    config_file = '/data/datasets/msmarco/XC/configs/data_gpt-category-linker_conflated-001_conflated-001.json'
+    config_file = '/data/datasets/beir/msmarco/XC/configs/data_gpt-category-linker_conflated-001_conflated-001.json'
     config_key, fname = get_config_key(config_file)
 
     mname = 'sentence-transformers/msmarco-distilbert-cos-v5'
@@ -38,8 +38,10 @@ if __name__ == '__main__':
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, only_test=input_args.only_test, 
             n_slbl_samples=1, main_oversample=False)
 
-    if do_inference: train_dset, test_dset = block.train.dset, block.test.dset
-    else: train_dset, test_dset = block.train.dset.get_valid_dset(), block.test.dset.get_valid_dset()
+    if do_inference: 
+        train_dset, test_dset = block.train.dset, block.test.dset
+    else: 
+        train_dset, test_dset = block.train.dset.get_valid_dset(), block.test.dset.get_valid_dset()
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -80,9 +82,23 @@ if __name__ == '__main__':
         use_cpu_for_searching=True,
         use_cpu_for_clustering=True,
     )
+	
+    config = DBTConfig(
+        margin = 0.3,
+        num_negatives = 10,
+        tau = 0.1,
+        apply_softmax = True,
+        reduction = "mean",
 
-    def model_fn(mname):
-        model = DBT009.from_pretrained(mname, margin=0.3, tau=0.1, n_negatives=10, apply_softmax=True, use_encoder_parallel=True)
+        normalize = True,
+        use_layer_norm = True,
+
+        use_encoder_parallel = True,
+        loss_function = "triplet"
+    )
+
+    def model_fn(mname, config):
+        model = DBT009.from_pretrained(mname, config=config) 
         return model
     
     def init_fn(model): 
@@ -91,7 +107,8 @@ if __name__ == '__main__':
     metric = PrecReclMrr(test_dset.data.n_lbl, test_dset.data.data_lbl_filterer, prop=train_dset.data.data_lbl, 
             pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
 
-    model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
+    model = load_model(args.output_dir, model_fn, {"mname": mname, "config": config}, do_inference=do_inference, 
+					   use_pretrained=input_args.use_pretrained)
     
     learn = XCLearner(
         model=model,

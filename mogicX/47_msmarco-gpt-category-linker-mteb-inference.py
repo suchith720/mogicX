@@ -7,7 +7,7 @@ __all__ = []
 import os, torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp, argparse
 
 from xcai.basics import *
-from xcai.models.PPP0XX import DBT009
+from xcai.models.PPP0XX import DBT009, DBTConfig
 from xcai.sdata import identity_collate_fn, SXCDataset, SMainXCDataset
 
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 5
@@ -133,14 +133,29 @@ if __name__ == '__main__':
         use_cpu_for_clustering=True,
     )
 
-    def model_fn(mname):
-        model = DBT009.from_pretrained(mname, margin=0.3, tau=0.1, n_negatives=10, apply_softmax=True, use_encoder_parallel=True)
+    config = DBTConfig(
+        margin = 0.3,
+        num_negatives = 10,
+        tau = 0.1,
+        apply_softmax = True,
+        reduction = "mean",
+
+        normalize = True,
+        use_layer_norm = True,
+
+        use_encoder_parallel = True,
+        loss_function = "triplet"
+    )
+
+    def model_fn(mname, config):
+        model = DBT009.from_pretrained(mname, config=config) 
         return model
     
-    def init_fn(model): 
-        model.init_dr_head()
+    metric = PrecReclMrr(test_dset.data.n_lbl, test_dset.data.data_lbl_filterer, prop=None if train_dset is None else train_dset.data.data_lbl, 
+            pk=10, rk=200, rep_pk=[1, 3, 5, 10], rep_rk=[10, 100, 200], mk=[5, 10, 20])
 
-    model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, use_pretrained=input_args.use_pretrained)
+    model = load_model(args.output_dir, model_fn, {"mname": mname, "config": config}, do_inference=do_inference, 
+					   use_pretrained=input_args.use_pretrained)
     
     learn = XCLearner(
         model=model,

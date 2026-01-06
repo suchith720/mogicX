@@ -68,19 +68,26 @@ datasets="arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq q
 	cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers \
 	cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
 
+datasets="arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq scidocs scifact webis-touche2020 trec-covid \
+	cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers \
+	cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
+
 for dataset in $datasets
 do
 	echo $dataset
 	suffix=$(echo $dataset | sed 's/\//-/g')
 
-	if [ $dataset == "msmarco" ]
-	then
-		CUDA_VISIBLE_DEVICES=0,1,2,3 python mogicX/47_msmarco-gpt-category-linker-mteb-inference.py --dataset $dataset --expt_no $1 \
-			--do_train_inference
-	else
-		CUDA_VISIBLE_DEVICES=0,1,2,3 python mogicX/47_msmarco-gpt-category-linker-mteb-inference.py --dataset $dataset --prediction_suffix $suffix \
-			--expt_no $1 --do_train_inference
-	fi
+	# if [ $dataset == "msmarco" ]
+	# then
+	# 	CUDA_VISIBLE_DEVICES=0,1,2,3 python mogicX/47_msmarco-gpt-category-linker-mteb-inference.py --dataset $dataset --expt_no $1 \
+	# 		--do_train_inference
+	# else
+	# 	CUDA_VISIBLE_DEVICES=0,1,2,3 python mogicX/47_msmarco-gpt-category-linker-mteb-inference.py --dataset $dataset --prediction_suffix $suffix \
+	# 		--expt_no $1 --do_train_inference
+	# fi
+
+	CUDA_VISIBLE_DEVICES=0,1 python mogicX/47_msmarco-gpt-category-linker-mteb-inference.py --dataset $dataset --prediction_suffix $suffix \
+		--expt_no $1 --meta_type document-substring_sq-substring  
 
 done
 

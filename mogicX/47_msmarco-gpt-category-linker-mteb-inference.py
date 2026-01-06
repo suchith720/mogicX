@@ -18,71 +18,76 @@ def additional_args():
     parser.add_argument('--expt_no', type=int, required=True)
     parser.add_argument('--meta_type', type=str, default=None)
     return parser.parse_known_args()[0]
+
+def load_metadata_info(pkl_file:str, info_file:str):
+    if os.path.exists(pkl_file):
+        meta_info = joblib.load(pkl_file)
+    else:
+        meta_info = Info.from_txt(info_file, max_sequence_length=64, padding=True, return_tensors='pt', 
+                                  info_column_names=["identifier", "input_text"],
+                                  tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
+        joblib.dump(meta_info, pkl_file)
+    return meta_info
     
 # %% ../nbs/00_ngame-for-msmarco-inference.ipynb 20
 if __name__ == '__main__':
     extra_args = additional_args()
-    output_dir = f'/data/outputs/mogicX/47_msmarco-gpt-category-linker-{extra_args.expt_no:03d}'
+    output_dir = f"/data/outputs/mogicX/47_msmarco-gpt-category-linker-{extra_args.expt_no:03d}"
 
     input_args = parse_args()
-    input_args.use_sxc_sampler = True
-    input_args.do_test_inference = True
-    input_args.save_test_prediction = True
-    input_args.save_train_prediction = True
-    input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
+    input_args.use_sxc_sampler = input_args.do_test_inference = input_args.save_test_prediction = input_args.save_train_prediction = True
+    input_args.pickle_dir = "/home/aiscuser/scratch1/datasets/processed/"
 
-    mname = 'sentence-transformers/msmarco-distilbert-cos-v5'
+    mname = "sentence-transformers/msmarco-distilbert-cos-v5"
 
     do_inference = check_inference_mode(input_args)
 
     # load data
     expt_info = {
-        1: '', 
+        1: "", 
 
-        2: '_conflated', 
-        3: '_conflated-001', 
-        4: '_conflated-002', 
+        2: "_conflated",
+        3: "_conflated-001", 
+        4: "_conflated-002", 
 
-        7: '-linker_conflated-001_conflated-001', 
-        8: '-linker_conflated-001_conflated-001',
-        9: '-linker_conflated-001_conflated-001',
+        7: "-linker_conflated-001_conflated-001", 
+        8: "-linker_conflated-001_conflated-001",
+        9: "-linker_conflated-001_conflated-001",
     }
 
+    raw_dir = f"/data/datasets/beir/{input_args.dataset}/XC/raw_data/"
+
     ## test data 
-    raw_dir = f'/data/datasets/beir/{input_args.dataset}/XC/raw_data/'
-    fname = f'{raw_dir}/test.raw.txt' if input_args.dataset == "msmarco" else f'{raw_dir}/test.raw.csv'
+    fname = f"{raw_dir}/test.raw.csv"
     test_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
                               tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
 
     ## train data
     if input_args.do_train_inference:
-        fname = f'{raw_dir}/train.raw.txt' if input_args.dataset == "msmarco" else f'{raw_dir}/train.raw.csv'
+        fname = f"{raw_dir}/train.raw.csv"
         train_info = Info.from_txt(fname, max_sequence_length=32, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
                                    tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
 
     ## metadata
-    if extra_args.meta_type is not None and extra_args.meta_type == "wiki":
-        save_dir_name = 'wiki_entities'
-        meta_info_file = "outputs/wiki-entities.joblib"
+    dataset_prefix = input_args.dataset.replace("/", "-")
 
-        if os.path.exists(meta_info_file):
-            meta_info = joblib.load(meta_info_file)
-        else:
-            fname = '/data/datasets/beir/msmarco/XC/raw_data/wiki-entity_ngame.raw.csv'
-            meta_info = Info.from_txt(fname, max_sequence_length=64, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
-                                      tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
-            joblib.dump(meta_info, meta_info_file)
-    else:
+    if extra_args.meta_type is None:
         save_dir_name = None
-        meta_info_file = f"outputs/msmarco_category-gpt{expt_info[extra_args.expt_no]}.joblib"
+        pkl_file = f"{input_args.pickle_dir}/msmarco_category-gpt{expt_info[extra_args.expt_no]}.joblib"
+        info_file = f'/data/datasets/beir/msmarco/XC/raw_data/category-gpt{expt_info[extra_args.expt_no]}.raw.csv'
+        meta_info = load_metadata_info(pkl_file, info_file)
 
-        if os.path.exists(meta_info_file):
-            meta_info = joblib.load(meta_info_file)
-        else:
-            fname = f'/data/datasets/beir/msmarco/XC/raw_data/category-gpt{expt_info[extra_args.expt_no]}.raw.csv'
-            meta_info = Info.from_txt(fname, max_sequence_length=64, padding=True, return_tensors='pt', info_column_names=["identifier", "input_text"],
-                                      tokenization_column="input_text", use_tokenizer=True, tokenizer=mname)
-            joblib.dump(meta_info, meta_info_file)
+    elif extra_args.meta_type == "wiki":
+        save_dir_name = "predictions_wiki-entities"
+        pkl_file = f"{input_args.pickle_dir}/wiki-entities.joblib"
+        info_file = "/data/datasets/beir/msmarco/XC/raw_data/wiki-entity_ngame.raw.csv"
+        meta_info = load_metadata_info(pkl_file, info_file)
+
+    elif extra_args.meta_type == "document-substring_sq-substring":
+        save_dir_name = "predictions_document-substring_sq-substring"
+        pkl_file = f"{input_args.pickle_dir}/beir/{dataset_prefix}_document-substring_sq-substring.joblib"
+        info_file = f"/data/datasets/beir/{input_args.dataset}/XC/document_substring/raw_data/sq-substring.raw.csv",
+        meta_info = load_metadata_info(pkl_file, info_file)
 
     test_dset = SXCDataset(SMainXCDataset(data_info=test_info, lbl_info=meta_info))
     train_dset = SXCDataset(SMainXCDataset(data_info=train_info, lbl_info=meta_info)) if input_args.do_train_inference else None

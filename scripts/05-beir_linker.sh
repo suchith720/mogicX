@@ -64,13 +64,15 @@ then
 	exit 1
 fi
 
-datasets="arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq quora scidocs scifact webis-touche2020 trec-covid \
+datasets="arguana msmarco climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq quora scidocs scifact webis-touche2020 trec-covid \
 	cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers \
 	cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
 
-datasets="arguana climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq scidocs scifact webis-touche2020 trec-covid \
+datasets="arguana msmarco climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq scidocs scifact webis-touche2020 trec-covid \
 	cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers \
 	cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
+
+datasets="msmarco"
 
 for dataset in $datasets
 do

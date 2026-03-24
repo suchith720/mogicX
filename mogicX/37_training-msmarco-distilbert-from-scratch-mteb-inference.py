@@ -5,7 +5,6 @@ __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
 import os
-os.environ['HIP_VISIBLE_DEVICES'] = '6,7,8,9,10,11'
 os.environ["NCCL_DEBUG"] = "NONE"
 os.environ["ROCM_DISABLE_WARNINGS"] = "1"
 os.environ["MIOPEN_LOG_LEVEL"] = "0"
@@ -15,7 +14,36 @@ import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.spars
 from transformers import DistilBertConfig
 
 from xcai.basics import *
-from xcai.models.PPP0XX import DBT023
+from xcai.models.PPP0XX import DBT023, DBTConfig
+
+
+# start ablation
+
+import torch.nn.functional as F
+
+from typing import Optional
+from fastcore.utils import *
+from fastcore.meta import *
+
+from xcai.models.PPP0XX import DBT023Encoder, Pooling
+
+@patch
+def forward(
+    self:DBT023Encoder, 
+    input_ids:Optional[torch.Tensor]=None, 
+    attention_mask:Optional[torch.Tensor]=None,
+    **kwargs
+):
+    o = self.distilbert(
+        input_ids=input_ids,
+        attention_mask=attention_mask,
+        **kwargs
+    )
+    rep = Pooling.mean_pooling(o[0], attention_mask)
+    return o, F.normalize(rep, dim=1) if self.config.normalize else rep
+
+# end ablation
+
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
@@ -24,23 +52,22 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 if __name__ == '__main__':
 
     input_args = parse_args()
-
-    input_args.normalize, input_args.use_ln = False, False
-    output_dir = '/data/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-008'
+    # output_dir = '/home/sasokan/suchith/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-008'
+    output_dir = '/home/sasokan/suchith/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-012'
 
     if input_args.exact: 
         raise ValueError("Arguement 'exact' is not allowed.")
-    
-    if not input_args.only_test:
-        raise ValueError("Arguement 'only_test' required.")
-    
-    config_file = f'/data/datasets/{input_args.dataset}/XC/configs/data.json'
-    config_key = 'data'
-    
-    # mname = 'distilbert-base-uncased'
-    mname = 'sentence-transformers/msmarco-distilbert-dot-v5'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset}_data_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    input_args.only_test = True
+    input_args.use_sxc_sampler = True
+    input_args.do_test_inference = True
+
+    config_file, config_key = f"/data/datasets/beir/{input_args.dataset}/XC/configs/data.json", "data"
+    input_args.pickle_dir = "/data/suchith/datasets/processed/"
+    mname = "distilbert-base-uncased"
+
+    dataset = input_args.dataset.replace("/", "-")
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'{dataset}_data_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
 
     do_inference = check_inference_mode(input_args)
@@ -58,8 +85,8 @@ if __name__ == '__main__':
         representation_accumulation_steps=10,
         save_strategy="steps",
         eval_strategy="steps",
-        eval_steps=500,
-        save_steps=500,
+        eval_steps=5000,
+        save_steps=5000,
         save_total_limit=5,
         num_train_epochs=300,
         predict_with_representation=True,
@@ -93,19 +120,15 @@ if __name__ == '__main__':
         use_cpu_for_clustering=True,
     )
 
+    config = DBTConfig(normalize=False, use_layer_norm=False, use_encoder_parallel=True)
+
     def model_fn(mname):
-        model = DBT023.from_pretrained(mname, normalize=input_args.normalize, use_layer_norm=input_args.use_ln, use_encoder_parallel=True)
-        return model
-    
-    def init_fn(model): 
-        model.init_dr_head()
+        return DBT023.from_pretrained(mname, config=config) 
 
     metric = PrecReclMrr(block.test.dset.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, rep_pk=[1, 3, 5, 10], 
                          rep_rk=[10, 100, 200], mk=[5, 10, 20])
 
-    bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
-
-    model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, 
+    model = load_model(args.output_dir, model_fn, {"mname": mname}, do_inference=do_inference, 
                        use_pretrained=input_args.use_pretrained)
     
     learn = XCLearner(

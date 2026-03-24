@@ -4,6 +4,9 @@
 __all__ = []
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 2
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
+
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
 from transformers import DistilBertConfig
@@ -11,13 +14,41 @@ from transformers import DistilBertConfig
 from xcai.basics import *
 from xcai.models.PPP0XX import DBT023, DBTConfig
 
+
+# start ablation
+
+import torch.nn.functional as F
+
+from typing import Optional
+from fastcore.utils import *
+from fastcore.meta import *
+
+from xcai.models.PPP0XX import DBT023Encoder, Pooling
+
+@patch
+def forward(
+    self:DBT023Encoder, 
+    input_ids:Optional[torch.Tensor]=None, 
+    attention_mask:Optional[torch.Tensor]=None,
+    **kwargs
+):
+    o = self.distilbert(
+        input_ids=input_ids,
+        attention_mask=attention_mask,
+        **kwargs
+    )
+    rep = Pooling.mean_pooling(o[0], attention_mask)
+    return o, F.normalize(rep, dim=1) if self.config.normalize else rep
+
+# end ablation
+
+
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 21
 if __name__ == '__main__':
-    # output_dir = '/home/aiscuser/scratch1/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-008'
-    output_dir = '/home/sasokan/suchith/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-008'
+    output_dir = '/home/sasokan/suchith/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-012'
 
     input_args = parse_args()
     input_args.use_sxc_sampler = True
@@ -44,7 +75,7 @@ if __name__ == '__main__':
         output_dir=output_dir,
         logging_first_step=True,
         per_device_train_batch_size=128,
-        per_device_eval_batch_size=400,
+        per_device_eval_batch_size=800,
         representation_num_beams=200,
         representation_accumulation_steps=10,
         save_strategy="steps",
@@ -60,6 +91,7 @@ if __name__ == '__main__':
         weight_decay=0.01,
         learning_rate=6e-5,
         label_names=['plbl2data_idx', 'plbl2data_data2ptr'],
+        search_normalize=False, 
     
         group_by_cluster=True,
         num_clustering_warmup_epochs=10,

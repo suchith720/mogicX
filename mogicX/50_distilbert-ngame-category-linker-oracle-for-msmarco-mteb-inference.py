@@ -75,11 +75,14 @@ if __name__ == '__main__':
     input_args = parse_args()
     input_args.use_sxc_sampler = True
     input_args.do_test_inference = True
-    input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
+    # input_args.pickle_dir = '/home/aiscuser/scratch1/datasets/processed/'
+    input_args.pickle_dir = '/data/suchith/datasets/processed/'
 
     extra_args = additional_args()
 
-    output_dir = f'/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-{output_numbers[extra_args.expt_no]}'
+    # output_dir = f'/data/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-{output_numbers[extra_args.expt_no]}'
+    output_dir = f'/home/sasokan/b-sprabhu/outputs/mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-{output_numbers[extra_args.expt_no]}'
+
     config_file = f'configs/beir/{input_args.dataset}/{input_args.dataset.replace("/", "-")}_{meta_info[extra_args.expt_no]}.json'
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'

@@ -102,7 +102,10 @@ def get_config_file(output_dir:str, dataset:str, expt_no:int, output_info:Dict, 
     config[config_key] = config.pop('data_generated' if use_generated_queries else 'data')
 
     # train config
-    fname = f'{output_dir}/raw_data/train_{output_info[expt_no]}_{dataset.replace("/", "-")}.raw.csv'
+
+    # fname = f'{output_dir}/raw_data/train_{output_info[expt_no]}_{dataset.replace("/", "-")}.raw.csv'
+    fname = f'{output_dir}/raw_data/train_{dataset.replace("/", "-")}.raw.csv'
+
     if "train" in config[config_key]["path"]:
         if os.path.exists(fname): 
             config[config_key]["path"]["train"]["data_info"] = fname
@@ -111,7 +114,10 @@ def get_config_file(output_dir:str, dataset:str, expt_no:int, output_info:Dict, 
             del config[config_key]["path"]["train"]
 
     # test config
-    fname = f'{output_dir}/raw_data/test_{output_info[expt_no]}_{dataset.replace("/", "-")}.raw.csv'
+
+    # fname = f'{output_dir}/raw_data/test_{output_info[expt_no]}_{dataset.replace("/", "-")}.raw.csv'
+    fname = f'{output_dir}/raw_data/test_{dataset.replace("/", "-")}.raw.csv'
+
     config[config_key]["path"]["test"]["data_info"] = fname
 
     config[config_key]['parameters'] = PARAM

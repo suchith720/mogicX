@@ -17,34 +17,6 @@ from xcai.basics import *
 from xcai.models.PPP0XX import DBT023, DBTConfig
 
 
-# # start ablation
-# 
-# import torch.nn.functional as F
-# 
-# from typing import Optional
-# from fastcore.utils import *
-# from fastcore.meta import *
-# 
-# from xcai.models.PPP0XX import DBT023Encoder, Pooling
-# 
-# @patch
-# def forward(
-#     self:DBT023Encoder, 
-#     input_ids:Optional[torch.Tensor]=None, 
-#     attention_mask:Optional[torch.Tensor]=None,
-#     **kwargs
-# ):
-#     o = self.distilbert(
-#         input_ids=input_ids,
-#         attention_mask=attention_mask,
-#         **kwargs
-#     )
-#     rep = Pooling.mean_pooling(o[0], attention_mask)
-#     return o, F.normalize(rep, dim=1) if self.config.normalize else rep
-# 
-# # end ablation
-
-
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 
@@ -52,9 +24,6 @@ os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco'
 if __name__ == '__main__':
 
     input_args = parse_args()
-
-    # output_dir = '/home/sasokan/suchith/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-008'
-    # output_dir = '/home/sasokan/suchith/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-012'
     output_dir = "/home/sasokan/b-sprabhu/outputs/mogicX/37_training-msmarco-distilbert-from-scratch-008"
 
     if input_args.exact: 
@@ -93,7 +62,7 @@ if __name__ == '__main__':
         num_train_epochs=300,
         predict_with_representation=True,
         representation_search_type='BRUTEFORCE',
-        search_normalize=False, 
+        search_normalize=True, 
 
         adam_epsilon=1e-6,
         warmup_steps=100,
@@ -122,7 +91,8 @@ if __name__ == '__main__':
         use_cpu_for_clustering=True,
     )
 
-    config = DBTConfig(normalize=False, use_layer_norm=True, use_encoder_parallel=True)
+    # config = DBTConfig(normalize=False, use_layer_norm=True, use_encoder_parallel=True)
+    config = DBTConfig(normalize=True, use_layer_norm=True, use_encoder_parallel=True)
 
     def model_fn(mname):
         return DBT023.from_pretrained(mname, config=config) 
@@ -132,14 +102,7 @@ if __name__ == '__main__':
 
     model = load_model(args.output_dir, model_fn, {"mname": mname}, do_inference=do_inference, 
                        use_pretrained=input_args.use_pretrained)
-    model.encoder.activation = torch.nn.Identity()
-
-    # from safetensors import safe_open
-    # tensors = {}
-    # with safe_open(f"{output_dir}/checkpoint-75000/model.safetensors", framework="pt") as f:
-    #     for k in f.keys():
-    #         tensors[k] = f.get_tensor(k)
-
+    
     learn = XCLearner(
         model=model,
         args=args,

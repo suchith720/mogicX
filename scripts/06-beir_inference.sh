@@ -101,36 +101,46 @@
 # 	python mogicX/44_distilbert-category-oracle-for-msmarco-mteb-inference.py --dataset $dataset --use_pretrained >> $output_file
 # done
 
-# if [ $# -lt 1 ]
-# then
-# 	echo "bash scripts/06-beir_inference.sh <expt_no>" 
-# 	exit 1
-# fi
-# 
-# datasets="arguana msmarco climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq quora scidocs scifact webis-touche2020 trec-covid \
-# 	cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers \
-# 	cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
-# 
-# output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-$(printf "%03d" $1).txt
-# for dataset in $datasets
-# do
-# 	echo $dataset
-# 
-# 	echo $dataset : >> $output_file
-# 	CUDA_VISIBLE_DEVICES=0,1 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py --dataset $dataset --expt_no $1 >> $output_file
-# done
+if [ $# -lt 1 ]
+then
+	echo "bash scripts/06-beir_inference.sh <expt_no>" 
+	exit 1
+fi
 
 datasets="arguana msmarco climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq quora scidocs scifact webis-touche2020 trec-covid \
 	cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers \
 	cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
 
-output_file=outputs/37_training-msmarco-distilbert-from-scratch-012.txt
+datasets="nfcorpus fiqa scidocs scifact webis-touche2020 msmarco climate-fever dbpedia-entity fever hotpotqa nq quora trec-covid \
+	cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers \
+	cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
+
+output_file=outputs/50_distilbert-ngame-category-linker-oracle-for-msmarco-$(printf "%03d" $1).txt
 for dataset in $datasets
 do
 	echo $dataset
 
 	echo $dataset : >> $output_file
-	CUDA_VISIBLE_DEVICES=0,2 python mogicX/37_training-msmarco-distilbert-from-scratch-mteb-inference.py --dataset $dataset >> $output_file
+	CUDA_VISIBLE_DEVICES=0,1 python mogicX/50_distilbert-ngame-category-linker-oracle-for-msmarco-mteb-inference.py \
+		--dataset $dataset --expt_no $1 --save_test_prediction --only_test \
+		--save_dir_name "cross_predictions/data-gpt-category-linker-ngame-linker_conflated-001-conflated-001-007" \
+		--prediction_suffix $dataset >> $output_file
 done
+
+# datasets="arguana msmarco climate-fever dbpedia-entity fever fiqa hotpotqa nfcorpus nq quora scidocs scifact webis-touche2020 trec-covid \
+# 	cqadupstack/android cqadupstack/english cqadupstack/gaming cqadupstack/gis cqadupstack/mathematica cqadupstack/physics cqadupstack/programmers \
+# 	cqadupstack/stats cqadupstack/tex cqadupstack/unix cqadupstack/webmasters cqadupstack/wordpress"
+# 
+# output_file=outputs/37_training-msmarco-distilbert-from-scratch-008-verify-003.txt
+# for dataset in $datasets
+# do
+# 	echo $dataset
+# 
+# 	# echo $dataset : >> $output_file
+# 	# CUDA_VISIBLE_DEVICES=0,1 python mogicX/37_training-msmarco-distilbert-from-scratch-mteb-inference.py --dataset $dataset >> $output_file
+# 	
+# 	CUDA_VISIBLE_DEVICES=0,1 python mogicX/37_training-msmarco-distilbert-from-scratch-mteb-inference.py --dataset $dataset
+# 
+# done
 
 

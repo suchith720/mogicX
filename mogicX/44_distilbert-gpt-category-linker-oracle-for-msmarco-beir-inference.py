@@ -16,7 +16,8 @@ os.environ["CUDNN_LOGWARN_DBG"] = "0"
 import torch,json, torch.multiprocessing as mp, joblib, numpy as np, scipy.sparse as sp
 
 from xcai.basics import *
-from xcai.models.PPP0XX import DBT023
+from xcai.misc import load_info
+from xcai.models.PPP0XX import DBTConfig, DBT023
 
 # %% ../nbs/37_training-msmarco-distilbert-from-scratch.ipynb 4
 os.environ['WANDB_PROJECT'] = 'mogicX_00-msmarco-08'
@@ -30,25 +31,38 @@ if __name__ == '__main__':
     input_args.only_test = True
     input_args.use_sxc_sampler = True
     input_args.do_test_inference = True
-    input_args.pickle_dir = "/home/aiscuser/scratch1/datasets/processed/"
+    input_args.save_test_prediction = True
+    input_args.pickle_dir = "/data/suchith/datasets/processed/"
 
-    if input_args.dataset == "msmarco":
-        config_file = 'configs/msmarco/msmarco_data-gpt-category-linker.json'
-    else:
-        config_file = f'/data/share/from_deepak/beir/{input_args.dataset}/configs/data-gpt-category-linker.json'
+    dataset_tag = input_args.dataset.replace("/", "-")
+    input_args.prediction_suffix = dataset_tag 
+
+    # if input_args.dataset == "msmarco":
+    #     config_file = 'configs/msmarco/msmarco_data-gpt-category-linker.json'
+    # else:
+    #     config_file = f'/home/sasokan/b-sprabhu/share/from_deepak/beir/{input_args.dataset}/configs/data-gpt-category-linker.json'
+
+    config_file = f'/data/datasets/beir/{input_args.dataset}/XC/configs/data.json'
 
     config_key, fname = get_config_key(config_file)
     mname = 'distilbert-base-uncased'
 
-    pkl_file = get_pkl_file(input_args.pickle_dir, f'{input_args.dataset.replace("/", "-")}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
+    pkl_file = get_pkl_file(input_args.pickle_dir, f'{dataset_tag}_{fname}_distilbert-base-uncased', input_args.use_sxc_sampler, 
                             input_args.exact, input_args.only_test)
-
     do_inference = check_inference_mode(input_args)
 
     os.makedirs(os.path.dirname(pkl_file), exist_ok=True)
     block = build_block(pkl_file, config_file, input_args.use_sxc_sampler, config_key, do_build=input_args.build_block, 
                         only_test=input_args.only_test, main_oversample=True, meta_oversample=True, return_scores=True, 
                         n_slbl_samples=1, n_sdata_meta_samples=1)
+    test_dset = block.test.dset
+
+    data_file = f"/data/datasets/beir/metadata/{input_args.dataset}/raw_data/test_nvembedv2-hipporag-fact-in-category-format.raw.csv"
+    data_info = load_info(f"{input_args.pickle_dir}/nvembedv2-hipporag-fact-in-category-format/{dataset_tag}.joblib", data_file, 
+                          mname, sequence_length=512)
+    test_dset = SXCDataset(SMainXCDataset(data_info=data_info, data_lbl=test_dset.data.data_lbl, lbl_info=test_dset.data.lbl_info, 
+                                          return_scores=True))
+    save_dir_name = "cross_predictions/nvembedv2-hipporag-fact-in-category-format"
 
     args = XCLearningArguments(
         output_dir=output_dir,
@@ -71,7 +85,7 @@ if __name__ == '__main__':
         warmup_steps=1000,
         weight_decay=0.01,
         learning_rate=6e-5,
-        label_names=['plbl2data_idx', 'plbl2data_data2ptr'],
+        label_names=['plbl2data_idx', 'plbl2data_data2ptr', 'plbl2data_scores'],
     
         group_by_cluster=True,
         num_clustering_warmup_epochs=10,
@@ -94,29 +108,36 @@ if __name__ == '__main__':
         use_cpu_for_clustering=True,
     )
 
+    config = DBTConfig(
+        normalize = False,
+        use_layer_norm = False,
+        use_encoder_parallel = True,
+    )
+
     def model_fn(mname):
-        model = DBT023.from_pretrained(mname, normalize=False, use_layer_norm=False, use_encoder_parallel=True)
+        model = DBT023.from_pretrained(mname, config=config) 
         return model
     
     def init_fn(model): 
         model.init_dr_head()
 
-    metric = PrecReclMrr(block.test.dset.n_lbl, block.test.data_lbl_filterer, pk=10, rk=200, rep_pk=[1, 3, 5, 10], 
-                         rep_rk=[10, 100, 200], mk=[5, 10, 20])
+    tst_ids = test_dset.data.data_info["identifier"]
+    lbl_ids = test_dset.data.lbl_info["identifier"]
+    
+    assert tst_ids is not None
+    assert lbl_ids is not None
 
-    bsz = max(args.per_device_train_batch_size, args.per_device_eval_batch_size)*torch.cuda.device_count()
-
+    metric = BeirMetric(test_dset.n_lbl, k_values=[1, 3, 5, 10], qry_ids=tst_ids, lbl_ids=lbl_ids)
     model = load_model(args.output_dir, model_fn, {"mname": mname}, init_fn, do_inference=do_inference, 
                        use_pretrained=input_args.use_pretrained)
-    
+
     learn = XCLearner(
         model=model,
         args=args,
-        train_dataset=None if block.train is None else block.train.dset,
-        eval_dataset=block.test.dset,
+        eval_dataset=test_dset,
         data_collator=block.collator,
         compute_metrics=metric,
     )
     
-    main(learn, input_args, n_lbl=block.test.dset.n_lbl, eval_k=10, train_k=10)
+    main(learn, input_args, n_lbl=test_dset.n_lbl, eval_k=10, train_k=10, save_dir_name=save_dir_name)
     
